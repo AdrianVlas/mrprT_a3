@@ -307,16 +307,16 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     (*outMaska) = RANG_BLOCK_NZZ;
     (*dvMaska) = RANG_SMALL_BLOCK_NZZ;
     break;
-  case 129:
-    (*outMaska) = RANG_PO_NZZ;
-//        (*dvMaska) =
-    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-    break;
-  case 130:
-    (*outMaska) = RANG_NZZ;
-//        (*dvMaska) =
-    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-    break;
+//  case 129:
+//    (*outMaska) = RANG_PO_NZZ;
+////        (*dvMaska) =
+//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
+//    break;
+//  case 130:
+//    (*outMaska) = RANG_NZZ;
+////        (*dvMaska) =
+//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
+//    break;
   case 131:
     (*outMaska) = RANG_PO_3I0;
 //        (*dvMaska) =
@@ -336,11 +336,11 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //        (*dvMaska) =
     break;
 #define ZZ_CONFIGURATION_END 137
-  case ZZ_CONFIGURATION_END:
-    (*outMaska) = RANG_SECTOR_NZZ;
-//        (*dvMaska) =
-    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-    break;
+//  case ZZ_CONFIGURATION_END:
+//    (*outMaska) = RANG_SECTOR_NZZ;
+////        (*dvMaska) =
+//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
+//    break;
 
 //  count_bit = 3;
 #define TZNP_CONFIGURATION_BEGIN 144

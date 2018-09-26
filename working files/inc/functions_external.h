@@ -83,9 +83,6 @@ extern void calc_symbol_and_put_into_working_ekran(unsigned char*, void*, void*,
 extern void calc_int_symbol_and_put_into_working_ekran(unsigned char*, unsigned int*, unsigned int*, unsigned int*, unsigned int);
 extern unsigned int edit_setpoint(unsigned int,  unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 extern unsigned int check_data_setpoint(unsigned int, unsigned int, unsigned int);
-extern void make_ekran_setpoint_zz(unsigned int);
-extern void make_ekran_timeout_zz(unsigned int);
-extern void make_ekran_control_zz(void);
 extern void make_ekran_setpoint_tznp(unsigned int);
 extern void make_ekran_timeout_tznp(unsigned int);
 extern void make_ekran_control_tznp(void);
@@ -171,7 +168,6 @@ extern void make_ekran_grupa_ustavok(void);
 extern void make_ekran_vidkluchenja(void);
 
 extern unsigned int action_after_changing_of_configuration(unsigned int, __SETTINGS *);
-extern void action_after_changing_zz1_type(__SETTINGS *);
 extern void action_during_changing_button_mode(__SETTINGS *, __SETTINGS *);
 extern void def_pickup_timeout_UP(__SETTINGS *, uint32_t, uint32_t);
 extern void action_after_changing_input_UP(__SETTINGS *, uint32_t, uint32_t);

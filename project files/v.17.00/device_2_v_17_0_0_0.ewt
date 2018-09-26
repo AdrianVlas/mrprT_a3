@@ -1686,9 +1686,6 @@
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zop.h</name>
                 </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zz.h</name>
-                </file>
             </group>
             <group>
                 <name>microcontriller</name>
@@ -2024,9 +2021,6 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_zop.c</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\working files\src\menu_zz.c</name>
                 </file>
             </group>
             <group>

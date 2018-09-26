@@ -286,21 +286,6 @@ void make_ekran_set_function_in_bi(unsigned int number_ekran, unsigned int type_
     }
   }
   
-  if ((current_settings.control_zz & CTR_ZZ1_TYPE) != 0)
-  {
-    const unsigned char name_block_zz[MAX_NAMBER_LANGUAGE][MAX_COL_LCD] = 
-    {
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     "
-    };
-    for (unsigned int index_1 = 0; index_1 < MAX_COL_LCD; index_1++)
-    {
-      name_string_tmp[RANG_SMALL_BLOCK_NZZ + NUMBER_ROW_FOR_NOTHING_INFORMATION][index_1] = name_block_zz[index_language][index_1];
-    }
-  }
-  
   if (type_ekran == INDEX_VIEWING_BUTTON)
   {
     if(current_ekran.edition == 0)
@@ -843,21 +828,6 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
     }
   }
   
-  if ((current_settings.control_zz & CTR_ZZ1_TYPE) != 0)
-  {
-    const unsigned char name_block_zz[MAX_NAMBER_LANGUAGE][MAX_COL_LCD] = 
-    {
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     "
-    };
-    for (unsigned int index_1 = 0; index_1 < MAX_COL_LCD; index_1++)
-    {
-      name_string_tmp[RANG_BLOCK_NZZ + NUMBER_ROW_FOR_NOTHING_INFORMATION][index_1] = name_block_zz[index_language][index_1];
-    }
-  }
-
   if(type_ekran == INDEX_VIEWING_DF)
   {
     unsigned int index_in_ekran_list = number_ekran - EKRAN_RANGUVANNJA_DF1_PLUS;

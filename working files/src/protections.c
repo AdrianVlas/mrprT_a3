@@ -4910,14 +4910,6 @@ inline void continue_monitoring_max_3I0(unsigned int time_tmp)
       ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0) && 
       (                                                            (measurements_3I0_max_dr[2] < measurement[IM_3I0_r]))
      )   
-     ||
-     (
-      ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0) &&
-      (
-       (((current_settings_prt.control_zz & CTR_ZZ1_TYPE) == 0) && (measurements_3I0_max_dr[0] < measurement[IM_3I0])) ||
-       (((current_settings_prt.control_zz & CTR_ZZ1_TYPE) != 0) && (measurements_3I0_max_dr[1] < measurement[IM_3I0_other_g]))
-      )   
-     )   
     )
   {
     //Зафіксовано зріз при найвищому струмі 3I0 з моменту спостереження за ним

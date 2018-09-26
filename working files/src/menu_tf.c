@@ -110,22 +110,6 @@ void make_ekran_list_source_tf(void)
     }
   }
 
-  if ((current_settings.control_zz & CTR_ZZ1_TYPE) != 0)
-  {
-    const unsigned char name_block_zz[MAX_NAMBER_LANGUAGE][MAX_COL_LCD] = 
-    {
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     ",
-      "    Блок.ЗЗ     "
-    };
-    for (unsigned int index_1 = 0; index_1 < MAX_COL_LCD; index_1++)
-    {
-      input_signals_tmp[1 + RANG_BLOCK_NZZ][index_1] = name_block_zz[index_language][index_1];
-      output_signals_tmp[1 + RANG_SMALL_BLOCK_NZZ][index_1] = name_block_zz[index_language][index_1];
-    }
-  }
-  
   uint32_t position_temp = current_ekran.index_position;
   uint32_t index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
