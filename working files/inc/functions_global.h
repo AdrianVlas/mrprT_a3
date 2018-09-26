@@ -86,8 +86,6 @@ unsigned int check_data_setpoint(unsigned int, unsigned int, unsigned int);
 void make_ekran_setpoint_tznp(unsigned int);
 void make_ekran_timeout_tznp(unsigned int);
 void make_ekran_control_tznp(void);
-void make_ekran_timeout_apv(unsigned int);
-void make_ekran_control_apv(void);
 void make_ekran_setpoint_achr_chapv(unsigned int);
 void make_ekran_timeout_achr_chapv(unsigned int);
 void make_ekran_control_achr_chapv(void);
