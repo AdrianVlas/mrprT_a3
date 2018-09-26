@@ -1155,13 +1155,13 @@ void make_ekran_changing_signals_digital_registrator(void)
     for(int index_1 = 0; index_1 < NUMBER_TOTAL_SIGNAL_FOR_RANG; index_1++)
     {
       unsigned int index_row;
-      if (index_1 < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) 
+      if (index_1 < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) 
       {
         index_row = index_1;
       }
-      else if (index_1 < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG))
+      else if (index_1 < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG))
       {
-        index_row = (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) + ((index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
+        index_row = (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) + ((index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
       }
       else
       {
@@ -1171,12 +1171,12 @@ void make_ekran_changing_signals_digital_registrator(void)
       for(int index_2 = 0; index_2 < MAX_COL_LCD; index_2++)
       {
         if (
-            (index_1 >= (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
-            (index_1 <  (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG)) &&
-            (index_2 == index_number_UP[index_language][(index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3]) 
+            (index_1 >= (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
+            (index_1 <  (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG)) &&
+            (index_2 == index_number_UP[index_language][(index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3]) 
            )
         {
-          name_string_tmp[index_1][index_2] = 0x30 + ((index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1);
+          name_string_tmp[index_1][index_2] = 0x30 + ((index_1 - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1);
         }
         else name_string_tmp[index_1][index_2] = name_string[index_language][index_row][index_2];
       }

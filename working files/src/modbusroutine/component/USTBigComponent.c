@@ -1402,9 +1402,9 @@ m1:
         if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) return ERROR_VALID2;
         if(!(edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
         break;
-      case 5://5-с контролем по 3I0
-        if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) return ERROR_VALID2;
-        break;
+//      case 5://5-с контролем по 3I0
+//        if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        break;
       }//switch
     }//if(offset==MARKER248)//(uint32_t*)&edition_settings.ctrl_zdz_type
 

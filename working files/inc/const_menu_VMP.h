@@ -1,7 +1,7 @@
 #ifndef __CONST_MENU_VMP__
 #define __CONST_MENU_VMP__
 
-#define EKRAN_SETPOINT_VMP_FORWARD                      (EKRAN_CHOOSE_SETTINGS_VMP + 1)
+#define EKRAN_SETPOINT_VMP_FORWARD                      (EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_UP + 1)
 #define EKRAN_SETPOINT_VMP_BACKWARD                     (EKRAN_SETPOINT_VMP_FORWARD + 1)
 #define EKRAN_CONTROL_VMP                               (EKRAN_SETPOINT_VMP_BACKWARD + 1)
 

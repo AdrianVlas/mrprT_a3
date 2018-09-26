@@ -1110,14 +1110,14 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     if(inOffset>=MTZ_CONFIGURATION_BEGIN && inOffset<=MTZ_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) isValid = 0;
 
-    if(inOffset>=MTZ04_CONFIGURATION_BEGIN && inOffset<=MTZ04_CONFIGURATION_END)
-      if(!(edition_settings.configuration&(1<<MTZ04_BIT_CONFIGURATION))) isValid = 0;
+//    if(inOffset>=MTZ04_CONFIGURATION_BEGIN && inOffset<=MTZ04_CONFIGURATION_END)
+//      if(!(edition_settings.configuration&(1<<MTZ04_BIT_CONFIGURATION))) isValid = 0;
 
-    if(inOffset>=ZDZ_CONFIGURATION_BEGIN && inOffset<=ZDZ_CONFIGURATION_END)
-      if(!(edition_settings.configuration&(1<<ZDZ_BIT_CONFIGURATION))) isValid = 0;
+//    if(inOffset>=ZDZ_CONFIGURATION_BEGIN && inOffset<=ZDZ_CONFIGURATION_END)
+//      if(!(edition_settings.configuration&(1<<ZDZ_BIT_CONFIGURATION))) isValid = 0;
 
-    if(inOffset>=ZZ_CONFIGURATION_BEGIN && inOffset<=ZZ_CONFIGURATION_END)
-      if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) isValid = 0;
+//    if(inOffset>=ZZ_CONFIGURATION_BEGIN && inOffset<=ZZ_CONFIGURATION_END)
+//      if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) isValid = 0;
 
     if(inOffset>=TZNP_CONFIGURATION_BEGIN && inOffset<=TZNP_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<TZNP_BIT_CONFIGURATION))) isValid = 0;
@@ -1131,8 +1131,8 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     if(inOffset>=UMAX_CONFIGURATION_BEGIN && inOffset<=UMAX_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<UMAX_BIT_CONFIGURATION))) isValid = 0;
 
-    if(inOffset>=APV_CONFIGURATION_BEGIN && inOffset<=APV_CONFIGURATION_END)
-      if(!(edition_settings.configuration&(1<<APV_BIT_CONFIGURATION))) isValid = 0;
+//    if(inOffset>=APV_CONFIGURATION_BEGIN && inOffset<=APV_CONFIGURATION_END)
+//      if(!(edition_settings.configuration&(1<<APV_BIT_CONFIGURATION))) isValid = 0;
 
     if(inOffset>=UROV_CONFIGURATION_BEGIN && inOffset<=UROV_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<UROV_BIT_CONFIGURATION))) isValid = 0;
@@ -1140,8 +1140,8 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     if(inOffset>=EL_CONFIGURATION_BEGIN && inOffset<=EL_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<EL_BIT_CONFIGURATION))) isValid = 0;
 
-    if(inOffset>=ACHR_CHAPV_CONFIGURATION_BEGIN && inOffset<=ACHR_CHAPV_CONFIGURATION_END)
-      if(!(edition_settings.configuration&(1<<ACHR_CHAPV_BIT_CONFIGURATION))) isValid = 0;
+//    if(inOffset>=ACHR_CHAPV_CONFIGURATION_BEGIN && inOffset<=ACHR_CHAPV_CONFIGURATION_END)
+//      if(!(edition_settings.configuration&(1<<ACHR_CHAPV_BIT_CONFIGURATION))) isValid = 0;
 
   }//if((*outMaska)!=-1)
 

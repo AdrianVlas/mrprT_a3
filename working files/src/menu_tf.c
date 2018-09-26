@@ -52,13 +52,13 @@ void make_ekran_list_source_tf(void)
   for(int index_1 = 0; index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG); index_1++)
   {
     unsigned int index_row;
-    if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) 
+    if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) 
     {
       index_row = index_1;
     }
-    else if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG))
+    else if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG))
     {
-      index_row = (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
+      index_row = (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
     }
     else
     {
@@ -68,12 +68,12 @@ void make_ekran_list_source_tf(void)
     for(int index_2 = 0; index_2 < MAX_COL_LCD; index_2++)
     {
       if (
-          (index_1 >= (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
-          (index_1 <  (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG)) &&
-          (index_2 == index_number_UP[index_language][(index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3]) 
+          (index_1 >= (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
+          (index_1 <  (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG)) &&
+          (index_2 == index_number_UP[index_language][(index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3]) 
          )
       {
-        input_signals_tmp[index_1][index_2] = 0x30 + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1);
+        input_signals_tmp[index_1][index_2] = 0x30 + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1);
       }
       else input_signals_tmp[index_1][index_2] = input_signals[index_language][index_row][index_2];
     }
@@ -83,13 +83,13 @@ void make_ekran_list_source_tf(void)
   for(int index_1 = 0; index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL); index_1++)
   {
     unsigned int index_row;
-    if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) 
+    if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) 
     {
       index_row = index_1;
     }
-    else if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL))
+    else if (index_1 < (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL))
     {
-      index_row = (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL) + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) % 1);
+      index_row = (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL) + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) % 1);
     }
     else
     {
@@ -99,12 +99,12 @@ void make_ekran_list_source_tf(void)
     for(int index_2 = 0; index_2 < MAX_COL_LCD; index_2++)
     {
       if (
-          (index_1 >= (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL))  &&
-          (index_1 <  (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL)) &&
-          (index_2 == index_number_UP[index_language][(index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) % 1]) 
+          (index_1 >= (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL))  &&
+          (index_1 <  (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL)) &&
+          (index_2 == index_number_UP[index_language][(index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) % 1]) 
          )
       {
-        output_signals_tmp[index_1][index_2] = 0x30 + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_VMP_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) / 1 + 1);
+        output_signals_tmp[index_1][index_2] = 0x30 + ((index_1 - (1 + NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL - NUMBER_EL_SIGNAL_FOR_RANG_SMALL - NUMBER_UP_SIGNAL_FOR_RANG_SMALL)) / 1 + 1);
       }
       else output_signals_tmp[index_1][index_2] = output_signals[index_language][index_row][index_2];
     }

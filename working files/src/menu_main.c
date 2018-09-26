@@ -18,19 +18,18 @@ void make_ekran_main(void)
      " Настройки      ",
      " Диагностика    ",
      " Конфигурация   ",
+     " ОЗТ            ",
      " МТЗ            ",
-     " МТЗ 0.4кВ      ",
-     " ЗДЗ            ",
-     "                ",
      " ТЗНП           ",
-     " АПВ            ",
-     " АЧР-ЧАПВ       ",
      " УРОВ           ",
      " ЗОП(КОФ)       ",
      " ЗНмин          ",
      " ЗНмакс         ",
-     " УЗ             ",
-     " ОМП            "
+     " Вн.Внеш.П.     ",
+     " ГЗ             ",
+     " ТЗ             ",
+     " ЕЗ             ",
+     " УЗ             "
     },
     {
      " Годинник       ",
@@ -43,19 +42,18 @@ void make_ekran_main(void)
      " Налаштування   ",
      " Діагностика    ",
      " Конфігурація   ",
+     " ОЗТ            ",
      " МСЗ            ",
-     " МСЗ 0.4кВ      ",
-     " ЗДЗ            ",
-     "                ",
      " СЗНП           ",
-     " АПВ            ",
-     " АЧР-ЧАПВ       ",
      " ПРВВ           ",
      " ЗЗП(КОФ)       ",
      " ЗНмін          ",
      " ЗНмакс         ",
-     " УЗ             ",
-     " ВМП            "
+     " Вн.Зовн.П.     ",
+     " ГЗ             ",
+     " ТЗ             ",
+     " ЕЗ             ",
+     " УЗ             "
     },
     {
      " Clock          ",
@@ -68,19 +66,18 @@ void make_ekran_main(void)
      " Settings       ",
      " Diagnostic     ",
      " Configuration  ",
+     " ОЗТ            ",
      " OCP            ",
-     " OCP 0.4kV      ",
-     " ЗДЗ            ",
-     "                ",
      " ТЗНП           ",
-     " AR             ",
-     " UFLS-FAR       ",
      " CBFP           ",
      " NPSP           ",
      " Umin           ",
      " Umax           ",
-     " UP             ",
-     " ОМП            "
+     " Вн.Внеш.П.     ",
+     " GP             ",
+     " TP             ",
+     " ShP            ",
+     " UP             "
     },
     {
      " Саfат          ",
@@ -93,27 +90,19 @@ void make_ekran_main(void)
      " Реттегіш       ",
      " Диагностика    ",
      " Конфигурациялар",
+     " ОЗТ            ",
      " МТK            ",
-     " МТK 0.4кВ      ",
-     " ЗДЗ            ",
-     "                ",
      " ТЗНП           ",
-     " АKK            ",
-     " АЖЖ-ТАKK       ",
      " СІШРK          ",
      " КKK            ",
      " ЗНмин          ",
      " ЗНмакс         ",
-     " УЗ             ",
-     " ОМП            "
+     " Вн.Внеш.П.     ",
+     " ГЗ             ",
+     " ТЗ             ",
+     " ЕЗ             ",
+     " УЗ             "
     }
-  };
-  const unsigned char name_nzz[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
-  {
-    {" НЗЗ            ", " ЗЗ             "},
-    {" НЗЗ            ", " ЗЗ             "},
-    {" НЗЗ            ", " SGFP           "},
-    {" НЗЗ            ", " ЗЗ             "}
   };
 
   unsigned char name_string_tmp[MAX_ROW_FOR_EKRAN_MAIN][MAX_COL_LCD];
@@ -121,14 +110,9 @@ void make_ekran_main(void)
   int index_language = index_language_in_array(current_settings.language);
   for(int index_1 = 0; index_1 < MAX_ROW_FOR_EKRAN_MAIN; index_1++)
   {
-    unsigned char *point_target;
-    unsigned int nzz_zz = ((current_settings.control_zz & CTR_ZZ1_TYPE) != 0);
-    if (index_1 == INDEX_ML1_NZZ) point_target = (unsigned char *)name_nzz[index_language][nzz_zz];
-    else point_target = (unsigned char *)name_string[index_language][index_1];
-      
     for(int index_2 = 0; index_2 < MAX_COL_LCD; index_2++)
     {
-      name_string_tmp[index_1][index_2] = *(point_target + index_2);
+      name_string_tmp[index_1][index_2] = name_string[index_language][index_1][index_2];
     }
   }
   
@@ -143,7 +127,7 @@ void make_ekran_main(void)
   {
     if ((current_settings.configuration & (1 << zachyst)) == 0)
     {
-      unsigned int i = INDEX_ML1_MTZ + zachyst - additional_current;
+      unsigned int i = INDEX_ML1_OZT + zachyst - additional_current;
     
       if ((i+1) <= position_temp) position_temp--;
       do
@@ -162,7 +146,6 @@ void make_ekran_main(void)
   /******************************************/
   
   index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
-
   
   //Копіюємо  рядки у робочий екран
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)

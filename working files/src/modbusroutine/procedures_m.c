@@ -906,14 +906,14 @@ int recordNumberCaseDiskret(int subObj, int offsetRegister)
       for (size_t sym = 0; sym < 2; sym++)
         {
           unsigned int index_row;
-          if (subObj < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))
+          if (subObj < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG  - NUMBER_UP_SIGNAL_FOR_RANG))
             {
               index_row = subObj;
             }
-          else if (subObj < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG))
+          else if (subObj < (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG))
             {
-              index_row = (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) +
-                          ((subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
+              index_row = (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG) +
+                          ((subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3);
             }
           else
             {
@@ -921,12 +921,12 @@ int recordNumberCaseDiskret(int subObj, int offsetRegister)
             }
 
           if (
-            (subObj >= (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
-            (subObj <  (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG)) &&
-            ((index_cell + sym) == index_number_UP[index_language][(subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3])
+            (subObj >= (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG))  &&
+            (subObj <  (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG)) &&
+            ((index_cell + sym) == index_number_UP[index_language][(subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) % 3])
           )
             {
-              temp_data |= (0x30 + ((subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_VMP_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1)) << (8*sym);
+              temp_data |= (0x30 + ((subObj - (NUMBER_TOTAL_SIGNAL_FOR_RANG - NUMBER_EL_SIGNAL_FOR_RANG - NUMBER_UP_SIGNAL_FOR_RANG)) / 3 + 1)) << (8*sym);
             }
           else temp_data |= (idetyficator_rang[index_language][index_row][(index_cell + sym)]) << (8*sym);
         }
