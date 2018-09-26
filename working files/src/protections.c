@@ -8311,7 +8311,84 @@ inline void main_protection(void)
     }
     /**************************/
 
+    /**************************/
+    //Газовий захист
+    /**************************/
+    if ((current_settings_prt.configuration & (1 << GP_BIT_CONFIGURATION)) != 0)
+    {
+      gp_handler(active_functions, number_group_stp);
+    }
+    else
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_gp_signals[N_BIG] = 
+      {
+        MASKA_GP_SIGNALS_0,
+        MASKA_GP_SIGNALS_1,
+        MASKA_GP_SIGNALS_2, 
+        MASKA_GP_SIGNALS_3, 
+        MASKA_GP_SIGNALS_4, 
+        MASKA_GP_SIGNALS_5,
+        MASKA_GP_SIGNALS_6, 
+        MASKA_GP_SIGNALS_7, 
+        MASKA_GP_SIGNALS_8
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_gp_signals[i]);
+    }
+    /**************************/
 
+    /**************************/
+    //Тепловий захист
+    /**************************/
+    if ((current_settings_prt.configuration & (1 << TP_BIT_CONFIGURATION)) != 0)
+    {
+      tp_handler(active_functions, number_group_stp);
+    }
+    else
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_tp_signals[N_BIG] = 
+      {
+        MASKA_GP_SIGNALS_0,
+        MASKA_GP_SIGNALS_1,
+        MASKA_GP_SIGNALS_2, 
+        MASKA_GP_SIGNALS_3, 
+        MASKA_GP_SIGNALS_4, 
+        MASKA_GP_SIGNALS_5,
+        MASKA_GP_SIGNALS_6, 
+        MASKA_GP_SIGNALS_7, 
+        MASKA_GP_SIGNALS_8
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_tp_signals[i]);
+    }
+    /**************************/
+
+    /**************************/
+    //Елегазовий захист
+    /**************************/
+    if ((current_settings_prt.configuration & (1 << EP_BIT_CONFIGURATION)) != 0)
+    {
+      tp_handler(active_functions, number_group_stp);
+    }
+    else
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_ep_signals[N_BIG] = 
+      {
+        MASKA_GP_SIGNALS_0,
+        MASKA_GP_SIGNALS_1,
+        MASKA_GP_SIGNALS_2, 
+        MASKA_GP_SIGNALS_3, 
+        MASKA_GP_SIGNALS_4, 
+        MASKA_GP_SIGNALS_5,
+        MASKA_GP_SIGNALS_6, 
+        MASKA_GP_SIGNALS_7, 
+        MASKA_GP_SIGNALS_8
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_ep_signals[i]);
+    }
+    /**************************/
+    
     /**************************/
     //Універсальний захист
     /**************************/
