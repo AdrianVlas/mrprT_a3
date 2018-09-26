@@ -4789,11 +4789,6 @@ void main_manu_function(void)
     case EKRAN_TIMEOUT_MTZ_GROUP3:
     case EKRAN_TIMEOUT_MTZ_GROUP4:
     case EKRAN_CONTROL_MTZ:
-    case EKRAN_TIMEOUT_ZDZ_GROUP1:
-    case EKRAN_TIMEOUT_ZDZ_GROUP2:
-    case EKRAN_TIMEOUT_ZDZ_GROUP3:
-    case EKRAN_TIMEOUT_ZDZ_GROUP4:
-    case EKRAN_CONTROL_ZDZ:
     case EKRAN_SETPOINT_ZZ_GROUP1:
     case EKRAN_SETPOINT_ZZ_GROUP2:
     case EKRAN_SETPOINT_ZZ_GROUP3:
@@ -4968,52 +4963,6 @@ void main_manu_function(void)
 
               //Формуємо екран управлінської інформації для МТЗ
               make_ekran_control_mtz();
-            }
-            else if(
-                    (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                    (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                   )   
-            {
-              if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_ZDZ) current_ekran.index_position = 0;
-              position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
-
-              //Формуємо екран витримок ЗДЗ
-              int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-              make_ekran_timeout_zdz(group);
-            }
-            else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-            {
-              if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_ZDZ) current_ekran.index_position = 0;
-              while(
-                    (
-                     (
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ1_BIT) ||
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ2_BIT) ||
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ3_BIT) ||
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ4_BIT)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                    )
-                    ||  
-                    (
-                     (
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN1_BIT) ||
-                      (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN2_BIT)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                    )
-                   )
-              {
-                current_ekran.index_position++;
-                if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_ZDZ) current_ekran.index_position = 0;
-              }
-
-              position_in_current_level_menu[EKRAN_CONTROL_ZDZ] = current_ekran.index_position;
-              
-              //Формуємо екран управлінської інформації для ЗДЗ
-              make_ekran_control_zdz();
             }
             else if(
                     (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
@@ -5852,24 +5801,6 @@ void main_manu_function(void)
                   edition_settings.type_mtz3 = current_settings.type_mtz3;
                   edition_settings.type_mtz4 = current_settings.type_mtz4;
                   edition_settings.control_mtz = current_settings.control_mtz;
-                }
-                else if(
-                        (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                        (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                       )   
-                {
-                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-
-                  if (current_ekran.index_position == INDEX_ML_TMOZDZ)
-                  {
-                    edition_settings.timeout_zdz[group] = current_settings.timeout_zdz[group];
-                    current_ekran.position_cursor_x = COL_TMO_ZDZ_BEGIN;
-                  }
-                }
-                else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-                {
-                  edition_settings.control_zdz = current_settings.control_zdz;
-                  edition_settings.ctrl_zdz_type = current_settings.ctrl_zdz_type;
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
@@ -6889,27 +6820,6 @@ void main_manu_function(void)
                       (edition_settings.type_mtz4 != current_settings.type_mtz4)  
                      )   
                     found_changes = 1;
-                }
-                else if(
-                        (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                        (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                       )   
-                {
-                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-                 
-                  if (current_ekran.index_position == INDEX_ML_TMOZDZ)
-                  {
-                    if (edition_settings.timeout_zdz[group] != current_settings.timeout_zdz[group]) found_changes = 1;
-                  }
-                }
-                else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-                {
-                  if (
-                      (edition_settings.control_zdz != current_settings.control_zdz) ||
-                      (edition_settings.ctrl_zdz_type != current_settings.ctrl_zdz_type)
-                     )
-                    found_changes = 1;
-                       
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
@@ -8406,55 +8316,6 @@ void main_manu_function(void)
                       current_settings.type_mtz3 = edition_settings.type_mtz3;
                       current_settings.type_mtz4 = edition_settings.type_mtz4;
                       current_settings.control_mtz = edition_settings.control_mtz;
-                      //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                      fix_change_settings(0, 1);
-                    }
-                    //Виходимо з режиму редагування
-                    current_ekran.edition = 0;
-                  }
-                }
-                else if(
-                        (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                        (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                       )   
-                {
-                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-                  
-                  if (current_ekran.index_position == INDEX_ML_TMOZDZ)
-                  {
-                    if (check_data_setpoint(edition_settings.timeout_zdz[group], TIMEOUT_ZDZ_MIN, TIMEOUT_ZDZ_MAX) == 1)
-                    {
-                      if (edition_settings.timeout_zdz[group] != current_settings.timeout_zdz[group])
-                      {
-                        //Помічаємо, що поле структури зараз буде змінене
-                        changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                        current_settings.timeout_zdz[group] = edition_settings.timeout_zdz[group];
-                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                        fix_change_settings(0, 1);
-                      }
-                      //Виходимо з режиму редагування
-                      current_ekran.edition = 0;
-                    }
-                  }
-                }
-                else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-                {
-                  if (
-                      ((edition_settings.control_zdz & ((unsigned int)(~CTR_ZDZ_MASKA))) == 0) &&
-                      (edition_settings.ctrl_zdz_type < _ZDZ_CTRL_NUMBER)
-                     )   
-                  {
-                    if (
-                        (edition_settings.control_zdz != current_settings.control_zdz) ||
-                        (edition_settings.ctrl_zdz_type != current_settings.ctrl_zdz_type)
-                       )   
-                    {
-                      //Помічаємо, що поле структури зараз буде змінене
-                      changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                      current_settings.control_zdz = edition_settings.control_zdz;
-                      current_settings.ctrl_zdz_type = edition_settings.ctrl_zdz_type;
                       //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                       fix_change_settings(0, 1);
                     }
@@ -11069,63 +10930,6 @@ void main_manu_function(void)
                 make_ekran_control_mtz();
               }
               else if(
-                      (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                      (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                     )   
-              {
-                int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-                
-                if(current_ekran.edition == 0)
-                {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TIMEOUT_ZDZ - 1;
-                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
-                }
-                else
-                {
-                  //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_TMOZDZ)
-                    edition_settings.timeout_zdz[group] = edit_setpoint(1, edition_settings.timeout_zdz[group], 1, COL_TMO_ZDZ_COMMA, COL_TMO_ZDZ_END, 1);
-                }
-                //Формуємо екран витримок ЗДЗ
-                make_ekran_timeout_zdz(group);
-              }
-              else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-              {
-                current_ekran.index_position--;
-                
-                if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_ZDZ - 1;
-                while(
-                      (
-                       (
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ1_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ2_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ3_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ4_BIT)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                      )
-                      ||  
-                      (
-                       (
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN1_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN2_BIT)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                      )
-                     )
-                {
-                  current_ekran.index_position--;
-                  if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_ZDZ - 1;
-                }
-
-                position_in_current_level_menu[EKRAN_CONTROL_ZDZ] = current_ekran.index_position;
-                
-                //Формуємо екран управлінської інформації для ЗДЗ
-                make_ekran_control_zdz();
-              }
-              else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
                       (current_ekran.current_level <= EKRAN_SETPOINT_ZZ_GROUP4)
                      )   
@@ -12407,63 +12211,6 @@ void main_manu_function(void)
                 position_in_current_level_menu[EKRAN_CONTROL_MTZ] = current_ekran.index_position;
                 //Формуємо екран управлінської інформації для МТЗ
                 make_ekran_control_mtz();
-              }
-              else if(
-                      (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                      (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                     )   
-              {
-                int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-
-                if(current_ekran.edition == 0)
-                {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_ZDZ) current_ekran.index_position = 0;
-                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
-                }
-                else
-                {
-                  //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_TMOZDZ)
-                    edition_settings.timeout_zdz[group] = edit_setpoint(0, edition_settings.timeout_zdz[group], 1, COL_TMO_ZDZ_COMMA, COL_TMO_ZDZ_END, 1);
-                }
-                //Формуємо екран витримок ЗДЗ
-                make_ekran_timeout_zdz(group);
-              }
-              else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-              {
-                current_ekran.index_position++;
-                
-                if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_ZDZ) current_ekran.index_position = 0;
-                while(
-                      (
-                       (
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ1_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ2_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ3_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ4_BIT)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                      )
-                      ||  
-                      (
-                       (
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN1_BIT) ||
-                        (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN2_BIT)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                      )
-                     )
-                {
-                  current_ekran.index_position++;
-                  if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_ZDZ) current_ekran.index_position = 0;
-                }
-
-                position_in_current_level_menu[EKRAN_CONTROL_ZDZ] = current_ekran.index_position;
-                
-                //Формуємо екран управлінської інформації для ЗДЗ
-                make_ekran_control_zdz();
               }
               else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
@@ -13989,75 +13736,6 @@ void main_manu_function(void)
 
                 //Формуємо екран управлінської інформації для МТЗ
                  make_ekran_control_mtz();
-              }
-              else if(
-                      (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                      (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                     )   
-              {
-                if(current_ekran.index_position == INDEX_ML_TMOZDZ)
-                {
-                  if (current_ekran.position_cursor_x == COL_TMO_ZDZ_COMMA )current_ekran.position_cursor_x++;
-                  if ((current_ekran.position_cursor_x < COL_TMO_ZDZ_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_ZDZ_END))
-                    current_ekran.position_cursor_x = COL_TMO_ZDZ_BEGIN;
-                }
-                //Формуємо екран витримок ЗДЗ
-                int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-                make_ekran_timeout_zdz(group);
-              }
-              else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-              {
-                if (current_ekran.index_position == CTR_ZDZ_CTRL_TYPE)
-                {
-                  do
-                  {
-                    if (++edition_settings.ctrl_zdz_type >= _ZDZ_CTRL_NUMBER) edition_settings.ctrl_zdz_type = _ZDZ_CTRL_MIN;
-                  }
-                  while(
-                        (
-                         ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0) &&
-                         (
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I      ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_OR_U ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_AND_U)
-                         )   
-                        )
-                        ||  
-                        (
-                         ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0) &&
-                         (
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_U      ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_OR_U ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_AND_U)
-                         )   
-                        )
-                       ); 
-                }
-                else
-                {
-                  unsigned int maska = 0;
-          
-                  //Виділяємо, який біт треба міняти
-                  if (current_ekran.index_position == CTR_ZDZ_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_STATE_BIT);
-//#if MODYFIKACIA_VERSII_PZ == 0
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD1_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD1_STATE_BIT);
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD2_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD2_STATE_BIT);
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD3_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD3_STATE_BIT);
-//#endif
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ1_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ1_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ2_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ2_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ3_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ3_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ4_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ4_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN1_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_UMIN1_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN2_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_UMIN2_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                
-                  //Міняємо на протилежний відповідний біт для вибраної позиції
-                  edition_settings.control_zdz ^= maska;
-                }
-
-                //Формуємо екран управлінської інформації для ЗДЗ
-                make_ekran_control_zdz();
               }
               else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&
@@ -15710,75 +15388,6 @@ void main_manu_function(void)
 
                 //Формуємо екран управлінської інформації для МТЗ
                  make_ekran_control_mtz();
-              }
-              else if(
-                      (current_ekran.current_level >= EKRAN_TIMEOUT_ZDZ_GROUP1) &&
-                      (current_ekran.current_level <= EKRAN_TIMEOUT_ZDZ_GROUP4)
-                     )   
-              {
-                if(current_ekran.index_position == INDEX_ML_TMOZDZ)
-                {
-                  if (current_ekran.position_cursor_x == COL_TMO_ZDZ_COMMA )current_ekran.position_cursor_x--;
-                  if ((current_ekran.position_cursor_x < COL_TMO_ZDZ_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TMO_ZDZ_END))
-                    current_ekran.position_cursor_x = COL_TMO_ZDZ_END;
-                }
-                //Формуємо екран витримок ЗДЗ
-                int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZDZ_GROUP1);
-                make_ekran_timeout_zdz(group);
-              }
-              else if(current_ekran.current_level == EKRAN_CONTROL_ZDZ)
-              {
-                if (current_ekran.index_position == CTR_ZDZ_CTRL_TYPE)
-                {
-                  do
-                  {
-                    if (--edition_settings.ctrl_zdz_type < 0) edition_settings.ctrl_zdz_type = _ZDZ_CTRL_NUMBER - 1;
-                  }
-                  while(
-                        (
-                         ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0) &&
-                         (
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I      ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_OR_U ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_AND_U)
-                         )   
-                        )
-                        ||  
-                        (
-                         ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0) &&
-                         (
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_U      ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_OR_U ) ||
-                          (edition_settings.ctrl_zdz_type == ZDZ_CTRL_I_AND_U)
-                         )   
-                        )
-                       ); 
-                }
-                else
-                {
-                  unsigned int maska = 0;
-          
-                  //Виділяємо, який біт треба міняти
-                  if (current_ekran.index_position == CTR_ZDZ_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_STATE_BIT);
-//#if MODYFIKACIA_VERSII_PZ == 0
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD1_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD1_STATE_BIT);
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD2_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD2_STATE_BIT);
-//                  else if (current_ekran.index_position == CTR_ZDZ_OVD3_STATE_BIT) maska = MASKA_FOR_BIT(CTR_ZDZ_OVD3_STATE_BIT);
-//#endif
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ1_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ1_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ2_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ2_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ3_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ3_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_MTZ4_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_MTZ4_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN1_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_UMIN1_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                  else if (current_ekran.index_position == CTR_ZDZ_STARTED_FROM_UMIN2_BIT ) maska = MASKA_FOR_BIT(CTR_ZDZ_STARTED_FROM_UMIN2_BIT - (_CTR_ZDZ_PART_III - _CTR_ZDZ_PART_II));
-                
-                  //Міняємо на протилежний відповідний біт для вибраної позиції
-                  edition_settings.control_zdz ^= maska;
-                }
-
-                 //Формуємо екран управлінської інформації для ЗДЗ
-                 make_ekran_control_zdz();
               }
               else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZZ_GROUP1) &&

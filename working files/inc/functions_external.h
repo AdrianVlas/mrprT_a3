@@ -79,8 +79,6 @@ extern void make_ekran_chose_extra_settings(void);
 extern void make_ekran_setpoint_mtz(unsigned int);
 extern void make_ekran_timeout_mtz(unsigned int);
 extern void make_ekran_control_mtz(void);
-extern void make_ekran_timeout_zdz(unsigned int);
-extern void make_ekran_control_zdz(void);
 extern void calc_symbol_and_put_into_working_ekran(unsigned char*, void*, void*, unsigned int*, unsigned int, unsigned int, unsigned int, unsigned int);
 extern void calc_int_symbol_and_put_into_working_ekran(unsigned char*, unsigned int*, unsigned int*, unsigned int*, unsigned int);
 extern unsigned int edit_setpoint(unsigned int,  unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);

@@ -4697,9 +4697,6 @@
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_VMP.h</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zdz.h</name>
-                </file>
-                <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_zop.h</name>
                 </file>
                 <file>
@@ -5037,9 +5034,6 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_VMP.c</name>
-                </file>
-                <file>
-                    <name>$PROJ_DIR$\..\..\working files\src\menu_zdz.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_zop.c</name>
