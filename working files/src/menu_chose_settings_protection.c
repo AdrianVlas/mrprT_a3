@@ -362,25 +362,21 @@ void make_ekran_chose_settings_switcher(void)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER][MAX_COL_LCD] = 
   {
     {
-      " Уставки        ",
       " Выдержки       ",
       " Управление     ",
       " Ранжирование   "
     },
     {
-      " Уставки        ",
       " Витримки       ",
       " Управління     ",
       " Ранжування     "
     },
     {
-      " Pickups        ",
       " Delay          ",
       " Control        ",
       " Ранжирование   "
     },
     {
-      " Баскару        ",
       " Кyрулар        ",
       " Беріктік       ",
       " Ранжирование   "
