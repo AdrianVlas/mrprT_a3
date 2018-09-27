@@ -32,7 +32,6 @@
 #include "const_menu_chose_settings_uvv.h"
 #include "const_menu_chose_communication_parameters.h"
 #include "const_menu_chose_settings_registrators.h"
-#include "const_menu_VMP.h"
 #include "const_menu_extended_logic.h"
 #include "const_menu_general_pickups_el.h"
 #include "const_menu_df.h"

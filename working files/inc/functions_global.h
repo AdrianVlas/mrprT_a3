@@ -109,8 +109,6 @@ void check_current_index_is_presented_in_configuration(unsigned int*, /*int*,*/ 
 void make_ekran_choose_CBOn_CBOff(void);
 void make_ekran_timeout_switch(void);
 void make_ekran_control_switch(void);
-void make_ekran_setpoint_VMP(int);
-void make_ekran_control_VMP(void);
 void make_ekran_chose_settings_uvv(void);
 void make_ekran_dopusk_dv(void);
 void make_ekran_type_input_uvv(unsigned int);
