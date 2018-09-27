@@ -300,34 +300,6 @@ FULL_ORT_I04,
 FULL_ORT_MAX
 };
 
-#define DIV_kWh         3600000000.0
-#define PERIOD_SAVE_ENERGY_IN_MINUTES           30 /*хв.*/
-enum _index_energy
-{
-  INDEX_EA_PLUS = 0,
-  INDEX_EA_MINUS,
-  INDEX_ER_1,
-  INDEX_ER_2,
-  INDEX_ER_3,
-  INDEX_ER_4,
-  
-  MAX_NUMBER_INDEXES_ENERGY
-};
-
 #define UNDEF_PHI                              (1 << 31)
-#define UNDEF_RESISTANCE                       (1 << 31)
-#define UNDEF_VMP                              (1 << 31)
-
-enum _resistance_index
-{
-  R_AB = 0,
-  X_AB,
-  R_BC,
-  X_BC,
-  R_CA,
-  X_CA,
-  
-  MAX_NUMBER_INDEXES_RESISTANCE,
-};
 
 #endif

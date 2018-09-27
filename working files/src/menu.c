@@ -621,16 +621,6 @@ void main_manu_function(void)
                 current_ekran.cursor_on = 1;
                 current_ekran.cursor_blinking_on = 0;
               }
-              else if(current_ekran.index_position == INDEX_ML1_ENERGY)
-              {
-                //Переходимо на меню відображення технічного обліку електроенергії
-                current_ekran.current_level = EKRAN_ENERGY;
-
-                //Спочатку відображаємо інформацію на вторинній обмотці трансворматора - значення, які поступають на аналогові входи приладу
-                pervynna_vtorynna = 0;
-                
-                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
-              }
               else if(current_ekran.index_position == INDEX_ML1_INPUTS_OUTPUTS)
               {
                 //Переходимо на меню вибору відображення списку вибору входів-виходів для відображення їх миттєвого стану
@@ -1361,8 +1351,6 @@ void main_manu_function(void)
     case EKRAN_MEASURMENT_FREQUENCY:
     case EKRAN_MEASURMENT_ANGLE:
     case EKRAN_MEASURMENT_POWER:
-    case EKRAN_ENERGY:
-    case EKRAN_MEASURMENT_RESISTANCE:
     case EKRAN_CHOOSE_SETTINGS_OZT:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_OZT:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_OZT:
@@ -1614,21 +1602,6 @@ void main_manu_function(void)
               position_in_current_level_menu[EKRAN_MEASURMENT_POWER] = current_ekran.index_position;
               //Формуємо екран відображення потужностей
               make_ekran_power(pervynna_vtorynna);
-            }
-            else if (current_ekran.current_level == EKRAN_ENERGY)
-            {
-              if(current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ENERGY) current_ekran.index_position = 0;
-              current_ekran.index_position = (current_ekran.index_position >> (POWER_MAX_ROW_LCD - 1)) << (POWER_MAX_ROW_LCD - 1);
-              position_in_current_level_menu[EKRAN_ENERGY] = current_ekran.index_position;
-              //Формуємо екран відображення вікна технічного обліку електроенергії
-              make_ekran_energy(pervynna_vtorynna);
-            }
-            else if(current_ekran.current_level == EKRAN_MEASURMENT_RESISTANCE)
-            {
-              if(current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_RESISTANCE) current_ekran.index_position = 0;
-              position_in_current_level_menu[EKRAN_MEASURMENT_RESISTANCE] = current_ekran.index_position;
-              //Формуємо екран відображення опорів
-              make_ekran_resistance(pervynna_vtorynna);
             }
             else if (
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||
@@ -2232,14 +2205,6 @@ void main_manu_function(void)
                   //Спочатку відображаємо інформацію на вторинній обмотці трансворматора - значення, які поступають на аналогові входи приладу
                   pervynna_vtorynna = 0;
                 }
-                else if(current_ekran.index_position == INDEX_ML_MEASURMENT_RESISTANCE)
-                {
-                  //Переходимо на меню вибору відображення опорів
-                  current_ekran.current_level = EKRAN_MEASURMENT_RESISTANCE;
-               
-                  //Спочатку відображаємо інформацію на вторинній обмотці трансворматора - значення, які поступають на аналогові входи приладу
-                  pervynna_vtorynna = 0;
-                }
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
                 current_ekran.cursor_on = 1;
@@ -2273,9 +2238,7 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_MEASURMENT_CURRENT) ||
                        (current_ekran.current_level == EKRAN_MEASURMENT_VOLTAGE_PHASE) ||
                        (current_ekran.current_level == EKRAN_MEASURMENT_VOLTAGE_LINE) ||
-                       (current_ekran.current_level == EKRAN_MEASURMENT_POWER) ||
-                       (current_ekran.current_level == EKRAN_ENERGY) ||
-                       (current_ekran.current_level == EKRAN_MEASURMENT_RESISTANCE)
+                       (current_ekran.current_level == EKRAN_MEASURMENT_POWER)
                       )   
               {
                 //Ми у вікні відображення або струмів, напруг, потужностей, опорів, енергій
@@ -3531,22 +3494,6 @@ void main_manu_function(void)
                 //Формуємо екран відображення вікна потужностей
                 make_ekran_power(pervynna_vtorynna);
               }
-              else if(current_ekran.current_level == EKRAN_ENERGY)
-              {
-                current_ekran.index_position -= (MAX_ROW_LCD >> 1);
-                if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_EKRAN_ENERGY - 1;
-                current_ekran.index_position = (current_ekran.index_position >> (POWER_MAX_ROW_LCD - 1)) << (POWER_MAX_ROW_LCD - 1);
-                position_in_current_level_menu[EKRAN_ENERGY] = current_ekran.index_position;
-                //Формуємо екран відображення вікна технічного обліку келектроенергії
-                make_ekran_energy(pervynna_vtorynna);
-              }
-              else if(current_ekran.current_level == EKRAN_MEASURMENT_RESISTANCE)
-              {
-                if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_RESISTANCE - 1;
-                position_in_current_level_menu[EKRAN_MEASURMENT_RESISTANCE] = current_ekran.index_position;
-                //Формуємо екран відображення опорів
-                make_ekran_resistance(pervynna_vtorynna);
-              }
               else if (
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_MTZ       )||
@@ -4205,22 +4152,6 @@ void main_manu_function(void)
                 position_in_current_level_menu[EKRAN_MEASURMENT_POWER] = current_ekran.index_position;
                 //Формуємо екран відображення вікна потужностей
                 make_ekran_power(pervynna_vtorynna);
-              }
-              else if(current_ekran.current_level == EKRAN_ENERGY)
-              {
-                current_ekran.index_position += (MAX_ROW_LCD >> 1);
-                if(current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ENERGY) current_ekran.index_position =  0;
-                current_ekran.index_position = (current_ekran.index_position >> (POWER_MAX_ROW_LCD - 1)) << (POWER_MAX_ROW_LCD - 1);
-                position_in_current_level_menu[EKRAN_ENERGY] = current_ekran.index_position;
-                //Формуємо екран відображення вікна технічного обліку келектроенергії
-                make_ekran_energy(pervynna_vtorynna);
-              }
-              else if(current_ekran.current_level == EKRAN_MEASURMENT_RESISTANCE)
-              {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_RESISTANCE) current_ekran.index_position = 0;
-                position_in_current_level_menu[EKRAN_MEASURMENT_RESISTANCE] = current_ekran.index_position;
-                //Формуємо екран відображення опорів
-                make_ekran_resistance(pervynna_vtorynna);
               }
               else if (
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||

@@ -134,7 +134,7 @@ int postYustBigWriteAction(void) {
 
 //  int upravlYust=0;//флаг юстировки
   int upravlMin=0;//флаг min param
-  int upravlMinEnrg=0;//флаг min Enrg
+//  int upravlMinEnrg=0;//флаг min Enrg
   int number_iteration_el=-1;
 
   for(int i=0; i<countAdr; i++) {
@@ -179,9 +179,9 @@ int postYustBigWriteAction(void) {
     case 152://62100
       upravlMin = tempWriteArray[offsetTempWriteArray+i];//флаг min param
       break;
-    case 1053://63001
-      upravlMinEnrg = tempWriteArray[offsetTempWriteArray+i];//флаг min Enrg
-      break;
+//    case 1053://63001
+//      upravlMinEnrg = tempWriteArray[offsetTempWriteArray+i];//флаг min Enrg
+//      break;
     }//switch
   }//for
 
@@ -224,10 +224,10 @@ int postYustBigWriteAction(void) {
       typI = 3;
     if(set_new_settings_from_interface(typI)) return ERROR_VALID2;
   }//if(upravlMin==0x1111)
-  else if(upravlMinEnrg==0x1234) {
-      //Для скидання показів лічильника треба вказати конкретне число - інакше повідомляємо, що такої адреси взагалі не існує (примітивний метод маскування від несанкціонованого дослідження карти пам'яті)
-      clean_energy = 0xff;
-  }//if(upravlMinEnrg==0x1234)
+//  else if(upravlMinEnrg==0x1234) {
+//      //Для скидання показів лічильника треба вказати конкретне число - інакше повідомляємо, що такої адреси взагалі не існує (примітивний метод маскування від несанкціонованого дослідження карти пам'яті)
+//      clean_energy = 0xff;
+//  }//if(upravlMinEnrg==0x1234)
   else return ERROR_VALID2;//флаг юстировки
 
   return 0;

@@ -95,13 +95,6 @@ extern unsigned int bank_for_enegry;
 extern unsigned int mutex_power;
 extern int P[2], Q[2], cos_phi_x1000;
 extern unsigned int S[2];
-extern double energy[MAX_NUMBER_INDEXES_ENERGY];
-extern unsigned int clean_energy;
-extern unsigned int information_about_clean_energy;
-
-extern int resistance[MAX_NUMBER_INDEXES_RESISTANCE];
-extern int resistance_middle[MAX_NUMBER_INDEXES_RESISTANCE];
-extern int resistance_low[MAX_NUMBER_INDEXES_RESISTANCE];
 
 extern int sector_1_mtz_tznp[8];
 extern int sector_2_mtz_tznp[8];
@@ -271,10 +264,6 @@ extern unsigned int p_global_trigger_state_mtz2;
 extern unsigned int p_global_trigger_state_mtz04_2;
 
 
-//Визначення періодів у хвилину і більше
-extern unsigned int number_seconds;
-extern unsigned int number_minutes;
-
 //Змінні для визначеня ресурсу процесора-програми
 extern unsigned int restart_resurs_count;
 extern unsigned int resurs_temp;
@@ -440,17 +429,6 @@ extern unsigned int resurs_vymykacha, resurs_vymykacha_ctrl;
 extern unsigned int resurs_vidkljuchennja, resurs_vidkljuchennja_ctrl;
 extern unsigned char crc_resurs, crc_resurs_ctrl;
 extern unsigned int restart_counter;
-
-//Визначення місця до пошкодження
-extern unsigned int vymknennja_vid_KZ_prt;
-extern unsigned int I_max_KZ_prt;
-extern unsigned int number_of_phases_KZ_prt;
-extern unsigned int X_min_KZ_prt;
-extern int R_KZ_prt;
-
-extern unsigned int number_of_phases_last_KZ;
-extern int VMP_last_KZ;
-extern unsigned int equal_more_KZ;
 
 //RS-485
 extern unsigned char TxBuffer_RS485[BUFFER_RS485];

@@ -242,13 +242,6 @@ unsigned int bank_for_enegry/* = 0*/;
 unsigned int mutex_power;
 int P[2]/* = 0*/, Q[2]/* = 0*/, cos_phi_x1000/* = 0*/;
 unsigned int S[2]/* = 0*/;
-double energy[MAX_NUMBER_INDEXES_ENERGY]/* = {0, 0, 0, 0, 0, 0}*/;
-unsigned int clean_energy/* = 0*/;
-unsigned int information_about_clean_energy/* = 0*/;
-
-int resistance[MAX_NUMBER_INDEXES_RESISTANCE]/* = {0, 0, 0, 0, 0, 0}*/; //формат{ Rab, Zab, Rbc, Zbc, Rca, Xca}
-int resistance_middle[MAX_NUMBER_INDEXES_RESISTANCE]/* = {0, 0, 0, 0, 0, 0}*/;
-int resistance_low[MAX_NUMBER_INDEXES_RESISTANCE]/* = {0, 0, 0, 0, 0, 0}*/;
 
 int sector_1_mtz_tznp[8];
 int sector_2_mtz_tznp[8];
@@ -575,10 +568,6 @@ _Bool previous_state_mtz_po_uncn = 0;
 unsigned int p_global_trigger_state_mtz2/* = 0*/;
 unsigned int p_global_trigger_state_mtz04_2/* = 0*/;
 
-//Визначення періодів у хвилину і більше
-unsigned int number_seconds/* = 0*/;
-unsigned int number_minutes/* = 0*/;
-
 //Ресурс++
 unsigned int restart_resurs_count/* = 0*/;
 unsigned int resurs_temp/* = 0*/;
@@ -744,18 +733,6 @@ unsigned int resurs_vymykacha/* = 0*/, resurs_vymykacha_ctrl;
 unsigned int resurs_vidkljuchennja/* = 0*/, resurs_vidkljuchennja_ctrl;
 unsigned char crc_resurs, crc_resurs_ctrl;
 unsigned int restart_counter/* = 0*/;
-
-//Визначення місця до пошкодження
-unsigned int vymknennja_vid_KZ_prt/* = 0*/;
-unsigned int I_max_KZ_prt/* = 0*/;
-unsigned int number_of_phases_KZ_prt/* = 0*/;
-unsigned int X_min_KZ_prt = (unsigned int)UNDEF_RESISTANCE;
-int R_KZ_prt/* = 0*/;
-
-unsigned int number_of_phases_last_KZ/* = 0*/;
-int VMP_last_KZ = UNDEF_VMP;
-int unsigned equal_more_KZ/* = 0*/;
-
 
 //RS-485
 SRAM1 unsigned char TxBuffer_RS485[BUFFER_RS485];

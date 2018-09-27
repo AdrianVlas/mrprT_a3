@@ -792,13 +792,6 @@ void make_ekran_analog_value_records_digital_registrator(void)
       " Ubc  =         ",
       " Uca  =         ",
       " f  =           ",
-      " Rab            ",
-      " Xab            ",
-      " Rbc            ",
-      " Xbc            ",
-      " Rca            ",
-      " Xca            ",
-      "                "
     };
     unsigned char *point_unsigned_char = (unsigned char *)(buffer_for_manu_read_record + index_cell_into_array_for_min_max_measurement_dr);
     unsigned int *point_unsigned_int = (unsigned int*)point_unsigned_char;
@@ -841,143 +834,6 @@ void make_ekran_analog_value_records_digital_registrator(void)
         }
         convert_and_insert_char_for_frequency(temp_measurement, name_string[i]);
       }
-      else if (i < 25)
-      {
-       //Опори
-        const unsigned int index_of_start_position_array[MAX_NAMBER_LANGUAGE] = {4, 4, 5, 4};
-
-#define SIZE_R_DIMENSION    2
-        const unsigned int size_dimension_array[MAX_NAMBER_LANGUAGE] = {SIZE_R_DIMENSION, SIZE_R_DIMENSION, SIZE_R_DIMENSION - 1, SIZE_R_DIMENSION};
-        const unsigned char resistance_dimension[MAX_NAMBER_LANGUAGE][SIZE_R_DIMENSION] = {"Ом", "Ом", "Ї ", "Ом"}; /*Ї тут іде як замінник великої букви Омега для англійської розкладки*/
-  
-        unsigned int start_position = index_of_start_position_array[index_language];
-        unsigned int size_dimension = size_dimension_array[index_language];
-        for (unsigned int j = 0; j < size_dimension; j++)
-        {
-          name_string[i][MAX_COL_LCD - size_dimension + j] = resistance_dimension[index_language][j];
-        }
-        name_string[i][start_position] = '=';
-
-#undef SIZE_R_DIMENSION
-        start_position++;
-
-        int temp_measurement = *(point_unsigned_int + i);
-        if(((unsigned int)temp_measurement) != ((unsigned int)UNDEF_RESISTANCE))
-        {
-          /********************************/
-          //Вводимо вимірювальні значення
-          /********************************/
-          if (temp_measurement < 0)
-          {
-            temp_measurement = -temp_measurement;
-            name_string[i][start_position] = '-';
-          }
-          convert_and_insert_char_for_measurement(3, temp_measurement, 1, 1, name_string[i], (start_position + 1));
-
-          unsigned int shift = 0;
-          unsigned int start_position_to_shift = start_position + 1;
-          while (
-                 (name_string[i][start_position_to_shift] == ' ') &&
-                 ((start_position_to_shift + shift) < MAX_COL_LCD)  
-                ) 
-          {
-            for (unsigned int j = start_position_to_shift; j < (MAX_COL_LCD - 1); j++ ) name_string[i][j] = name_string[i][j + 1];
-            name_string[i][MAX_COL_LCD - 1] = ' ';
-            shift++;
-          }
-          /********************************/
-        }
-        else
-        {
-#define SIZE_UNDEF      9
-          const unsigned char undefined[MAX_NAMBER_LANGUAGE][SIZE_UNDEF] =
-          {
-            "Неопред. ",
-            "Невизнач.",
-            "Undef.   ",
-            "Неопред. "  
-          };
-          for (unsigned int j = 0; j < size_dimension; j++) name_string[i][MAX_COL_LCD - size_dimension + j] = ' ';
-          for (unsigned int j = 0; j < SIZE_UNDEF; j++) name_string[i][start_position + 1 + j] = undefined[index_language][j];
-#undef SIZE_UNDEF
-        }
-      }
-      else if ((i == 25) && (type_view_max_values_dr == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE))
-      {
-        //Місце пошкодження
-#define SIZE_NAME_FIELD         2
-        const unsigned char name_field[MAX_NAMBER_LANGUAGE][SIZE_NAME_FIELD] = {"МП", "МП", "FP", "МП"};
-        for (unsigned int j = 0; j < SIZE_NAME_FIELD; j++)
-        {
-          name_string[i][1 + j] = name_field[index_language][j];
-        }
-#undef SIZE_NAME_FIELD
-
-#define INDEX_LESS_EQUAL_MORE   4
-#define SIZE_L_DIMENSION        2
-
-        const unsigned char km[MAX_NAMBER_LANGUAGE][SIZE_L_DIMENSION] = {"км", "км", "km", "км"};
-  
-        for (unsigned int j = 0; j < SIZE_L_DIMENSION; j++)
-        {
-          name_string[i][INDEX_LESS_EQUAL_MORE + 2 + 7 + j] = km[index_language][j];
-        }
-
-        int temp_measurement_1 = *(point_unsigned_int + i);
-        int temp_measurement_2 = *(point_unsigned_int + i + 1);
-        if(((unsigned int)temp_measurement_1) != ((unsigned int)UNDEF_VMP))
-        {
-          if (temp_measurement_2 == true) name_string[i][INDEX_LESS_EQUAL_MORE] = '=';
-          else name_string[i][INDEX_LESS_EQUAL_MORE] = '>';
-          /********************************/
-          //Вводимо вимірювальні значення
-          /********************************/
-          if (temp_measurement_1 < 0)
-          {
-            temp_measurement_1 = -temp_measurement_1;
-            name_string[i][INDEX_LESS_EQUAL_MORE + 1] = '-';
-          }
-          convert_and_insert_char_for_measurement(3, temp_measurement_1, 1, 1, name_string[i], (INDEX_LESS_EQUAL_MORE + 2));
-          
-          //Є можливісьт між числом і розмірністю поставити один пробіл
-          for (unsigned int j = 0; j < SIZE_L_DIMENSION; j++)
-          {
-            name_string[i][MAX_COL_LCD - 1 - j] = name_string[i][MAX_COL_LCD - 1 - j - 1];
-          }
-          name_string[i][MAX_COL_LCD - 1 - SIZE_L_DIMENSION] = ' ';
-
-          unsigned int shift = 0;
-          unsigned int start_position_to_shift = INDEX_LESS_EQUAL_MORE + 1 + 1;
-          while (
-                 (name_string[i][start_position_to_shift] == ' ') &&
-                 ((start_position_to_shift + shift) < MAX_COL_LCD)  
-                ) 
-          {
-            for (unsigned int j = start_position_to_shift; j < (MAX_COL_LCD - 1); j++ ) name_string[i][j] = name_string[i][j + 1];
-            name_string[i][MAX_COL_LCD - 1] = ' ';
-            shift++;
-          }
-          /********************************/
-        }
-        else
-        {
-          name_string[i][INDEX_LESS_EQUAL_MORE] = '=';
-          
-#define SIZE_UNDEF      9
-          const unsigned char undefined[MAX_NAMBER_LANGUAGE][SIZE_UNDEF] =
-          {
-            "Неопред. ",
-            "Невизнач.",
-            "Undef.   ",
-            "Неопред. "  
-          };
-          for (unsigned int j = 0; j < SIZE_L_DIMENSION; j++) name_string[i][INDEX_LESS_EQUAL_MORE + 2 + 7 + j] = ' ';
-          for (unsigned int j = 0; j < SIZE_UNDEF; j++) name_string[i][INDEX_LESS_EQUAL_MORE + 2 + j] = undefined[index_language][j];
-#undef SIZE_UNDEF
-        }
-#undef SIZE_L_DIMENSION
-#undef INDEX_LESS_EQUAL_MORE
-      }
       
       if (i < 9)
         name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
@@ -985,87 +841,20 @@ void make_ekran_analog_value_records_digital_registrator(void)
         name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
       else
       {
-        //Герци і оми ми вже вивели під час відображення значення
+        //Герци ми вже вивели під час відображення значення
       }
     }
   
     int position_temp = current_ekran.index_position;
     unsigned int index_of_ekran;
 
-    /******************************************/
-    //Виключаємо поля, які не треба відображати
-    /******************************************/
-    int additional_current = 0;
-    
-    {
-      int shift_ind;
-      
-      if ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) shift_ind = 8 - additional_current;
-      else shift_ind = 4 - additional_current; 
-      
-      if ((shift_ind + 1) <= position_temp) position_temp--;
-      do  
-      {
-        for(unsigned int j = 0; j<MAX_COL_LCD; j++)
-        {
-          if ((shift_ind + 1) < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current)) name_string[shift_ind][j] = name_string[shift_ind + 1][j];
-          else name_string[shift_ind][j] = ' ';
-        }
-        shift_ind++;
-      }
-      while (shift_ind < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current));
-      additional_current++;
-    }
-
-    if ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-    {
-      int shift_ind_min = 9;
-      int shift_ind_max = 11;
-      
-      for (int i = 0; i <= (shift_ind_max - shift_ind_min); i++)
-      {
-        int shift_ind = shift_ind_min - additional_current + i;
-    
-        if ((shift_ind_max - additional_current + 1) <= position_temp) position_temp--;
-        do  
-        {
-          for(unsigned int j = 0; j<MAX_COL_LCD; j++)
-          {
-            if ((shift_ind + 1) < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current)) name_string[shift_ind][j] = name_string[shift_ind + 1][j];
-            else name_string[shift_ind][j] = ' ';
-          }
-          shift_ind++;
-        }
-        while (shift_ind < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current));
-        additional_current++;
-      }
-    }
-
-    if (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)
-    {
-      int shift_ind = 25 - additional_current;
-      if ((shift_ind + 1) <= position_temp) position_temp--;
-      do  
-      {
-        for(unsigned int j = 0; j<MAX_COL_LCD; j++)
-        {
-          if ((shift_ind + 1) < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current)) name_string[shift_ind][j] = name_string[shift_ind + 1][j];
-          else name_string[shift_ind][j] = ' ';
-        }
-        shift_ind++;
-      }
-      while (shift_ind < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current));
-      additional_current++;
-    }
-    /******************************************/
-    
     index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
     //Копіюємо  рядки у робочий екран
     for (unsigned int i=0; i< MAX_ROW_LCD; i++)
     {
       //Наступні рядки треба перевірити, чи їх требе відображати у текучій коффігурації
-      if (((int)index_of_ekran) < (MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - additional_current))
+      if (((int)index_of_ekran) < MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
       else
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';

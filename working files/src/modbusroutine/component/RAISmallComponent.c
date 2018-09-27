@@ -285,25 +285,25 @@ int getRAISmallModbusRegister(int adrReg)
 
     return (value / 10) &0xFFFF;
   }
-  case MDR_OFFSET_VMP:
-  {
-    index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 25)*sizeof(unsigned int);
-    int value_int = *((int *)(point_to_buffer + index));
-
-    if (((unsigned int)value_int) != ((unsigned int)UNDEF_VMP))
-    {
-      if (abs(value_int) >= 10)
-        return (value_int/10) &0xFFFF;
-      else
-      {
-        if (value_int >= 0)
-          return 1;
-        else
-          return (-1)&0x0000FFFF;
-      }
-    }
-    return 0;
-  }
+//  case MDR_OFFSET_VMP:
+//  {
+//    index = FIRST_INDEX_FIRST_BLOCK_DR + (number_block*SIZE_ARRAY_FIX_MAX_MEASUREMENTS + 25)*sizeof(unsigned int);
+//    int value_int = *((int *)(point_to_buffer + index));
+//
+//    if (((unsigned int)value_int) != ((unsigned int)UNDEF_VMP))
+//    {
+//      if (abs(value_int) >= 10)
+//        return (value_int/10) &0xFFFF;
+//      else
+//      {
+//        if (value_int >= 0)
+//          return 1;
+//        else
+//          return (-1)&0x0000FFFF;
+//      }
+//    }
+//    return 0;
+//  }
   case MDR_OFFSET_LABEL_TIME_LSW:
   case MDR_OFFSET_LABEL_TIME_MSW:
   case MDR_OFFSET_LABEL_PROTECT:

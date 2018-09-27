@@ -168,30 +168,30 @@ int getAISmallModbusRegister(int adrReg)
         }
 #endif
       } break;
-    case 13://Ea+
-    case 14://Ea+
-    case 15://Ea-
-    case 16://Ea-
-    case 17://Eq1
-    case 18://Eq1
-    case 19://Eq2
-    case 20://Eq2
-    case 21://Eq3
-    case 22://Eq3
-    case 23://Eq4
-    case 24://Eq4
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 345+(offset-13);
-#else
-        unsigned int enrg = (unsigned int)(energy[(offset-13) >> 1]*1000.0);
-        if((offset-13)&1)
-          //Передаємо старше слово
-        return (enrg>> 16)& 0xffff;
-          //Передаємо молодше слово
-        return enrg& 0xffff;
-#endif
-      } break;
+//    case 13://Ea+
+//    case 14://Ea+
+//    case 15://Ea-
+//    case 16://Ea-
+//    case 17://Eq1
+//    case 18://Eq1
+//    case 19://Eq2
+//    case 20://Eq2
+//    case 21://Eq3
+//    case 22://Eq3
+//    case 23://Eq4
+//    case 24://Eq4
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 345+(offset-13);
+//#else
+//        unsigned int enrg = (unsigned int)(energy[(offset-13) >> 1]*1000.0);
+//        if((offset-13)&1)
+//          //Передаємо старше слово
+//        return (enrg>> 16)& 0xffff;
+//          //Передаємо молодше слово
+//        return enrg& 0xffff;
+//#endif
+//      } break;
     case 25://UAB
       {
 #ifdef TESTZBIRKA_VERSII_PZ

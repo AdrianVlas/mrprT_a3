@@ -334,32 +334,28 @@ void make_ekran_measurement(void)
      " Напряжения     ",
      " Частоты        ",
      " Углы           ",
-     " Мощность       ",
-     " Сопротивления  "
+     " Мощность       "
     },
     {
      " Струми         ",
      " Напруги        ",
      " Частоти        ",
      " Кути           ",
-     " Потужність     ",
-     " Опори          "
+     " Потужність     "
     },
     {
      " Currents       ",
      " Voltages       ",
      " Frequencies    ",
      " Angles         ",
-     " Power          ",
-     " Resistances    "
+     " Power          "
     },
     {
      " Токи           ",
      " Напряжения     ",
      " Частоты        ",
      " Углы           ",
-     " Мощность       ",
-     " Сопротивления  "
+     " Мощность       "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -1298,128 +1294,6 @@ void make_ekran_power(unsigned int pervynna_vtorynna)
         shift++;
       }
       /********************************/
-
-      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
-    }
-    else
-      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
-
-    index_of_ekran++;
-  }
-
-  //Курсор по горизонталі відображається на першій позиції
-  current_ekran.position_cursor_x = 0;
-  //Відображення курору по вертикалі
-  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
-  //Курсор видимий
-  current_ekran.cursor_on = 1;
-  //Курсор не мигає
-  current_ekran.cursor_blinking_on = 0;
-  //Обновити повністю весь екран
-  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
-}
-/*****************************************************/
-
-/*****************************************************/
-//Формуємо екран відображення опорів
-/*****************************************************/
-void make_ekran_resistance(unsigned int pervynna_vtorynna)
-{
-  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_RESISTANCE][MAX_COL_LCD] = 
-  {
-    " Rab            ",
-    " Xab            ",
-    " Rbc            ",
-    " Xbc            ",
-    " Rca            ",
-    " Xca            "
-  };
-  const unsigned int index_of_start_position_array[MAX_NAMBER_LANGUAGE] = {4, 4, 5, 4};
-
-#define SIZE_R_DIMENSION    2
-  const unsigned int size_dimension_array[MAX_NAMBER_LANGUAGE] = {SIZE_R_DIMENSION, SIZE_R_DIMENSION, SIZE_R_DIMENSION - 1, SIZE_R_DIMENSION};
-
-  const unsigned char resistance_dimension[MAX_NAMBER_LANGUAGE][SIZE_R_DIMENSION] = {"Ом", "Ом", "Ї ", "Ом"}; /*Ї тут іде як замінник великої букви Омега для англійської розкладки*/
-  
-  int index_language = index_language_in_array(current_settings.language);
-  unsigned int start_position = index_of_start_position_array[index_language];
-  unsigned int size_dimension = size_dimension_array[index_language];
-  
-  for (unsigned int i = 0; i < size_dimension; i++)
-  {
-    unsigned char letter = resistance_dimension[index_language][i];
-    for (unsigned int j = 0; j < MAX_ROW_FOR_MEASURMENT_RESISTANCE; j++)
-    {
-      name_string[j][MAX_COL_LCD - size_dimension + i] = letter;
-      name_string[j][start_position] = '=';
-    }
-  }
-#undef SIZE_R_DIMENSION
-  start_position++;
-  
-  
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  
-  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
-
-  //Копіюємо вимірювання які потрібні для відображення
-  semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < MAX_NUMBER_INDEXES_RESISTANCE; i++ ) 
-  {
-    resistance_low[i] =resistance_middle[i];
-  }
-  semaphore_measure_values_low1 = 0;
-  
-  //Копіюємо  рядки у робочий екран
-  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
-  {
-    //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_RESISTANCE)
-    {
-      int temp_value = resistance_low[index_of_ekran];
-      if(((unsigned int)temp_value) != ((unsigned int)UNDEF_RESISTANCE))
-      {
-        /********************************/
-        //Вводимо вимірювальні значення
-        /********************************/
-        if (temp_value < 0)
-        {
-          temp_value = -temp_value;
-          name_string[index_of_ekran][start_position] = '-';
-        }
-        if (pervynna_vtorynna == 0)
-          convert_and_insert_char_for_measurement(3, temp_value, 1, 1, name_string[index_of_ekran], (start_position + 1));
-        else
-          convert_and_insert_char_for_measurement(3, temp_value, current_settings.TVoltage, current_settings.TCurrent, name_string[index_of_ekran], (start_position + 1));
-
-        unsigned int shift = 0;
-        unsigned int start_position_to_shift = start_position + 1;
-        while (
-               (name_string[index_of_ekran][start_position_to_shift] == ' ') &&
-               ((start_position_to_shift + shift) < MAX_COL_LCD)  
-              ) 
-        {
-          for (unsigned int j = start_position_to_shift; j < (MAX_COL_LCD - 1); j++ ) name_string[index_of_ekran][j] = name_string[index_of_ekran][j + 1];
-          name_string[index_of_ekran][MAX_COL_LCD - 1] = ' ';
-          shift++;
-        }
-        /********************************/
-      }
-      else
-      {
-#define SIZE_UNDEF      9
-        const unsigned char undefined[MAX_NAMBER_LANGUAGE][SIZE_UNDEF] =
-        {
-          "Неопред. ",
-          "Невизнач.",
-          "Undef.   ",
-          "Неопред. "  
-        };
-        for (unsigned int j = 0; j < size_dimension; j++) name_string[index_of_ekran][MAX_COL_LCD - size_dimension + j] = ' ';
-        for (unsigned int j = 0; j < SIZE_UNDEF; j++) name_string[index_of_ekran][start_position + 1 + j] = undefined[index_language][j];
-#undef SIZE_UNDEF
-      }
 
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
     }

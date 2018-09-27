@@ -620,67 +620,6 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
 /*****************************************************/
 
 /*****************************************************/
-//Визначенням опорів
-/*****************************************************/
-inline void calc_resistance(int ortogonal_local_calc[], int resistance_output[]) 
-{
-  const unsigned int index_line_voltage[3]  = {FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca};
-  const unsigned int index_begin_current[3] = {FULL_ORT_Ia , FULL_ORT_Ib , FULL_ORT_Ic };
-  const unsigned int index_end_current[3]   = {FULL_ORT_Ib , FULL_ORT_Ic , FULL_ORT_Ia };
-  
-  for (unsigned int i = 0; i < 3; i++)
-  {
-    //Розраховуємо координати струму Ixy
-    int _a2, _b2;
-    /*
-    З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
-    випливає, що максимальне значення ортогональних для струму може бути 0x6E51, для лінійної напруги 
-    0x120FC
-
-    З фазних струмів розраховуються лінійні струми, то, якщо припустити що вектори розврнуті у різні сторони, то  максимальне
-    значення ортогональних може бути
-    0x6E51*2 = 0xDCA2 це є 16 бітне число (+ можливий знак) - тобто число виходить 17-бітне
-    */
-    
-    _a2 = ortogonal_local_calc[2*index_begin_current[i] + 0] - ortogonal_local_calc[2*index_end_current[i] + 0];
-    _b2 = ortogonal_local_calc[2*index_begin_current[i] + 1] - ortogonal_local_calc[2*index_end_current[i] + 1];
-
-#define _A1     ortogonal_local_calc[2*index_line_voltage[i] + 0]
-#define _B1     ortogonal_local_calc[2*index_line_voltage[i] + 1]
-    
-    long long mod = (long long)_a2*(long long)_a2 + (long long)_b2*(long long)_b2;
-    
-    //Розраховуємо амплітуду струму Ixy
-    unsigned int Ixy = ( MNOGNYK_I_DIJUCHE*(sqrt_64(mod)) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
-    
-    if (Ixy >= PORIG_Ixy)
-    {
-      //Можна розраховувати міжфазний опір
-      /*
-       .
-      Uxy   Re(Uxy) + iIm(Uxy)   a1 + ib1    (a1 + ib1)(a2 - ib2)    (a1a2 + b1b2) + i(a2b1 - a1b2)    a1a2 + b1b2      a2b1 - a1b2
-      --- = ------------------ = --------- = --------------------- = ------------------------------ =  ------------ + i--------------
-       .                                                                     2      2                     2      2         2      2
-      Ixy   Re(Ixy) + iIm(Ixy)   a2 + ib2    (a2 + ib2)(a2 - ib2)          a2   + b2                    a2   + b2        a2   + b2
-      */
-      
-      resistance_output[2*i    ] = (int)(MNOGNYK_R_FLOAT*((float)((long long)_A1*(long long)_a2 + (long long)_B1*(long long)_b2))/((float)mod));
-      resistance_output[2*i + 1] = (int)(MNOGNYK_R_FLOAT*((float)((long long)_a2*(long long)_B1 - (long long)_A1*(long long)_b2))/((float)mod));
-    }
-    else
-    {
-      //Не можна розраховувати міжфазний опір
-      resistance_output[2*i    ] = UNDEF_RESISTANCE;
-      resistance_output[2*i + 1] = UNDEF_RESISTANCE;
-    }
-    
-#undef _A1
-#undef _B1
-  }
-}
-/*****************************************************/
-
-/*****************************************************/
 //Визначенням миттєвої потужності
 /*****************************************************/
 inline void calc_power(int ortogonal_local_calc[]) 
@@ -688,56 +627,81 @@ inline void calc_power(int ortogonal_local_calc[])
   /*
   Розраховуємо дійсну і уявну частину потужності у компдексній площині
   
-  .    .  .     .  .
-  S = UabIa* - UbcIc*
+  .    . .     . .     . .
+  S = UaIa* + UbIb* + UcIc*
   */
   
 #define IA_SIN          ortogonal_local_calc[2*FULL_ORT_Ia + 1]
 #define IA_COS          ortogonal_local_calc[2*FULL_ORT_Ia + 0]
-#define UAB_SIN         ortogonal_local_calc[2*FULL_ORT_Uab + 1]
-#define UAB_COS         ortogonal_local_calc[2*FULL_ORT_Uab + 0]
+#define UA_SIN          ortogonal_local_calc[2*FULL_ORT_Ua + 1]
+#define UA_COS          ortogonal_local_calc[2*FULL_ORT_Ua + 0]
   
+#define IB_SIN          ortogonal_local_calc[2*FULL_ORT_Ib + 1]
+#define IB_COS          ortogonal_local_calc[2*FULL_ORT_Ib + 0]
+#define UB_SIN          ortogonal_local_calc[2*FULL_ORT_Ub + 1]
+#define UB_COS          ortogonal_local_calc[2*FULL_ORT_Ub + 0]
+
 #define IC_SIN          ortogonal_local_calc[2*FULL_ORT_Ic + 1]
 #define IC_COS          ortogonal_local_calc[2*FULL_ORT_Ic + 0]
-#define UBC_SIN         ortogonal_local_calc[2*FULL_ORT_Ubc + 1]
-#define UBC_COS         ortogonal_local_calc[2*FULL_ORT_Ubc + 0]
+#define UC_SIN          ortogonal_local_calc[2*FULL_ORT_Uc + 1]
+#define UC_COS          ortogonal_local_calc[2*FULL_ORT_Uc + 0]
   
-  long long Re_IaUab, Im_IaUab;
+  long long Re_UaIa, Im_UaIa;
   if (measurement[IM_IA] >= PORIG_I_ENERGY)
   {
-    Re_IaUab = UAB_COS*IA_COS + UAB_SIN*IA_SIN;
-    Im_IaUab = UAB_SIN*IA_COS - UAB_COS*IA_SIN;
+    Re_UaIa = UA_COS*IA_COS + UA_SIN*IA_SIN;
+    Im_UaIa = UA_SIN*IA_COS - UA_COS*IA_SIN;
   
   }
   else
   {
-    Re_IaUab = 0;
-    Im_IaUab = 0;
+    Re_UaIa = 0;
+    Im_UaIa = 0;
   }
-
-  long long Re_IcUbc, Im_IcUbc;
-  if (measurement[IM_IC] >= PORIG_I_ENERGY)
-  {  
-    Re_IcUbc = UBC_COS*IC_COS + UBC_SIN*IC_SIN;
-    Im_IcUbc = UBC_SIN*IC_COS - UBC_COS*IC_SIN;
+  
+  long long Re_UbIb, Im_UbIb;
+  if (measurement[IM_IB] >= PORIG_I_ENERGY)
+  {
+    Re_UbIb = UB_COS*IB_COS + UB_SIN*IB_SIN;
+    Im_UbIb = UB_SIN*IB_COS - UB_COS*IB_SIN;
+  
   }
   else
   {
-    Re_IcUbc = 0;
-    Im_IcUbc = 0;
+    Re_UbIb = 0;
+    Im_UbIb = 0;
   }
+  
+  long long Re_UcIc, Im_UcIc;
+  if (measurement[IM_IC] >= PORIG_I_ENERGY)
+  {
+    Re_UcIc = UC_COS*IC_COS + UC_SIN*IC_SIN;
+    Im_UcIc = UC_SIN*IC_COS - UC_COS*IC_SIN;
+  
+  }
+  else
+  {
+    Re_UcIc = 0;
+    Im_UcIc = 0;
+  }
+
 #undef IA_SIN
 #undef IA_COS
-#undef UAB_SIN
-#undef UAB_COS
+#undef UA_SIN
+#undef UA_COS
+  
+#undef IB_SIN
+#undef IB_COS
+#undef UB_SIN
+#undef UB_COS
   
 #undef IC_SIN
 #undef IC_COS
-#undef UBC_SIN
-#undef UBC_COS
+#undef UC_SIN
+#undef UC_COS
   
-  long long P_adc_x16 = Re_IaUab - Re_IcUbc; /*  активна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
-  long long Q_adc_x16 = Im_IaUab - Im_IcUbc; /*реактивна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
+  long long P_adc_x16 = Re_UaIa + Re_UbIb + Re_UcIc; /*  активна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
+  long long Q_adc_x16 = Im_UaIa + Im_UbIb + Im_UcIc; /*реактивна потужність у поділках АЦП і з вхідними сигналами, які є підсилені у 16 разів*/
   
   /*
   Коли перемножимо на коефіцієнти MNOGNYK_I_DIJUCHE_FLOAT і MNOGNYK_U_DIJUCHE_FLOAT,
@@ -1260,12 +1224,6 @@ inline void calc_measurement(unsigned int number_group_stp)
   velychyna_zvorotnoi_poslidovnosti(ortogonal_calc, INDEX_I);
   /***/
   
-  /***/
-  //Розраховуємо опори
-  /***/
-  calc_resistance(ortogonal_calc, resistance);
-  /***/
-
   if(++number_inputs_for_fix_one_period >= 20)
   {
     /***/
@@ -4685,14 +4643,6 @@ inline void start_monitoring_max_phase_current(unsigned int time_tmp)
   measurements_phase_max_dr[16] = measurement[IM_UBC];
   measurements_phase_max_dr[17] = measurement[IM_UCA];
   measurements_phase_max_dr[18] = (unsigned int)frequency_int;
-  measurements_phase_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_phase_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_phase_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_phase_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_phase_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_phase_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_phase_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_phase_max_dr[26] = 0;
   
   //Визначаємо макисальний фазний струм між трьома фазами
   max_phase_current_dr = measurements_phase_max_dr[2];
@@ -4700,7 +4650,7 @@ inline void start_monitoring_max_phase_current(unsigned int time_tmp)
   if (max_phase_current_dr < measurements_phase_max_dr[4]) max_phase_current_dr = measurements_phase_max_dr[4];
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_phase_max_dr[27] = time_tmp;
+  measurements_phase_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимального фазного струму
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE);
@@ -4742,19 +4692,13 @@ inline void continue_monitoring_max_phase_current(unsigned int time_tmp)
     measurements_phase_max_dr[16] = measurement[IM_UBC];
     measurements_phase_max_dr[17] = measurement[IM_UCA];
     measurements_phase_max_dr[18] = (unsigned int)frequency_int;
-    measurements_phase_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_phase_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_phase_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_phase_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_phase_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_phase_max_dr[24] = (unsigned int)resistance[X_CA];
 
     max_phase_current_dr = measurements_phase_max_dr[2];
     if (max_phase_current_dr < measurements_phase_max_dr[3]) max_phase_current_dr = measurements_phase_max_dr[3];
     if (max_phase_current_dr < measurements_phase_max_dr[4]) max_phase_current_dr = measurements_phase_max_dr[4];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_phase_max_dr[27] = time_tmp;
+    measurements_phase_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -4790,17 +4734,9 @@ inline void start_monitoring_max_phase04_current(unsigned int time_tmp)
   measurements_phase04_max_dr[16] = measurement[IM_UBC];
   measurements_phase04_max_dr[17] = measurement[IM_UCA];
   measurements_phase04_max_dr[18] = (unsigned int)frequency_int;
-  measurements_phase04_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_phase04_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_phase04_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_phase04_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_phase04_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_phase04_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_phase04_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_phase04_max_dr[26] = 0;
   
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_phase04_max_dr[27] = time_tmp;
+  measurements_phase04_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимального фазного струму зі сторони 0.4кВ
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04);
@@ -4838,15 +4774,9 @@ inline void continue_monitoring_max_phase04_current(unsigned int time_tmp)
     measurements_phase04_max_dr[16] = measurement[IM_UBC];
     measurements_phase04_max_dr[17] = measurement[IM_UCA];
     measurements_phase04_max_dr[18] = (unsigned int)frequency_int;
-    measurements_phase04_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_phase04_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_phase04_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_phase04_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_phase04_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_phase04_max_dr[24] = (unsigned int)resistance[X_CA];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_phase04_max_dr[27] = time_tmp;
+    measurements_phase04_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -4882,17 +4812,9 @@ inline void start_monitoring_max_3I0(unsigned int time_tmp)
   measurements_3I0_max_dr[16] = measurement[IM_UBC];
   measurements_3I0_max_dr[17] = measurement[IM_UCA];
   measurements_3I0_max_dr[18] = (unsigned int)frequency_int;
-  measurements_3I0_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_3I0_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_3I0_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_3I0_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_3I0_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_3I0_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_3I0_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_3I0_max_dr[26] = 0;
   
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_3I0_max_dr[27] = time_tmp;
+  measurements_3I0_max_dr[19] = time_tmp;
   
   //Помічаємо, що ми на стадії моніторингу максимального струму 3I0
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0);
@@ -4935,15 +4857,9 @@ inline void continue_monitoring_max_3I0(unsigned int time_tmp)
     measurements_3I0_max_dr[16] = measurement[IM_UBC];
     measurements_3I0_max_dr[17] = measurement[IM_UCA];
     measurements_3I0_max_dr[18] = (unsigned int)frequency_int;
-    measurements_3I0_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_3I0_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_3I0_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_3I0_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_3I0_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_3I0_max_dr[24] = (unsigned int)resistance[X_CA];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_3I0_max_dr[27] = time_tmp;
+    measurements_3I0_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -4979,17 +4895,9 @@ inline void start_monitoring_max_3U0(unsigned int time_tmp)
   measurements_3U0_max_dr[16] = measurement[IM_UBC];
   measurements_3U0_max_dr[17] = measurement[IM_UCA];
   measurements_3U0_max_dr[18] = (unsigned int)frequency_int;
-  measurements_3U0_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_3U0_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_3U0_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_3U0_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_3U0_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_3U0_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_3U0_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_3U0_max_dr[26] = 0;
   
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_3U0_max_dr[27] = time_tmp;
+  measurements_3U0_max_dr[19] = time_tmp;
   
   //Помічаємо, що ми на стадії моніторингу максимальної напруги 3U0
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0);
@@ -5027,15 +4935,9 @@ inline void continue_monitoring_max_3U0(unsigned int time_tmp)
     measurements_3U0_max_dr[16] = measurement[IM_UBC];
     measurements_3U0_max_dr[17] = measurement[IM_UCA];
     measurements_3U0_max_dr[18] = (unsigned int)frequency_int;
-    measurements_3U0_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_3U0_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_3U0_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_3U0_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_3U0_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_3U0_max_dr[24] = (unsigned int)resistance[X_CA];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_3U0_max_dr[27] = time_tmp;
+    measurements_3U0_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -5071,14 +4973,6 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[16] = measurement[IM_UBC];
   measurements_U_min_dr[17] = measurement[IM_UCA];
   measurements_U_min_dr[18] = (unsigned int)frequency_int;
-  measurements_U_min_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_U_min_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_U_min_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_U_min_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_U_min_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_U_min_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_U_min_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_U_min_dr[26] = 0;
   
   if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
   {
@@ -5096,7 +4990,7 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   }
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_U_min_dr[27] = time_tmp;
+  measurements_U_min_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу мінімальної фазної/лінійної напруги
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE);
@@ -5152,12 +5046,6 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[16] = measurement[IM_UBC];
     measurements_U_min_dr[17] = measurement[IM_UCA];
     measurements_U_min_dr[18] = (unsigned int)frequency_int;
-    measurements_U_min_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_U_min_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_U_min_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_U_min_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_U_min_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_U_min_dr[24] = (unsigned int)resistance[X_CA];
 
     if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
     {
@@ -5175,7 +5063,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     }
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_U_min_dr[27] = time_tmp;
+    measurements_U_min_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -5211,14 +5099,6 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[16] = measurement[IM_UBC];
   measurements_U_max_dr[17] = measurement[IM_UCA];
   measurements_U_max_dr[18] = (unsigned int)frequency_int;
-  measurements_U_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_U_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_U_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_U_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_U_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_U_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_U_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_U_max_dr[26] = 0;
   
   if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
   {
@@ -5236,7 +5116,7 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   }
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_U_max_dr[27] = time_tmp;
+  measurements_U_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимальної фазної/лінійної напруги
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE);
@@ -5292,12 +5172,6 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[16] = measurement[IM_UBC];
     measurements_U_max_dr[17] = measurement[IM_UCA];
     measurements_U_max_dr[18] = (unsigned int)frequency_int;
-    measurements_U_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_U_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_U_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_U_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_U_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_U_max_dr[24] = (unsigned int)resistance[X_CA];
 
     if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
     {
@@ -5315,7 +5189,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     }
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_U_max_dr[27] = time_tmp;
+    measurements_U_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -5351,17 +5225,9 @@ inline void start_monitoring_max_ZOP(unsigned int time_tmp)
   measurements_ZOP_max_dr[16] = measurement[IM_UBC];
   measurements_ZOP_max_dr[17] = measurement[IM_UCA];
   measurements_ZOP_max_dr[18] = (unsigned int)frequency_int;
-  measurements_ZOP_max_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_ZOP_max_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_ZOP_max_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_ZOP_max_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_ZOP_max_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_ZOP_max_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_ZOP_max_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_ZOP_max_dr[26] = 0;
 
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_ZOP_max_dr[27] = time_tmp;
+  measurements_ZOP_max_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу максимального струму зворотньої послідовності
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP);
@@ -5421,15 +5287,9 @@ inline void continue_monitoring_max_ZOP(unsigned int time_tmp)
     measurements_ZOP_max_dr[16] = measurement[IM_UBC];
     measurements_ZOP_max_dr[17] = measurement[IM_UCA];
     measurements_ZOP_max_dr[18] = (unsigned int)frequency_int;
-    measurements_ZOP_max_dr[19] = (unsigned int)resistance[R_AB];
-    measurements_ZOP_max_dr[20] = (unsigned int)resistance[X_AB];
-    measurements_ZOP_max_dr[21] = (unsigned int)resistance[R_BC];
-    measurements_ZOP_max_dr[22] = (unsigned int)resistance[X_BC];
-    measurements_ZOP_max_dr[23] = (unsigned int)resistance[R_CA];
-    measurements_ZOP_max_dr[24] = (unsigned int)resistance[X_CA];
 
     //Фіксуємо час з моменту початку аварійного запису
-    measurements_ZOP_max_dr[27] = time_tmp;
+    measurements_ZOP_max_dr[19] = time_tmp;
   }
 }
 /*****************************************************/
@@ -5465,17 +5325,9 @@ inline void start_monitoring_min_f(unsigned int time_tmp)
   measurements_f_min_achr_dr[16] = measurement[IM_UBC];
   measurements_f_min_achr_dr[17] = measurement[IM_UCA];
   measurements_f_min_achr_dr[18] = (unsigned int)frequency_int;
-  measurements_f_min_achr_dr[19] = (unsigned int)resistance[R_AB];
-  measurements_f_min_achr_dr[20] = (unsigned int)resistance[X_AB];
-  measurements_f_min_achr_dr[21] = (unsigned int)resistance[R_BC];
-  measurements_f_min_achr_dr[22] = (unsigned int)resistance[X_BC];
-  measurements_f_min_achr_dr[23] = (unsigned int)resistance[R_CA];
-  measurements_f_min_achr_dr[24] = (unsigned int)resistance[X_CA];
-  measurements_f_min_achr_dr[25] = (unsigned int)UNDEF_VMP;
-  measurements_f_min_achr_dr[26] = 0;
   
   //Фіксуємо час з моменту початку аварійного запису
-  measurements_f_min_achr_dr[27] = time_tmp;
+  measurements_f_min_achr_dr[19] = time_tmp;
 
   //Помічаємо, що ми на стадії моніторингу мінімальної частоти
   state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR);
@@ -5522,15 +5374,9 @@ inline void continue_monitoring_min_f(unsigned int time_tmp)
       measurements_f_min_achr_dr[16] = measurement[IM_UBC];
       measurements_f_min_achr_dr[17] = measurement[IM_UCA];
       measurements_f_min_achr_dr[18] = (unsigned int)frequency_int;
-      measurements_f_min_achr_dr[19] = (unsigned int)resistance[R_AB];
-      measurements_f_min_achr_dr[20] = (unsigned int)resistance[X_AB];
-      measurements_f_min_achr_dr[21] = (unsigned int)resistance[R_BC];
-      measurements_f_min_achr_dr[22] = (unsigned int)resistance[X_BC];
-      measurements_f_min_achr_dr[23] = (unsigned int)resistance[R_CA];
-      measurements_f_min_achr_dr[24] = (unsigned int)resistance[X_CA];
 
       //Фіксуємо час з моменту початку аварійного запису
-      measurements_f_min_achr_dr[27] = time_tmp;
+      measurements_f_min_achr_dr[19] = time_tmp;
     }
   }
 }
@@ -5593,56 +5439,38 @@ inline void end_monitoring_min_max_measurement(unsigned int type_current, unsign
       //Визначаємо джерело звідки  будемо копіювати дані
       if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)
       {
-        measurements_phase_max_dr[25] = (unsigned int)VMP_last_KZ;
-        measurements_phase_max_dr[26] = equal_more_KZ;
         input_data_point = (unsigned char *)(measurements_phase_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04)
       {
-        measurements_phase04_max_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_phase04_max_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_phase04_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0)
       {
-        measurements_3I0_max_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_3I0_max_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_3I0_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE_3U0)
       {
-        measurements_3U0_max_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_3U0_max_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_3U0_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)
       {
-        measurements_U_min_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_U_min_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_U_min_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_VOLTAGE)
       {
-        measurements_U_max_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_U_max_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_U_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)
       {
-        measurements_ZOP_max_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_ZOP_max_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_ZOP_max_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR)
       {
-        measurements_f_min_achr_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_f_min_achr_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_f_min_achr_dr);
       }
       else if(type_current == IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV)
       {
-        measurements_f_chapv_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_f_chapv_dr[26] = 0;
         input_data_point = (unsigned char *)(measurements_f_chapv_dr);
       }
       
@@ -6767,17 +6595,9 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         measurements_f_chapv_dr[16] = measurement[IM_UBC];
         measurements_f_chapv_dr[17] = measurement[IM_UCA];
         measurements_f_chapv_dr[18] = (unsigned int)frequency_int;
-        measurements_f_chapv_dr[19] = (unsigned int)resistance[R_AB];
-        measurements_f_chapv_dr[20] = (unsigned int)resistance[X_AB];
-        measurements_f_chapv_dr[21] = (unsigned int)resistance[R_BC];
-        measurements_f_chapv_dr[22] = (unsigned int)resistance[X_BC];
-        measurements_f_chapv_dr[23] = (unsigned int)resistance[R_CA];
-        measurements_f_chapv_dr[24] = (unsigned int)resistance[X_CA];
-        measurements_f_chapv_dr[25] = (unsigned int)UNDEF_VMP;
-        measurements_f_chapv_dr[26] = 0;
   
         //Фіксуємо час з моменту початку аварійного запису
-        measurements_f_chapv_dr[27] = time_from_start_record_dr;
+        measurements_f_chapv_dr[19] = time_from_start_record_dr;
 
         //Помічаємо, що ми фіксуємо чатоту від ЧАПВ
         state_current_monitoring |= (1<<IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV);
@@ -7359,14 +7179,12 @@ inline void main_protection(void)
       for (unsigned int i = 0; i < N_BIG; i++) trigger_functions_USB[i] = 0;
       
       information_about_restart_counter  &= (unsigned int)(~(1 << USB_RECUEST));
-      information_about_clean_energy     &= (unsigned int)(~(1 << USB_RECUEST));
     }
     if ((reset_trigger_function_from_interface & (1 << RS485_RECUEST)) != 0)
     {
       for (unsigned int i = 0; i < N_BIG; i++) trigger_functions_RS485[i] = 0;
       
       information_about_restart_counter  &= (unsigned int)(~(1 << RS485_RECUEST));
-      information_about_clean_energy     &= (unsigned int)(~(1 << RS485_RECUEST));
     }
     
     //Помічаємо що ми виконали очистку по ВСІХ інтерфейсах
@@ -7957,7 +7775,6 @@ inline void main_protection(void)
     {
       measurement_high[bank_measurement_high_tmp][i] = measurement_middle[i] = measurement[i];
     }
-    for (unsigned int i = 0; i < MAX_NUMBER_INDEXES_RESISTANCE; i++) resistance_middle[i] = resistance[i];
   }
   else
   {

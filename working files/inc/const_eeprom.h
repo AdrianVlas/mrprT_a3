@@ -8,7 +8,6 @@
 
 #define SIZE_USTUVANNJA         (sizeof(unsigned int) + sizeof(ustuvannja) + sizeof(phi_ustuvannja) + sizeof(phi_ustuvannja_sin_cos) + sizeof(serial_number_dev))
 #define SIZE_SETTINGS            sizeof(__SETTINGS)
-#define SIZE_ENERGY              sizeof(energy)
 
 /*
 ќск≥льки на сьогодн≥шн≥й день розм≥р __SETTINGS становить xxxx байти, що на багато
@@ -96,12 +95,6 @@
 #define TASK_START_READ_RESURS_EEPROM_BIT                               31      
 #define TASK_READING_RESURS_EEPROM_BIT                                  32
 
-#define TASK_START_WRITE_ENERGY_EEPROM_BIT                              33      
-#define TASK_WRITING_ENERGY_EEPROM_BIT                                  34      
-
-#define TASK_START_READ_ENERGY_EEPROM_BIT                               35      
-#define TASK_READING_ENERGY_EEPROM_BIT                                  36
-
 #define STATE_SETTINGS_EEPROM_EMPTY_BIT                                 0      
 #define STATE_SETTINGS_EEPROM_EMPTY                                     (1<<STATE_SETTINGS_EEPROM_EMPTY_BIT)      
 #define STATE_SETTINGS_EEPROM_FAIL_BIT                                  1      
@@ -161,13 +154,6 @@
 #define STATE_RESURS_EEPROM_FAIL                                        (1<<STATE_RESURS_EEPROM_FAIL_BIT)      
 #define STATE_RESURS_EEPROM_GOOD_BIT                                    25      
 #define STATE_RESURS_EEPROM_GOOD                                        (1<<STATE_RESURS_EEPROM_GOOD_BIT) 
-
-#define STATE_ENERGY_EEPROM_EMPTY_BIT                                   26      
-#define STATE_ENERGY_EEPROM_EMPTY                                       (1<<STATE_ENERGY_EEPROM_EMPTY_BIT)      
-#define STATE_ENERGY_EEPROM_FAIL_BIT                                    27      
-#define STATE_ENERGY_EEPROM_FAIL                                        (1<<STATE_ENERGY_EEPROM_FAIL_BIT)      
-#define STATE_ENERGY_EEPROM_GOOD_BIT                                    28      
-#define STATE_ENERGY_EEPROM_GOOD                                        (1<<STATE_ENERGY_EEPROM_GOOD_BIT) 
 
 /*EEPROM*/
 #define OPCODE_WRITE                                          0x02

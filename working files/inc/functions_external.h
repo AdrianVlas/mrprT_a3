@@ -62,7 +62,6 @@ extern void make_ekran_voltage_line(unsigned int);
 extern void make_ekran_frequency(void);
 extern void make_ekran_angle(void);
 extern void make_ekran_power(unsigned int);
-extern void make_ekran_resistance(unsigned int);
 extern void convert_and_insert_char_for_measurement(unsigned int, unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int);
 extern void convert_and_insert_char_for_frequency(int, unsigned char *);
 extern void make_ekran_chose_settings_any_protection(void);
@@ -158,7 +157,6 @@ extern void make_ekran_list_titles_for_record_of_pr_err_registrator(void);
 extern void make_ekran_changing_diagnostics_pr_err_registrator(void);
 extern void make_ekran_setting_language(void);
 extern void make_ekran_resurs(void);
-extern void make_ekran_energy(unsigned int);
 extern void make_ekran_grupa_ustavok(void);
 extern void make_ekran_vidkluchenja(void);
 
@@ -256,7 +254,6 @@ extern unsigned int get_order(int);
 extern void calc_angle(void);
 extern void calc_power(int*);
 extern void calc_power_and_energy(void);
-extern void calc_resistance(int*, int*);
 
 extern void velychyna_zvorotnoi_poslidovnosti(int*, const __index_I_U);
 
