@@ -216,36 +216,36 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 3;
-#define MTZ04_CONFIGURATION_BEGIN 80
-  case MTZ04_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_BLOCK_MTZ04_1;
-    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_1;
-    break;
-  case 81:
-    (*outMaska) = RANG_MTZ04_1;
-//        (*dvMaska) =
-    break;
-  case 82:
-    (*outMaska) = RANG_PO_MTZ04_1;
-//        (*dvMaska) =
-    break;
-  case 83:
-    (*outMaska) = RANG_BLOCK_MTZ04_2;
-    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_2;
-    break;
-  case 84:
-    (*outMaska) = RANG_MTZ04_2;
-//        (*dvMaska) =
-    break;
-  case 85:
-    (*outMaska) = RANG_PO_MTZ04_2;
-//        (*dvMaska) =
-    break;
-#define MTZ04_CONFIGURATION_END 86
-  case MTZ04_CONFIGURATION_END:
-    (*outMaska) = RANG_BLOCK_USK_MTZ04_2;
-    (*dvMaska) = RANG_SMALL_BLOCK_USK_MTZ04_2;
-    break;
+//#define MTZ04_CONFIGURATION_BEGIN 80
+//  case MTZ04_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_BLOCK_MTZ04_1;
+//    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_1;
+//    break;
+//  case 81:
+//    (*outMaska) = RANG_MTZ04_1;
+////        (*dvMaska) =
+//    break;
+//  case 82:
+//    (*outMaska) = RANG_PO_MTZ04_1;
+////        (*dvMaska) =
+//    break;
+//  case 83:
+//    (*outMaska) = RANG_BLOCK_MTZ04_2;
+//    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_2;
+//    break;
+//  case 84:
+//    (*outMaska) = RANG_MTZ04_2;
+////        (*dvMaska) =
+//    break;
+//  case 85:
+//    (*outMaska) = RANG_PO_MTZ04_2;
+////        (*dvMaska) =
+//    break;
+//#define MTZ04_CONFIGURATION_END 86
+//  case MTZ04_CONFIGURATION_END:
+//    (*outMaska) = RANG_BLOCK_USK_MTZ04_2;
+//    (*dvMaska) = RANG_SMALL_BLOCK_USK_MTZ04_2;
+//    break;
 
   case 88:
     (*outMaska) = RANG_NCN_MTZ;
@@ -259,27 +259,27 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 3;
-#define ZDZ_CONFIGURATION_BEGIN 112
-  case ZDZ_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_BLOCK_ZDZ;
-    (*dvMaska)  = RANG_SMALL_BLOCK_ZDZ;
-    break;
-  case 113:
-    (*outMaska) = RANG_PUSK_ZDZ_VID_DV;
-    (*dvMaska)  = RANG_SMALL_PUSK_ZDZ_VID_DV;
-    break;
-  case 114:
-    (*outMaska) = RANG_PO_ZDZ;
-//        (*dvMaska) =
-    break;
-  case 115:
-    (*outMaska) = RANG_ZDZ;
-//        (*dvMaska) =
-    break;
-  case 116:
-    (*outMaska) = RANG_LIGHT_ZDZ_FROM_DV;
-//        (*dvMaska) =
-    break;
+//#define ZDZ_CONFIGURATION_BEGIN 112
+//  case ZDZ_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_BLOCK_ZDZ;
+//    (*dvMaska)  = RANG_SMALL_BLOCK_ZDZ;
+//    break;
+//  case 113:
+//    (*outMaska) = RANG_PUSK_ZDZ_VID_DV;
+//    (*dvMaska)  = RANG_SMALL_PUSK_ZDZ_VID_DV;
+//    break;
+//  case 114:
+//    (*outMaska) = RANG_PO_ZDZ;
+////        (*dvMaska) =
+//    break;
+//  case 115:
+//    (*outMaska) = RANG_ZDZ;
+////        (*dvMaska) =
+//    break;
+//  case 116:
+//    (*outMaska) = RANG_LIGHT_ZDZ_FROM_DV;
+////        (*dvMaska) =
+//    break;
 
 //123456
 //#if MODYFIKACIA_VERSII_PZ == 0
@@ -302,11 +302,11 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //#endif
 
 //  count_bit = 5;
-#define ZZ_CONFIGURATION_BEGIN 128
-  case ZZ_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_BLOCK_NZZ;
-    (*dvMaska) = RANG_SMALL_BLOCK_NZZ;
-    break;
+//#define ZZ_CONFIGURATION_BEGIN 128
+//  case ZZ_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_BLOCK_NZZ;
+//    (*dvMaska) = RANG_SMALL_BLOCK_NZZ;
+//    break;
 //  case 129:
 //    (*outMaska) = RANG_PO_NZZ;
 ////        (*dvMaska) =
@@ -317,25 +317,25 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 ////        (*dvMaska) =
 //    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
 //    break;
-  case 131:
-    (*outMaska) = RANG_PO_3I0;
-//        (*dvMaska) =
-    break;
-  case 132:
-    (*outMaska) = RANG_3I0;
-//        (*dvMaska) =
-    break;
-
-//  count_bit = 3;
-  case 135:
-    (*outMaska) = RANG_PO_3U0;
-//        (*dvMaska) =
-    break;
-  case 136:
-    (*outMaska) = RANG_3U0;
-//        (*dvMaska) =
-    break;
-#define ZZ_CONFIGURATION_END 137
+//  case 131:
+//    (*outMaska) = RANG_PO_3I0;
+////        (*dvMaska) =
+//    break;
+//  case 132:
+//    (*outMaska) = RANG_3I0;
+////        (*dvMaska) =
+//    break;
+//
+////  count_bit = 3;
+//  case 135:
+//    (*outMaska) = RANG_PO_3U0;
+////        (*dvMaska) =
+//    break;
+//  case 136:
+//    (*outMaska) = RANG_3U0;
+////        (*dvMaska) =
+//    break;
+//#define ZZ_CONFIGURATION_END 137
 //  case ZZ_CONFIGURATION_END:
 //    (*outMaska) = RANG_SECTOR_NZZ;
 ////        (*dvMaska) =
@@ -563,34 +563,34 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 3;
-#define APV_CONFIGURATION_BEGIN 288
-  case APV_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_STAT_BLK_APV;
-    (*dvMaska) = RANG_SMALL_STAT_BLK_APV;
-    break;
-
-//  count_bit = 3;
-  case 290:
-    (*outMaska) = RANG_APV1;
-//        (*dvMaska) =
-    break;
-  case 291:
-    (*outMaska) = RANG_APV2;
-//        (*dvMaska) =
-    break;
-  case 292:
-    (*outMaska) = RANG_APV3;
-//        (*dvMaska) =
-    break;
-  case 293:
-    (*outMaska) = RANG_APV4;
-//        (*dvMaska) =
-    break;
-#define APV_CONFIGURATION_END 294
-  case APV_CONFIGURATION_END:
-    (*outMaska) = RANG_APV_WORK;
-//        (*dvMaska) =
-    break;
+//#define APV_CONFIGURATION_BEGIN 288
+//  case APV_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_STAT_BLK_APV;
+//    (*dvMaska) = RANG_SMALL_STAT_BLK_APV;
+//    break;
+//
+////  count_bit = 3;
+//  case 290:
+//    (*outMaska) = RANG_APV1;
+////        (*dvMaska) =
+//    break;
+//  case 291:
+//    (*outMaska) = RANG_APV2;
+////        (*dvMaska) =
+//    break;
+//  case 292:
+//    (*outMaska) = RANG_APV3;
+////        (*dvMaska) =
+//    break;
+//  case 293:
+//    (*outMaska) = RANG_APV4;
+////        (*dvMaska) =
+//    break;
+//#define APV_CONFIGURATION_END 294
+//  case APV_CONFIGURATION_END:
+//    (*outMaska) = RANG_APV_WORK;
+////        (*dvMaska) =
+//    break;
 
 //  count_bit = 5;
 #define UROV_CONFIGURATION_BEGIN 304
@@ -613,52 +613,52 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 1;
-#define ACHR_CHAPV_CONFIGURATION_BEGIN 368
-  case ACHR_CHAPV_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_ACHR_CHAPV_VID_DV;
-    (*dvMaska) = RANG_SMALL_ACHR_CHAPV_VID_DV;
-    break;
-  case 369:
-    (*outMaska) = RANG_BLOCK_ACHR1;
-    (*dvMaska) = RANG_SMALL_BLOCK_ACHR1;
-    break;
-  case 370:
-    (*outMaska) = RANG_BLOCK_ACHR2;
-    (*dvMaska) = RANG_SMALL_BLOCK_ACHR2;
-    break;
-  case 371:
-    (*outMaska) = RANG_VN_BLOCK_CHAPV;
-//        (*dvMaska) =
-    break;
-  case 372:
-    (*outMaska) = RANG_PO_ACHR1;
-//        (*dvMaska) =
-    break;
-  case 373:
-    (*outMaska) = RANG_PO_ACHR2;
-//        (*dvMaska) =
-    break;
-  case 374:
-    (*outMaska) = RANG_ACHR_CHAPV1;
-//        (*dvMaska) =
-    break;
-  case 375:
-    (*outMaska) = RANG_ACHR_CHAPV2;
-//        (*dvMaska) =
-    break;
-  case 376:
-    (*outMaska) = RANG_RAZR_CHAPV;
-//        (*dvMaska) =
-    break;
-  case 377:
-    (*outMaska) = RANG_PO_CHAPV1;
-//        (*dvMaska) =
-    break;
-#define ACHR_CHAPV_CONFIGURATION_END 378
-  case ACHR_CHAPV_CONFIGURATION_END:
-    (*outMaska) = RANG_PO_CHAPV2;
-//        (*dvMaska) =
-    break;
+//#define ACHR_CHAPV_CONFIGURATION_BEGIN 368
+//  case ACHR_CHAPV_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_ACHR_CHAPV_VID_DV;
+//    (*dvMaska) = RANG_SMALL_ACHR_CHAPV_VID_DV;
+//    break;
+//  case 369:
+//    (*outMaska) = RANG_BLOCK_ACHR1;
+//    (*dvMaska) = RANG_SMALL_BLOCK_ACHR1;
+//    break;
+//  case 370:
+//    (*outMaska) = RANG_BLOCK_ACHR2;
+//    (*dvMaska) = RANG_SMALL_BLOCK_ACHR2;
+//    break;
+//  case 371:
+//    (*outMaska) = RANG_VN_BLOCK_CHAPV;
+////        (*dvMaska) =
+//    break;
+//  case 372:
+//    (*outMaska) = RANG_PO_ACHR1;
+////        (*dvMaska) =
+//    break;
+//  case 373:
+//    (*outMaska) = RANG_PO_ACHR2;
+////        (*dvMaska) =
+//    break;
+//  case 374:
+//    (*outMaska) = RANG_ACHR_CHAPV1;
+////        (*dvMaska) =
+//    break;
+//  case 375:
+//    (*outMaska) = RANG_ACHR_CHAPV2;
+////        (*dvMaska) =
+//    break;
+//  case 376:
+//    (*outMaska) = RANG_RAZR_CHAPV;
+////        (*dvMaska) =
+//    break;
+//  case 377:
+//    (*outMaska) = RANG_PO_CHAPV1;
+////        (*dvMaska) =
+//    break;
+//#define ACHR_CHAPV_CONFIGURATION_END 378
+//  case ACHR_CHAPV_CONFIGURATION_END:
+//    (*outMaska) = RANG_PO_CHAPV2;
+////        (*dvMaska) =
+//    break;
 
 //IF ÂÑÒÀÂÊÀ 384-407
 
@@ -1013,18 +1013,18 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     (*outMaska) = RANG_CTRL_OTKL;
     (*dvMaska) = RANG_SMALL_CTRL_OTKL;
     break;
-  case 538:
-    (*outMaska) = RANG_PEREVYSHCHENNJA_Inom_VYMK;
-//        (*dvMaska) =
-    break;
-  case 539:
-    (*outMaska) = RANG_KRYTYCHNYJ_RESURS_VYMYKACHA;
-//        (*dvMaska) =
-    break;
-  case 540:
-    (*outMaska) = RANG_VYCHERPANYJ_RESURS_VYMYKACHA;
-//        (*dvMaska) =
-    break;
+//  case 538:
+//    (*outMaska) = RANG_PEREVYSHCHENNJA_Inom_VYMK;
+////        (*dvMaska) =
+//    break;
+//  case 539:
+//    (*outMaska) = RANG_KRYTYCHNYJ_RESURS_VYMYKACHA;
+////        (*dvMaska) =
+//    break;
+//  case 540:
+//    (*outMaska) = RANG_VYCHERPANYJ_RESURS_VYMYKACHA;
+////        (*dvMaska) =
+//    break;
 
 //  count_bit = 12;
   case 560:

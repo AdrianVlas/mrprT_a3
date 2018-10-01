@@ -327,10 +327,10 @@ int getRAISmallModbusRegister(int adrReg)
       {
         return MBLOCK_PROTECTION_MTZ;
       }
-      case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04:
-      {
-        return MBLOCK_PROTECTION_MTZ04;
-      }
+//      case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE04:
+//      {
+//        return MBLOCK_PROTECTION_MTZ04;
+//      }
       case IDENTIFIER_BIT_ARRAY_MAX_CURRENT_3I0:
       {
         return MBLOCK_PROTECTION_3I0;
@@ -351,14 +351,14 @@ int getRAISmallModbusRegister(int adrReg)
       {
         return MBLOCK_PROTECTION_ZOP;
       }
-      case IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR:
-      {
-        return MBLOCK_PROTECTION_FREQUENCY_1_ACHR;
-      }
-      case IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV:
-      {
-        return MBLOCK_PROTECTION_FREQUENCY_1_CAPV;
-      }
+//      case IDENTIFIER_BIT_ARRAY_MIN_FREQUENCY_ACHR:
+//      {
+//        return MBLOCK_PROTECTION_FREQUENCY_1_ACHR;
+//      }
+//      case IDENTIFIER_BIT_ARRAY_FREQUENCY_CHAPV:
+//      {
+//        return MBLOCK_PROTECTION_FREQUENCY_1_CAPV;
+//      }
       default:
       {
         //якщо немаЇ помилок, то сюди б програма не мала заходити
