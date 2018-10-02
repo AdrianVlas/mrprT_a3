@@ -60,11 +60,11 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
 //  int count_bit = 68;
-  case 6:
-    (*editValue) = (uint32_t*)&edition_settings.type_mtz04_2;
-    (*multer) = 1;
-    if(regUst<0 || regUst>3) diapazon=0;
-    break;
+//  case 6:
+//    (*editValue) = (uint32_t*)&edition_settings.type_mtz04_2;
+//    (*multer) = 1;
+//    if(regUst<0 || regUst>3) diapazon=0;
+//    break;
 //IF ВСТАВКА
   case 15:
     (*editValue) = &edition_settings.setpoint_mtz_1[gruppa];
@@ -258,57 +258,57 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
 //  int count_bit = 68;
-  case 75:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_mtz04_1[gruppa];
-    if(regUst<SETPOINT_MTZ04_1_MIN/10 || regUst>SETPOINT_MTZ04_1_MAX/10) diapazon=0;
-    break;
-  case 76:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_1[gruppa];
-    if(regUst<TIMEOUT_MTZ04_1_MIN/10 || regUst>TIMEOUT_MTZ04_1_MAX/10) diapazon=0;
-    break;
-  case 77:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_mtz04_2[gruppa];
-    if(regUst<SETPOINT_MTZ04_2_MIN/10 || regUst>SETPOINT_MTZ04_2_MAX/10) diapazon=0;
-    break;
-  case 78:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2[gruppa];
-    if(regUst<TIMEOUT_MTZ04_2_MIN/10 || regUst>TIMEOUT_MTZ04_2_MAX/10) diapazon=0;
-    break;
-  case 79:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2_vvid_pr[gruppa];
-    if(regUst<TIMEOUT_MTZ04_2_VVID_PR_MIN/10 || regUst>TIMEOUT_MTZ04_2_VVID_PR_MAX/10) diapazon=0;
-    break;
-  case 80:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2_pr[gruppa];
-    if(regUst<TIMEOUT_MTZ04_2_PR_MIN/10 || regUst>TIMEOUT_MTZ04_2_PR_MAX/10) diapazon=0;
-    break;
+//  case 75:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_mtz04_1[gruppa];
+//    if(regUst<SETPOINT_MTZ04_1_MIN/10 || regUst>SETPOINT_MTZ04_1_MAX/10) diapazon=0;
+//    break;
+//  case 76:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_1[gruppa];
+//    if(regUst<TIMEOUT_MTZ04_1_MIN/10 || regUst>TIMEOUT_MTZ04_1_MAX/10) diapazon=0;
+//    break;
+//  case 77:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_mtz04_2[gruppa];
+//    if(regUst<SETPOINT_MTZ04_2_MIN/10 || regUst>SETPOINT_MTZ04_2_MAX/10) diapazon=0;
+//    break;
+//  case 78:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2[gruppa];
+//    if(regUst<TIMEOUT_MTZ04_2_MIN/10 || regUst>TIMEOUT_MTZ04_2_MAX/10) diapazon=0;
+//    break;
+//  case 79:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2_vvid_pr[gruppa];
+//    if(regUst<TIMEOUT_MTZ04_2_VVID_PR_MIN/10 || regUst>TIMEOUT_MTZ04_2_VVID_PR_MAX/10) diapazon=0;
+//    break;
+//  case 80:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_mtz04_2_pr[gruppa];
+//    if(regUst<TIMEOUT_MTZ04_2_PR_MIN/10 || regUst>TIMEOUT_MTZ04_2_PR_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 2;
-  case 82:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_zz_3I0[gruppa];
-    if(regUst<SETPOINT_ZZ_3I0_MIN || regUst>SETPOINT_ZZ_3I0_MAX) diapazon=0;
-    break;
-  case 83:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_zz_3I0[gruppa];
-    if(regUst<TIMEOUT_ZZ_3I0_MIN/10 || regUst>TIMEOUT_ZZ_3I0_MAX/10) diapazon=0;
-    break;
+//  case 82:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_zz_3I0[gruppa];
+//    if(regUst<SETPOINT_ZZ_3I0_MIN || regUst>SETPOINT_ZZ_3I0_MAX) diapazon=0;
+//    break;
+//  case 83:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_zz_3I0[gruppa];
+//    if(regUst<TIMEOUT_ZZ_3I0_MIN/10 || regUst>TIMEOUT_ZZ_3I0_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 2;
-  case 86:
-    (*editValue) = &edition_settings.setpoint_zz_3U0[gruppa];
-    if(regUst<SETPOINT_ZZ_3U0_MIN/10 || regUst>SETPOINT_ZZ_3U0_MAX/10) diapazon=0;
-    break;
-  case 87:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_zz_3U0[gruppa];
-    if(regUst<TIMEOUT_ZZ_3U0_MIN/10 || regUst>TIMEOUT_ZZ_3U0_MAX/10) diapazon=0;
-    break;
+//  case 86:
+//    (*editValue) = &edition_settings.setpoint_zz_3U0[gruppa];
+//    if(regUst<SETPOINT_ZZ_3U0_MIN/10 || regUst>SETPOINT_ZZ_3U0_MAX/10) diapazon=0;
+//    break;
+//  case 87:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_zz_3U0[gruppa];
+//    if(regUst<TIMEOUT_ZZ_3U0_MIN/10 || regUst>TIMEOUT_ZZ_3U0_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 1;
-  case 89:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_nzz[gruppa];
-    if(regUst<TIMEOUT_NZZ_MIN/10 || regUst>TIMEOUT_NZZ_MAX/10) diapazon=0;
-    break;
+//  case 89:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_nzz[gruppa];
+//    if(regUst<TIMEOUT_NZZ_MIN/10 || regUst>TIMEOUT_NZZ_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 1;
   case 92:
@@ -476,111 +476,111 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
 //  count_bit = 10;
-  case 179:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_VV[gruppa];
-    if(regUst<TIMEOUT_APV_BLOCK_VID_VV_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_VV_MAX/10) diapazon=0;
-    break;
-  case 180:
-  {
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_1[gruppa];
-    if(regUst<TIMEOUT_APV1_MIN/10 || regUst>TIMEOUT_APV1_MAX/10) diapazon=0;
-  }
-  break;
-  case 181:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_2[gruppa];
-    if(regUst<TIMEOUT_APV2_MIN/10 || regUst>TIMEOUT_APV2_MAX/10) diapazon=0;
-    break;
-  case 182:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_3[gruppa];
-    if(regUst<TIMEOUT_APV3_MIN/10 || regUst>TIMEOUT_APV3_MAX/10) diapazon=0;
-    break;
-  case 183:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_4[gruppa];
-    if(regUst<TIMEOUT_APV4_MIN/10 || regUst>TIMEOUT_APV4_MAX/10) diapazon=0;
-    break;
-  case 184:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv1[gruppa];
-    if(regUst<TIMEOUT_APV_BLOCK_VID_APV1_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV1_MAX/10) diapazon=0;
-    break;
-  case 185:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv2[gruppa];
-    if(regUst<TIMEOUT_APV_BLOCK_VID_APV2_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV2_MAX/10) diapazon=0;
-    break;
-  case 186:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv3[gruppa];
-    if(regUst<TIMEOUT_APV_BLOCK_VID_APV3_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV3_MAX/10) diapazon=0;
-    break;
-  case 187:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv4[gruppa];
-    if(regUst<TIMEOUT_APV_BLOCK_VID_APV4_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV4_MAX/10) diapazon=0;
-    break;
+//  case 179:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_VV[gruppa];
+//    if(regUst<TIMEOUT_APV_BLOCK_VID_VV_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_VV_MAX/10) diapazon=0;
+//    break;
+//  case 180:
+//  {
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_1[gruppa];
+//    if(regUst<TIMEOUT_APV1_MIN/10 || regUst>TIMEOUT_APV1_MAX/10) diapazon=0;
+//  }
+//  break;
+//  case 181:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_2[gruppa];
+//    if(regUst<TIMEOUT_APV2_MIN/10 || regUst>TIMEOUT_APV2_MAX/10) diapazon=0;
+//    break;
+//  case 182:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_3[gruppa];
+//    if(regUst<TIMEOUT_APV3_MIN/10 || regUst>TIMEOUT_APV3_MAX/10) diapazon=0;
+//    break;
+//  case 183:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_4[gruppa];
+//    if(regUst<TIMEOUT_APV4_MIN/10 || regUst>TIMEOUT_APV4_MAX/10) diapazon=0;
+//    break;
+//  case 184:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv1[gruppa];
+//    if(regUst<TIMEOUT_APV_BLOCK_VID_APV1_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV1_MAX/10) diapazon=0;
+//    break;
+//  case 185:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv2[gruppa];
+//    if(regUst<TIMEOUT_APV_BLOCK_VID_APV2_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV2_MAX/10) diapazon=0;
+//    break;
+//  case 186:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv3[gruppa];
+//    if(regUst<TIMEOUT_APV_BLOCK_VID_APV3_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV3_MAX/10) diapazon=0;
+//    break;
+//  case 187:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_apv_block_vid_apv4[gruppa];
+//    if(regUst<TIMEOUT_APV_BLOCK_VID_APV4_MIN/10 || regUst>TIMEOUT_APV_BLOCK_VID_APV4_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 9;
-  case 195:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr1_f_rab[gruppa];
-    if(regUst<SETPOINT_ACHR1_F_RAB_MIN/10 || regUst>SETPOINT_ACHR1_F_RAB_MAX/10) diapazon=0;
-    break;
-  case 196:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr2_f_rab[gruppa];
-    if(regUst<SETPOINT_ACHR2_F_RAB_MIN/10 || regUst>SETPOINT_ACHR2_F_RAB_MAX/10) diapazon=0;
-    break;
-  case 197:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_chapv1_f_rab[gruppa];
-    if(regUst<SETPOINT_CHAPV1_F_RAB_MIN/10 || regUst>SETPOINT_CHAPV1_F_RAB_MAX/10) diapazon=0;
-    break;
-  case 198:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_chapv2_f_rab[gruppa];
-    if(regUst<SETPOINT_CHAPV2_F_RAB_MIN/10 || regUst>SETPOINT_CHAPV2_F_RAB_MAX/10) diapazon=0;
-    break;
-  case 199:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr_chapv_uf[gruppa];
-    if(regUst<SETPOINT_ACHR_CHAPV_UF_MIN/10 || regUst>SETPOINT_ACHR_CHAPV_UF_MAX/10) diapazon=0;
-    break;
-  case 200:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_achr_1[gruppa];
-    if(regUst<TIMEOUT_ACHR1_MIN/10 || regUst>TIMEOUT_ACHR1_MAX/10) diapazon=0;
-    break;
-  case 201:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_achr_2[gruppa];
-    if(regUst<TIMEOUT_ACHR2_MIN/10 || regUst>TIMEOUT_ACHR2_MAX/10) diapazon=0;
-    break;
-  case 202:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_chapv_1[gruppa];
-    if(regUst<TIMEOUT_CHAPV1_MIN/10 || regUst>TIMEOUT_CHAPV1_MAX/10) diapazon=0;
-    break;
-  case 203:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_chapv_2[gruppa];
-    if(regUst<TIMEOUT_CHAPV2_MIN/10 || regUst>TIMEOUT_CHAPV2_MAX/10) diapazon=0;
-    break;
-
+//  case 195:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr1_f_rab[gruppa];
+//    if(regUst<SETPOINT_ACHR1_F_RAB_MIN/10 || regUst>SETPOINT_ACHR1_F_RAB_MAX/10) diapazon=0;
+//    break;
+//  case 196:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr2_f_rab[gruppa];
+//    if(regUst<SETPOINT_ACHR2_F_RAB_MIN/10 || regUst>SETPOINT_ACHR2_F_RAB_MAX/10) diapazon=0;
+//    break;
+//  case 197:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_chapv1_f_rab[gruppa];
+//    if(regUst<SETPOINT_CHAPV1_F_RAB_MIN/10 || regUst>SETPOINT_CHAPV1_F_RAB_MAX/10) diapazon=0;
+//    break;
+//  case 198:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_chapv2_f_rab[gruppa];
+//    if(regUst<SETPOINT_CHAPV2_F_RAB_MIN/10 || regUst>SETPOINT_CHAPV2_F_RAB_MAX/10) diapazon=0;
+//    break;
+//  case 199:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_achr_chapv_uf[gruppa];
+//    if(regUst<SETPOINT_ACHR_CHAPV_UF_MIN/10 || regUst>SETPOINT_ACHR_CHAPV_UF_MAX/10) diapazon=0;
+//    break;
+//  case 200:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_achr_1[gruppa];
+//    if(regUst<TIMEOUT_ACHR1_MIN/10 || regUst>TIMEOUT_ACHR1_MAX/10) diapazon=0;
+//    break;
+//  case 201:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_achr_2[gruppa];
+//    if(regUst<TIMEOUT_ACHR2_MIN/10 || regUst>TIMEOUT_ACHR2_MAX/10) diapazon=0;
+//    break;
+//  case 202:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_chapv_1[gruppa];
+//    if(regUst<TIMEOUT_CHAPV1_MIN/10 || regUst>TIMEOUT_CHAPV1_MAX/10) diapazon=0;
+//    break;
+//  case 203:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_chapv_2[gruppa];
+//    if(regUst<TIMEOUT_CHAPV2_MIN/10 || regUst>TIMEOUT_CHAPV2_MAX/10) diapazon=0;
+//    break;
+//
 //IF ВСТАВКА 213-244
 
-#define MARKER248  248
-  case MARKER248:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.ctrl_zdz_type;
-    if(regUst<0 || regUst>5) diapazon=0;
-    break;
-  case 249:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.timeout_zdz[gruppa];
-    if(regUst<TIMEOUT_ZDZ_MIN || regUst>TIMEOUT_ZDZ_MAX) diapazon=0;
-    break;
+//#define MARKER248  248
+//  case MARKER248:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.ctrl_zdz_type;
+//    if(regUst<0 || regUst>5) diapazon=0;
+//    break;
+//  case 249:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_zdz[gruppa];
+//    if(regUst<TIMEOUT_ZDZ_MIN || regUst>TIMEOUT_ZDZ_MAX) diapazon=0;
+//    break;
 
 //  count_bit = 9;
-  case 987:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.lines[0];
-    if(regUst<NUMBER_LINES_FORWARD_MIN || regUst>NUMBER_LINES_MAX) diapazon=0;
-    break;
+//  case 987:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.lines[0];
+//    if(regUst<NUMBER_LINES_FORWARD_MIN || regUst>NUMBER_LINES_MAX) diapazon=0;
+//    break;
 
 //IF ВСТАВКА 988-1003
 
-  case 1004:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.lines[1];
-    if(regUst<NUMBER_LINES_BACKWARD_MIN || regUst>NUMBER_LINES_MAX) diapazon=0;
-    break;
+//  case 1004:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.lines[1];
+//    if(regUst<NUMBER_LINES_BACKWARD_MIN || regUst>NUMBER_LINES_MAX) diapazon=0;
+//    break;
 
 //IF ВСТАВКА 1005-1020
 
@@ -597,16 +597,16 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     (*editValue) = (uint32_t*)&edition_settings.TCurrent;
     if(regUst<KOEF_TT_MIN || regUst>KOEF_TT_MAX) diapazon=0;
     break;
-  case 1024:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.T0;
-    if(regUst<KOEF_TO_MIN || regUst>KOEF_TO_MAX) diapazon=0;
-    break;
-  case 1025:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.TCurrent04;
-    if(regUst<KOEF_TT04_MIN || regUst>KOEF_TT04_MAX) diapazon=0;
-    break;
+//  case 1024:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.T0;
+//    if(regUst<KOEF_TO_MIN || regUst>KOEF_TO_MAX) diapazon=0;
+//    break;
+//  case 1025:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.TCurrent04;
+//    if(regUst<KOEF_TT04_MIN || regUst>KOEF_TT04_MAX) diapazon=0;
+//    break;
 
   case 1026:
     (*editValue) = (uint32_t*)&edition_settings.timeout_swch_udl_blk_on;
@@ -625,50 +625,50 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     if(regUst<TIMEOUT_PRYVODA_VV_MIN/10 || regUst>TIMEOUT_PRYVODA_VV_MAX/10) diapazon=0;
     break;
 
-  case 1033:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_Inom;
-    if(regUst<SETPOINT_Inom_MIN || regUst>SETPOINT_Inom_MAX) diapazon=0;
-    break;
-  case 1034:
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_r_kom_st_Inom;
-    if(regUst<SETPOINT_RKS_Inom_MIN/10 || regUst>SETPOINT_RKS_Inom_MAX/10) diapazon=0;
-    break;
-  case 1035:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_Inom_vymk;
-    if(regUst<SETPOINT_Inom_vymk_MIN || regUst>SETPOINT_Inom_vymk_MAX) diapazon=0;
-    break;
-  case 1036:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_r_kom_st_Inom_vymk;
-    if(regUst<SETPOINT_RKS_Inom_vymk_MIN || regUst>SETPOINT_RKS_Inom_vymk_MAX) diapazon=0;
-    break;
-#define MARKER1037  1037
-  case MARKER1037:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs;
-    break;
-#define MARKER1038  1038
-  case MARKER1038:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs;
-    break;
-#define MARKER1039  1039
-  case MARKER1039:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_krytychnyj_resurs;
-    break;
-#define MARKER1040  1040
-  case MARKER1040:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk;
-    break;
-#define MARKER1041  1041
-  case MARKER1041:
-    (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk;
-    break;
+//  case 1033:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_Inom;
+//    if(regUst<SETPOINT_Inom_MIN || regUst>SETPOINT_Inom_MAX) diapazon=0;
+//    break;
+//  case 1034:
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_r_kom_st_Inom;
+//    if(regUst<SETPOINT_RKS_Inom_MIN/10 || regUst>SETPOINT_RKS_Inom_MAX/10) diapazon=0;
+//    break;
+//  case 1035:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_Inom_vymk;
+//    if(regUst<SETPOINT_Inom_vymk_MIN || regUst>SETPOINT_Inom_vymk_MAX) diapazon=0;
+//    break;
+//  case 1036:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_r_kom_st_Inom_vymk;
+//    if(regUst<SETPOINT_RKS_Inom_vymk_MIN || regUst>SETPOINT_RKS_Inom_vymk_MAX) diapazon=0;
+//    break;
+//#define MARKER1037  1037
+//  case MARKER1037:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs;
+//    break;
+//#define MARKER1038  1038
+//  case MARKER1038:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs;
+//    break;
+//#define MARKER1039  1039
+//  case MARKER1039:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_krytychnyj_resurs;
+//    break;
+//#define MARKER1040  1040
+//  case MARKER1040:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk;
+//    break;
+//#define MARKER1041  1041
+//  case MARKER1041:
+//    (*multer) = 1;
+//    (*editValue) = (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk;
+//    break;
 
 //  count_bit = 9;
 #define MARKER1046  1046
@@ -843,34 +843,34 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
   }//if(inOffset>=213 && inOffset<245)
 
 //IF ВСТАВКА 988-1003
-  if(inOffset>=988 && inOffset<1021 && inOffset!=1004)
-  {
-  int item = 0;
-  int direct = 0;
-  if(inOffset>=988 && inOffset<1004)
-  {
-    (*multer) = 1;
-    item = inOffset-988;
-  }//if(inOffset>=988 && inOffset<1004)
-  if(inOffset>=1005 && inOffset<1021)
-  {
-    (*multer) = 1;
-    item = inOffset-1005;
-    direct = 1;
-  }//if(inOffset>=1005 && inOffset<1021)
-  //unsigned int uRegUst = regUst&0xFFFF;
-    switch(item%2)
-    {
-    case 0:
-      (*editValue) = (uint32_t*)&edition_settings.dovgyna[direct][(item/2)%8];
-      if(regUst<SETPOINT_DOVGYNA_VMP_MIN || regUst>SETPOINT_DOVGYNA_VMP_MAX) diapazon=0;
-      break;
-    case 1:
-      (*editValue) = (uint32_t*)&edition_settings.opir[direct][(item/2)%8];
-      if(regUst<SETPOINT_OPIR_VMP_MIN || regUst>SETPOINT_OPIR_VMP_MAX) diapazon=0;
-      break;
-    }//switch
-  }//if(inOffset>=988 && inOffset<1021 && inOffset!=1004)
+//  if(inOffset>=988 && inOffset<1021 && inOffset!=1004)
+//  {
+//  int item = 0;
+//  int direct = 0;
+//  if(inOffset>=988 && inOffset<1004)
+//  {
+//    (*multer) = 1;
+//    item = inOffset-988;
+//  }//if(inOffset>=988 && inOffset<1004)
+//  if(inOffset>=1005 && inOffset<1021)
+//  {
+//    (*multer) = 1;
+//    item = inOffset-1005;
+//    direct = 1;
+//  }//if(inOffset>=1005 && inOffset<1021)
+//  //unsigned int uRegUst = regUst&0xFFFF;
+//    switch(item%2)
+//    {
+//    case 0:
+//      (*editValue) = (uint32_t*)&edition_settings.dovgyna[direct][(item/2)%8];
+//      if(regUst<SETPOINT_DOVGYNA_VMP_MIN || regUst>SETPOINT_DOVGYNA_VMP_MAX) diapazon=0;
+//      break;
+//    case 1:
+//      (*editValue) = (uint32_t*)&edition_settings.opir[direct][(item/2)%8];
+//      if(regUst<SETPOINT_OPIR_VMP_MIN || regUst>SETPOINT_OPIR_VMP_MAX) diapazon=0;
+//      break;
+//    }//switch
+//  }//if(inOffset>=988 && inOffset<1021 && inOffset!=1004)
 //IF ВСТАВКА 1005-1020
 /*
   if(inOffset>=1005 && inOffset<1021)
@@ -963,7 +963,7 @@ int getUSTBigModbusRegister(int adrReg)
   ustFunc000(offset -adresGruppa, grupa_ustavok, &multer, 0, &editValue);
   if(editValue==NULL) return 0;
 
-  if(editValue == (uint32_t*)&edition_settings.type_mtz04_2 && (*editValue)!=0) return (*editValue)-2;
+//  if(editValue == (uint32_t*)&edition_settings.type_mtz04_2 && (*editValue)!=0) return (*editValue)-2;
   for(int gruppa=0; gruppa<4; gruppa++)
   {
     for(int item=0; item<NUMBER_UP; item++)
@@ -986,28 +986,28 @@ int getUSTBigModbusRegister(int adrReg)
     }//for
     return (buttonsmode) &0xFFFF;
   }//if(editValue == (uint32_t*)&edition_settings.buttons_mode)
-  if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
-  {
-    if(offset==MARKER1037)
-    {
-      return (*editValue) & (uint32_t)0xffff;
-    }
-    else
-    {
-      return ((*editValue)>>16)  & (uint32_t)0xffff;
-    }//else
-  }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
-  if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
-  {
-    if(offset==1040)
-    {
-      return (*editValue) & (uint32_t)0xffff;
-    }
-    else
-    {
-      return ((*editValue)>>16)  & (uint32_t)0xffff;
-    }//else
-  }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
+//  if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
+//  {
+//    if(offset==MARKER1037)
+//    {
+//      return (*editValue) & (uint32_t)0xffff;
+//    }
+//    else
+//    {
+//      return ((*editValue)>>16)  & (uint32_t)0xffff;
+//    }//else
+//  }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
+//  if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
+//  {
+//    if(offset==1040)
+//    {
+//      return (*editValue) & (uint32_t)0xffff;
+//    }
+//    else
+//    {
+//      return ((*editValue)>>16)  & (uint32_t)0xffff;
+//    }//else
+//  }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
   if(editValue == (uint32_t*)&edition_settings.type_of_input_signal)
   {
 //#if MODYFIKACIA_VERSII_PZ == 0
@@ -1197,12 +1197,12 @@ int postUSTBigWriteAction(void)
       }//else
     }//if(editValue == (uint32_t*)&edition_settings.type_of_led)
 
-    if(editValue == (uint32_t*)&edition_settings.type_mtz04_2)
-    {
-      if(value!=0) value += 2;
-      (*editValue) = value*multer;
-      goto m1;
-    }//if(editValue == (uint32_t*)&edition_settings.type_mtz04_2)
+//    if(editValue == (uint32_t*)&edition_settings.type_mtz04_2)
+//    {
+//      if(value!=0) value += 2;
+//      (*editValue) = value*multer;
+//      goto m1;
+//    }//if(editValue == (uint32_t*)&edition_settings.type_mtz04_2)
 
     if(editValue == (uint32_t*)&edition_settings.buttons_mode)
     {
@@ -1223,36 +1223,36 @@ int postUSTBigWriteAction(void)
       }//if(editValue == (uint32_t*)&edition_settings.timeout_UP[item][0][grupa_ustavok])
     }//for(int item=0; item<NUMBER_UP; item++)
 
-    if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
-    {
-      if(offset==MARKER1037)
-      {
-        (*editValue) &= (uint32_t)~0xffff;
-        (*editValue) |= (value & 0xffff);
-        goto m1;
-      }
-      else
-      {
-        (*editValue)  &= (uint32_t)~(0xffff<<16);
-        (*editValue)  |= ((value & 0xffff)<<16);//
-        goto m1;
-      }//else
-    }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
-    if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
-    {
-      if(offset==MARKER1040)
-      {
-        (*editValue) &= (uint32_t)~0xffff;
-        (*editValue) |= (value & 0xffff);
-        goto m1;
-      }
-      else
-      {
-        (*editValue)  &= (uint32_t)~(0xffff<<16);
-        (*editValue)  |= ((value & 0xffff)<<16);//
-        goto m1;
-      }//else
-    }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
+//    if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
+//    {
+//      if(offset==MARKER1037)
+//      {
+//        (*editValue) &= (uint32_t)~0xffff;
+//        (*editValue) |= (value & 0xffff);
+//        goto m1;
+//      }
+//      else
+//      {
+//        (*editValue)  &= (uint32_t)~(0xffff<<16);
+//        (*editValue)  |= ((value & 0xffff)<<16);//
+//        goto m1;
+//      }//else
+//    }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkovyj_resurs)
+//    if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
+//    {
+//      if(offset==MARKER1040)
+//      {
+//        (*editValue) &= (uint32_t)~0xffff;
+//        (*editValue) |= (value & 0xffff);
+//        goto m1;
+//      }
+//      else
+//      {
+//        (*editValue)  &= (uint32_t)~(0xffff<<16);
+//        (*editValue)  |= ((value & 0xffff)<<16);//
+//        goto m1;
+//      }//else
+//    }//if(editValue == (uint32_t*)&edition_settings.setpoint_pochatkova_k_vymk)
 
     if(editValue == (uint32_t*)&edition_settings.setpoint_tznp_1_angle[grupa_ustavok])
     {
@@ -1359,56 +1359,56 @@ m1:
     }//switch
   }//for(int item=0; item<NUMBER_UP; item++)
 
-  for(int i=0; i<countAdr; i++)
-  {
-    int offset = i+beginAdr-BEGIN_ADR_REGISTER;
-    if(offset==MARKER1037 || offset==MARKER1038 || offset==MARKER1039 || offset==MARKER1040 || offset==MARKER1041)
-    {
-      temp1=edition_settings.setpoint_pochatkovyj_resurs;
-      unsigned int chastka = edition_settings.setpoint_r_kom_st_Inom/edition_settings.setpoint_r_kom_st_Inom_vymk;
-      if(
-        !(((unsigned int)temp1 >= (2*chastka)) && ((unsigned int)temp1 <= edition_settings.setpoint_r_kom_st_Inom))
-      ) return ERROR_VALID2;//ошибка валидации
-      temp1=edition_settings.setpoint_krytychnyj_resurs;
-      if(
-        !(((unsigned int)temp1 >= chastka) && ((unsigned int)temp1 <= 2*chastka))
-      ) return ERROR_VALID2;//ошибка валидации
-
-      temp1=edition_settings.setpoint_pochatkova_k_vymk;
-      if(
-        !((unsigned int)temp1 <= edition_settings.setpoint_r_kom_st_Inom)
-      ) return ERROR_VALID2;//ошибка валидации
-    }//if
+//  for(int i=0; i<countAdr; i++)
+//  {
+//    int offset = i+beginAdr-BEGIN_ADR_REGISTER;
+//    if(offset==MARKER1037 || offset==MARKER1038 || offset==MARKER1039 || offset==MARKER1040 || offset==MARKER1041)
+//    {
+//      temp1=edition_settings.setpoint_pochatkovyj_resurs;
+//      unsigned int chastka = edition_settings.setpoint_r_kom_st_Inom/edition_settings.setpoint_r_kom_st_Inom_vymk;
+//      if(
+//        !(((unsigned int)temp1 >= (2*chastka)) && ((unsigned int)temp1 <= edition_settings.setpoint_r_kom_st_Inom))
+//      ) return ERROR_VALID2;//ошибка валидации
+//      temp1=edition_settings.setpoint_krytychnyj_resurs;
+//      if(
+//        !(((unsigned int)temp1 >= chastka) && ((unsigned int)temp1 <= 2*chastka))
+//      ) return ERROR_VALID2;//ошибка валидации
+//
+//      temp1=edition_settings.setpoint_pochatkova_k_vymk;
+//      if(
+//        !((unsigned int)temp1 <= edition_settings.setpoint_r_kom_st_Inom)
+//      ) return ERROR_VALID2;//ошибка валидации
+//    }//if
 
 //ОСОБАЯ ПРОВЕРКА
 
-    if(offset==MARKER248)//(uint32_t*)&edition_settings.ctrl_zdz_type
-    {
-      temp1=edition_settings.ctrl_zdz_type;
-      switch(temp1)
-      {
-      case 0://0-без контроля
-        break;
-      case 1://1-с контролем по току
-        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) return ERROR_VALID2;
-        break;
-      case 2://2-с контролем по напряжению
-        if(!(edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
-        break;
-      case 3://3-с контролем по току ИЛИ по напряжению
-        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION) || edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
-        break;
-      case 4://4-с контролем по току И по напряжению
-        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) return ERROR_VALID2;
-        if(!(edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
-        break;
-//      case 5://5-с контролем по 3I0
-//        if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) return ERROR_VALID2;
+//    if(offset==MARKER248)//(uint32_t*)&edition_settings.ctrl_zdz_type
+//    {
+//      temp1=edition_settings.ctrl_zdz_type;
+//      switch(temp1)
+//      {
+//      case 0://0-без контроля
 //        break;
-      }//switch
-    }//if(offset==MARKER248)//(uint32_t*)&edition_settings.ctrl_zdz_type
+//      case 1://1-с контролем по току
+//        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        break;
+//      case 2://2-с контролем по напряжению
+//        if(!(edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        break;
+//      case 3://3-с контролем по току ИЛИ по напряжению
+//        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION) || edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        break;
+//      case 4://4-с контролем по току И по напряжению
+//        if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        if(!(edition_settings.configuration&(1<<UMIN_BIT_CONFIGURATION))) return ERROR_VALID2;
+//        break;
+////      case 5://5-с контролем по 3I0
+////        if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) return ERROR_VALID2;
+////        break;
+//      }//switch
+//    }//if(offset==MARKER248)//(uint32_t*)&edition_settings.ctrl_zdz_type
 
-  }//for(int i=0; i<countAdr; i++)
+//  }//for(int i=0; i<countAdr; i++)
 
 
   if(flag) upravlSetting = 1;//флаг Setting

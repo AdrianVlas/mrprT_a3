@@ -522,51 +522,51 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
       {
         "3I0             ",
         "Ia              ",
-        "                ",
+        "Ib              ",
         "Ic              ",
-        "                ",
-        "                ",
-        "                ",
+        "Ua              ",
+        "Ub              ",
+        "Uc              ",
         "3U0             "
       };
-      const char idetyficator_current[2][16] =
-      {
-        "Ib              ",
-        "I 0.4kV         "
-      };
+//      const char idetyficator_current[2][16] =
+//      {
+//        "Ib              ",
+//        "I 0.4kV         "
+//      };
 
-      unsigned int phase_line = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE;
-      unsigned int Ib_I04 = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04;
-      for (unsigned int k = 0; k < 16; k++) idetyficator[2][k] = idetyficator_current[Ib_I04 != 0][k];
+//      unsigned int phase_line = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE;
+//      unsigned int Ib_I04 = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04;
+//      for (unsigned int k = 0; k < 16; k++) idetyficator[2][k] = idetyficator_current[Ib_I04 != 0][k];
 
-      if (phase_line == 0)
-        {
-          const char idetyficator_phase[3][16] =
-          {
-            "Ua              ",
-            "Ub              ",
-            "Uc              "
-          };
-          char *point_to_changed_name = idetyficator[I_Ua + 0];
-          for (unsigned int j = 0; j < 3; j++)
-            {
-              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_phase[j][k];
-            }
-        }
-      else
-        {
-          const char idetyficator_line[3][16] =
-          {
-            "Uab             ",
-            "Ubc             ",
-            "Uca             "
-          };
-          char *point_to_changed_name = idetyficator[I_Ua + 0];
-          for (unsigned int j = 0; j < 3; j++)
-            {
-              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_line[j][k];
-            }
-        }
+//      if (phase_line == 0)
+//        {
+//          const char idetyficator_phase[3][16] =
+//          {
+//            "Ua              ",
+//            "Ub              ",
+//            "Uc              "
+//          };
+//          char *point_to_changed_name = idetyficator[I_Ua + 0];
+//          for (unsigned int j = 0; j < 3; j++)
+//            {
+//              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_phase[j][k];
+//            }
+//        }
+//      else
+//        {
+//          const char idetyficator_line[3][16] =
+//          {
+//            "Uab             ",
+//            "Ubc             ",
+//            "Uca             "
+//          };
+//          char *point_to_changed_name = idetyficator[I_Ua + 0];
+//          for (unsigned int j = 0; j < 3; j++)
+//            {
+//              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_line[j][k];
+//            }
+//        }
 
       switch(offsetRegister)
         {
@@ -595,51 +595,51 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           {
             "I0",
             "A ",
-            "  ",
+            "B ",
             "C ",
-            "  ",
-            "  ",
-            "  ",
+            "A ",
+            "B ",
+            "C ",
             "U0"
           };
 
-          {
-            const char phase_c[2][2] =
-            {
-              "B ",
-              "04"
-            };
-            for (unsigned int k = 0; k < 2; k++) phase[I_Ib_I04][k] = phase_c[Ib_I04 != 0][k];
-          }
+//          {
+//            const char phase_c[2][2] =
+//            {
+//              "B ",
+//              "04"
+//            };
+//            for (unsigned int k = 0; k < 2; k++) phase[I_Ib_I04][k] = phase_c[Ib_I04 != 0][k];
+//          }
 
-          if (phase_line == 0)
-            {
-              const char phase_p[3][2] =
-              {
-                "A ",
-                "B ",
-                "C "
-              };
-              char *point_to_changed_name = phase[I_Ua + 0];
-              for (unsigned int j = 0; j < 3; j++)
-                {
-                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = phase_p[j][k];
-                }
-            }
-          else
-            {
-              const char pase_l[3][2] =
-              {
-                "AB",
-                "BC",
-                "CA"
-              };
-              char *point_to_changed_name = phase[I_Ua + 0];
-              for (unsigned int j = 0; j < 3; j++)
-                {
-                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = pase_l[j][k];
-                }
-            }
+//          if (phase_line == 0)
+//            {
+//              const char phase_p[3][2] =
+//              {
+//                "A ",
+//                "B ",
+//                "C "
+//              };
+//              char *point_to_changed_name = phase[I_Ua + 0];
+//              for (unsigned int j = 0; j < 3; j++)
+//                {
+//                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = phase_p[j][k];
+//                }
+//            }
+//          else
+//            {
+//              const char pase_l[3][2] =
+//              {
+//                "AB",
+//                "BC",
+//                "CA"
+//              };
+//              char *point_to_changed_name = phase[I_Ua + 0];
+//              for (unsigned int j = 0; j < 3; j++)
+//                {
+//                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = pase_l[j][k];
+//                }
+//            }
 
           return phase[subObj][0] | (phase[subObj][1]<<8);
         }//case 9
@@ -689,7 +689,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           //Первинний коефіцієнт трансформації
           if (subObj == I_3I0)
             {
-              return  header_ar_tmp->T0;
+              return  1/*header_ar_tmp->T0*/;
             }
           else if (subObj <= I_Ic )
             {
@@ -701,7 +701,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
                 }
               else
                 {
-                  return header_ar_tmp->TCurrent04;
+                  return 1/*header_ar_tmp->TCurrent04*/;
                 }
             }
           else

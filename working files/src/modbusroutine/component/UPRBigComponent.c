@@ -32,7 +32,7 @@ int  uprFuncValidWrite000(int inOffset, uint32_t *uprMaska, uint32_t **editContr
 int  uprFuncValid000(int inOffset, int validData);
 int isValidCONFCondition(unsigned int confControl, unsigned int confMaska, uint32_t uprMaska, int validData);
 int isValidEXTRACondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData);
-int isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData);
+//int isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData);
 
 void loadUPRBigActualDataBit(int beginOffset, int endOffset);
 
@@ -292,11 +292,11 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
       (*editControl) = &edition_settings.configuration;
       if(actControl)
         {
-          if((edition_settings.control_extra_settings_1&(1<<INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04))) isValid = 0;
+//          if((edition_settings.control_extra_settings_1&(1<<INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04))) isValid = 0;
           if(!(edition_settings.configuration&(1<<TZNP_BIT_CONFIGURATION)))
             {
               //Функція обновлення змінних при зміні конфігурації
-              if(action_after_changing_of_configuration(edition_settings.configuration, &edition_settings)) isValid = 0;
+//              if(action_after_changing_of_configuration(edition_settings.configuration, &edition_settings)) isValid = 0;
             }//if
         }//if(actControl)
       break;
@@ -450,26 +450,26 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
       break;
 
 //  count_bit = 3;
-    case 225:
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_PHASE_LINE;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      if(actControl)
-        {
-          //Функція обновлення змінних
+//    case 225:
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_PHASE_LINE;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      if(actControl)
+//        {
+//          //Функція обновлення змінних
 //          if(action_after_changing_extra_settings(edition_settings.control_extra_settings_1, &edition_settings)) isValid = 0;
-        }//if(actControl)
-      break;
+//        }//if(actControl)
+//      break;
 
 //  count_bit = 3;
-    case 227:
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      if(actControl)
-        {
-          //Функція обновлення змінних
+//    case 227:
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_IB_I04;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      if(actControl)
+//        {
+//          //Функція обновлення змінних
 //          if(action_after_changing_extra_settings(edition_settings.control_extra_settings_1, &edition_settings)) isValid = 0;
-        }//if(actControl)
-      break;
+//        }//if(actControl)
+//      break;
     case 228:
       (*uprMaska)   = INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE;
       (*editControl) = &edition_settings.control_transformator;
@@ -1061,14 +1061,14 @@ int isValidEXTRACondition(unsigned int extraControl, unsigned int extraMaska, ui
     if(edition_settings.control_extra_settings_1&(1<<extraMaska)) return 1;
   return 0;
 }//isValidEXTRACondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
-int isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
-{
-  int temp = 0;
-  if(extraControl&(1<<uprMaska)) temp=1;
-  if(validData!=temp)
-    if(edition_settings.control_zz&(1<<extraMaska)) return 1;
-  return 0;
-}//isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
+//int isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
+//{
+//  int temp = 0;
+//  if(extraControl&(1<<uprMaska)) temp=1;
+//  if(validData!=temp)
+//    if(edition_settings.control_zz&(1<<extraMaska)) return 1;
+//  return 0;
+//}//isValidZZTYPECondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
 
 int privateUPRBigGetReg2(int adrReg)
 {

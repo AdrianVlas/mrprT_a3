@@ -543,20 +543,14 @@ void make_ekran_control_UP()
   };
   const uint32_t cursor_x_2[_UP_CTRL_NUMBER] = {3, 6, 6, 6, 6, 6, 5, 5, 6, 5, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6};
   
-  const uint8_t information_U[4][2][MAX_COL_LCD] = 
+  const uint8_t information_U[4][MAX_COL_LCD] = 
   {
-    {"    Ua/Ub/Uc    ", "  Uab/Ubc/Uca   "},
-    {"       Ua       ", "      Uab       "},
-    {"       Ub       ", "      Ubc       "},
-    {"       Uc       ", "      Uca       "}
+    "    Ua/Ub/Uc    ",
+    "       Ua       ",
+    "       Ub       ",
+    "       Uc       "
   };
-  const uint32_t cursor_x_U[4][2] = 
-  {
-    {3, 1},
-    {6, 5},
-    {6, 5},
-    {6, 5}
-  };
+  const uint32_t cursor_x_U[4] = {3, 6, 6, 6};
   
   const uint8_t information_3[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] =
   {
@@ -609,9 +603,8 @@ void make_ekran_control_UP()
         case UP_CTRL_Ub:
         case UP_CTRL_Uc:
           {
-            uint32_t index_2 = ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0);
-            ctrl_info[i].information = information_U[index - UP_CTRL_Ua_Ub_Uc][index_2];
-            ctrl_info[i].cursor_x = cursor_x_U[index - UP_CTRL_Ua_Ub_Uc][index_2];
+            ctrl_info[i].information = information_U[index - UP_CTRL_Ua_Ub_Uc];
+            ctrl_info[i].cursor_x = cursor_x_U[index - UP_CTRL_Ua_Ub_Uc];
             
             break;
           }

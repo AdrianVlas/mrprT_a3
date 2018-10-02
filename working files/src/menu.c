@@ -1497,37 +1497,37 @@ void main_manu_function(void)
             }
             else if(current_ekran.current_level == EKRAN_MEASURMENT_CURRENT)
             {
-              const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
-              {
-                IM_3I0_i,
-                IM_3I0,
-                IM_3I0_other_g,
-                IM_3I0_r,
-                IM_IA,
-                IM_IB,
-                IM_IC,
-                IM_I2,
-                IM_I1,
-                IM_I04
-              };
+//              const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
+//              {
+//                IM_3I0_i,
+//                IM_3I0,
+//                IM_3I0_other_g,
+//                IM_3I0_r,
+//                IM_IA,
+//                IM_IB,
+//                IM_IC,
+//                IM_I2,
+//                IM_I1,
+//                IM_I04
+//              };
               
               if(current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
-              while(
-                    (
-                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                     &&
-                     (index_array[current_ekran.index_position] == IM_I04)
-                    )
-                    ||
-                    (
-                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                     &&
-                     (index_array[current_ekran.index_position] == IM_3I0_r)
-                    )
-                   )
-              {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
-              }
+//              while(
+//                    (
+//                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                     &&
+//                     (index_array[current_ekran.index_position] == IM_I04)
+//                    )
+//                    ||
+//                    (
+//                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                     &&
+//                     (index_array[current_ekran.index_position] == IM_3I0_r)
+//                    )
+//                   )
+//              {
+//                if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
+//              }
 
               position_in_current_level_menu[EKRAN_MEASURMENT_CURRENT] = current_ekran.index_position;
               //Формуємо екран вимірювання струмів
@@ -1535,11 +1535,7 @@ void main_manu_function(void)
             }
             else if(current_ekran.current_level == EKRAN_MEASURMENT_VOLTAGE_PHASE)
             {
-              int max_row = 1;
-              if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-                max_row += 3 + 2;
-
-              if(current_ekran.index_position >= max_row) current_ekran.index_position = 0;
+              if(current_ekran.index_position >= (1 + 3 + 2)) current_ekran.index_position = 0;
               position_in_current_level_menu[EKRAN_MEASURMENT_VOLTAGE_PHASE] = current_ekran.index_position;
               //Формуємо екран вимірювання фазних напруг
               make_ekran_voltage_phase(pervynna_vtorynna);
@@ -1563,28 +1559,22 @@ void main_manu_function(void)
             else if(current_ekran.current_level == EKRAN_MEASURMENT_ANGLE)
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
-              while(
-                    (
-                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                     &&
-                     (current_ekran.index_position < FULL_ORT_Uab)
-                    )
-                    ||  
-                    (
-                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                     &&
-                     (current_ekran.index_position == FULL_ORT_I04)
-                    )
-                    ||
-                    (
-                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                     &&
-                     (current_ekran.index_position == FULL_ORT_3I0_r)
-                    )
-                   )
-              {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
-              }
+//              while(
+//                    (
+//                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                     &&
+//                     (current_ekran.index_position == FULL_ORT_I04)
+//                    )
+//                    ||
+//                    (
+//                     ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                     &&
+//                     (current_ekran.index_position == FULL_ORT_3I0_r)
+//                    )
+//                   )
+//              {
+//                if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
+//              }
 
               position_in_current_level_menu[EKRAN_MEASURMENT_ANGLE] = current_ekran.index_position;
               //Формуємо екран відображення кутів
@@ -1707,15 +1697,6 @@ void main_manu_function(void)
             else if (current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO)
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL) current_ekran.index_position = 0;
-              while(
-                    ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                    &&
-                    (current_ekran.index_position == INDEX_ML_WITH_SETPOINT_CONTROL_CONTROL)
-                   )
-              {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL) current_ekran.index_position = 0;
-              }
-              
               position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO] = current_ekran.index_position;
 
               //Формуємо екран уставки-настройки
@@ -2097,28 +2078,23 @@ void main_manu_function(void)
               {
                 if(current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR) current_ekran.index_position = 0;
                 
-                while (
-                       (
-                        ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) &&
-                        (current_ekran.index_position >= 9) && (current_ekran.index_position <= 11)
-                       )
-                       || 
-                       (
-                        ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-                        (current_ekran.index_position == 8)
-                       )
-                       || 
-                       (
-                        ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
-                        (current_ekran.index_position == 4)
-                       )
-                       || 
-                       (
-                        (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
-                        (current_ekran.index_position == 25)  
-                       )   
-                      )   
-                  current_ekran.index_position++;
+//                while (
+//                       (
+//                        ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
+//                        (current_ekran.index_position == 8)
+//                       )
+//                       || 
+//                       (
+//                        ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
+//                        (current_ekran.index_position == 4)
+//                       )
+//                       || 
+//                       (
+//                        (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
+//                        (current_ekran.index_position == 25)  
+//                       )   
+//                      )   
+//                  current_ekran.index_position++;
               }
               while (current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR);
 
@@ -3372,37 +3348,37 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_MEASURMENT_CURRENT)
               {
-                const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
-                {
-                  IM_3I0_i,
-                  IM_3I0,
-                  IM_3I0_other_g,
-                  IM_3I0_r,
-                  IM_IA,
-                  IM_IB,
-                  IM_IC,
-                  IM_I2,
-                  IM_I1,
-                  IM_I04
-                };
+//                const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
+//                {
+//                  IM_3I0_i,
+//                  IM_3I0,
+//                  IM_3I0_other_g,
+//                  IM_3I0_r,
+//                  IM_IA,
+//                  IM_IB,
+//                  IM_IC,
+//                  IM_I2,
+//                  IM_I1,
+//                  IM_I04
+//                };
               
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_CURRENT - 1;
-                while(
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                       &&
-                       (index_array[current_ekran.index_position] == IM_I04)
-                      )
-                      ||
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                       &&
-                       (index_array[current_ekran.index_position] == IM_3I0_r)
-                      )
-                     )
-                {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_CURRENT - 1;
-                }
+//                while(
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                       &&
+//                       (index_array[current_ekran.index_position] == IM_I04)
+//                      )
+//                      ||
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                       &&
+//                       (index_array[current_ekran.index_position] == IM_3I0_r)
+//                      )
+//                     )
+//                {
+//                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_CURRENT - 1;
+//                }
 
                 position_in_current_level_menu[EKRAN_MEASURMENT_CURRENT] = current_ekran.index_position;
                 //Формуємо екран вимірювання струмів вікна
@@ -3410,11 +3386,7 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_MEASURMENT_VOLTAGE_PHASE)
               {
-                int max_row = 1;
-                if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-                  max_row += 3 + 2;
-
-                if(--current_ekran.index_position < 0) current_ekran.index_position = max_row - 1;
+                if(--current_ekran.index_position < 0) current_ekran.index_position = (1 + 3 + 2) - 1;
                 if(current_ekran.index_position < 0) 
                 {
                   //Цього не малоб ніколи бути - це просто перестраховка
@@ -3448,28 +3420,23 @@ void main_manu_function(void)
               else if(current_ekran.current_level == EKRAN_MEASURMENT_ANGLE)
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_ANGLE - 1;
-                while( 
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                       &&
-                       (current_ekran.index_position < FULL_ORT_Uab)
-                      )
-                      ||  
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                       &&
-                       (current_ekran.index_position == FULL_ORT_I04)
-                      )
-                      ||
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                       &&
-                       (current_ekran.index_position == FULL_ORT_3I0_r)
-                      )
-                     )
-                {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_ANGLE - 1;
-                }
+//                while( 
+//                      (
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                       &&
+//                       (current_ekran.index_position == FULL_ORT_I04)
+//                      )
+//                      ||
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                       &&
+//                       (current_ekran.index_position == FULL_ORT_3I0_r)
+//                      )
+//                     )
+//                {
+//                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_MEASURMENT_ANGLE - 1;
+//                }
 
                 position_in_current_level_menu[EKRAN_MEASURMENT_ANGLE] = current_ekran.index_position;
                 //Формуємо екран вимірювання кутів
@@ -3574,15 +3541,6 @@ void main_manu_function(void)
               else if (current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO)
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL - 1;
-                while(
-                      ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                      &&
-                      (current_ekran.index_position == INDEX_ML_WITH_SETPOINT_CONTROL_CONTROL)
-                     )
-                {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL - 1;
-                }
-              
                 position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO] = current_ekran.index_position;
 
                 //Формуємо екран уставки-настройки
@@ -3963,28 +3921,23 @@ void main_manu_function(void)
                 { 
                   if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR - 1;
 
-                  while (
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) &&
-                          (current_ekran.index_position >= 9) && (current_ekran.index_position <= 11)
-                         )
-                         || 
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-                          (current_ekran.index_position == 8)
-                         )
-                         || 
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
-                          (current_ekran.index_position == 4)
-                         )
-                         || 
-                         (
-                          (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
-                          (current_ekran.index_position == 25)  
-                         )   
-                        )   
-                    current_ekran.index_position--;
+//                  while (
+//                         (
+//                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
+//                          (current_ekran.index_position == 8)
+//                         )
+//                         || 
+//                         (
+//                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
+//                          (current_ekran.index_position == 4)
+//                         )
+//                         || 
+//                         (
+//                          (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
+//                          (current_ekran.index_position == 25)  
+//                         )   
+//                        )   
+//                    current_ekran.index_position--;
                 }
                 while (current_ekran.index_position < 0);
                 
@@ -4041,37 +3994,37 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_MEASURMENT_CURRENT)
               {
-                const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
-                {
-                  IM_3I0_i,
-                  IM_3I0,
-                  IM_3I0_other_g,
-                  IM_3I0_r,
-                  IM_IA,
-                  IM_IB,
-                  IM_IC,
-                  IM_I2,
-                  IM_I1,
-                  IM_I04
-                };
+//                const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
+//                {
+//                  IM_3I0_i,
+//                  IM_3I0,
+//                  IM_3I0_other_g,
+//                  IM_3I0_r,
+//                  IM_IA,
+//                  IM_IB,
+//                  IM_IC,
+//                  IM_I2,
+//                  IM_I1,
+//                  IM_I04
+//                };
               
                 if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
-                while(
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                       &&
-                       (index_array[current_ekran.index_position] == IM_I04)
-                      )
-                      ||
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                       &&
-                       (index_array[current_ekran.index_position] == IM_3I0_r)
-                      )
-                     )
-                {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
-                }
+//                while(
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                       &&
+//                       (index_array[current_ekran.index_position] == IM_I04)
+//                      )
+//                      ||
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                       &&
+//                       (index_array[current_ekran.index_position] == IM_3I0_r)
+//                      )
+//                     )
+//                {
+//                  if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_CURRENT) current_ekran.index_position = 0;
+//                }
 
                 position_in_current_level_menu[EKRAN_MEASURMENT_CURRENT] = current_ekran.index_position;
                 //Формуємо екран вимірювання струмів вікна
@@ -4079,11 +4032,11 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_MEASURMENT_VOLTAGE_PHASE)
               {
-                int max_row = 1;
-                if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-                  max_row += 3 + 2;
-
-                if(++current_ekran.index_position >= max_row) current_ekran.index_position = 0;
+//                int max_row = 1;
+//                if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
+//                  max_row += 3 + 2;
+//
+                if(++current_ekran.index_position >= (1 + 3 + 2)) current_ekran.index_position = 0;
                 position_in_current_level_menu[EKRAN_MEASURMENT_VOLTAGE_PHASE] = current_ekran.index_position;
                 //Формуємо екран вимірювання напруг вікна
                 make_ekran_voltage_phase(pervynna_vtorynna);
@@ -4107,28 +4060,22 @@ void main_manu_function(void)
               else if(current_ekran.current_level == EKRAN_MEASURMENT_ANGLE)
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
-                while( 
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                       &&
-                       (current_ekran.index_position < FULL_ORT_Uab)
-                      )
-                      ||  
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                       &&
-                       (current_ekran.index_position == FULL_ORT_I04)
-                      )
-                      ||
-                      (
-                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
-                       &&
-                       (current_ekran.index_position == FULL_ORT_3I0_r)
-                      )
-                     )
-                {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
-                }
+//                while( 
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
+//                       &&
+//                       (current_ekran.index_position == FULL_ORT_I04)
+//                      )
+//                      ||
+//                      (
+//                       ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)
+//                       &&
+//                       (current_ekran.index_position == FULL_ORT_3I0_r)
+//                      )
+//                     )
+//                {
+//                  if(++current_ekran.index_position >= MAX_ROW_FOR_MEASURMENT_ANGLE) current_ekran.index_position = 0;
+//                }
 
                 position_in_current_level_menu[EKRAN_MEASURMENT_ANGLE] = current_ekran.index_position;
                 //Формуємо екран вимірювання кутів
@@ -4234,15 +4181,6 @@ void main_manu_function(void)
               else if (current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO)
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL) current_ekran.index_position = 0;
-                while(
-                      ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
-                      &&
-                      (current_ekran.index_position == INDEX_ML_WITH_SETPOINT_CONTROL_CONTROL)
-                     )
-                {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_SETPOINTS_CONTROL) current_ekran.index_position = 0;
-                }
-              
                 position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO] = current_ekran.index_position;
 
                 //Формуємо екран уставки-настройки
@@ -4627,28 +4565,23 @@ void main_manu_function(void)
                 {
                   if(current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR) current_ekran.index_position = 0;
                 
-                  while (
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) &&
-                          (current_ekran.index_position >= 9) && (current_ekran.index_position <= 11)
-                         )   
-                         || 
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-                          (current_ekran.index_position == 8)
-                         )
-                         || 
-                         (
-                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
-                          (current_ekran.index_position == 4)
-                         )
-                         || 
-                         (
-                          (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
-                          (current_ekran.index_position == 25)  
-                         )   
-                        )   
-                    current_ekran.index_position++;
+//                  while (
+//                         (
+//                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
+//                          (current_ekran.index_position == 8)
+//                         )
+//                         || 
+//                         (
+//                          ((control_extra_settings_1_dr_for_manu & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0) &&
+//                          (current_ekran.index_position == 4)
+//                         )
+//                         || 
+//                         (
+//                          (type_view_max_values_dr != IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE) && 
+//                          (current_ekran.index_position == 25)  
+//                         )   
+//                        )   
+//                    current_ekran.index_position++;
                 }
                 while (current_ekran.index_position >= MAX_ROW_FOR_EKRAN_ANALOG_VALUES_DR);
 
@@ -5123,15 +5056,6 @@ void main_manu_function(void)
             else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT) current_ekran.index_position = 0;
-              while(
-                    ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                    &&
-                    (current_ekran.index_position == INDEX_ML_TT04)
-                   )
-              {
-                if(++current_ekran.index_position >= MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT) current_ekran.index_position = 0;
-              }
-
               position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO_SETPOINT] = current_ekran.index_position;
               //Формуємо екран інфтрмації по трансформаторах
               make_ekran_transformator();
@@ -5914,20 +5838,10 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_T0)
-                  {
-                    edition_settings.T0 = current_settings.T0;
-                    current_ekran.position_cursor_x = COL_T0_BEGIN;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT)
                   {
                     edition_settings.TCurrent = current_settings.TCurrent;
                     current_ekran.position_cursor_x = COL_TT_BEGIN;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT04)
-                  {
-                    edition_settings.TCurrent04 = current_settings.TCurrent04;
-                    current_ekran.position_cursor_x = COL_TT04_BEGIN;
                   }
                   else
                   {
@@ -6614,17 +6528,9 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_T0)
-                  {
-                    if (edition_settings.T0 != current_settings.T0) found_changes = 1;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT)
                   {
                     if (edition_settings.TCurrent != current_settings.TCurrent) found_changes = 1;
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT04)
-                  {
-                    if (edition_settings.TCurrent04 != current_settings.TCurrent04) found_changes = 1;
                   }
                   else
                   {
@@ -8616,24 +8522,7 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_T0)
-                  {
-                    if (check_data_setpoint(edition_settings.T0, KOEF_TO_MIN, KOEF_TO_MAX) == 1)
-                    {
-                      if (edition_settings.T0 != current_settings.T0)
-                      {
-                        //Помічаємо, що поле структури зараз буде змінене
-                        changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                        current_settings.T0 = edition_settings.T0;
-                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                        fix_change_settings(0, 1);
-                      }
-                      //Виходимо з режиму редагування
-                      current_ekran.edition = 0;
-                    }
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT)
                   {
                     if (check_data_setpoint(edition_settings.TCurrent, KOEF_TT_MIN, KOEF_TT_MAX) == 1)
                     {
@@ -8643,23 +8532,6 @@ void main_manu_function(void)
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
                         current_settings.TCurrent = edition_settings.TCurrent;
-                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
-                        fix_change_settings(0, 1);
-                      }
-                      //Виходимо з режиму редагування
-                      current_ekran.edition = 0;
-                    }
-                  }
-                  else if (current_ekran.index_position == INDEX_ML_TT04)
-                  {
-                    if (check_data_setpoint(edition_settings.TCurrent04, KOEF_TT04_MIN, KOEF_TT04_MAX) == 1)
-                    {
-                      if (edition_settings.TCurrent04 != current_settings.TCurrent04)
-                      {
-                        //Помічаємо, що поле структури зараз буде змінене
-                        changed_settings = CHANGED_ETAP_EXECUTION;
-                        
-                        current_settings.TCurrent04 = edition_settings.TCurrent04;
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10055,26 +9927,13 @@ void main_manu_function(void)
                 if(current_ekran.edition == 0)
                 {
                   if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT - 1;
-                  while(
-                        ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                        &&
-                        (current_ekran.index_position == INDEX_ML_TT04)
-                       )
-                  {
-                    if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT - 1;
-                  }
-                  
                   position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO_SETPOINT] = current_ekran.index_position;
                 }
                 else
                 {
                   //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_T0)
-                    edition_settings.T0 = edit_setpoint(1, edition_settings.T0, 0, 0, COL_T0_END, 1);
-                  else if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT)
                     edition_settings.TCurrent = edit_setpoint(1, edition_settings.TCurrent, 0, 0, COL_TT_END, 1);
-                  else if (current_ekran.index_position == INDEX_ML_TT04)
-                    edition_settings.TCurrent04 = edit_setpoint(1, edition_settings.TCurrent04, 0, 0, COL_TT04_END, 1);
                   else
                     edition_settings.TVoltage = edit_setpoint(1, edition_settings.TVoltage, 0, 0, COL_TN_END, 1);
                 }
@@ -11054,26 +10913,13 @@ void main_manu_function(void)
                 if(current_ekran.edition == 0)
                 {
                   if(++current_ekran.index_position >= MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT) current_ekran.index_position = 0;
-                  while(
-                        ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-                        &&
-                        (current_ekran.index_position == INDEX_ML_TT04)
-                       )
-                  {
-                    if(++current_ekran.index_position >= MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT) current_ekran.index_position = 0;
-                  }
-                  
                   position_in_current_level_menu[EKRAN_TRANSFORMATOR_INFO_SETPOINT] = current_ekran.index_position;
                 }
                 else
                 {
                   //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_T0)
-                    edition_settings.T0 = edit_setpoint(0, edition_settings.T0, 0, 0, COL_T0_END, 1);
-                  else if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT)
                     edition_settings.TCurrent = edit_setpoint(0, edition_settings.TCurrent, 0, 0, COL_TT_END, 1);
-                  else if (current_ekran.index_position == INDEX_ML_TT04)
-                    edition_settings.TCurrent04 = edit_setpoint(0, edition_settings.TCurrent04, 0, 0, COL_TT04_END, 1);
                   else
                     edition_settings.TVoltage = edit_setpoint(0, edition_settings.TVoltage, 0, 0, COL_TN_END, 1);
                 }
@@ -12364,15 +12210,11 @@ void main_manu_function(void)
                     if (++edition_settings.ctrl_UP_input[n_UP] >= _UP_CTRL_NUMBER) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_MIN;
                   }
                   while(
-                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
-                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
+//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
+//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
                         (
-                         (
-                          (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
-                          (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
-                         )
-                         &&
-                         ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
+                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
+                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
                         )
                        ); 
                 }
@@ -12394,23 +12236,11 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
               {
-                if(current_ekran.index_position == INDEX_ML_T0)
-                {
-                  if ((current_ekran.position_cursor_x < COL_T0_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_T0_END))
-                    current_ekran.position_cursor_x = COL_T0_BEGIN;
-                }
-                else if (current_ekran.index_position == INDEX_ML_TT)
+                if (current_ekran.index_position == INDEX_ML_TT)
                 {
                   if ((current_ekran.position_cursor_x < COL_TT_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TT_END))
                     current_ekran.position_cursor_x = COL_TT_BEGIN;
-                }
-                else  if (current_ekran.index_position == INDEX_ML_TT04)
-                {
-                  if ((current_ekran.position_cursor_x < COL_TT04_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TT04_END))
-                    current_ekran.position_cursor_x = COL_TT04_BEGIN;
                 }
                 else
                 {
@@ -13660,15 +13490,11 @@ void main_manu_function(void)
                     if (--edition_settings.ctrl_UP_input[n_UP] < 0) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_NUMBER - 1;
                   }
                   while(
-                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
-                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
+//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
+//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
                         (
-                         (
-                          (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
-                          (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
-                         )
-                         &&
-                         ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)
+                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
+                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
                         )
                        ); 
                 }
@@ -13690,23 +13516,11 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
               {
-                if(current_ekran.index_position == INDEX_ML_T0)
-                {
-                  if ((current_ekran.position_cursor_x < COL_T0_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_T0_END))
-                    current_ekran.position_cursor_x = COL_T0_END;
-                }
-                else if(current_ekran.index_position == INDEX_ML_TT)
+                if(current_ekran.index_position == INDEX_ML_TT)
                 {
                   if ((current_ekran.position_cursor_x < COL_TT_BEGIN) ||
                       (current_ekran.position_cursor_x > COL_TT_END))
                     current_ekran.position_cursor_x = COL_TT_END;
-                }
-                else if(current_ekran.index_position == INDEX_ML_TT04)
-                {
-                  if ((current_ekran.position_cursor_x < COL_TT04_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TT04_END))
-                    current_ekran.position_cursor_x = COL_TT04_END;
                 }
                 else
                 {

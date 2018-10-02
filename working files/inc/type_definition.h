@@ -176,40 +176,6 @@ typedef struct
 
   unsigned int control_mtz;                                 //Поле для управління МТЗ
   
-  //МТЗ 0.4кВ
-  unsigned int setpoint_mtz04_1[NUMBER_GROUP_USTAVOK];            //Уставка МТЗ 0.4кВ першої ступені
-  int type_mtz04_2;                                               //Тип МТЗ2 0.4кВ (0 - Проста, 3 - Залежна А, 4 - Залежна В, 5 - Залежна С)
-  unsigned int setpoint_mtz04_2[NUMBER_GROUP_USTAVOK];            //Уставка МТЗ 0.4кВ другої ступені
-
-  int timeout_mtz04_1[NUMBER_GROUP_USTAVOK];                      //Витримка МТЗ 0.4кВ першої ступені
-  int timeout_mtz04_2[NUMBER_GROUP_USTAVOK];                      //Витримка МТЗ 0.4кВ друго 0.4кВї ступені
-  int timeout_mtz04_2_pr[NUMBER_GROUP_USTAVOK];                   //Витримка присторення МТЗ другої ступені
-  int timeout_mtz04_2_vvid_pr[NUMBER_GROUP_USTAVOK];              //Витримка вводу присорення МТЗ2 0.4кВ
-
-  unsigned int control_mtz04;                                 //Поле для управління МТЗ 0.4кВ
-  
-  //ЗДЗ
-  int32_t timeout_zdz[NUMBER_GROUP_USTAVOK];                //Витримка ЗДЗ
-  unsigned int control_zdz;                                 //Поле для управління ЗДЗ
-  int32_t ctrl_zdz_type;                                    //Тип контролю ЗДЗ
-                                                            /*
-                                                            0 - Без контролю
-                                                            1 - Контроль по I
-                                                            2 - Контроль по U
-                                                            3 - Контроль по I або U
-                                                            4 - Контроль по I і U
-                                                            */
-
-  //ЗЗ
-  unsigned int setpoint_zz_3I0[NUMBER_GROUP_USTAVOK];       //уставка ЗЗ/3I0
-  unsigned int setpoint_zz_3U0[NUMBER_GROUP_USTAVOK];       //уставка ЗЗ/3U0
-
-  int timeout_zz_3I0[NUMBER_GROUP_USTAVOK];                 //Витримка ЗЗ/3I0
-  int timeout_zz_3U0[NUMBER_GROUP_USTAVOK];                 //Витримка ЗЗ/3I0
-  int timeout_nzz[NUMBER_GROUP_USTAVOK];                    //Витримка НЗЗ
-
-   unsigned int control_zz;                                 //Поле для управління ЗЗ
-
   //ТЗНП
   unsigned int setpoint_tznp_1_3I0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3I0 першої ступені (направлена:вперед)
   unsigned int setpoint_tznp_1_3U0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3U0 першої ступені  (направлена:вперед)
@@ -241,32 +207,6 @@ typedef struct
   int timeout_tznp_3_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
 
    unsigned int control_tznp;                                   //Поле для управління ТЗНП
-  
-  //АПВ
-  int timeout_apv_1[NUMBER_GROUP_USTAVOK];                    //Витримка 1 Циклу АПВ
-  int timeout_apv_2[NUMBER_GROUP_USTAVOK];                    //Витримка 2 Циклу АПВ
-  int timeout_apv_3[NUMBER_GROUP_USTAVOK];                    //Витримка 3 Циклу АПВ
-  int timeout_apv_4[NUMBER_GROUP_USTAVOK];                    //Витримка 4 Циклу АПВ
-  int timeout_apv_block_vid_apv1[NUMBER_GROUP_USTAVOK];       //Блокування АПВ від роботи АПВ1
-  int timeout_apv_block_vid_apv2[NUMBER_GROUP_USTAVOK];       //Блокування АПВ від роботи АПВ2
-  int timeout_apv_block_vid_apv3[NUMBER_GROUP_USTAVOK];       //Блокування АПВ від роботи АПВ3
-  int timeout_apv_block_vid_apv4[NUMBER_GROUP_USTAVOK];       //Блокування АПВ від роботи АПВ4
-  int timeout_apv_block_vid_VV[NUMBER_GROUP_USTAVOK];         //Витримка блокування АПВ в момекнт включення вимикача
-  unsigned int control_apv;             //Поле для управління АПВ
-  
-  //АЧР-ЧАПВ
-  unsigned int setpoint_achr_chapv_uf[NUMBER_GROUP_USTAVOK]; //уставка АЧР ЧАПВ UF1
-  unsigned int setpoint_achr1_f_rab[NUMBER_GROUP_USTAVOK];    //уставка FРаб АЧР1 частоти F
-  unsigned int setpoint_chapv1_f_rab[NUMBER_GROUP_USTAVOK];   //уставка FРаб ЧАПВ1 частотм F
-  unsigned int setpoint_achr2_f_rab[NUMBER_GROUP_USTAVOK];    //уставка FРаб АЧР2 частотм F
-  unsigned int setpoint_chapv2_f_rab[NUMBER_GROUP_USTAVOK];   //уставка FРаб ЧАПВ2 частотм F
-
-  int timeout_achr_1[NUMBER_GROUP_USTAVOK];                   //Витримка Циклу АЧР1
-  int timeout_chapv_1[NUMBER_GROUP_USTAVOK];                  //Витримка Циклу ЧАПВ1
-  int timeout_achr_2[NUMBER_GROUP_USTAVOK];                   //Витримка Циклу АЧР2
-  int timeout_chapv_2[NUMBER_GROUP_USTAVOK];                  //Витримка Циклу ЧАПВ2
-
-  unsigned int control_achr_chapv;      //Поле для управління АЧР-ЧАПВ
   
   //УРОВ
   unsigned int setpoint_urov[NUMBER_GROUP_USTAVOK];         //уставка УРОВ
@@ -303,9 +243,7 @@ typedef struct
   uint32_t control_UP;                                          //Поля для управління
   int32_t ctrl_UP_input[NUMBER_UP];                             //Вибір входу Універсального захисту
 
-  unsigned int T0;                      //Коефіцієнт трансформації для трансформатора 3I0
   unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів
-  unsigned int TCurrent04;              //Коефіцієнт трансформації для трансформатора струмів сторони 0.4кВ
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
   unsigned int control_transformator;   //налаштування для меню "Трансформатор"
   
@@ -319,24 +257,11 @@ typedef struct
   unsigned int timeout_idle_new_settings;
 
   //Вимикач
-  unsigned int setpoint_Inom;                   //Номінальний струм вимикача
-  unsigned int setpoint_r_kom_st_Inom;          //Ресурс комунікаційної стійкості при номінальному струмі вимикача
-  unsigned int setpoint_Inom_vymk;              //Номінальний струм вимкнення вимикача
-  unsigned int setpoint_r_kom_st_Inom_vymk;     //Ресурс комунікаційної стійкості при номінальному струмі вимкнення вимикача
-  unsigned int setpoint_pochatkovyj_resurs;     //Початковий ресурс вимикача
-  unsigned int setpoint_krytychnyj_resurs;      //Критичний ресурс вимикача
-  unsigned int setpoint_pochatkova_k_vymk;      //Початкова кількість вимкнень
   int timeout_swch_on;                          //Витримка T вкл.
   int timeout_swch_off;                         //Витримка T відкл.
   int timeout_swch_udl_blk_on;                  //Витримка T "удлинение сигнала блокировки включения"
   int timeout_pryvoda_VV;                       //Витримка T "Привіода ВВ"
   unsigned int control_switch;                  //Поле для управління вимикачем
-  
-  //Визначення місця пошкодження
-  unsigned int lines[2];                        //Кількість ділянок
-  unsigned int dovgyna[2][MAX_NUMBER_LINES_VMP];//Довжина ліній
-  unsigned int opir[2][MAX_NUMBER_LINES_VMP];   //Питомий опір ліній
-  unsigned int control_vmp;                     //Поле для управління ВМП
   
   //Аналоговий реєстратор
   unsigned int prefault_number_periods; //Час доаварійного масиву (кількість періодів промислової частоти)
@@ -432,9 +357,7 @@ typedef struct
 {
   unsigned char label_start_record;
   unsigned char time[7]; 
-  unsigned int T0;
   unsigned int TCurrent;
-  unsigned int TCurrent04;
   unsigned int TVoltage;
   unsigned int control_extra_settings_1;
   unsigned char name_of_cell[MAX_CHAR_IN_NAME_OF_CELL];

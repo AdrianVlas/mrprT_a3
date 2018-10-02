@@ -1390,12 +1390,7 @@ void min_settings(__SETTINGS *target_label)
   for (size_t i = 0; i < NUMBER_UP; i++) target_label->ctrl_UP_input[i] = UP_CTRL_Ia_Ib_Ic;
 
   target_label->control_mtz = 0;
-  target_label->control_mtz04 = 0;
-  target_label->control_zdz = 0;
-  target_label->control_zz = 0;
   target_label->control_tznp = 0;
-  target_label->control_apv = 0;
-  target_label->control_achr_chapv = 0;
   target_label->control_urov = 0;
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
@@ -1485,27 +1480,6 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_mtz_4_n_nazad[i] = TIMEOUT_MTZ4_N_NAZAD_MIN; 
     target_label->timeout_mtz_4_po_napruzi[i] = TIMEOUT_MTZ4_PO_NAPRUZI_MIN; 
 
-    target_label->setpoint_mtz04_1[i] = SETPOINT_MTZ04_1_MIN;
-    target_label->setpoint_mtz04_2[i] = SETPOINT_MTZ04_2_MIN;
-    
-    target_label->timeout_mtz04_1[i] = TIMEOUT_MTZ04_1_MIN; 
-    target_label->timeout_mtz04_2[i] = TIMEOUT_MTZ04_2_MIN; 
-    target_label->timeout_mtz04_2_pr[i] = TIMEOUT_MTZ04_2_PR_MIN; 
-    target_label->timeout_mtz04_2_vvid_pr[i] = TIMEOUT_MTZ04_2_VVID_PR_MIN;
-    
-    target_label->timeout_zdz[i] = TIMEOUT_ZDZ_MIN;    
-
-    target_label->setpoint_zz_3I0[i] = SETPOINT_ZZ_3I0_MIN;
-    target_label->setpoint_zz_3U0[i] = SETPOINT_ZZ_3U0_MIN;
-    target_label->timeout_zz_3I0[i]  = TIMEOUT_ZZ_3I0_MIN; 
-    target_label->timeout_zz_3U0[i]  = TIMEOUT_ZZ_3U0_MIN; 
-    target_label->timeout_nzz[i]     = TIMEOUT_NZZ_MIN; 
-
-    target_label->setpoint_tznp_1_3I0_vpered[i] = SETPOINT_TZNP1_3I0_VPERED_MIN;
-    target_label->setpoint_tznp_1_3U0_vpered[i] = SETPOINT_TZNP1_3U0_VPERED_MIN;
-    target_label->setpoint_tznp_1_3I0_nazad[i] = SETPOINT_TZNP1_3I0_NAZAD_MIN;
-    target_label->setpoint_tznp_1_3U0_nazad[i] = SETPOINT_TZNP1_3U0_NAZAD_MIN;
-    
     angle = SETPOINT_TZNP1_ANGLE_MIN;
     angle_f = (float)angle;
     target_label->setpoint_tznp_1_angle[i] = angle;
@@ -1541,27 +1515,6 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_tznp_3_vpered[i] = TIMEOUT_TZNP3_VPERED_MIN; 
     target_label->timeout_tznp_3_nazad[i] = TIMEOUT_TZNP3_NAZAD_MIN; 
     
-    target_label->timeout_apv_1[i] = TIMEOUT_APV1_MIN;    
-    target_label->timeout_apv_2[i] = TIMEOUT_APV2_MIN;    
-    target_label->timeout_apv_3[i] = TIMEOUT_APV3_MIN;    
-    target_label->timeout_apv_4[i] = TIMEOUT_APV4_MIN;    
-    target_label->timeout_apv_block_vid_apv1[i] = TIMEOUT_APV_BLOCK_VID_APV1_MIN;
-    target_label->timeout_apv_block_vid_apv2[i] = TIMEOUT_APV_BLOCK_VID_APV2_MIN;
-    target_label->timeout_apv_block_vid_apv3[i] = TIMEOUT_APV_BLOCK_VID_APV3_MIN;
-    target_label->timeout_apv_block_vid_apv4[i] = TIMEOUT_APV_BLOCK_VID_APV4_MIN;
-    target_label->timeout_apv_block_vid_VV[i] = TIMEOUT_APV_BLOCK_VID_VV_MIN;
-    
-    target_label->setpoint_achr_chapv_uf[i] = SETPOINT_ACHR_CHAPV_UF_MIN;
-    target_label->setpoint_achr1_f_rab[i]  = SETPOINT_ACHR1_F_RAB_MIN;
-    target_label->setpoint_chapv1_f_rab[i] = MAIN_FREQUENCY*100 - 30;
-    target_label->setpoint_achr2_f_rab[i]  = SETPOINT_ACHR2_F_RAB_MIN;
-    target_label->setpoint_chapv2_f_rab[i] = MAIN_FREQUENCY*100 - 30;
-    
-    target_label->timeout_achr_1[i] = TIMEOUT_ACHR1_MIN;
-    target_label->timeout_chapv_1[i] = TIMEOUT_CHAPV1_MIN;
-    target_label->timeout_achr_2[i] = TIMEOUT_ACHR2_MIN;
-    target_label->timeout_chapv_2[i] = TIMEOUT_CHAPV2_MIN;
-    
     target_label->setpoint_urov[i]  = SETPOINT_UROV_MIN;
     target_label->timeout_urov_1[i] = TIMEOUT_UROV1_MIN;
     target_label->timeout_urov_2[i] = TIMEOUT_UROV2_MIN;
@@ -1588,34 +1541,11 @@ void min_settings(__SETTINGS *target_label)
     }
   }
 
-  target_label->setpoint_Inom = SETPOINT_Inom_MIN;
-  target_label->setpoint_r_kom_st_Inom = SETPOINT_RKS_Inom_MIN;
-  target_label->setpoint_Inom_vymk = SETPOINT_Inom_vymk_MIN;
-  target_label->setpoint_r_kom_st_Inom_vymk = SETPOINT_RKS_Inom_vymk_MIN;
-  
-  unsigned int chastka = target_label->setpoint_r_kom_st_Inom/target_label->setpoint_r_kom_st_Inom_vymk;
-  target_label->setpoint_pochatkovyj_resurs = 2*chastka;
-  target_label->setpoint_krytychnyj_resurs = chastka;
-  target_label->setpoint_pochatkova_k_vymk = 0;
-  
   target_label->timeout_swch_on = TIMEOUT_SWCH_ON_MIN;
   target_label->timeout_swch_off = TIMEOUT_SWCH_OFF_MIN;
   target_label->timeout_swch_udl_blk_on = TIMEOUT_SWCH_UDL_BLK_ON_MIN;
   target_label->timeout_pryvoda_VV = TIMEOUT_PRYVODA_VV_MIN;
   target_label->control_switch = 0;
-  
-  for (unsigned int i = 0; i < 2; i++)
-  {
-    if (i == 0) target_label->lines[0] = NUMBER_LINES_FORWARD_MIN;
-    else target_label->lines[i] = NUMBER_LINES_BACKWARD_MIN;
-    
-    for (unsigned int j = 0; j < MAX_NUMBER_LINES_VMP; j++)
-    {
-      target_label->dovgyna[i][j] = SETPOINT_DOVGYNA_VMP_MIN;
-      target_label->opir[i][j]    = SETPOINT_OPIR_VMP_MIN;
-    }
-  }
-  target_label->control_vmp = 0;
   
   target_label->prefault_number_periods = TIMEOUT_PREFAULT_MIN / 20;
   target_label->postfault_number_periods = TIMEOUT_POSTFAULT_MIN / 20;
@@ -1629,9 +1559,7 @@ void min_settings(__SETTINGS *target_label)
   
   target_label->timeout_idle_new_settings = TIMEOUT_NEW_SETTINGS_MIN;
   
-  target_label->T0 = KOEF_TO_MIN;
   target_label->TCurrent = KOEF_TT_MIN;
-  target_label->TCurrent04 = KOEF_TT04_MIN;
   target_label->TVoltage = KOEF_TN_MIN;
   target_label->control_transformator = CTR_TRANSFORMATOR_PHASE_LINE;
 

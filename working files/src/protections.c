@@ -854,8 +854,8 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
-  const unsigned int *array_point_to_index_converter[4] = {index_converter_Ib_p, index_converter_I04_p, index_converter_Ib_l, index_converter_I04_l};
-  const unsigned int *point_to_index_converter = array_point_to_index_converter[current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_IB_I04 | CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)];
+  const unsigned int *array_point_to_index_converter[1/*4*/] = {index_converter_Ib_p/*, index_converter_I04_p, index_converter_Ib_l, index_converter_I04_l*/};
+  const unsigned int *point_to_index_converter = array_point_to_index_converter[0/*current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_IB_I04 | CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)*/];
 
   unsigned int copy_to_low_tasks = (semaphore_measure_values_low == 0) ? true : false;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
@@ -975,16 +975,8 @@ inline void calc_measurement(unsigned int number_group_stp)
         }
       case I_Ib_I04:
         {
-          if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
-          {
-            index_m = IM_IB;
-            index_ort = FULL_ORT_Ib;
-          }
-          else
-          {
-            index_m = IM_I04;
-            index_ort = FULL_ORT_I04;
-          }
+          index_m = IM_IB;
+          index_ort = FULL_ORT_Ib;
           break;
         }
       case I_Ic:
@@ -1012,16 +1004,8 @@ inline void calc_measurement(unsigned int number_group_stp)
       case I_Uc:
         {
           unsigned int delta_index = (i - I_Ua);
-          if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
-          {
-            index_m = IM_UA + delta_index;
-            index_ort = FULL_ORT_Ua + delta_index;
-          }
-          else
-          {
-            index_m = IM_UAB + delta_index;
-            index_ort = FULL_ORT_Uab + delta_index;
-          }
+          index_m = IM_UA + delta_index;
+          index_ort = FULL_ORT_Ua + delta_index;
           break;
         }
       case I_3U0:
@@ -1069,9 +1053,8 @@ inline void calc_measurement(unsigned int number_group_stp)
   ***/
   int _x, _y;
 
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
   {   
-    //3I0(розрахункове), стрму I0.4 немає
+    //3I0(розрахункове)
     
     ortogonal_calc[2*FULL_ORT_I04 + 0] = 0;
     ortogonal_calc[2*FULL_ORT_I04 + 1] = 0;
@@ -1089,115 +1072,41 @@ inline void calc_measurement(unsigned int number_group_stp)
     }
     measurement[IM_3I0_r] = ( MNOGNYK_I_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
   }
-  else
+    
+  //Ubc
+  _x = ortogonal_calc[2*FULL_ORT_Ubc + 0] = ortogonal_calc[2*FULL_ORT_Ub    ] - ortogonal_calc[2*FULL_ORT_Uc    ];
+  _y = ortogonal_calc[2*FULL_ORT_Ubc + 1] = ortogonal_calc[2*FULL_ORT_Ub + 1] - ortogonal_calc[2*FULL_ORT_Uc + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ib(розрахункове), струму 3I0(розрахункове) немає
-    
-    ortogonal_calc[2*FULL_ORT_3I0_r + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_3I0_r + 1] = 0;
-    measurement[IM_3I0_r] = 0;
-    
-    int ortogonal_local_3I0[2];
-  
-#if (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA) >= VAGA_DILENNJA_I_DIJUCHE  
-    ortogonal_local_3I0[0] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 0]) >> (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA - VAGA_DILENNJA_I_DIJUCHE))/MNOGNYK_I_DIJUCHE;
-    ortogonal_local_3I0[1] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 1]) >> (4 + VAGA_DILENNJA_3I0_DIJUCHE_D_mA - VAGA_DILENNJA_I_DIJUCHE))/MNOGNYK_I_DIJUCHE;
-#else
-    ortogonal_local_3I0[0] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 0]) << (VAGA_DILENNJA_I_DIJUCHE - (VAGA_DILENNJA_3I0_DIJUCHE_D_mA + 4)))/MNOGNYK_I_DIJUCHE;
-    ortogonal_local_3I0[1] = ((MNOGNYK_3I0_DIJUCHE_D_mA*ortogonal_calc[2*FULL_ORT_3I0 + 1]) << (VAGA_DILENNJA_I_DIJUCHE - (VAGA_DILENNJA_3I0_DIJUCHE_D_mA + 4)))/MNOGNYK_I_DIJUCHE;
-#endif
-  
-    int T0 = (int)current_settings_prt.T0, TCurrent = (int)current_settings_prt.TCurrent;
-    _x = ortogonal_calc[2*FULL_ORT_Ib + 0] = T0*ortogonal_local_3I0[0]/TCurrent - (ortogonal_calc[2*FULL_ORT_Ia + 0] + ortogonal_calc[2*FULL_ORT_Ic + 0]);
-    _y = ortogonal_calc[2*FULL_ORT_Ib + 1] = T0*ortogonal_local_3I0[1]/TCurrent - (ortogonal_calc[2*FULL_ORT_Ia + 1] + ortogonal_calc[2*FULL_ORT_Ic + 1]);
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_3I0_r + 1] = 0;
-
-      ortogonal_calc_low[2*FULL_ORT_Ib + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Ib + 1] = _y;
-    }
-    measurement[IM_IB] = ( MNOGNYK_I_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
+    ortogonal_calc_low[2*FULL_ORT_Ubc + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Ubc + 1] = _y;
   }
-    
-  if ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0)
+  measurement[IM_UBC] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+  
+  //Uca
+  _x = ortogonal_calc[2*FULL_ORT_Uca + 0] = ortogonal_calc[2*FULL_ORT_Uc    ] - ortogonal_calc[2*FULL_ORT_Ua    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uca + 1] = ortogonal_calc[2*FULL_ORT_Uc + 1] - ortogonal_calc[2*FULL_ORT_Ua + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ubc
-    _x = ortogonal_calc[2*FULL_ORT_Ubc + 0] = ortogonal_calc[2*FULL_ORT_Ub    ] - ortogonal_calc[2*FULL_ORT_Uc    ];
-    _y = ortogonal_calc[2*FULL_ORT_Ubc + 1] = ortogonal_calc[2*FULL_ORT_Ub + 1] - ortogonal_calc[2*FULL_ORT_Uc + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Ubc + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Ubc + 1] = _y;
-    }
-    measurement[IM_UBC] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
-  
-    //Uca
-    _x = ortogonal_calc[2*FULL_ORT_Uca + 0] = ortogonal_calc[2*FULL_ORT_Uc    ] - ortogonal_calc[2*FULL_ORT_Ua    ];
-    _y = ortogonal_calc[2*FULL_ORT_Uca + 1] = ortogonal_calc[2*FULL_ORT_Uc + 1] - ortogonal_calc[2*FULL_ORT_Ua + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Uca + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Uca + 1] = _y;
-    }
-    measurement[IM_UCA] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
-
-    //Uab
-    _x = ortogonal_calc[2*FULL_ORT_Uab + 0] = ortogonal_calc[2*FULL_ORT_Ua    ] - ortogonal_calc[2*FULL_ORT_Ub    ];
-    _y = ortogonal_calc[2*FULL_ORT_Uab + 1] = ortogonal_calc[2*FULL_ORT_Ua + 1] - ortogonal_calc[2*FULL_ORT_Ub + 1];
-    if (copy_to_low_tasks == true)
-    {
-      ortogonal_calc_low[2*FULL_ORT_Uab + 0] = _x;
-      ortogonal_calc_low[2*FULL_ORT_Uab + 1] = _y;
-    }
-    measurement[IM_UAB] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
-
-    /***/
-    //Розраховуємо напругу прямої і зворотньої послідовності
-    /***/
-    velychyna_zvorotnoi_poslidovnosti(ortogonal_calc, INDEX_U);
-    /***/
+    ortogonal_calc_low[2*FULL_ORT_Uca + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uca + 1] = _y;
   }
-  else
+  measurement[IM_UCA] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+
+  //Uab
+  _x = ortogonal_calc[2*FULL_ORT_Uab + 0] = ortogonal_calc[2*FULL_ORT_Ua    ] - ortogonal_calc[2*FULL_ORT_Ub    ];
+  _y = ortogonal_calc[2*FULL_ORT_Uab + 1] = ortogonal_calc[2*FULL_ORT_Ua + 1] - ortogonal_calc[2*FULL_ORT_Ub + 1];
+  if (copy_to_low_tasks == true)
   {
-    //Ua
-    ortogonal_calc[2*FULL_ORT_Ua + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Ua + 1] = 0;
-    measurement[IM_UA] = 0;
-
-    //Ub
-    ortogonal_calc[2*FULL_ORT_Ub + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Ub + 1] = 0;
-    measurement[IM_UB] = 0;
-
-    //Uc
-    ortogonal_calc[2*FULL_ORT_Uc + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_Uc + 1] = 0;
-    measurement[IM_UC] = 0;
-    
-    //U2
-    measurement[IM_U2] = 0;
-
-    //U1
-    measurement[IM_U1] = 0;
-    
-    if (copy_to_low_tasks == true)
-    {
-      //Ua
-      ortogonal_calc_low[2*FULL_ORT_Ua + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Ua + 1] = 0;
-
-      //Ub
-      ortogonal_calc_low[2*FULL_ORT_Ub + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Ub + 1] = 0;
-
-      //Uc
-      ortogonal_calc_low[2*FULL_ORT_Uc + 0] = 0;
-      ortogonal_calc_low[2*FULL_ORT_Uc + 1] = 0;
-    }
-  
+    ortogonal_calc_low[2*FULL_ORT_Uab + 0] = _x;
+    ortogonal_calc_low[2*FULL_ORT_Uab + 1] = _y;
   }
+  measurement[IM_UAB] = ( MNOGNYK_U_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+
+  /***/
+  //Розраховуємо напругу прямої і зворотньої послідовності
+  /***/
+  velychyna_zvorotnoi_poslidovnosti(ortogonal_calc, INDEX_U);
   /***/
 
   /***/
@@ -1207,7 +1116,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
 
   if (
-      ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
+//      ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
       ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0)
      )   
   {
@@ -3230,7 +3139,7 @@ void umin1_handler(unsigned int *p_active_functions, unsigned int number_group_s
                                          (measurement[IM_IB] <= setpoint3) &&
                                          (measurement[IM_IC] <= setpoint3);
   //М
-  unsigned int tmp_value = (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
@@ -3342,7 +3251,7 @@ void umin2_handler(unsigned int *p_active_functions, unsigned int number_group_s
                                          (measurement[IM_IB] <= setpoint3) &&
                                          (measurement[IM_IC] <= setpoint3);
   //М
-  unsigned int tmp_value = (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
@@ -3440,7 +3349,7 @@ void umax1_handler(unsigned int *p_active_functions, unsigned int number_group_s
   _Bool Uc_is_larger_than_Umax1 = measurement[IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX1_OR_AND) != 0)                                                  << 2;
@@ -3499,7 +3408,7 @@ void umax2_handler(unsigned int *p_active_functions, unsigned int number_group_s
   _Bool Uc_is_larger_than_Umax2 = measurement[IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX2_OR_AND) != 0)                                                  << 2;
@@ -3826,11 +3735,10 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
       }
     case UP_CTRL_Ua_Ub_Uc:
       {
-        uint32_t phase_line = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0);
-        analog_value = (phase_line == 0) ? measurement[IM_UA] : measurement[IM_UAB];
+        analog_value = measurement[IM_UA];
         
         unsigned int or_and = ((current_settings_prt.control_UP & MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_OR_AND_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I))) != 0);
-        uint32_t analog_value_tmp = (phase_line == 0) ? measurement[IM_UB] : measurement[IM_UBC];
+        uint32_t analog_value_tmp = measurement[IM_UB];
         if (
             ((more_less == 0) && (or_and == 0)) ||
             ((more_less != 0) && (or_and != 0))
@@ -3838,14 +3746,14 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
         {
           if ((uint32_t)analog_value < analog_value_tmp) analog_value = analog_value_tmp;
          
-          analog_value_tmp = (phase_line == 0) ? measurement[IM_UC] : measurement[IM_UCA];
+          analog_value_tmp = measurement[IM_UC];
           if ((uint32_t)analog_value < analog_value_tmp) analog_value = analog_value_tmp;
         }
         else
         {
           if ((uint32_t)analog_value > analog_value_tmp) analog_value = analog_value_tmp;
          
-          analog_value_tmp = (phase_line == 0) ? measurement[IM_UC] : measurement[IM_UCA];
+          analog_value_tmp = measurement[IM_UC];
           if ((uint32_t)analog_value > analog_value_tmp) analog_value = analog_value_tmp;
         }
         
@@ -3853,19 +3761,19 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
       }
     case UP_CTRL_Ua:
       {
-        analog_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) ? measurement[IM_UA] : measurement[IM_UAB];
+        analog_value = measurement[IM_UA];
         
         break;
       }
     case UP_CTRL_Ub:
       {
-        analog_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) ? measurement[IM_UB] : measurement[IM_UBC];
+        analog_value = measurement[IM_UB];
         
         break;
       }
     case UP_CTRL_Uc:
       {
-        analog_value = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) ? measurement[IM_UC] : measurement[IM_UCA];
+        analog_value = measurement[IM_UC];
         
         break;
       }
@@ -4780,7 +4688,7 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[17] = measurement[IM_UCA];
   measurements_U_min_dr[18] = (unsigned int)frequency_int;
   
-  if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
+  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
   {
     //Визначаємо мінімальної фазну напругу між трьома фазами
     min_voltage_dr = measurements_U_min_dr[9];
@@ -4811,7 +4719,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
       (
-       (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) &&
        (  
         (min_voltage_dr > measurement[IM_UA]) ||
         (min_voltage_dr > measurement[IM_UB]) ||
@@ -4820,7 +4728,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
       )   
       || 
       (
-       (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) || ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0)) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0) &&
        (  
         (min_voltage_dr > measurement[IM_UAB]) ||
         (min_voltage_dr > measurement[IM_UBC]) ||
@@ -4853,7 +4761,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[17] = measurement[IM_UCA];
     measurements_U_min_dr[18] = (unsigned int)frequency_int;
 
-    if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
+    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
     {
       //Визначаємо мінімальну фазну напругу між трьома фазами
       min_voltage_dr = measurements_U_min_dr[9];
@@ -4906,7 +4814,7 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[17] = measurement[IM_UCA];
   measurements_U_max_dr[18] = (unsigned int)frequency_int;
   
-  if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
+  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
   {
     //Визначаємо макисальну фазну напругу між трьома фазами
     max_voltage_dr = measurements_U_max_dr[9];
@@ -4937,7 +4845,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
       (
-       (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) &&
        (  
         (max_voltage_dr < measurement[IM_UA]) ||
         (max_voltage_dr < measurement[IM_UB]) ||
@@ -4946,7 +4854,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
       )   
       || 
       (
-       (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0) || ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0)) &&
+       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0) &&
        (  
         (max_voltage_dr < measurement[IM_UAB]) ||
         (max_voltage_dr < measurement[IM_UBC]) ||
@@ -4979,7 +4887,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[17] = measurement[IM_UCA];
     measurements_U_max_dr[18] = (unsigned int)frequency_int;
 
-    if (((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) == 0) && ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0))
+    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
     {
       //Визначаємо макисальну фазну напругу між трьома фазами
       max_voltage_dr = measurements_U_max_dr[9];
@@ -5638,7 +5546,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           for(unsigned int i = 0; i < 7; i++) buffer_for_save_dr_record[FIRST_INDEX_DATA_TIME_DR + i] = *(label_to_time_array + i);
           
           //Додаткові налаштування при яких було запущено дискретний реєстратор
-          unsigned int control_extra_settings_1_tmp = current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE | CTR_EXTRA_SETTINGS_1_CTRL_IB_I04);
+          unsigned int control_extra_settings_1_tmp = 0/*current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE | CTR_EXTRA_SETTINGS_1_CTRL_IB_I04)*/;
           unsigned char *point_to_extra_settings = (unsigned char *)(&control_extra_settings_1_tmp);
           for (unsigned int i = 0; i < sizeof(control_extra_settings_1_tmp); i++)
             buffer_for_save_dr_record[FIRST_INDEX_EXTRA_SETTINGS_DR + i] = *(point_to_extra_settings + i);
@@ -6342,16 +6250,12 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           if (copying_time == 2) label_to_time_array = time_copy;
           else label_to_time_array = time;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
-          //Коефіцієнт трансформації T0
-          header_ar.T0 = current_settings_prt.T0;
           //Коефіцієнт трансформації TT
           header_ar.TCurrent = current_settings_prt.TCurrent;
-          //Коефіцієнт трансформації TT сторони 0.4кВ
-          header_ar.TCurrent04 = current_settings_prt.TCurrent04;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
           //Додаткові налаштування при яких було запущено аналоговий реєстратор
-          header_ar.control_extra_settings_1 = current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE);
+          header_ar.control_extra_settings_1 = 0/*current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)*/;
           //І'мя ячейки
           for(unsigned int i=0; i<MAX_CHAR_IN_NAME_OF_CELL; i++)
             header_ar.name_of_cell[i] = current_settings_prt.name_of_cell[i] & 0xff;
