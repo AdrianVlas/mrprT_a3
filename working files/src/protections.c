@@ -4359,15 +4359,11 @@ inline unsigned int stop_regisrator(unsigned int* carrent_active_functions, unsi
           if (global_timers[i] >= 0) 
           {
             if (
-                (
-                 (i != INDEX_TIMER_PRYVOD_VV) ||
-                 (  
-                  ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) &&
-                  (global_timers[i] < current_settings_prt.timeout_pryvoda_VV) 
-                 )   
-                ) 
-                &&
-                (i != INDEX_TIMER_ACHR_CHAPV_100MS_1)
+                (i != INDEX_TIMER_PRYVOD_VV) ||
+                (  
+                 ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) &&
+                 (global_timers[i] < current_settings_prt.timeout_pryvoda_VV) 
+                )   
                )
             global_timers_work = 1;
           }
