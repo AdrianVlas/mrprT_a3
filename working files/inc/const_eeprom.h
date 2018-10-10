@@ -23,8 +23,6 @@
 #define START_ADDRESS_INFO_REJESTRATORS_DR              (((START_ADDRESS_TRG_FUNC                     + (sizeof(fix_active_buttons) + sizeof(trigger_active_functions) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
 #define START_ADDRESS_INFO_REJESTRATORS_PR_ERR          (((START_ADDRESS_INFO_REJESTRATORS_DR         + (    sizeof(info_rejestrator_dr                              ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
 #define START_ADDRESS_INFO_REJESTRATORS_AR              (((START_ADDRESS_INFO_REJESTRATORS_PR_ERR     + (    sizeof(info_rejestrator_pr_err                          ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
-#define START_ADDRESS_RESURS_IN_EEPROM                  (((START_ADDRESS_INFO_REJESTRATORS_AR         + (    sizeof(info_rejestrator_ar                              ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
-#define START_ADDRESS_ENERGY_IN_EEPROM                  (((START_ADDRESS_RESURS_IN_EEPROM             + (  2*sizeof(unsigned int                                     ) + 1)) & (unsigned int)(~(SIZE_PAGE_EEPROM - 1))) + SIZE_PAGE_EEPROM)
 
 #define COMPARISON_WRITING_SETTINGS_BIT                                 0
 #define COMPARISON_WRITING_SETTINGS                                     (1 << COMPARISON_WRITING_SETTINGS_BIT)
@@ -40,10 +38,6 @@
 #define COMPARISON_WRITING_INFO_REJESTRATOR_DR                          (1 << COMPARISON_WRITING_INFO_REJESTRATOR_DR_BIT)
 #define COMPARISON_WRITING_INFO_REJESTRATOR_PR_ERR_BIT                  6
 #define COMPARISON_WRITING_INFO_REJESTRATOR_PR_ERR                      (1 << COMPARISON_WRITING_INFO_REJESTRATOR_PR_ERR_BIT)
-#define COMPARISON_WRITING_RESURS_BIT                                   7
-#define COMPARISON_WRITING_RESURS                                       (1 << COMPARISON_WRITING_RESURS_BIT)
-#define COMPARISON_WRITING_ENERGY_BIT                                   8
-#define COMPARISON_WRITING_ENERGY                                       (1 << COMPARISON_WRITING_ENERGY_BIT)
 
 #define TASK_EEPROM_WRITE_PREPARATION_BIT                               0      
 
@@ -88,12 +82,6 @@
 
 #define TASK_START_READ_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT              27      
 #define TASK_READING_INFO_REJESTRATOR_PR_ERR_EEPROM_BIT                 28      
-
-#define TASK_START_WRITE_RESURS_EEPROM_BIT                              29      
-#define TASK_WRITING_RESURS_EEPROM_BIT                                  30      
-
-#define TASK_START_READ_RESURS_EEPROM_BIT                               31      
-#define TASK_READING_RESURS_EEPROM_BIT                                  32
 
 #define STATE_SETTINGS_EEPROM_EMPTY_BIT                                 0      
 #define STATE_SETTINGS_EEPROM_EMPTY                                     (1<<STATE_SETTINGS_EEPROM_EMPTY_BIT)      
@@ -147,13 +135,6 @@
 #define STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_FAIL                       (1<<STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_FAIL_BIT)      
 #define STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_GOOD_BIT                   22      
 #define STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_GOOD                       (1<<STATE_INFO_REJESTRATOR_PR_ERR_EEPROM_GOOD_BIT)      
-
-#define STATE_RESURS_EEPROM_EMPTY_BIT                                   23      
-#define STATE_RESURS_EEPROM_EMPTY                                       (1<<STATE_RESURS_EEPROM_EMPTY_BIT)      
-#define STATE_RESURS_EEPROM_FAIL_BIT                                    24      
-#define STATE_RESURS_EEPROM_FAIL                                        (1<<STATE_RESURS_EEPROM_FAIL_BIT)      
-#define STATE_RESURS_EEPROM_GOOD_BIT                                    25      
-#define STATE_RESURS_EEPROM_GOOD                                        (1<<STATE_RESURS_EEPROM_GOOD_BIT) 
 
 /*EEPROM*/
 #define OPCODE_WRITE                                          0x02

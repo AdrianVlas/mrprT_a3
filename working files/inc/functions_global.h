@@ -274,7 +274,6 @@ void control_settings(void);
 void control_ustuvannja(void);
 void control_trg_func(void);
 unsigned int control_info_rejestrator(__INFO_REJESTRATOR*, unsigned char);
-void control_resurs(void);
 
 void test_external_SRAM(void);
 

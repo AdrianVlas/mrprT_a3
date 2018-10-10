@@ -3099,48 +3099,6 @@ unsigned int control_info_rejestrator(__INFO_REJESTRATOR* info_rejestrator_point
 /*****************************************************/
 
 /*****************************************************/
-//Контроль достовірності лічильника ресурсу
-/*****************************************************/
-void control_resurs(void)
-{
-  unsigned char crc_resurs_tmp = 0, temp_value;
-  unsigned char *point;
-  
-  point = (unsigned char*)(&resurs_vymykacha_ctrl); 
-  for (unsigned int i = 0; i < sizeof(resurs_vymykacha_ctrl); i++)
-  {
-    temp_value = *(point);
-    crc_resurs_tmp += temp_value;
-    point++;
-  }
-
-  point = (unsigned char*)(&resurs_vidkljuchennja_ctrl); 
-  for (unsigned int i = 0; i < sizeof(resurs_vidkljuchennja_ctrl); i++)
-  {
-    temp_value = *(point);
-    crc_resurs_tmp += temp_value;
-    point++;
-  }
-
-  if (crc_resurs_ctrl == crc_resurs_tmp)
-  {
-    //Контроль достовірності ресурсу лічильника пройшов успішно
-    
-    //Скидаємо повідомлення у слові діагностики
-    _SET_BIT(clear_diagnostyka, ERROR_RESURS_EEPROM_CONTROL_BIT);
-  }
-  else
-  {
-    //Контроль достовірності юстування не пройшов
-
-    //Виствляємо повідомлення у слові діагностики
-    _SET_BIT(set_diagnostyka, ERROR_RESURS_EEPROM_CONTROL_BIT);
-  }
-  
-}
-/*****************************************************/
-
-/*****************************************************/
 //Визначення номеру місяця з константи __DATE__
 /*****************************************************/
 int str_to_int_DATE_Mmm(void)

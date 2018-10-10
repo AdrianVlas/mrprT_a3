@@ -410,38 +410,38 @@ int getAISmallModbusRegister(int adrReg)
 //    case 70://
 //    case 71://
 //    case 72://
-    case 73://
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 405;
-#else
-        return resurs_vidkljuchennja & 0xffff;
-#endif
-      }
-    case 74://
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 406;
-#else
-        return (resurs_vidkljuchennja >> 16) & 0xffff;
-#endif
-      }
-    case 75://
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 407;
-#else
-        return resurs_vymykacha & 0xffff;
-#endif
-      }
-    case 76://
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 408;
-#else
-        return (resurs_vymykacha >> 16) & 0xffff;
-#endif
-      }
+//    case 73://
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 405;
+//#else
+//        return resurs_vidkljuchennja & 0xffff;
+//#endif
+//      }
+//    case 74://
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 406;
+//#else
+//        return (resurs_vidkljuchennja >> 16) & 0xffff;
+//#endif
+//      }
+//    case 75://
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 407;
+//#else
+//        return resurs_vymykacha & 0xffff;
+//#endif
+//      }
+//    case 76://
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 408;
+//#else
+//        return (resurs_vymykacha >> 16) & 0xffff;
+//#endif
+//      }
 
     }//switch
     return 0;

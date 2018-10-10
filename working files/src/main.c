@@ -348,15 +348,6 @@ inline void periodical_operations(void)
     //Скидаємо активну задачу самоконтролю по резервній копії для аналогового реєстратора
     periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK = false;
   }
-  else if (periodical_tasks_TEST_RESURS_LOCK != 0)
-  {
-    //Стоїть у черзі активна задача самоконтролю по резервній копії для ресурсу лічильника
-    //Виконуємо її
-    control_resurs();
-
-    //Скидаємо активну задачу самоконтролю по резервній копії для аналогового реєстратора
-    periodical_tasks_TEST_RESURS_LOCK = false;
-  }
   /*******************/
 
 //  /*******************/

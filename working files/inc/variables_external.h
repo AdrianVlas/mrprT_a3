@@ -108,22 +108,6 @@ extern unsigned int Uxy_bilshe_porogu[3];
 extern unsigned int Ix_bilshe_porogu[3];
 extern unsigned int temp_states_for_mtz;
 
-//ÇÄÇ
-//#if MODYFIKACIA_VERSII_PZ == 0
-//extern uint32_t delta_time_test;
-//extern uint32_t zdz_ovd_diagnostyka;
-//#endif
-
-//ÍÇÇ
-extern int sector_1[8];
-extern int sector_2[8];
-extern unsigned int sector_i_minus_u_1;
-extern unsigned int sector_i_minus_u_2;
-extern unsigned int po_3I0;
-extern unsigned int po_3U0;
-extern unsigned int sector_NZZ;
-extern unsigned int Nzz_3U0_bilshe_porogu, Nzz_3I0_bilshe_porogu;
-
 //ÒÇÍÏ
 extern unsigned int TZNP_3U0_bilshe_porogu;
 extern unsigned int TZNP_3I0_r_bilshe_porogu;
@@ -172,23 +156,8 @@ extern unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS];
 //extern unsigned int state_df;
 
 //12345
-extern unsigned int  previous_states_MTZ04_vvid_pr_0;
-
-extern unsigned int previous_states_APV_0;
-extern unsigned int trigger_APV_0;
-
-extern _Bool previous_state_po_achr_chapv_uaf1;
-extern _Bool previous_state_po_achr_chapv_ubf1;
-extern _Bool previous_state_po_achr_chapv_ucf1;
-extern _Bool previous_states_CHAPV1;
-extern _Bool previous_states_CHAPV2;
-extern _Bool trigger_CHAPV1;
-extern _Bool trigger_CHAPV2;
-
 extern _Bool previous_states_ready_tu;
 extern _Bool trigger_ready_tu;
-
-extern unsigned int start_restart;
 
 extern unsigned char working_ekran[MAX_ROW_LCD][MAX_COL_LCD];
 extern unsigned int rewrite_ekran_once_more;
@@ -217,8 +186,6 @@ extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR;
 extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR_LOCK;
 extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR;
 extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK;
-extern unsigned int periodical_tasks_TEST_RESURS;
-extern unsigned int periodical_tasks_TEST_RESURS_LOCK;
 extern unsigned int periodical_tasks_TEST_FLASH_MEMORY;
 extern unsigned int periodical_tasks_CALCULATION_ANGLE;
 extern unsigned int periodical_tasks_CALC_ENERGY_DATA;
@@ -384,7 +351,6 @@ extern unsigned int max_phase_current_dr;
 extern unsigned int min_voltage_dr;
 extern unsigned int max_voltage_dr;
 extern unsigned int number_max_phase_dr;
-extern unsigned int number_max_phase04_dr;
 extern unsigned int number_max_3I0_dr;
 extern unsigned int number_max_3U0_dr;
 extern unsigned int number_min_U_dr;
@@ -418,14 +384,6 @@ extern const unsigned char letters[69][2];
 extern const unsigned char extra_letters[12][1 + MAX_NAMBER_LANGUAGE];
 
 extern int current_language;
-
-//Ë³÷èëüíèê ðåñóðñó
-extern unsigned int koef_resurs_changed;
-extern float K_resurs_prt, K_resurs;
-extern unsigned int resurs_vymykacha, resurs_vymykacha_ctrl;
-extern unsigned int resurs_vidkljuchennja, resurs_vidkljuchennja_ctrl;
-extern unsigned char crc_resurs, crc_resurs_ctrl;
-extern unsigned int restart_counter;
 
 //RS-485
 extern unsigned char TxBuffer_RS485[BUFFER_RS485];

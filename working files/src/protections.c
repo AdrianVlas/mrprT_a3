@@ -5027,14 +5027,11 @@ inline void end_monitoring_min_max_measurement(unsigned int type_current, unsign
     )
   {
     int step = number_max_phase_dr   + 
-               number_max_phase04_dr +
                number_max_3I0_dr     + 
                number_max_3U0_dr     + 
                number_min_U_dr       +
                number_max_U_dr       +
-               number_max_ZOP_dr     +
-               number_min_f_achr_dr  +
-               number_f_chapv_dr;
+               number_max_ZOP_dr;
     
     //Перевірка на коректність роботи програмного забеспечення
     if(
@@ -5274,14 +5271,11 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
     //Перевіряємо чи не виникла умова, що зарараз буде перебір фіксації максимальних струмів
     unsigned int temp_value_for_max_min_fix_measurement = (
                                                             number_max_phase_dr   + 
-                                                            number_max_phase04_dr + 
                                                             number_max_3I0_dr     +
                                                             number_max_3U0_dr     +
                                                             number_min_U_dr       +
                                                             number_max_U_dr       +
-                                                            number_max_ZOP_dr     +
-                                                            number_min_f_achr_dr  +
-                                                            number_f_chapv_dr    
+                                                            number_max_ZOP_dr
                                                       );
     if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
     {
@@ -5461,14 +5455,11 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         {
           //Записуємо кількість зафіксованих максимальних струмів всіх типів
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE_DR  ] = number_max_phase_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE04_DR] = number_max_phase04_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3I0_DR    ] = number_max_3I0_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3U0_DR    ] = number_max_3U0_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_U_DR      ] = number_min_U_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_U_DR      ] = number_max_U_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_ZOP_DR    ] = number_max_ZOP_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_F_ACHR_DR ] = number_min_f_achr_dr;
-          buffer_for_save_dr_record[FIRST_INDEX_NUMBER_F_CHAPV_DR    ] = number_f_chapv_dr;
 
           //Помічаємо, що треба при першій же нагоді почати новий запис, бо попередній запис був примусово зупинений
           state_dr_record = STATE_DR_CUT_RECORD;
@@ -5556,14 +5547,11 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           
           //Скидаємо кількість фіксацій максимальних струмів/напруг
           number_max_phase_dr = 0;
-          number_max_phase04_dr = 0;
           number_max_3I0_dr = 0;
           number_max_3U0_dr = 0;
           number_min_U_dr = 0;
           number_max_U_dr = 0;
           number_max_ZOP_dr = 0;
-          number_min_f_achr_dr = 0;
-          number_f_chapv_dr = 0;
           
           //Знімаємо повідомлення про моніторинг максимальних струмів
           state_current_monitoring = 0;
@@ -6080,14 +6068,11 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           {
             //Записуємо кількість зафіксованих максимальних вимірювань всіх типів
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE_DR  ] = number_max_phase_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE04_DR] = number_max_phase04_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3I0_DR    ] = number_max_3I0_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3U0_DR    ] = number_max_3U0_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_U_DR      ] = number_min_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_U_DR      ] = number_max_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_ZOP_DR    ] = number_max_ZOP_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_F_ACHR_DR ] = number_min_f_achr_dr;
-            buffer_for_save_dr_record[FIRST_INDEX_NUMBER_F_CHAPV_DR    ] = number_f_chapv_dr;
 
             //Переводимо режим роботи із дискретним реєстратором у стан "Виконується безпосередній запис у DataFlash"
             if (state_dr_record != STATE_DR_MAKE_RECORD)
@@ -7671,13 +7656,6 @@ inline void main_protection(void)
     state_outputs = 0;
     
     //Переводимо у початковий стан деякі глобальні змінні
-    previous_states_APV_0 = 0;
-    trigger_APV_0 = 0;
-    previous_state_po_achr_chapv_uaf1 = 0;
-    previous_state_po_achr_chapv_ubf1 = 0;
-    previous_state_po_achr_chapv_ucf1 = 0;
-    previous_states_CHAPV1 = 0;
-    trigger_CHAPV1 = 0;
     previous_states_ready_tu = 0;
     trigger_ready_tu = 0;
     
@@ -8147,15 +8125,6 @@ void TIM2_IRQHandler(void)
       //Помічаємо, що зміни прийняті системою захистів
       changed_settings = CHANGED_ETAP_NONE;
     }
-
-    if (koef_resurs_changed == CHANGED_ETAP_ENDED)
-    {
-      //Коефіцієнти для підрахунку ресурсу вимикача
-      K_resurs_prt = K_resurs;
-
-      //Помічаємо, що зміни прийняті системою захистів
-      koef_resurs_changed = CHANGED_ETAP_NONE;
-    }
     /***********************************************************/
 
     /***********************************************************/
@@ -8438,38 +8407,6 @@ void TIM2_IRQHandler(void)
       }
     }
     /***********************************************************/
-
-    //Лічильник ресурсу
-    if (periodical_tasks_TEST_RESURS != 0)
-    {
-      //Стоїть у черзі активна задача зроботи резервні копії даних
-      if ((state_spi1_task & STATE_RESURS_EEPROM_GOOD) != 0)
-      {
-        //Робимо копію тільки тоді, коли інформаціz успішно зчитана і сформована контрольна сума
-        if (
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_START_WRITE_RESURS_EEPROM_BIT) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_WRITING_RESURS_EEPROM_BIT    ) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_START_READ_RESURS_EEPROM_BIT ) == 0) &&
-            (_CHECK_SET_BIT(control_spi1_taskes, TASK_READING_RESURS_EEPROM_BIT    ) == 0)
-           ) 
-        {
-          //На даний моммент не іде читання-запис ресурсу вимикача, тому можна здійснити копіювання
-          resurs_vymykacha_ctrl = resurs_vymykacha;          
-          resurs_vidkljuchennja_ctrl = resurs_vidkljuchennja;
-          crc_resurs_ctrl = crc_resurs;
-
-          //Скидаємо активну задачу формування резервної копії 
-          periodical_tasks_TEST_RESURS = false;
-          //Виставляємо активну задачу контролю достовірності по резервній копії 
-          periodical_tasks_TEST_RESURS_LOCK = true;
-        }
-      }
-      else
-      {
-        //Скидаємо активну задачу формування резервної копії 
-        periodical_tasks_TEST_RESURS = false;
-      }
-    }
 
     /***********************************************************/
     //Встановлюємо "значення лічильника для наступного переривання"

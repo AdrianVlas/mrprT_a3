@@ -1760,14 +1760,14 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       reset_trigger_function_from_interface |= (1 << RS485_RECUEST);
     }//if(action)
     return 0;
-  case 565://Сигнал про очищення ресурсу лічильників з системи захистів
-    if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
-    if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
-    if(actControl&&dataBit)
-    {
-      restart_counter = 0xff; //Сигнал про очищення ресурсу лічильників з системи захистів
-    }//if(action)
-    return 0;
+//  case 565://Сигнал про очищення ресурсу лічильників з системи захистів
+//    if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
+//    if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
+//    if(actControl&&dataBit)
+//    {
+//      restart_counter = 0xff; //Сигнал про очищення ресурсу лічильників з системи захистів
+//    }//if(action)
+//    return 0;
 
   case 567://Активизация конфигурации
     if(actControl)

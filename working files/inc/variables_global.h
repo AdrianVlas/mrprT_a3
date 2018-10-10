@@ -320,34 +320,10 @@ unsigned int Uxy_bilshe_porogu[3]/* = {0, 0, 0}*/;
 unsigned int Ix_bilshe_porogu[3]/* = {0, 0, 0}*/;
 unsigned int temp_states_for_mtz/* = 0*/;
 
-//ЗДЗ
-//#if MODYFIKACIA_VERSII_PZ == 0
-//uint32_t delta_time_test = PERIOD_ZDZ_TEST;
-//uint32_t zdz_ovd_diagnostyka;
-//#endif
-
-//НЗЗ
-int sector_1[8];
-int sector_2[8];
-unsigned int sector_i_minus_u_1/* = 0*/;
-unsigned int sector_i_minus_u_2/* = 0*/;
-unsigned int po_3I0/*     = 0*/; /*0 - зрівнювання з уставкою спрацювання, відмінне від нуля - зрівнювання з уставкою відпускання*/
-unsigned int po_3U0/*     = 0*/; /*0 - зрівнювання з уставкою спрацювання, відмінне від нуля - зрівнювання з уставкою відпускання*/
-unsigned int sector_NZZ/* = 0*/; /*0 - зрівнювання з сектором спрацювання, відмінне від нуля - зрівнювання з сектором відпускання*/
-/*
-0  - кут різниці векторів 3I0 і 3U0 у "сірій" області
-1  - кут різниці векторів 3I0 і 3U0 у 1-ому квадранті
-2  - кут різниці векторів 3I0 і 3U0 у 2-ому квадранті
-3  - кут різниці векторів 3I0 і 3U0 у 3-ому квадранті
-4  - кут різниці векторів 3I0 і 3U0 у 4-ому квадранті
-*/
-unsigned int Nzz_3U0_bilshe_porogu/* = 0*/, Nzz_3I0_bilshe_porogu/* = 0*/;
-
 //ТЗНП
 unsigned int TZNP_3U0_bilshe_porogu/* = 0*/;
 unsigned int TZNP_3I0_r_bilshe_porogu/* = 0*/;
 unsigned int sector_directional_tznp[3]/* = {0, 0, 0}*/;
-
 
 unsigned int i1_bilshe_porogu/* = 0*/, i2_bilshe_porogu/* = 0*/;
 
@@ -391,21 +367,8 @@ unsigned int output_timer_prt_signal_output_mode_2/* = false*/;
 unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS] = {NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF}; //Етап виконання опреділюваної функції
 //unsigned int state_df = 0; //Текучий стан опреділюваних функцій
 
-unsigned int previous_states_APV_0/* = 0*/;
-unsigned int trigger_APV_0/* = 0*/;
-
-_Bool previous_state_po_achr_chapv_uaf1/* = 0*/;
-_Bool previous_state_po_achr_chapv_ubf1/* = 0*/;
-_Bool previous_state_po_achr_chapv_ucf1/* = 0*/;
-_Bool previous_states_CHAPV1/* = 0*/;
-_Bool previous_states_CHAPV2/* = 0*/;
-_Bool trigger_CHAPV1/* = 0*/;
-_Bool trigger_CHAPV2/* = 0*/;
-
 _Bool previous_states_ready_tu/* = 0*/;
 _Bool trigger_ready_tu/* = 0*/;
-
-unsigned int start_restart = 0xff;
 
 SRAM1 unsigned char working_ekran[MAX_ROW_LCD][MAX_COL_LCD];
 unsigned int rewrite_ekran_once_more/* = 0*/;
@@ -457,8 +420,6 @@ unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR/* = false*/;
 unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_DR_LOCK/* = false*/;
 unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR/* = false*/;
 unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK/* = false*/;
-unsigned int periodical_tasks_TEST_RESURS/* = false*/;
-unsigned int periodical_tasks_TEST_RESURS_LOCK/* = false*/;
 unsigned int periodical_tasks_TEST_FLASH_MEMORY/* = false*/;
 unsigned int periodical_tasks_CALCULATION_ANGLE/* = false*/;
 unsigned int periodical_tasks_CALC_ENERGY_DATA/* = false*/;
@@ -693,14 +654,11 @@ unsigned int max_phase_current_dr;   //максимальний фазний струм
 unsigned int min_voltage_dr;  //мінімальнва фазна/лінійна напруга
 unsigned int max_voltage_dr;  //максимальна фазна/лінійна напруга
 unsigned int number_max_phase_dr;
-unsigned int number_max_phase04_dr;
 unsigned int number_max_3I0_dr;
 unsigned int number_max_3U0_dr;
 unsigned int number_min_U_dr;
 unsigned int number_max_U_dr;
 unsigned int number_max_ZOP_dr;
-unsigned int number_min_f_achr_dr;
-unsigned int number_f_chapv_dr;
 unsigned int type_view_max_values_dr;
 int index_cell_into_array_for_min_max_measurement_dr;
 unsigned int control_extra_settings_1_dr_for_manu;
@@ -722,14 +680,6 @@ unsigned int number_record_of_pr_err_into_RS485 = 0xffff;
 
 //Очистка інформації по реєстраторах
 unsigned int clean_rejestrators/* = 0*/;
-
-//Лічильник ресурсу
-unsigned int koef_resurs_changed = CHANGED_ETAP_NONE;
-float K_resurs_prt, K_resurs;
-unsigned int resurs_vymykacha/* = 0*/, resurs_vymykacha_ctrl;
-unsigned int resurs_vidkljuchennja/* = 0*/, resurs_vidkljuchennja_ctrl;
-unsigned char crc_resurs, crc_resurs_ctrl;
-unsigned int restart_counter/* = 0*/;
 
 //RS-485
 SRAM1 unsigned char TxBuffer_RS485[BUFFER_RS485];
