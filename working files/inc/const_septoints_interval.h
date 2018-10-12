@@ -10,6 +10,46 @@
 #define SETPOINT_GRUPA_USTAVOK_MIN    1
 #define SETPOINT_GRUPA_USTAVOK_MAX    4
 
+enum _type_con_ozt
+{
+  TYPE_CON_OZT_0 = 0,
+  TYPE_CON_OZT_1,
+  TYPE_CON_OZT_11,
+  
+  _N_TYPE_CON_OZT 
+};
+
+#define PICKUP_OZT_DELTA_Id_MIN         200
+#define PICKUP_OZT_DELTA_Id_MAX         40000
+
+#define PICKUP_OZT_K_MIN                0
+#define PICKUP_OZT_K_MAX                1000
+
+#define PICKUP_OZT_Id0_MIN              500
+#define PICKUP_OZT_Id0_MAX              10000
+
+#define PICKUP_OZT_Ig0_MIN              500
+#define PICKUP_OZT_Ig0_MAX              20000
+
+#define PICKUP_OZT_Kg1_MIN              300
+#define PICKUP_OZT_Kg1_MAX              900
+
+#define PICKUP_OZT_Ig_OBM_MIN           2000
+#define PICKUP_OZT_Ig_OBM_MAX           80000
+
+#define PICKUP_OZT_Kg2_MIN              0
+#define PICKUP_OZT_Kg2_MAX              900
+
+#define PICKUP_OZT_KP_MIN               50
+#define PICKUP_OZT_KP_DEFAULT           95
+#define PICKUP_OZT_KP_MAX               98
+
+#define TIMEOUT_OZT1_MIN                0
+#define TIMEOUT_OZT1_MAX                32000
+
+#define TIMEOUT_OZT2_MIN                0
+#define TIMEOUT_OZT2_MAX                32000
+
 #define TYPE_MTZ_SIMPLE                0
 #define TYPE_MTZ_DIRECTIONAL           1
 #define TYPE_MTZ_VOLTAGE               2

@@ -114,6 +114,22 @@ typedef struct
                                       // 3 - Група 3
                                       // 4 - Група 4
   
+  //ОЗТ
+  int32_t type_con_ozt;                                         //Група з'єднань (0 - Група 1; 1 - Група 1; 2 - Група 11)
+  uint32_t pickup_ozt_delta_Id[NUMBER_GROUP_USTAVOK];           //Уставка  Дельта Iд.відс.
+  uint32_t pickup_ozt_k[NUMBER_GROUP_USTAVOK];                  //Уставка k коефіцієхнт розподілу для розрахунку струму гальмування)
+  uint32_t pickup_ozt_Id0[NUMBER_GROUP_USTAVOK];                //Уставка Id0 (початкова горизонтальна ділянка)
+  uint32_t pickup_ozt_Ig0[NUMBER_GROUP_USTAVOK];                //Уставка Iг0 (струм початкового гальмування)
+  uint32_t pickup_ozt_Kg1[NUMBER_GROUP_USTAVOK];                //Уставка kг1 (коефіцієнт гальмування ділянки 1)
+  uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування)
+  uint32_t pickup_ozt_Kg2[NUMBER_GROUP_USTAVOK];                //Уставка kг2 (коефіцієнт гальмування ділянки 2)
+  uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ
+  
+  int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня"
+  int32_t timeout_ozt2[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії другого ступеня"
+
+  uint32_t control_ozt;                                         //Поле для управління ОЗТ
+  
   //МТЗ
   int type_mtz1;                                                //Тип МТЗ1 (0 - Проста, 1 - Направлена, 2 -  З пуском по напрузі)
   unsigned int setpoint_mtz_1[NUMBER_GROUP_USTAVOK];            //Уставка МТЗ першої ступені (проста)

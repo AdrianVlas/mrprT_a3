@@ -7181,6 +7181,9 @@ inline void main_protection(void)
         MASKA_OZT_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_ozt_signals[i]);
+
+      global_timers[INDEX_TIMER_OZT1] = -1;
+      global_timers[INDEX_TIMER_OZT2] = -1;
     }
     /**************************/
 

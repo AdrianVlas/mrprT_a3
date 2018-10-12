@@ -185,7 +185,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       )
       error_window |= (1 << UP_BIT_CONFIGURATION );
   }
-  //Перевірка "Визначення місця пошкодження"
   //Перевірка "Розширеної логіки"
   if ((new_configuration & (1<<EL_BIT_CONFIGURATION)) == 0)
   {
@@ -208,7 +207,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<OZT_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ступені ОЗТ
-//      target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
+      target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
    
 //      //Виводим ступені ОЗТ з УРОВ
 //      target_label->control_urov &= (unsigned int)(~(
