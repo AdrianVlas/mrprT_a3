@@ -46,10 +46,10 @@ int getQAISmallModbusRegister(int adrReg)
     int offset = adrReg-BEGIN_ADR_REGISTER;
     switch (offset)
     {
-    case 3://Ток емкостной 3Io
-      {
-        return (measurement_low[IM_3I0_i]) &0xFFFF;
-      }
+//    case 3://Ток емкостной 3Io
+//      {
+//        return (measurement_low[IM_3I0_i]) &0xFFFF;
+//      }
     }//switch
 
     return 0;

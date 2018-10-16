@@ -242,26 +242,40 @@ Koef_1 = 74.831881801009052122160116719483 (4790/64 = 74.84375)
 
 enum _index_meas
 {
-  IM_3I0_i = 0,
-  IM_3I0,
-  IM_3I0_other_g,
-  IM_3I0_r,
-  IM_IA,
-  IM_IB,
-  IM_IC,
-  IM_I2,
-  IM_I1,
-  IM_I04,
+  IM_IA_H,
+  IM_IB_H,
+  IM_IC_H,
+  IM_IA_L,
+  IM_IB_L,
+  IM_IC_L,
   IM_UA,
   IM_UB,
   IM_UC,
-  IM_3U0,
+  IM_adIA,
+  IM_adIB,
+  IM_adIC,
+  IM_dIA,
+  IM_dIB,
+  IM_dIC,
+  IM_2dIA,
+  IM_2dIB,
+  IM_2dIC,
+  IM_5dIA,
+  IM_5dIB,
+  IM_5dIC,
+  IM_3I0_r_H,
+  IM_I2_H,
+  IM_I1_H,
+  IM_3I0_r_L,
+  IM_I2_L,
+  IM_I1_L,
   IM_UAB,
   IM_UBC,
   IM_UCA,
+  IM_3U0_r,
   IM_U2,
   IM_U1,
-  
+
   _NUMBER_IM
 };
 
@@ -275,7 +289,6 @@ enum _PhK
 INDEX_PhK_UA = 0,
 INDEX_PhK_UB,
 INDEX_PhK_UC,
-INDEX_PhK_3U0,
 
 MAX_INDEX_PhK
 };

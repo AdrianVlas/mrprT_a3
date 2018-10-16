@@ -467,16 +467,16 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
   };
   unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
   {
-    IM_3I0_i,
-    IM_3I0,
-    IM_3I0_other_g,
-    IM_3I0_r,
-    IM_IA,
-    IM_IB,
-    IM_IC,
-    IM_I2,
-    IM_I1,
-    IM_I04
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
+    IM_IA_H,
   };
   
   //Копіюємо вимірювання які потрібні для відображення
@@ -523,9 +523,9 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
         unsigned int koef_mul = 1;
         if (pervynna_vtorynna != 0)
         {
-          if (index < IM_3I0_r) koef_mul = 1/*current_settings.T0*/;
-          else if (index == IM_I04) koef_mul = 1/*current_settings.TCurrent04*/;
-          else  koef_mul = current_settings.TCurrent;
+//          if (index < IM_3I0_r) koef_mul = 1/*current_settings.T0*/;
+//          else if (index == IM_I04) koef_mul = 1/*current_settings.TCurrent04*/;
+          /*else*/  koef_mul = current_settings.TCurrent;
         }
         convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], koef_mul, 1, name_string[index_of_ekran], 7);
       }
@@ -566,7 +566,7 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
     " U1  =          ",
     " 3U0 =          "
   };
-  const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE] = {IM_UA, IM_UB, IM_UC, IM_U2, IM_U1, IM_3U0};
+  const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE] = {IM_UA, IM_UB, IM_UC, IM_U2, IM_U1, IM_3U0_r};
 
   //Копіюємо вимірювання які потрібні для відображення
   semaphore_measure_values_low1 = 1;

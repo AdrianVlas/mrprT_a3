@@ -257,11 +257,6 @@ void fapch(void)
     index_1 = INDEX_PhK_UC;
     maska_canaliv_fapch_tmp = READ_Uc;
   }
-  else if (measurement_high[bank_measurement_high_tmp][IM_3U0] >= PORIG_FOR_FAPCH) 
-  {
-    index_1 = INDEX_PhK_3U0;
-    maska_canaliv_fapch_tmp = READ_3U0;
-  }
   maska_canaliv_fapch = maska_canaliv_fapch_tmp;
   /*****/
 
@@ -892,19 +887,19 @@ void SPI_ADC_IRQHandler(void)
         Зафіксований перехід через нуль
         */
         //Попередній перехід
-        perechid_cherez_nul[INDEX_PhK_3U0][0].x1 = poperednij_perechid.U0_x1;
-        perechid_cherez_nul[INDEX_PhK_3U0][0].y1 = poperednij_perechid.U0_y1;
-        perechid_cherez_nul[INDEX_PhK_3U0][0].x2 = poperednij_perechid.U0_x2;
-        perechid_cherez_nul[INDEX_PhK_3U0][0].y2 = poperednij_perechid.U0_y2;
+//        perechid_cherez_nul[INDEX_PhK_3U0][0].x1 = poperednij_perechid.U0_x1;
+//        perechid_cherez_nul[INDEX_PhK_3U0][0].y1 = poperednij_perechid.U0_y1;
+//        perechid_cherez_nul[INDEX_PhK_3U0][0].x2 = poperednij_perechid.U0_x2;
+//        perechid_cherez_nul[INDEX_PhK_3U0][0].y2 = poperednij_perechid.U0_y2;
           
         //Поточний перехід
-        poperednij_perechid.U0_x1 = perechid_cherez_nul[INDEX_PhK_3U0][1].x1 = penultimate_tick_DATA_VAL;
-        poperednij_perechid.U0_y1 = perechid_cherez_nul[INDEX_PhK_3U0][1].y1 = ADCs_data[I_3U0];
-        poperednij_perechid.U0_x2 = perechid_cherez_nul[INDEX_PhK_3U0][1].x2 = _x;
-        poperednij_perechid.U0_y2 = perechid_cherez_nul[INDEX_PhK_3U0][1].y2 = _y;
+//        poperednij_perechid.U0_x1 = perechid_cherez_nul[INDEX_PhK_3U0][1].x1 = penultimate_tick_DATA_VAL;
+//        poperednij_perechid.U0_y1 = perechid_cherez_nul[INDEX_PhK_3U0][1].y1 = ADCs_data[I_3U0];
+//        poperednij_perechid.U0_x2 = perechid_cherez_nul[INDEX_PhK_3U0][1].x2 = _x;
+//        poperednij_perechid.U0_y2 = perechid_cherez_nul[INDEX_PhK_3U0][1].y2 = _y;
           
         //Помічаємо, що перехід зафіксований
-        fix_perechid_cherez_nul[INDEX_PhK_3U0] = 0xff;
+//        fix_perechid_cherez_nul[INDEX_PhK_3U0] = 0xff;
       }
       ADCs_data[I_3U0] = _y;
       
@@ -1664,11 +1659,6 @@ void calc_angle(void)
         index_m = IM_UCA;
         break;
       }
-    case FULL_ORT_3U0:
-      {
-        index_m = IM_3U0;
-        break;
-      }
     default:
       {
         //Теоретично цього ніколи не мало б бути
@@ -1745,48 +1735,36 @@ void calc_angle(void)
               index_m = IM_UCA;
               break;
             }
-          case FULL_ORT_3U0:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_3U0;
-              break;
-            }
-          case FULL_ORT_Ia:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IA;
-              break;
-            }
-          case FULL_ORT_Ib:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IB;
-              break;
-            }
-          case FULL_ORT_Ic:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IC;
-              break;
-            }
-          case FULL_ORT_3I0:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_3I0;
-              break;
-            }
-          case FULL_ORT_3I0_r:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_3I0_r;
-              break;
-            }
-          case FULL_ORT_I04:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_I04;
-              break;
-            }
+//          case FULL_ORT_Ia:
+//            {
+//              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+//              index_m = IM_IA;
+//              break;
+//            }
+//          case FULL_ORT_Ib:
+//            {
+//              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+//              index_m = IM_IB;
+//              break;
+//            }
+//          case FULL_ORT_Ic:
+//            {
+//              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+//              index_m = IM_IC;
+//              break;
+//            }
+//          case FULL_ORT_3I0:
+//            {
+//              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+//              index_m = IM_3I0;
+//              break;
+//            }
+//          case FULL_ORT_3I0_r:
+//            {
+//              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+//              index_m = IM_3I0_r;
+//              break;
+//            }
           default:
             {
               //Теоретично цього ніколи не мало б бути

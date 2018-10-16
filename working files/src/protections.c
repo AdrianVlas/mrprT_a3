@@ -140,7 +140,7 @@ inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[], const 
   };
   const uint32_t const_val[_NUMBER_FOR_I_U][4] = 
   {
-    {IM_I2, IM_I1, MNOGNYK_I_DIJUCHE, (VAGA_DILENNJA_I_DIJUCHE + 4)},
+    {IM_I2_H, IM_I1_H, MNOGNYK_I_DIJUCHE, (VAGA_DILENNJA_I_DIJUCHE + 4)},
     {IM_U2, IM_U1, MNOGNYK_U_DIJUCHE, (VAGA_DILENNJA_U_DIJUCHE + 4)}
   };
     
@@ -232,7 +232,7 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
       {
       case 0:
         {
-          index_I = IM_IA;
+          index_I = IM_IA_H;
           index_U = IM_UBC;
 
           index_I_ort = FULL_ORT_Ia;
@@ -242,7 +242,7 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
         }
       case 1:
         {
-          index_I = IM_IB;
+          index_I = IM_IB_H;
           index_U = IM_UCA;
 
           index_I_ort = FULL_ORT_Ib;
@@ -252,7 +252,7 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
         }
       case 2:
         {
-          index_I = IM_IC;
+          index_I = IM_IC_H;
           index_U = IM_UAB;
 
           index_I_ort = FULL_ORT_Ic;
@@ -465,12 +465,12 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
     unsigned int porig_U;
     if (TZNP_3U0_bilshe_porogu == 0) porig_U = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE*KOEF_POVERNENNJA_SECTOR_BLK/100;
     else porig_U = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-    unsigned int U_bilshe_porogu_tmp = TZNP_3U0_bilshe_porogu = (measurement[IM_3U0] >= porig_U);
+    unsigned int U_bilshe_porogu_tmp = TZNP_3U0_bilshe_porogu = (measurement[IM_3U0_r] >= porig_U);
       
     unsigned int porig_I;
     if (TZNP_3I0_r_bilshe_porogu == 0) porig_I = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
     else porig_I = PORIG_CHUTLYVOSTI_CURRENT;
-    unsigned int I_bilshe_porogu_tmp = TZNP_3I0_r_bilshe_porogu  = (measurement[IM_3I0_r] >= porig_I);
+    unsigned int I_bilshe_porogu_tmp = TZNP_3I0_r_bilshe_porogu  = (measurement[IM_3I0_r_H] >= porig_I);
 
     if (
         (U_bilshe_porogu_tmp != 0) &&
@@ -647,7 +647,7 @@ inline void calc_power(int ortogonal_local_calc[])
 #define UC_COS          ortogonal_local_calc[2*FULL_ORT_Uc + 0]
   
   long long Re_UaIa, Im_UaIa;
-  if (measurement[IM_IA] >= PORIG_I_ENERGY)
+  if (measurement[IM_IA_H] >= PORIG_I_ENERGY)
   {
     Re_UaIa = UA_COS*IA_COS + UA_SIN*IA_SIN;
     Im_UaIa = UA_SIN*IA_COS - UA_COS*IA_SIN;
@@ -660,7 +660,7 @@ inline void calc_power(int ortogonal_local_calc[])
   }
   
   long long Re_UbIb, Im_UbIb;
-  if (measurement[IM_IB] >= PORIG_I_ENERGY)
+  if (measurement[IM_IB_H] >= PORIG_I_ENERGY)
   {
     Re_UbIb = UB_COS*IB_COS + UB_SIN*IB_SIN;
     Im_UbIb = UB_SIN*IB_COS - UB_COS*IB_SIN;
@@ -673,7 +673,7 @@ inline void calc_power(int ortogonal_local_calc[])
   }
   
   long long Re_UcIc, Im_UcIc;
-  if (measurement[IM_IC] >= PORIG_I_ENERGY)
+  if (measurement[IM_IC_H] >= PORIG_I_ENERGY)
   {
     Re_UcIc = UC_COS*IC_COS + UC_SIN*IC_SIN;
     Im_UcIc = UC_SIN*IC_COS - UC_COS*IC_SIN;
@@ -776,7 +776,7 @@ inline void calc_measurement(unsigned int number_group_stp)
 {
   int ortogonal_local[2*NUMBER_ANALOG_CANALES];
   unsigned long long sum_sqr_data_3I0_local;
-  float value_3I0_i_float, value_3I0_f_float;
+//  float value_3I0_i_float, value_3I0_f_float;
 
   //Виставляємо семафор заборони обновлення значень з вимірювальної системи
 //  semaphore_measure_values = 1;
@@ -901,8 +901,8 @@ inline void calc_measurement(unsigned int number_group_stp)
   то виникає похибка при розрахунку вищих гармонік.
   Тому треба іти на такі спрощення виразів
   */
-  value_3I0_i_float = (unsigned int)(MNOGNYK_3I0_FLOAT*((float)sum_sqr_data_3I0_local)/(1024.0f)); /*1024 = 4*256. 256 - це підсилення каналу 3I0; 4 - це sqrt(16), а 16 береться з того. що 32 = 16*2 */
-  measurement[IM_3I0_i] = (unsigned int)value_3I0_i_float; 
+//  value_3I0_i_float = (unsigned int)(MNOGNYK_3I0_FLOAT*((float)sum_sqr_data_3I0_local)/(1024.0f)); /*1024 = 4*256. 256 - це підсилення каналу 3I0; 4 - це sqrt(16), а 16 береться з того. що 32 = 16*2 */
+//  measurement[IM_3I0_i] = (unsigned int)value_3I0_i_float; 
   /***/
   
   /*
@@ -947,41 +947,26 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
-    if (i == I_3I0)
-    {
-      long long a, b;
-      a = (long long)ortogonal_calc[2*FULL_ORT_3I0];
-      b = (long long)ortogonal_calc[2*FULL_ORT_3I0 + 1];
-      unsigned long long a2, b2, c;
-      a2 = a*a;
-      b2 = b*b;
-      c = a2 + b2;
-      unsigned int d;
-      d = sqrt_64(c);
-      value_3I0_f_float = (unsigned int)(MNOGNYK_3I0_FLOAT*((float)d)/(256.0f)); /*256 - це підсиланне сигналу 3I0*/
-
-      measurement[IM_3I0] = (unsigned int)value_3I0_f_float;
-    }
-    else if ((i >= I_Ia) && (i <= I_Ic))
+    if ((i >= I_Ia) && (i <= I_Ic))
     {
       unsigned int index_m, index_ort;
       switch (i)
       {
       case I_Ia:
         {
-          index_m = IM_IA;
+          index_m = IM_IA_H;
           index_ort = FULL_ORT_Ia;
           break;
         }
       case I_Ib_I04:
         {
-          index_m = IM_IB;
+          index_m = IM_IB_H;
           index_ort = FULL_ORT_Ib;
           break;
         }
       case I_Ic:
         {
-          index_m = IM_IC;
+          index_m = IM_IC_H;
           index_ort = FULL_ORT_Ic;
           break;
         }
@@ -1010,7 +995,7 @@ inline void calc_measurement(unsigned int number_group_stp)
         }
       case I_3U0:
         {
-          index_m = IM_3U0;
+          index_m = IM_3U0_r;
           index_ort = FULL_ORT_3U0;
           break;
         }
@@ -1030,22 +1015,22 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   //Розраховуємо діюче значення вищих гармонік 3I0
   /***/
-  if (value_3I0_i_float > value_3I0_f_float)
-  {
-    float in_square_root, out_square_root;
-    in_square_root = value_3I0_i_float*value_3I0_i_float - value_3I0_f_float*value_3I0_f_float;
-    if (arm_sqrt_f32(in_square_root, &out_square_root) == ARM_MATH_SUCCESS)
-    {
-      measurement[IM_3I0_other_g] = (unsigned int)out_square_root;
-    }
-    else
-    {
-      //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
-      total_error_sw_fixed(59);
-    }
-  }
-  else
-    measurement[IM_3I0_other_g] = 0;
+//  if (value_3I0_i_float > value_3I0_f_float)
+//  {
+//    float in_square_root, out_square_root;
+//    in_square_root = value_3I0_i_float*value_3I0_i_float - value_3I0_f_float*value_3I0_f_float;
+//    if (arm_sqrt_f32(in_square_root, &out_square_root) == ARM_MATH_SUCCESS)
+//    {
+//      measurement[IM_3I0_other_g] = (unsigned int)out_square_root;
+//    }
+//    else
+//    {
+//      //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
+//      total_error_sw_fixed(59);
+//    }
+//  }
+//  else
+//    measurement[IM_3I0_other_g] = 0;
   /***/
 
   /***
@@ -1056,9 +1041,9 @@ inline void calc_measurement(unsigned int number_group_stp)
   {   
     //3I0(розрахункове)
     
-    ortogonal_calc[2*FULL_ORT_I04 + 0] = 0;
-    ortogonal_calc[2*FULL_ORT_I04 + 1] = 0;
-    measurement[IM_I04] = 0;
+//    ortogonal_calc[2*FULL_ORT_I04 + 0] = 0;
+//    ortogonal_calc[2*FULL_ORT_I04 + 1] = 0;
+//    measurement[IM_I04] = 0;
     
     _x = ortogonal_calc[2*FULL_ORT_3I0_r + 0] = ortogonal_calc[2*FULL_ORT_Ia    ] + ortogonal_calc[2*FULL_ORT_Ib    ] + ortogonal_calc[2*FULL_ORT_Ic    ];
     _y = ortogonal_calc[2*FULL_ORT_3I0_r + 1] = ortogonal_calc[2*FULL_ORT_Ia + 1] + ortogonal_calc[2*FULL_ORT_Ib + 1] + ortogonal_calc[2*FULL_ORT_Ic + 1];
@@ -1070,7 +1055,7 @@ inline void calc_measurement(unsigned int number_group_stp)
       ortogonal_calc_low[2*FULL_ORT_3I0_r + 0] = _x;
       ortogonal_calc_low[2*FULL_ORT_3I0_r + 1] = _y;
     }
-    measurement[IM_3I0_r] = ( MNOGNYK_I_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
+    measurement[IM_3I0_r_H] = ( MNOGNYK_I_DIJUCHE*(sqrt_64((unsigned long long)((long long)_x*(long long)_x) + (unsigned long long)((long long)_y*(long long)_y))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
   }
     
   //Ubc
@@ -2407,9 +2392,9 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
             i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 :
             i_nom_const;
   
-  previous_state_mtz_po_incn = ((measurement[IM_IA] <= po_i_ncn_setpoint)   &&
-                                (measurement[IM_IB] <= po_i_ncn_setpoint) &&
-                                (measurement[IM_IC] <= po_i_ncn_setpoint));
+  previous_state_mtz_po_incn = ((measurement[IM_IA_H] <= po_i_ncn_setpoint)   &&
+                                (measurement[IM_IB_H] <= po_i_ncn_setpoint) &&
+                                (measurement[IM_IC_H] <= po_i_ncn_setpoint));
   
   //ПО Uнцн
   po_u_ncn_setpoint = previous_state_mtz_po_uncn ?
@@ -2477,9 +2462,9 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
             *(setpoint_mtz[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100 :
             *(setpoint_mtz[mtz_level] + number_group_stp);
     
-    tmp_value |= ((measurement[IM_IA] >= po_mtz_x) ||
-          (measurement[IM_IB] >= po_mtz_x) ||
-          (measurement[IM_IC] >= po_mtz_x)) << 4; //ПО МТЗх
+    tmp_value |= ((measurement[IM_IA_H] >= po_mtz_x) ||
+          (measurement[IM_IB_H] >= po_mtz_x) ||
+          (measurement[IM_IC_H] >= po_mtz_x)) << 4; //ПО МТЗх
     /******ПО МТЗх***********************/
     
     //М
@@ -2521,18 +2506,18 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
             *(setpoint_mtz_n_vpered[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100 :
             *(setpoint_mtz_n_vpered[mtz_level] + number_group_stp);
     
-    direction_ABC_tmp |= (measurement[IM_IA] >= po_mtzn_x_vpered_setpoint) << 8; //Сравниваем с уставкой тока по фазе А (вперед)
-    direction_ABC_tmp |= (measurement[IM_IB] >= po_mtzn_x_vpered_setpoint) << 9; //Сравниваем с уставкой тока по фазе B (вперед)
-    direction_ABC_tmp |= (measurement[IM_IC] >= po_mtzn_x_vpered_setpoint) << 10; //Сравниваем с уставкой тока по фазе C (вперед)
+    direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_vpered_setpoint) << 8; //Сравниваем с уставкой тока по фазе А (вперед)
+    direction_ABC_tmp |= (measurement[IM_IB_H] >= po_mtzn_x_vpered_setpoint) << 9; //Сравниваем с уставкой тока по фазе B (вперед)
+    direction_ABC_tmp |= (measurement[IM_IC_H] >= po_mtzn_x_vpered_setpoint) << 10; //Сравниваем с уставкой тока по фазе C (вперед)
     
     //Уставка ПО МТЗН1 прям. с учетом гистерезиса
     po_mtzn_x_nazad_setpoint = (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_NAZAD]) != 0) ?
             *(setpoint_mtz_n_nazad[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100 :
             *(setpoint_mtz_n_nazad[mtz_level] + number_group_stp);
     
-    direction_ABC_tmp |= (measurement[IM_IA] >= po_mtzn_x_nazad_setpoint) << 11; //Сравниваем с уставкой тока по фазе А (назад)
-    direction_ABC_tmp |= (measurement[IM_IB] >= po_mtzn_x_nazad_setpoint) << 12; //Сравниваем с уставкой тока по фазе B (назад)
-    direction_ABC_tmp |= (measurement[IM_IC] >= po_mtzn_x_nazad_setpoint) << 13; //Сравниваем с уставкой тока по фазе C (назад)
+    direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_nazad_setpoint) << 11; //Сравниваем с уставкой тока по фазе А (назад)
+    direction_ABC_tmp |= (measurement[IM_IB_H] >= po_mtzn_x_nazad_setpoint) << 12; //Сравниваем с уставкой тока по фазе B (назад)
+    direction_ABC_tmp |= (measurement[IM_IC_H] >= po_mtzn_x_nazad_setpoint) << 13; //Сравниваем с уставкой тока по фазе C (назад)
     
     _AND2(direction_ABC_tmp, 8, direction_ABC_tmp, 0, direction_ABC_tmp, 14);
     _AND2(direction_ABC_tmp, 9, direction_ABC_tmp, 1, direction_ABC_tmp, 15);
@@ -2594,9 +2579,9 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
             *(setpoint_mtz_po_napruzi[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100:
             *(setpoint_mtz_po_napruzi[mtz_level] + number_group_stp);
     
-    tmp_value |= ((measurement[IM_IA] >= po_mtzpn_x_setpoint)   ||
-                  (measurement[IM_IB] >= po_mtzpn_x_setpoint) ||
-                  (measurement[IM_IC] >= po_mtzpn_x_setpoint)) << 17; //ПО МТЗПНх
+    tmp_value |= ((measurement[IM_IA_H] >= po_mtzpn_x_setpoint)   ||
+                  (measurement[IM_IB_H] >= po_mtzpn_x_setpoint) ||
+                  (measurement[IM_IC_H] >= po_mtzpn_x_setpoint)) << 17; //ПО МТЗПНх
     /******ПО МТЗПНх***********************/
     
     if (mtz_level == 1) { //только для 2-ой ступени
@@ -2702,9 +2687,9 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
       _AND2(tmp, 4, tmp_value, 24, tmp, 12);
       _AND2(tmp, 3, tmp_value, 24, tmp, 13);
       
-      unsigned int i_max = measurement[IM_IA];
-      if (i_max < measurement[IM_IB]) i_max = measurement[IM_IB];
-      if (i_max < measurement[IM_IC]) i_max = measurement[IM_IC];
+      unsigned int i_max = measurement[IM_IA_H];
+      if (i_max < measurement[IM_IB_H]) i_max = measurement[IM_IB_H];
+      if (i_max < measurement[IM_IC_H]) i_max = measurement[IM_IC_H];
       _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, current_settings_prt.setpoint_mtz_2[number_group_stp], current_settings_prt.timeout_mtz_2[number_group_stp], current_settings_prt.type_mtz2), tmp, 5, p_global_trigger_state_mtz2, 0);
       _TIMER_T_0(INDEX_TIMER_MTZ2_PR, current_settings_prt.timeout_mtz_2_pr[number_group_stp], tmp, 6, tmp, 15);
       _TIMER_T_0(INDEX_TIMER_MTZ2, current_settings_prt.timeout_mtz_2[number_group_stp], tmp, 7, tmp, 16);
@@ -2872,7 +2857,7 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3I0_vpered*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    if (measurement[IM_3I0_r] >= setpoint)
+    if (measurement[IM_3I0_r_H] >= setpoint)
     {
       logic_TZNP_0 |=  1 << 3;
       _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
@@ -2893,7 +2878,7 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3U0_vpered*KOEF_POVERNENNJA_3U0/100;
     }
-    if (measurement[IM_3U0] >= setpoint)
+    if (measurement[IM_3U0_r] >= setpoint)
     {
       logic_TZNP_0 |=  1 << 4;
       _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_VPERED));
@@ -2914,7 +2899,7 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3I0_nazad*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    if (measurement[IM_3I0_r] >= setpoint)
+    if (measurement[IM_3I0_r_H] >= setpoint)
     {
       logic_TZNP_0 |=  1 << 5;
       _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
@@ -2935,7 +2920,7 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3U0_nazad*KOEF_POVERNENNJA_3U0/100;
     }
-    if (measurement[IM_3U0] >= setpoint)
+    if (measurement[IM_3U0_r] >= setpoint)
     {
       logic_TZNP_0 |=  1 << 6;
       _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3U0_TZNP_NAZAD));
@@ -3001,7 +2986,7 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
   /*******************************/
   //Фуксуємо у локальній змінній текучі струми зворотньої послідовності і прямоїпослідовності
   /*******************************/
-  unsigned int i2_current = measurement[IM_I2], i1_current = measurement[IM_I1];
+  unsigned int i2_current = measurement[IM_I2_H], i1_current = measurement[IM_I1_H];
   /*******************************/
   
   /*******************************/
@@ -3135,9 +3120,9 @@ void umin1_handler(unsigned int *p_active_functions, unsigned int number_group_s
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL_DOWN / 100 :
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp];
   
-  _Bool Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA] <= setpoint3) &&
-                                         (measurement[IM_IB] <= setpoint3) &&
-                                         (measurement[IM_IC] <= setpoint3);
+  _Bool Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= setpoint3) &&
+                                         (measurement[IM_IB_H] <= setpoint3) &&
+                                         (measurement[IM_IC_H] <= setpoint3);
   //М
   unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
@@ -3247,9 +3232,9 @@ void umin2_handler(unsigned int *p_active_functions, unsigned int number_group_s
           current_settings_prt.setpoint_Umin2_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL_DOWN / 100 :
           current_settings_prt.setpoint_Umin2_Iblk[number_group_stp];
   
-  _Bool Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA] <= setpoint3) &&
-                                         (measurement[IM_IB] <= setpoint3) &&
-                                         (measurement[IM_IC] <= setpoint3);
+  _Bool Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= setpoint3) &&
+                                         (measurement[IM_IB_H] <= setpoint3) &&
+                                         (measurement[IM_IC_H] <= setpoint3);
   //М
   unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
@@ -3485,9 +3470,9 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
   /*******************************/
   //Визначаємо максимальний фазовий струм для УРОВ
   /*******************************/
-  unsigned int max_faze_current = measurement[IM_IA];
-  if (max_faze_current < measurement[IM_IB]) max_faze_current = measurement[IM_IB];
-  if (max_faze_current < measurement[IM_IC]) max_faze_current = measurement[IM_IC];
+  unsigned int max_faze_current = measurement[IM_IA_H];
+  if (max_faze_current < measurement[IM_IB_H]) max_faze_current = measurement[IM_IB_H];
+  if (max_faze_current < measurement[IM_IC_H]) max_faze_current = measurement[IM_IC_H];
   /*******************************/
   
   /*******************************/
@@ -3660,7 +3645,7 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
     {
     case UP_CTRL_Ia_Ib_Ic:
       {
-        analog_value = measurement[IM_IA];
+        analog_value = measurement[IM_IA_H];
 
         unsigned int or_and = ((current_settings_prt.control_UP & MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_OR_AND_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I))) != 0);
         if (
@@ -3668,68 +3653,50 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
             ((more_less != 0) && (or_and != 0))
            )   
         {
-         if ((uint32_t)analog_value < measurement[IM_IB]) analog_value = measurement[IM_IB];
-         if ((uint32_t)analog_value < measurement[IM_IC]) analog_value = measurement[IM_IC];
+         if ((uint32_t)analog_value < measurement[IM_IB_H]) analog_value = measurement[IM_IB_H];
+         if ((uint32_t)analog_value < measurement[IM_IC_H]) analog_value = measurement[IM_IC_H];
         }
         else
         {
-         if ((uint32_t)analog_value > measurement[IM_IB]) analog_value = measurement[IM_IB];
-         if ((uint32_t)analog_value > measurement[IM_IC]) analog_value = measurement[IM_IC];
+         if ((uint32_t)analog_value > measurement[IM_IB_H]) analog_value = measurement[IM_IB_H];
+         if ((uint32_t)analog_value > measurement[IM_IC_H]) analog_value = measurement[IM_IC_H];
         }
         
         break;
       }
     case UP_CTRL_Ia:
       {
-        analog_value = measurement[IM_IA];
+        analog_value = measurement[IM_IA_H];
         
         break;
       }
     case UP_CTRL_Ib:
       {
-        analog_value = measurement[IM_IB];
+        analog_value = measurement[IM_IB_H];
         
         break;
       }
     case UP_CTRL_Ic:
       {
-        analog_value = measurement[IM_IC];
+        analog_value = measurement[IM_IC_H];
         
         break;
       }
     case UP_CTRL_I1:
       {
-        analog_value = measurement[IM_I1];
+        analog_value = measurement[IM_I1_H];
         
         break;
       }
     case UP_CTRL_I2:
       {
-        analog_value = measurement[IM_I2];
-        
-        break;
-      }
-    case UP_CTRL_I04:
-      {
-        analog_value = measurement[IM_I04];
+        analog_value = measurement[IM_I2_H];
         
         break;
       }
     case UP_CTRL_3I0_r:
       {
-        analog_value = measurement[IM_3I0_r];
-        
-        break;
-      }
-    case UP_CTRL_3I0:
-      {
-        analog_value = measurement[IM_3I0];
-        
-        break;
-      }
-    case UP_CTRL_3I0_others:
-      {
-        analog_value = measurement[IM_3I0_other_g];
+        analog_value = measurement[IM_3I0_r_H];
         
         break;
       }
@@ -3791,7 +3758,7 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
       }
     case UP_CTRL_3U0:
       {
-        analog_value = measurement[IM_3U0];
+        analog_value = measurement[IM_3U0_r];
         
         break;
       }
@@ -4412,19 +4379,19 @@ inline void start_monitoring_max_phase_current(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_phase_max_dr[ 0] = measurement[IM_3I0];
-  measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_phase_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_phase_max_dr[ 3] = measurement[IM_IA];
-  measurements_phase_max_dr[ 4] = measurement[IM_IB];
-  measurements_phase_max_dr[ 5] = measurement[IM_IC];
-  measurements_phase_max_dr [6] = measurement[IM_I2];
-  measurements_phase_max_dr[ 7] = measurement[IM_I1];
-  measurements_phase_max_dr[ 8] = measurement[IM_I04];
+//  measurements_phase_max_dr[ 0] = measurement[IM_3I0];
+//  measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_phase_max_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_phase_max_dr[ 3] = measurement[IM_IA_H];
+  measurements_phase_max_dr[ 4] = measurement[IM_IB_H];
+  measurements_phase_max_dr[ 5] = measurement[IM_IC_H];
+  measurements_phase_max_dr [6] = measurement[IM_I2_H];
+  measurements_phase_max_dr[ 7] = measurement[IM_I1_H];
+//  measurements_phase_max_dr[ 8] = measurement[IM_I04];
   measurements_phase_max_dr[ 9] = measurement[IM_UA];
   measurements_phase_max_dr[10] = measurement[IM_UB];
   measurements_phase_max_dr[11] = measurement[IM_UC];
-  measurements_phase_max_dr[12] = measurement[IM_3U0];
+  measurements_phase_max_dr[12] = measurement[IM_3U0_r];
   measurements_phase_max_dr[13] = measurement[IM_U2];
   measurements_phase_max_dr[14] = measurement[IM_U1];
   measurements_phase_max_dr[15] = measurement[IM_UAB];
@@ -4452,28 +4419,28 @@ inline void continue_monitoring_max_phase_current(unsigned int time_tmp)
 {
   //Перевірка, чи не є зарза фазний струм більший, ніж той що помічений максимальним
   if (
-      (max_phase_current_dr < measurement[IM_IA]) ||
-      (max_phase_current_dr < measurement[IM_IB]) ||
-      (max_phase_current_dr < measurement[IM_IC])
+      (max_phase_current_dr < measurement[IM_IA_H]) ||
+      (max_phase_current_dr < measurement[IM_IB_H]) ||
+      (max_phase_current_dr < measurement[IM_IC_H])
      )
   {
     //Зафіксовано зріз при найвищому фазовому струмі з моменту початку спостереження за ним
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_phase_max_dr[ 0] = measurement[IM_3I0];
-    measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_phase_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_phase_max_dr[ 3] = measurement[IM_IA];
-    measurements_phase_max_dr[ 4] = measurement[IM_IB];
-    measurements_phase_max_dr[ 5] = measurement[IM_IC];
-    measurements_phase_max_dr [6] = measurement[IM_I2];
-    measurements_phase_max_dr[ 7] = measurement[IM_I1];
-    measurements_phase_max_dr[ 8] = measurement[IM_I04];
+//    measurements_phase_max_dr[ 0] = measurement[IM_3I0];
+//    measurements_phase_max_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_phase_max_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_phase_max_dr[ 3] = measurement[IM_IA_H];
+    measurements_phase_max_dr[ 4] = measurement[IM_IB_H];
+    measurements_phase_max_dr[ 5] = measurement[IM_IC_H];
+    measurements_phase_max_dr [6] = measurement[IM_I2_H];
+    measurements_phase_max_dr[ 7] = measurement[IM_I1_H];
+//    measurements_phase_max_dr[ 8] = measurement[IM_I04];
     measurements_phase_max_dr[ 9] = measurement[IM_UA];
     measurements_phase_max_dr[10] = measurement[IM_UB];
     measurements_phase_max_dr[11] = measurement[IM_UC];
-    measurements_phase_max_dr[12] = measurement[IM_3U0];
+    measurements_phase_max_dr[12] = measurement[IM_3U0_r];
     measurements_phase_max_dr[13] = measurement[IM_U2];
     measurements_phase_max_dr[14] = measurement[IM_U1];
     measurements_phase_max_dr[15] = measurement[IM_UAB];
@@ -4503,19 +4470,19 @@ inline void start_monitoring_max_3I0(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
-  measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_3I0_max_dr[ 3] = measurement[IM_IA];
-  measurements_3I0_max_dr[ 4] = measurement[IM_IB];
-  measurements_3I0_max_dr[ 5] = measurement[IM_IC];
-  measurements_3I0_max_dr [6] = measurement[IM_I2];
-  measurements_3I0_max_dr[ 7] = measurement[IM_I1];
-  measurements_3I0_max_dr[ 8] = measurement[IM_I04];
+//  measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
+//  measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_3I0_max_dr[ 3] = measurement[IM_IA_H];
+  measurements_3I0_max_dr[ 4] = measurement[IM_IB_H];
+  measurements_3I0_max_dr[ 5] = measurement[IM_IC_H];
+  measurements_3I0_max_dr [6] = measurement[IM_I2_H];
+  measurements_3I0_max_dr[ 7] = measurement[IM_I1_H];
+//  measurements_3I0_max_dr[ 8] = measurement[IM_I04];
   measurements_3I0_max_dr[ 9] = measurement[IM_UA];
   measurements_3I0_max_dr[10] = measurement[IM_UB];
   measurements_3I0_max_dr[11] = measurement[IM_UC];
-  measurements_3I0_max_dr[12] = measurement[IM_3U0];
+  measurements_3I0_max_dr[12] = measurement[IM_3U0_r];
   measurements_3I0_max_dr[13] = measurement[IM_U2];
   measurements_3I0_max_dr[14] = measurement[IM_U1];
   measurements_3I0_max_dr[15] = measurement[IM_UAB];
@@ -4540,7 +4507,7 @@ inline void continue_monitoring_max_3I0(unsigned int time_tmp)
   if(
      (
       ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0) && 
-      (                                                            (measurements_3I0_max_dr[2] < measurement[IM_3I0_r]))
+      (                                                            (measurements_3I0_max_dr[2] < measurement[IM_3I0_r_H]))
      )   
     )
   {
@@ -4548,19 +4515,19 @@ inline void continue_monitoring_max_3I0(unsigned int time_tmp)
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
-    measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_3I0_max_dr[ 3] = measurement[IM_IA];
-    measurements_3I0_max_dr[ 4] = measurement[IM_IB];
-    measurements_3I0_max_dr[ 5] = measurement[IM_IC];
-    measurements_3I0_max_dr [6] = measurement[IM_I2];
-    measurements_3I0_max_dr[ 7] = measurement[IM_I1];
-    measurements_3I0_max_dr[ 8] = measurement[IM_I04];
+//    measurements_3I0_max_dr[ 0] = measurement[IM_3I0];
+//    measurements_3I0_max_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_3I0_max_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_3I0_max_dr[ 3] = measurement[IM_IA_H];
+    measurements_3I0_max_dr[ 4] = measurement[IM_IB_H];
+    measurements_3I0_max_dr[ 5] = measurement[IM_IC_H];
+    measurements_3I0_max_dr [6] = measurement[IM_I2_H];
+    measurements_3I0_max_dr[ 7] = measurement[IM_I1_H];
+//    measurements_3I0_max_dr[ 8] = measurement[IM_I04];
     measurements_3I0_max_dr[ 9] = measurement[IM_UA];
     measurements_3I0_max_dr[10] = measurement[IM_UB];
     measurements_3I0_max_dr[11] = measurement[IM_UC];
-    measurements_3I0_max_dr[12] = measurement[IM_3U0];
+    measurements_3I0_max_dr[12] = measurement[IM_3U0_r];
     measurements_3I0_max_dr[13] = measurement[IM_U2];
     measurements_3I0_max_dr[14] = measurement[IM_U1];
     measurements_3I0_max_dr[15] = measurement[IM_UAB];
@@ -4586,19 +4553,19 @@ inline void start_monitoring_max_3U0(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
-  measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_3U0_max_dr[ 3] = measurement[IM_IA];
-  measurements_3U0_max_dr[ 4] = measurement[IM_IB];
-  measurements_3U0_max_dr[ 5] = measurement[IM_IC];
-  measurements_3U0_max_dr[ 6] = measurement[IM_I2];
-  measurements_3U0_max_dr[ 7] = measurement[IM_I1];
-  measurements_3U0_max_dr[ 8] = measurement[IM_I04];
+//  measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
+//  measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_3U0_max_dr[ 3] = measurement[IM_IA_H];
+  measurements_3U0_max_dr[ 4] = measurement[IM_IB_H];
+  measurements_3U0_max_dr[ 5] = measurement[IM_IC_H];
+  measurements_3U0_max_dr[ 6] = measurement[IM_I2_H];
+  measurements_3U0_max_dr[ 7] = measurement[IM_I1_H];
+//  measurements_3U0_max_dr[ 8] = measurement[IM_I04];
   measurements_3U0_max_dr[ 9] = measurement[IM_UA];
   measurements_3U0_max_dr[10] = measurement[IM_UB];
   measurements_3U0_max_dr[11] = measurement[IM_UC];
-  measurements_3U0_max_dr[12] = measurement[IM_3U0];
+  measurements_3U0_max_dr[12] = measurement[IM_3U0_r];
   measurements_3U0_max_dr[13] = measurement[IM_U2];
   measurements_3U0_max_dr[14] = measurement[IM_U1];
   measurements_3U0_max_dr[15] = measurement[IM_UAB];
@@ -4620,25 +4587,25 @@ inline void start_monitoring_max_3U0(unsigned int time_tmp)
 inline void continue_monitoring_max_3U0(unsigned int time_tmp)
 {
   //Перевірка, чи не є зарза напруга 3U0 більша, ніж та що помічена максимальною
-  if(measurements_3U0_max_dr[12] < measurement[IM_3U0])
+  if(measurements_3U0_max_dr[12] < measurement[IM_3U0_r])
   {
     //Зафіксовано зріз при найвищому струмі 3I0 з моменту спостереження за ним
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
-    measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_3U0_max_dr[ 3] = measurement[IM_IA];
-    measurements_3U0_max_dr[ 4] = measurement[IM_IB];
-    measurements_3U0_max_dr[ 5] = measurement[IM_IC];
-    measurements_3U0_max_dr[ 6] = measurement[IM_I2];
-    measurements_3U0_max_dr[ 7] = measurement[IM_I1];
-    measurements_3U0_max_dr[ 8] = measurement[IM_I04];
+//    measurements_3U0_max_dr[ 0] = measurement[IM_3I0];
+//    measurements_3U0_max_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_3U0_max_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_3U0_max_dr[ 3] = measurement[IM_IA_H];
+    measurements_3U0_max_dr[ 4] = measurement[IM_IB_H];
+    measurements_3U0_max_dr[ 5] = measurement[IM_IC_H];
+    measurements_3U0_max_dr[ 6] = measurement[IM_I2_H];
+    measurements_3U0_max_dr[ 7] = measurement[IM_I1_H];
+//    measurements_3U0_max_dr[ 8] = measurement[IM_I04];
     measurements_3U0_max_dr[ 9] = measurement[IM_UA];
     measurements_3U0_max_dr[10] = measurement[IM_UB];
     measurements_3U0_max_dr[11] = measurement[IM_UC];
-    measurements_3U0_max_dr[12] = measurement[IM_3U0];
+    measurements_3U0_max_dr[12] = measurement[IM_3U0_r];
     measurements_3U0_max_dr[13] = measurement[IM_U2];
     measurements_3U0_max_dr[14] = measurement[IM_U1];
     measurements_3U0_max_dr[15] = measurement[IM_UAB];
@@ -4664,19 +4631,19 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_U_min_dr[ 0] = measurement[IM_3I0];
-  measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_U_min_dr[ 2] = measurement[IM_3I0_r];
-  measurements_U_min_dr[ 3] = measurement[IM_IA];
-  measurements_U_min_dr[ 4] = measurement[IM_IB];
-  measurements_U_min_dr[ 5] = measurement[IM_IC];
-  measurements_U_min_dr[ 6] = measurement[IM_I2];
-  measurements_U_min_dr[ 7] = measurement[IM_I1];
-  measurements_U_min_dr[ 8] = measurement[IM_I04];
+//  measurements_U_min_dr[ 0] = measurement[IM_3I0];
+//  measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_U_min_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_U_min_dr[ 3] = measurement[IM_IA_H];
+  measurements_U_min_dr[ 4] = measurement[IM_IB_H];
+  measurements_U_min_dr[ 5] = measurement[IM_IC_H];
+  measurements_U_min_dr[ 6] = measurement[IM_I2_H];
+  measurements_U_min_dr[ 7] = measurement[IM_I1_H];
+//  measurements_U_min_dr[ 8] = measurement[IM_I04];
   measurements_U_min_dr[ 9] = measurement[IM_UA];
   measurements_U_min_dr[10] = measurement[IM_UB];
   measurements_U_min_dr[11] = measurement[IM_UC];
-  measurements_U_min_dr[12] = measurement[IM_3U0];
+  measurements_U_min_dr[12] = measurement[IM_3U0_r];
   measurements_U_min_dr[13] = measurement[IM_U2];
   measurements_U_min_dr[14] = measurement[IM_U1];
   measurements_U_min_dr[15] = measurement[IM_UAB];
@@ -4737,19 +4704,19 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_U_min_dr[ 0] = measurement[IM_3I0];
-    measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_U_min_dr[ 2] = measurement[IM_3I0_r];
-    measurements_U_min_dr[ 3] = measurement[IM_IA];
-    measurements_U_min_dr[ 4] = measurement[IM_IB];
-    measurements_U_min_dr[ 5] = measurement[IM_IC];
-    measurements_U_min_dr[ 6] = measurement[IM_I2];
-    measurements_U_min_dr[ 7] = measurement[IM_I1];
-    measurements_U_min_dr[ 8] = measurement[IM_I04];
+//    measurements_U_min_dr[ 0] = measurement[IM_3I0];
+//    measurements_U_min_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_U_min_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_U_min_dr[ 3] = measurement[IM_IA_H];
+    measurements_U_min_dr[ 4] = measurement[IM_IB_H];
+    measurements_U_min_dr[ 5] = measurement[IM_IC_H];
+    measurements_U_min_dr[ 6] = measurement[IM_I2_H];
+    measurements_U_min_dr[ 7] = measurement[IM_I1_H];
+//    measurements_U_min_dr[ 8] = measurement[IM_I04];
     measurements_U_min_dr[ 9] = measurement[IM_UA];
     measurements_U_min_dr[10] = measurement[IM_UB];
     measurements_U_min_dr[11] = measurement[IM_UC];
-    measurements_U_min_dr[12] = measurement[IM_3U0];
+    measurements_U_min_dr[12] = measurement[IM_3U0_r];
     measurements_U_min_dr[13] = measurement[IM_U2];
     measurements_U_min_dr[14] = measurement[IM_U1];
     measurements_U_min_dr[15] = measurement[IM_UAB];
@@ -4790,19 +4757,19 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_U_max_dr[ 0] = measurement[IM_3I0];
-  measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_U_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_U_max_dr[ 3] = measurement[IM_IA];
-  measurements_U_max_dr[ 4] = measurement[IM_IB];
-  measurements_U_max_dr[ 5] = measurement[IM_IC];
-  measurements_U_max_dr[ 6] = measurement[IM_I2];
-  measurements_U_max_dr[ 7] = measurement[IM_I1];
-  measurements_U_max_dr[ 8] = measurement[IM_I04];
+//  measurements_U_max_dr[ 0] = measurement[IM_3I0];
+//  measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_U_max_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_U_max_dr[ 3] = measurement[IM_IA_H];
+  measurements_U_max_dr[ 4] = measurement[IM_IB_H];
+  measurements_U_max_dr[ 5] = measurement[IM_IC_H];
+  measurements_U_max_dr[ 6] = measurement[IM_I2_H];
+  measurements_U_max_dr[ 7] = measurement[IM_I1_H];
+//  measurements_U_max_dr[ 8] = measurement[IM_I04];
   measurements_U_max_dr[ 9] = measurement[IM_UA];
   measurements_U_max_dr[10] = measurement[IM_UB];
   measurements_U_max_dr[11] = measurement[IM_UC];
-  measurements_U_max_dr[12] = measurement[IM_3U0];
+  measurements_U_max_dr[12] = measurement[IM_3U0_r];
   measurements_U_max_dr[13] = measurement[IM_U2];
   measurements_U_max_dr[14] = measurement[IM_U1];
   measurements_U_max_dr[15] = measurement[IM_UAB];
@@ -4863,19 +4830,19 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_U_max_dr[ 0] = measurement[IM_3I0];
-    measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_U_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_U_max_dr[ 3] = measurement[IM_IA];
-    measurements_U_max_dr[ 4] = measurement[IM_IB];
-    measurements_U_max_dr[ 5] = measurement[IM_IC];
-    measurements_U_max_dr[ 6] = measurement[IM_I2];
-    measurements_U_max_dr[ 7] = measurement[IM_I1];
-    measurements_U_max_dr[ 8] = measurement[IM_I04];
+//    measurements_U_max_dr[ 0] = measurement[IM_3I0];
+//    measurements_U_max_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_U_max_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_U_max_dr[ 3] = measurement[IM_IA_H];
+    measurements_U_max_dr[ 4] = measurement[IM_IB_H];
+    measurements_U_max_dr[ 5] = measurement[IM_IC_H];
+    measurements_U_max_dr[ 6] = measurement[IM_I2_H];
+    measurements_U_max_dr[ 7] = measurement[IM_I1_H];
+//    measurements_U_max_dr[ 8] = measurement[IM_I04];
     measurements_U_max_dr[ 9] = measurement[IM_UA];
     measurements_U_max_dr[10] = measurement[IM_UB];
     measurements_U_max_dr[11] = measurement[IM_UC];
-    measurements_U_max_dr[12] = measurement[IM_3U0];
+    measurements_U_max_dr[12] = measurement[IM_3U0_r];
     measurements_U_max_dr[13] = measurement[IM_U2];
     measurements_U_max_dr[14] = measurement[IM_U1];
     measurements_U_max_dr[15] = measurement[IM_UAB];
@@ -4916,19 +4883,19 @@ inline void start_monitoring_max_ZOP(unsigned int time_tmp)
   int frequency_int = (int)frequency;
   if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-  measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
-  measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
-  measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r];
-  measurements_ZOP_max_dr[ 3] = measurement[IM_IA];
-  measurements_ZOP_max_dr[ 4] = measurement[IM_IB];
-  measurements_ZOP_max_dr[ 5] = measurement[IM_IC];
-  measurements_ZOP_max_dr[ 6] = measurement[IM_I2];
-  measurements_ZOP_max_dr[ 7] = measurement[IM_I1];
-  measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
+//  measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
+//  measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
+  measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r_H];
+  measurements_ZOP_max_dr[ 3] = measurement[IM_IA_H];
+  measurements_ZOP_max_dr[ 4] = measurement[IM_IB_H];
+  measurements_ZOP_max_dr[ 5] = measurement[IM_IC_H];
+  measurements_ZOP_max_dr[ 6] = measurement[IM_I2_H];
+  measurements_ZOP_max_dr[ 7] = measurement[IM_I1_H];
+//  measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
   measurements_ZOP_max_dr[ 9] = measurement[IM_UA];
   measurements_ZOP_max_dr[10] = measurement[IM_UB];
   measurements_ZOP_max_dr[11] = measurement[IM_UC];
-  measurements_ZOP_max_dr[12] = measurement[IM_3U0];
+  measurements_ZOP_max_dr[12] = measurement[IM_3U0_r];
   measurements_ZOP_max_dr[13] = measurement[IM_U2];
   measurements_ZOP_max_dr[14] = measurement[IM_U1];
   measurements_ZOP_max_dr[15] = measurement[IM_UAB];
@@ -4965,8 +4932,8 @@ inline void continue_monitoring_max_ZOP(unsigned int time_tmp)
       (_I2*I1 < I2*_I1)  - це є умова, що зараз є більше ЗОП(КОФ) ніж попередній раз
 */
   unsigned int I2, I1, _I1, _I2;
-   I2 = measurement[IM_I2];
-   I1 = measurement[IM_I1];
+   I2 = measurement[IM_I2_H];
+   I1 = measurement[IM_I1_H];
   _I2 = measurements_ZOP_max_dr[6];
   _I1 = measurements_ZOP_max_dr[7];
   if (
@@ -4978,19 +4945,19 @@ inline void continue_monitoring_max_ZOP(unsigned int time_tmp)
     int frequency_int = (int)frequency;
     if (frequency_int >= 0) frequency_int = (int)(frequency*1000);
   
-    measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
-    measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
-    measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r];
-    measurements_ZOP_max_dr[ 3] = measurement[IM_IA];
-    measurements_ZOP_max_dr[ 4] = measurement[IM_IB];
-    measurements_ZOP_max_dr[ 5] = measurement[IM_IC];
-    measurements_ZOP_max_dr[ 6] = measurement[IM_I2];
-    measurements_ZOP_max_dr[ 7] = measurement[IM_I1];
-    measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
+//    measurements_ZOP_max_dr[ 0] = measurement[IM_3I0];
+//    measurements_ZOP_max_dr[ 1] = measurement[IM_3I0_other_g];
+    measurements_ZOP_max_dr[ 2] = measurement[IM_3I0_r_H];
+    measurements_ZOP_max_dr[ 3] = measurement[IM_IA_H];
+    measurements_ZOP_max_dr[ 4] = measurement[IM_IB_H];
+    measurements_ZOP_max_dr[ 5] = measurement[IM_IC_H];
+    measurements_ZOP_max_dr[ 6] = measurement[IM_I2_H];
+    measurements_ZOP_max_dr[ 7] = measurement[IM_I1_H];
+//    measurements_ZOP_max_dr[ 8] = measurement[IM_I04];
     measurements_ZOP_max_dr[ 9] = measurement[IM_UA];
     measurements_ZOP_max_dr[10] = measurement[IM_UB];
     measurements_ZOP_max_dr[11] = measurement[IM_UC];
-    measurements_ZOP_max_dr[12] = measurement[IM_3U0];
+    measurements_ZOP_max_dr[12] = measurement[IM_3U0_r];
     measurements_ZOP_max_dr[13] = measurement[IM_U2];
     measurements_ZOP_max_dr[14] = measurement[IM_U1];
     measurements_ZOP_max_dr[15] = measurement[IM_UAB];
@@ -7043,9 +7010,9 @@ inline void main_protection(void)
   if (temp_value_3I0_other != 0)
     measurement[IM_3I0_other_g] = temp_value_3I0_other;
   if (temp_value_IA != 0)
-    measurement[IM_IA]          = temp_value_IA;
+    measurement[IM_IA_H]          = temp_value_IA;
   if (temp_value_IC != 0)
-    measurement[IM_IC]          = temp_value_IC;
+    measurement[IM_IC_H]          = temp_value_IC;
   if (temp_value_UA != 0)
     measurement[IM_UA]          = temp_value_UA;
   if (temp_value_UB != 0)
@@ -7053,11 +7020,11 @@ inline void main_protection(void)
   if (temp_value_UC != 0)
     measurement[IM_UC]          = temp_value_UC;
   if (temp_value_3U0 != 0)
-    measurement[IM_3U0]         = temp_value_3U0;
+    measurement[IM_3U0_r]         = temp_value_3U0;
   if (temp_value_I2 != 0)
-    measurement[IM_I2]          = temp_value_I2;
+    measurement[IM_I2_H]          = temp_value_I2;
   if (temp_value_I1 != 0)
-    measurement[IM_I1]          = temp_value_I1;
+    measurement[IM_I1_H]          = temp_value_I1;
   /***/
 #endif
     

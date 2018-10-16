@@ -71,39 +71,39 @@ int getAISmallModbusRegister(int adrReg)
 #endif
       }
 
-    case 3://IA
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 335;
-#else
-        return (measurement_low[IM_IA] >> 2) &0xFFFF;
-#endif
-      }
-    case 4://IB
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 336;
-#else
-        return (measurement_low[IM_IB] >> 2) &0xFFFF;
-#endif
-      }
-    case 5://IC
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 337;
-#else
-        return (measurement_low[IM_IC] >> 2) &0xFFFF;
-#endif
-      }
+//    case 3://IA
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 335;
+//#else
+//        return (measurement_low[IM_IA] >> 2) &0xFFFF;
+//#endif
+//      }
+//    case 4://IB
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 336;
+//#else
+//        return (measurement_low[IM_IB] >> 2) &0xFFFF;
+//#endif
+//      }
+//    case 5://IC
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 337;
+//#else
+//        return (measurement_low[IM_IC] >> 2) &0xFFFF;
+//#endif
+//      }
 
-    case 6://I04
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 338;
-#else
-        return (measurement_low[IM_I04] >> 2) &0xFFFF;
-#endif
-      }
+//    case 6://I04
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 338;
+//#else
+//        return (measurement_low[IM_I04] >> 2) &0xFFFF;
+//#endif
+//      }
     case 7://P
       {
 #ifdef TESTZBIRKA_VERSII_PZ
@@ -138,14 +138,14 @@ int getAISmallModbusRegister(int adrReg)
           return 0x0;
 #endif
       }
-    case 11://3I0
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 343;
-#else
-        return (measurement_low[IM_3I0]) &0xFFFF;
-#endif
-      }
+//    case 11://3I0
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 343;
+//#else
+//        return (measurement_low[IM_3I0]) &0xFFFF;
+//#endif
+//      }
     case 12://freq
       {
 #ifdef TESTZBIRKA_VERSII_PZ
@@ -216,46 +216,46 @@ int getAISmallModbusRegister(int adrReg)
         return (measurement_low[IM_UCA] >> 3) &0xFFFF;
 #endif
       }
-    case 28://3U0
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 360;
-#else
-        return (measurement_low[IM_3U0] >> 3) &0xFFFF;
-#endif
-      }
-    case 29://3I0-1
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 361;
-#else
-        return (measurement_low[IM_3I0_r] >> 2) &0xFFFF;
-#endif
-      }
-    case 30://IM_3I0_other_g
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 362;
-#else
-        return (measurement_low[IM_3I0_other_g]) &0xFFFF;
-#endif
-      }
-    case 31://IM_I1
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 363;
-#else
-        return (measurement_low[IM_I1] >> 2) &0xFFFF;
-#endif
-      }
-    case 32://IM_I2
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 364;
-#else
-        return (measurement_low[IM_I2] >> 2) &0xFFFF;
-#endif
-      }
+//    case 28://3U0
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 360;
+//#else
+//        return (measurement_low[IM_3U0] >> 3) &0xFFFF;
+//#endif
+//      }
+//    case 29://3I0-1
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 361;
+//#else
+//        return (measurement_low[IM_3I0_r] >> 2) &0xFFFF;
+//#endif
+//      }
+//    case 30://IM_3I0_other_g
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 362;
+//#else
+//        return (measurement_low[IM_3I0_other_g]) &0xFFFF;
+//#endif
+//      }
+//    case 31://IM_I1
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 363;
+//#else
+//        return (measurement_low[IM_I1] >> 2) &0xFFFF;
+//#endif
+//      }
+//    case 32://IM_I2
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 364;
+//#else
+//        return (measurement_low[IM_I2] >> 2) &0xFFFF;
+//#endif
+//      }
 //    case 33://Iah2
 //    case 34://Ibh2
 //    case 35://Ich2
