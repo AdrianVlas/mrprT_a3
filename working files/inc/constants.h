@@ -18,6 +18,7 @@
 #include "const_menu_chose_grupa_ustavok.h"
 #include "const_menu_ozt.h"
 #include "const_menu_mtz.h"
+#include "const_menu_3U0.h"
 #include "const_menu_tznp.h"
 #include "const_menu_urov.h"
 #include "const_menu_zop.h"

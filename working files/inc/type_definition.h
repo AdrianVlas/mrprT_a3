@@ -190,8 +190,15 @@ typedef struct
   int timeout_mtz_4_n_nazad[NUMBER_GROUP_USTAVOK];              //Витримка МТЗ третьої ступені (направлена:назад)
   int timeout_mtz_4_po_napruzi[NUMBER_GROUP_USTAVOK];           //Витримка МТЗ третьої ступені (по напрузі)
 
-  unsigned int control_mtz;                                 //Поле для управління МТЗ
+  unsigned int control_mtz;                                     //Поле для управління МТЗ
   
+  //3U0
+  uint32_t setpoint_P_3U0[NUMBER_GROUP_USTAVOK];                //Уставка 3U0
+
+  int32_t timeout_P_3U0[NUMBER_GROUP_USTAVOK];                  //Витримка 3U0
+
+  uint32_t control_P_3U0;                                       //Поле для управління 3U0
+
   //ТЗНП
   unsigned int setpoint_tznp_1_3I0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3I0 першої ступені (направлена:вперед)
   unsigned int setpoint_tznp_1_3U0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3U0 першої ступені  (направлена:вперед)

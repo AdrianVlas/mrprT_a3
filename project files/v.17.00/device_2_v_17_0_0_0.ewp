@@ -66,7 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>8.30.2.18207</state>
+                    <state>8.32.1.18618</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -215,7 +215,7 @@
             <name>ICCARM</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>34</version>
+                <version>35</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -477,6 +477,10 @@
                     <name>IccRTTI2</name>
                     <state>0</state>
                 </option>
+                <option>
+                    <name>OICompilerExtraOption</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -697,7 +701,7 @@
             <name>ILINK</name>
             <archiveVersion>0</archiveVersion>
             <data>
-                <version>21</version>
+                <version>22</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>1</debug>
                 <option>
@@ -1013,6 +1017,10 @@
                     <name>IlinkTrustzoneImportLibraryOut</name>
                     <state>device_2_v_17_0_0_0_import_lib.o</state>
                 </option>
+                <option>
+                    <name>OILinkExtraOption</name>
+                    <state>1</state>
+                </option>
             </data>
         </settings>
         <settings>
@@ -1146,7 +1154,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -1415,7 +1423,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -1684,7 +1692,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -1956,7 +1964,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -2225,7 +2233,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -2527,7 +2535,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -2821,7 +2829,7 @@
                             <settings>
                                 <name>ICCARM</name>
                                 <data>
-                                    <version>34</version>
+                                    <version>35</version>
                                     <wantNonLocal>0</wantNonLocal>
                                     <debug>1</debug>
                                     <option>
@@ -3115,7 +3123,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -3387,7 +3395,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -3684,7 +3692,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -3953,7 +3961,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -4222,7 +4230,7 @@
                     <settings>
                         <name>ICCARM</name>
                         <data>
-                            <version>34</version>
+                            <version>35</version>
                             <wantNonLocal>0</wantNonLocal>
                             <debug>1</debug>
                             <option>
@@ -4563,6 +4571,9 @@
                 </group>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_lcd_and_keyboard.h</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_3U0.h</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_buttons.h</name>
@@ -4910,6 +4921,9 @@
                     <name>$PROJ_DIR$\..\..\working files\src\menu.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\..\working files\src\menu_3U0.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_chose_communication_parameters.c</name>
                 </file>
                 <file>
@@ -5024,7 +5038,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -5329,7 +5343,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -5598,7 +5612,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -5867,7 +5881,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
@@ -6136,7 +6150,7 @@
                         <settings>
                             <name>ICCARM</name>
                             <data>
-                                <version>34</version>
+                                <version>35</version>
                                 <wantNonLocal>0</wantNonLocal>
                                 <debug>1</debug>
                                 <option>
