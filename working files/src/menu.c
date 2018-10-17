@@ -542,6 +542,8 @@ void main_manu_function(void)
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_MTZ) && ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
+              if ((current_ekran.index_position == INDEX_ML1_P_3U0) && ((current_settings.configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0))
+                current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_TZNP) && ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_UROV) && ((current_settings.configuration & (1<<UROV_BIT_CONFIGURATION)) == 0))
@@ -557,8 +559,6 @@ void main_manu_function(void)
               if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_TP) && ((current_settings.configuration & (1<<TP_BIT_CONFIGURATION)) == 0))
-                current_ekran.index_position++;
-              if ((current_ekran.index_position == INDEX_ML1_EP) && ((current_settings.configuration & (1<<EP_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_UP) && ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
@@ -669,6 +669,7 @@ void main_manu_function(void)
               else if(
                       (current_ekran.index_position == INDEX_ML1_OZT       ) || 
                       (current_ekran.index_position == INDEX_ML1_MTZ       ) || 
+                      (current_ekran.index_position == INDEX_ML1_P_3U0     ) || 
                       (current_ekran.index_position == INDEX_ML1_TZNP      ) || 
                       (current_ekran.index_position == INDEX_ML1_UROV      ) || 
                       (current_ekran.index_position == INDEX_ML1_ZOP       ) ||
@@ -677,7 +678,6 @@ void main_manu_function(void)
                       (current_ekran.index_position == INDEX_ML1_IN_OUT    ) || 
                       (current_ekran.index_position == INDEX_ML1_GP        ) || 
                       (current_ekran.index_position == INDEX_ML1_TP        ) || 
-                      (current_ekran.index_position == INDEX_ML1_EP        ) || 
                       (current_ekran.index_position == INDEX_ML1_UP        )
                      )
               {
@@ -685,6 +685,8 @@ void main_manu_function(void)
                 if(current_ekran.index_position == INDEX_ML1_OZT) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_OZT;
                 //Переходимо на меню МТЗ
                 else if(current_ekran.index_position == INDEX_ML1_MTZ) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_MTZ;
+                //Переходимо на меню 3U0
+                else if(current_ekran.index_position == INDEX_ML1_P_3U0) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_P_3U0;
                 //Переходимо на меню ТЗНП
                 else if(current_ekran.index_position == INDEX_ML1_TZNP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_TZNP;
                 //Переходимо на меню УРОВ
@@ -701,8 +703,6 @@ void main_manu_function(void)
                 else if(current_ekran.index_position == INDEX_ML1_GP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_GP;
                 //Переходимо на меню "Тепловий захист"
                 else if(current_ekran.index_position == INDEX_ML1_TP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_TP;
-                //Переходимо на меню "Елегазовий захист"
-                else if(current_ekran.index_position == INDEX_ML1_EP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_EP;
                 //Переходимо на меню "Універсальний захист"
                 else if(current_ekran.index_position == INDEX_ML1_UP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UP;
                 
@@ -731,8 +731,6 @@ void main_manu_function(void)
 
                 if ((current_ekran.index_position == INDEX_ML1_UP) && ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
-                if ((current_ekran.index_position == INDEX_ML1_EP) && ((current_settings.configuration & (1<<EP_BIT_CONFIGURATION)) == 0))
-                  current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_TP) && ((current_settings.configuration & (1<<TP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
@@ -746,6 +744,8 @@ void main_manu_function(void)
                 if ((current_ekran.index_position == INDEX_ML1_UROV) && ((current_settings.configuration & (1<<UROV_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_TZNP) && ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0))
+                  current_ekran.index_position--;
+                if ((current_ekran.index_position == INDEX_ML1_P_3U0) && ((current_settings.configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_MTZ) && ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
@@ -773,6 +773,8 @@ void main_manu_function(void)
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_MTZ) && ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
+                if ((current_ekran.index_position == INDEX_ML1_P_3U0) && ((current_settings.configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0))
+                  current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_TZNP) && ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_UROV) && ((current_settings.configuration & (1<<UROV_BIT_CONFIGURATION)) == 0))
@@ -788,8 +790,6 @@ void main_manu_function(void)
                 if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_TP) && ((current_settings.configuration & (1<<TP_BIT_CONFIGURATION)) == 0))
-                  current_ekran.index_position++;
-                if ((current_ekran.index_position == INDEX_ML1_EP) && ((current_settings.configuration & (1<<EP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_UP) && ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
@@ -1355,6 +1355,11 @@ void main_manu_function(void)
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_MTZ:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_MTZ:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_MTZ:
+    case EKRAN_CHOOSE_SETTINGS_P_3U0:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_P_3U0:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_P_3U0:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0:
     case EKRAN_CHOOSE_SETTINGS_TZNP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TZNP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_TZNP:
@@ -1395,11 +1400,6 @@ void main_manu_function(void)
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_TP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_TP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP:
-    case EKRAN_CHOOSE_SETTINGS_EP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_EP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_EP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_EP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_EP:
     case EKRAN_CHOOSE_SETTINGS_UP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_UP:
@@ -1590,6 +1590,7 @@ void main_manu_function(void)
             else if (
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_MTZ       )||
+                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_P_3U0     )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TZNP      )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UROV      )|| 
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
@@ -1598,7 +1599,6 @@ void main_manu_function(void)
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
-                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_EP        )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
                     )   
             {
@@ -1617,6 +1617,11 @@ void main_manu_function(void)
                      (
                       (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_MTZ) &&
                       (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_MTZ)
+                     )
+                     ||  
+                     (
+                      (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0) &&
+                      (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0)
                      )
                      ||  
                      (
@@ -1657,11 +1662,6 @@ void main_manu_function(void)
                      (
                       (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
                       (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                     )
-                     ||  
-                     (
-                      (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_EP) &&
-                      (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_EP)
                      )
                      ||  
                      (
@@ -3452,6 +3452,7 @@ void main_manu_function(void)
               else if (
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_MTZ       )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_P_3U0     )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TZNP      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UROV      )|| 
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
@@ -3460,7 +3461,6 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_EP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
                       )   
               {
@@ -3478,6 +3478,11 @@ void main_manu_function(void)
                        (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_MTZ) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_MTZ)
+                       )
+                       ||  
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0)
                        )
                        ||  
                        (
@@ -3518,11 +3523,6 @@ void main_manu_function(void)
                        (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                       )
-                       ||  
-                       (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_EP) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_EP)
                        )
                        ||  
                        (
@@ -4091,6 +4091,7 @@ void main_manu_function(void)
               else if (
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT       )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_MTZ       )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_P_3U0     )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TZNP      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UROV      )|| 
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
@@ -4099,7 +4100,6 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_EP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
                       )   
               {
@@ -4118,6 +4118,11 @@ void main_manu_function(void)
                        (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_MTZ) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_MTZ)
+                       )
+                       ||  
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0)
                        )
                        ||  
                        (
@@ -4158,11 +4163,6 @@ void main_manu_function(void)
                        (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                       )
-                       ||  
-                       (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_EP) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_EP)
                        )
                        ||  
                        (
@@ -14066,6 +14066,7 @@ void main_manu_function(void)
                                                                      NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
+                                                                     NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_UROV_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
@@ -14074,7 +14075,6 @@ void main_manu_function(void)
                                                                      NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
-                                                                     NUMBER_EP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_EL_SIGNAL_FOR_RANG_SMALL
                                                                     );
@@ -14293,6 +14293,7 @@ void main_manu_function(void)
                                                                      NUMBER_GENERAL_SIGNAL_FOR_RANG,
                                                                      NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                      NUMBER_MTZ_SIGNAL_FOR_RANG,
+                                                                     NUMBER_P_3U0_SIGNAL_FOR_RANG,
                                                                      NUMBER_TZNP_SIGNAL_FOR_RANG,
                                                                      NUMBER_UROV_SIGNAL_FOR_RANG,
                                                                      NUMBER_ZOP_SIGNAL_FOR_RANG,
@@ -14301,7 +14302,6 @@ void main_manu_function(void)
                                                                      NUMBER_IN_OUT_SIGNAL_FOR_RANG,
                                                                      NUMBER_GP_SIGNAL_FOR_RANG,
                                                                      NUMBER_TP_SIGNAL_FOR_RANG,
-                                                                     NUMBER_EP_SIGNAL_FOR_RANG,
                                                                      NUMBER_UP_SIGNAL_FOR_RANG,
                                                                      NUMBER_EL_SIGNAL_FOR_RANG
                                                                     );
@@ -15618,6 +15618,7 @@ void main_manu_function(void)
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UROV_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
@@ -15626,7 +15627,6 @@ void main_manu_function(void)
                                                                        NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
-                                                                       NUMBER_EP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_EL_SIGNAL_FOR_RANG_SMALL
                                                                       );
@@ -15901,6 +15901,7 @@ void main_manu_function(void)
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG,
+                                                                       NUMBER_P_3U0_SIGNAL_FOR_RANG,
                                                                        NUMBER_TZNP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UROV_SIGNAL_FOR_RANG,
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG,
@@ -15909,7 +15910,6 @@ void main_manu_function(void)
                                                                        NUMBER_IN_OUT_SIGNAL_FOR_RANG,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG,
-                                                                       NUMBER_EP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG,
                                                                        NUMBER_EL_SIGNAL_FOR_RANG
                                                                       );
@@ -16275,6 +16275,7 @@ void main_manu_function(void)
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UROV_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
@@ -16283,7 +16284,6 @@ void main_manu_function(void)
                                                                        NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
-                                                                       NUMBER_EP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_EL_SIGNAL_FOR_RANG_SMALL
                                                                       );
@@ -16558,6 +16558,7 @@ void main_manu_function(void)
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG,
+                                                                       NUMBER_P_3U0_SIGNAL_FOR_RANG,
                                                                        NUMBER_TZNP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UROV_SIGNAL_FOR_RANG,
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG,
@@ -16566,7 +16567,6 @@ void main_manu_function(void)
                                                                        NUMBER_IN_OUT_SIGNAL_FOR_RANG,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG,
-                                                                       NUMBER_EP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG,
                                                                        NUMBER_EL_SIGNAL_FOR_RANG
                                                                       );

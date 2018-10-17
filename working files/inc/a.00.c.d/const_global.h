@@ -52,6 +52,7 @@
 enum _configuration {
 OZT_BIT_CONFIGURATION = 0,
 MTZ_BIT_CONFIGURATION,
+P_3U0_BIT_CONFIGURATION,
 TZNP_BIT_CONFIGURATION,
 UROV_BIT_CONFIGURATION,
 ZOP_BIT_CONFIGURATION,
@@ -60,7 +61,6 @@ UMAX_BIT_CONFIGURATION,
 IN_OUT_BIT_CONFIGURATION,
 GP_BIT_CONFIGURATION,
 TP_BIT_CONFIGURATION,
-EP_BIT_CONFIGURATION,
 UP_BIT_CONFIGURATION,
 EL_BIT_CONFIGURATION,
 
@@ -138,6 +138,7 @@ RANG_SMALL_DT4_RESET,
 #define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     15
 #define NUMBER_OZT_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL         5
+#define NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL       0
 #define NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL        3
 #define NUMBER_UROV_SIGNAL_FOR_RANG_SMALL        1
 #define NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL         1
@@ -146,7 +147,6 @@ RANG_SMALL_DT4_RESET,
 #define NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL      0
 #define NUMBER_GP_SIGNAL_FOR_RANG_SMALL          0
 #define NUMBER_TP_SIGNAL_FOR_RANG_SMALL          0
-#define NUMBER_EP_SIGNAL_FOR_RANG_SMALL          0
 #define NUMBER_UP_SIGNAL_FOR_RANG_SMALL          NUMBER_UP
 #define NUMBER_EL_SIGNAL_FOR_RANG_SMALL          16
 
@@ -154,6 +154,7 @@ RANG_SMALL_DT4_RESET,
                                                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + \
                                                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        + \
                                                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        + \
+                                                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      + \
                                                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       + \
                                                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       + \
                                                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        + \
@@ -162,7 +163,6 @@ RANG_SMALL_DT4_RESET,
                                                   NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     + \
                                                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         + \
                                                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         + \
-                                                  NUMBER_EP_SIGNAL_FOR_RANG_SMALL         + \
                                                   NUMBER_UP_SIGNAL_FOR_RANG_SMALL         + \
                                                   NUMBER_EL_SIGNAL_FOR_RANG_SMALL           \
                                                  ) 
@@ -389,6 +389,7 @@ RANG_ERROR_CONF_EL
 #define NUMBER_GENERAL_SIGNAL_FOR_RANG     27
 #define NUMBER_OZT_SIGNAL_FOR_RANG         9
 #define NUMBER_MTZ_SIGNAL_FOR_RANG         39
+#define NUMBER_P_3U0_SIGNAL_FOR_RANG       0
 #define NUMBER_TZNP_SIGNAL_FOR_RANG        30
 #define NUMBER_UROV_SIGNAL_FOR_RANG        4
 #define NUMBER_ZOP_SIGNAL_FOR_RANG         3
@@ -397,7 +398,6 @@ RANG_ERROR_CONF_EL
 #define NUMBER_IN_OUT_SIGNAL_FOR_RANG      0
 #define NUMBER_GP_SIGNAL_FOR_RANG          0
 #define NUMBER_TP_SIGNAL_FOR_RANG          0
-#define NUMBER_EP_SIGNAL_FOR_RANG          0
 #define NUMBER_UP_SIGNAL_FOR_RANG          (3*NUMBER_UP)
 #define NUMBER_EL_SIGNAL_FOR_RANG          69
 
@@ -405,6 +405,7 @@ RANG_ERROR_CONF_EL
                                             NUMBER_GENERAL_SIGNAL_FOR_RANG    + \
                                             NUMBER_OZT_SIGNAL_FOR_RANG        + \
                                             NUMBER_MTZ_SIGNAL_FOR_RANG        + \
+                                            NUMBER_P_3U0_SIGNAL_FOR_RANG      + \
                                             NUMBER_TZNP_SIGNAL_FOR_RANG       + \
                                             NUMBER_UROV_SIGNAL_FOR_RANG       + \
                                             NUMBER_ZOP_SIGNAL_FOR_RANG        + \
@@ -413,7 +414,6 @@ RANG_ERROR_CONF_EL
                                             NUMBER_IN_OUT_SIGNAL_FOR_RANG     + \
                                             NUMBER_GP_SIGNAL_FOR_RANG         + \
                                             NUMBER_TP_SIGNAL_FOR_RANG         + \
-                                            NUMBER_EP_SIGNAL_FOR_RANG         + \
                                             NUMBER_UP_SIGNAL_FOR_RANG         + \
                                             NUMBER_EL_SIGNAL_FOR_RANG           \
                                            ) 
@@ -722,6 +722,20 @@ enum __mtz_abc_direction_const {
 /*****************************************/
      
 /*****************************************/
+//Макски всіх сигналів P_3U0
+/*****************************************/
+#define MASKA_P_3U0_SIGNALS_0               0
+#define MASKA_P_3U0_SIGNALS_1               0
+#define MASKA_P_3U0_SIGNALS_2               0
+#define MASKA_P_3U0_SIGNALS_3               0
+#define MASKA_P_3U0_SIGNALS_4               0
+#define MASKA_P_3U0_SIGNALS_5               0
+#define MASKA_P_3U0_SIGNALS_6               0
+#define MASKA_P_3U0_SIGNALS_7               0
+#define MASKA_P_3U0_SIGNALS_8               0
+/*****************************************/
+
+/*****************************************/
 //Макски всіх сигналів СЗНП
 /*****************************************/
 #define MASKA_TZNP_SIGNALS_0                 0
@@ -903,20 +917,6 @@ enum __mtz_abc_direction_const {
 #define MASKA_TP_SIGNALS_6               0
 #define MASKA_TP_SIGNALS_7               0
 #define MASKA_TP_SIGNALS_8               0
-/*****************************************/
-
-/*****************************************/
-//Макски всіх сигналів Елегазовий Захист
-/*****************************************/
-#define MASKA_EP_SIGNALS_0               0
-#define MASKA_EP_SIGNALS_1               0
-#define MASKA_EP_SIGNALS_2               0
-#define MASKA_EP_SIGNALS_3               0
-#define MASKA_EP_SIGNALS_4               0
-#define MASKA_EP_SIGNALS_5               0
-#define MASKA_EP_SIGNALS_6               0
-#define MASKA_EP_SIGNALS_7               0
-#define MASKA_EP_SIGNALS_8               0
 /*****************************************/
 
 /*****************************************/

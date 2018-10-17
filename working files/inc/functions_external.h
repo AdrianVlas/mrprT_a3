@@ -195,7 +195,7 @@ extern void in_out_handler(unsigned int*, unsigned int);
 extern void gp_handler(unsigned int*, unsigned int);
 extern void gp_handler(unsigned int*, unsigned int);
 extern void tp_handler(unsigned int*, unsigned int);
-extern void ep_handler(unsigned int*, unsigned int);
+extern void p_3U0_handler(unsigned int*, unsigned int);
 extern void ready_tu(unsigned int*);
 extern void urov_handler(unsigned int*, unsigned int);
 extern void up_handler(unsigned int*, unsigned int);

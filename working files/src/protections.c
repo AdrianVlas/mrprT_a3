@@ -7204,6 +7204,32 @@ inline void main_protection(void)
     /**************************/
     
     /**************************/
+    //Захист 3U0
+    /**************************/
+    if ((current_settings_prt.configuration & (1 << P_3U0_BIT_CONFIGURATION)) != 0)
+    {
+      p_3U0_handler(active_functions, number_group_stp);
+    }
+    else
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_p_3U0_signals[N_BIG] = 
+      {
+        MASKA_P_3U0_SIGNALS_0,
+        MASKA_P_3U0_SIGNALS_1,
+        MASKA_P_3U0_SIGNALS_2, 
+        MASKA_P_3U0_SIGNALS_3, 
+        MASKA_P_3U0_SIGNALS_4, 
+        MASKA_P_3U0_SIGNALS_5,
+        MASKA_P_3U0_SIGNALS_6, 
+        MASKA_P_3U0_SIGNALS_7, 
+        MASKA_P_3U0_SIGNALS_8
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_p_3U0_signals[i]);
+    }
+    /**************************/
+    
+    /**************************/
     //ТЗНП
     /**************************/
     if ((current_settings_prt.configuration & (1 << TZNP_BIT_CONFIGURATION)) != 0)
@@ -7426,46 +7452,20 @@ inline void main_protection(void)
       //Очищуємо сигнали, які не можуть бути у даній конфігурації
       const unsigned int maska_tp_signals[N_BIG] = 
       {
-        MASKA_GP_SIGNALS_0,
-        MASKA_GP_SIGNALS_1,
-        MASKA_GP_SIGNALS_2, 
-        MASKA_GP_SIGNALS_3, 
-        MASKA_GP_SIGNALS_4, 
-        MASKA_GP_SIGNALS_5,
-        MASKA_GP_SIGNALS_6, 
-        MASKA_GP_SIGNALS_7, 
-        MASKA_GP_SIGNALS_8
+        MASKA_TP_SIGNALS_0,
+        MASKA_TP_SIGNALS_1,
+        MASKA_TP_SIGNALS_2, 
+        MASKA_TP_SIGNALS_3, 
+        MASKA_TP_SIGNALS_4, 
+        MASKA_TP_SIGNALS_5,
+        MASKA_TP_SIGNALS_6, 
+        MASKA_TP_SIGNALS_7, 
+        MASKA_TP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_tp_signals[i]);
     }
     /**************************/
 
-    /**************************/
-    //Елегазовий захист
-    /**************************/
-    if ((current_settings_prt.configuration & (1 << EP_BIT_CONFIGURATION)) != 0)
-    {
-      tp_handler(active_functions, number_group_stp);
-    }
-    else
-    {
-      //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_ep_signals[N_BIG] = 
-      {
-        MASKA_GP_SIGNALS_0,
-        MASKA_GP_SIGNALS_1,
-        MASKA_GP_SIGNALS_2, 
-        MASKA_GP_SIGNALS_3, 
-        MASKA_GP_SIGNALS_4, 
-        MASKA_GP_SIGNALS_5,
-        MASKA_GP_SIGNALS_6, 
-        MASKA_GP_SIGNALS_7, 
-        MASKA_GP_SIGNALS_8
-      };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_ep_signals[i]);
-    }
-    /**************************/
-    
     /**************************/
     //Універсальний захист
     /**************************/
@@ -8523,6 +8523,17 @@ void ozt_handler(unsigned int *p_active_functions, unsigned int number_group_stp
 }
 /*****************************************************/
 
+
+/*****************************************************/
+//Захист 3U0
+/*****************************************************/
+void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+{
+  UNUSED(p_active_functions);
+  UNUSED(number_group_stp);
+}
+/*****************************************************/
+
 /*****************************************************/
 //Вн.Зовн.Пошкодження
 /*****************************************************/
@@ -8547,16 +8558,6 @@ void gp_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
 //Тепловий захист
 /*****************************************************/
 void tp_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  UNUSED(p_active_functions);
-  UNUSED(number_group_stp);
-}
-/*****************************************************/
-
-/*****************************************************/
-//Елегазовий захист
-/*****************************************************/
-void ep_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   UNUSED(p_active_functions);
   UNUSED(number_group_stp);

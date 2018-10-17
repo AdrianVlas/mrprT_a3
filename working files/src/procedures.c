@@ -435,6 +435,126 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       }
     }
 
+    //Перевіряємо, чи 3U0 зараз знято з конфігурації
+    if ((target_label->configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0)
+    {
+      //Виводим ступені 3U0
+//      target_label->control_P_3U0 &= (unsigned int)(~());
+   
+//      //Виводим ступені МТЗ з УРОВ
+//      target_label->control_urov &= (unsigned int)(~(
+//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) | 
+//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) | 
+//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) | 
+//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
+//                                                    )
+//                                                  );
+      
+      //Формуємо маски функцій 3U0
+      for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
+      for (int i = 0; i < NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL; i++)
+        _SET_BIT(
+                 maska, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
+                  NUMBER_OZT_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL     +
+                  i
+                 )
+                );
+
+      for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
+      for (int i = 0; i < NUMBER_P_3U0_SIGNAL_FOR_RANG; i++)
+        _SET_BIT(
+                 maska_1, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG + 
+                  NUMBER_OZT_SIGNAL_FOR_RANG     +
+                  NUMBER_MTZ_SIGNAL_FOR_RANG     +
+                  i
+                 )
+                );
+      
+      //Знімаємо всі функції для ранжування входів, які відповідають за 3U0
+      for (int i = 0; i < NUMBER_DEFINED_BUTTONS; i++)
+      {
+        target_label->ranguvannja_buttons[N_SMALL*i  ] &= ~maska[0];
+        target_label->ranguvannja_buttons[N_SMALL*i+1] &= ~maska[1];
+        target_label->ranguvannja_buttons[N_SMALL*i+2] &= ~maska[2];
+      }
+
+      //Знімаємо всі функції для ранжування входів, які відповідають за 3U0
+      for (int i = 0; i < NUMBER_INPUTS; i++)
+      {
+        target_label->ranguvannja_inputs[N_SMALL*i  ] &= ~maska[0];
+        target_label->ranguvannja_inputs[N_SMALL*i+1] &= ~maska[1];
+        target_label->ranguvannja_inputs[N_SMALL*i+2] &= ~maska[2];
+      }
+      //Знімаємо всі функції для ранжування виходів
+      for (int i = 0; i < NUMBER_OUTPUTS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_outputs[N_BIG*i+j] &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування світоіндикаторів
+      for (int i = 0; i < NUMBER_LEDS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_leds[N_BIG*i+j] &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування аналогового і дискретного реєстраторів
+      for (unsigned int j = 0; j < N_BIG; j++ ) 
+      {
+        target_label->ranguvannja_analog_registrator[j]  &= ~maska_1[j];
+        target_label->ranguvannja_digital_registrator[j] &= ~maska_1[j];
+        target_label->ranguvannja_off_cb[j] &= ~maska_1[j];
+        target_label->ranguvannja_on_cb[j]  &= ~maska_1[j];
+      }
+      //Знімаємо всі функції для ранжування оприділювальних функцій
+      for (int i = 0; i < NUMBER_DEFINED_FUNCTIONS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) 
+        {
+          target_label->ranguvannja_df_source_plus[N_BIG*i+j]  &= ~maska_1[j];
+          target_label->ranguvannja_df_source_minus[N_BIG*i+j] &= ~maska_1[j];
+          target_label->ranguvannja_df_source_blk[N_BIG*i+j]   &= ~maska_1[j];
+        }
+      }
+      //Знімаємо всі функції для ранжування оприділювальних триґерів
+      for (int i = 0; i < NUMBER_DEFINED_TRIGGERS; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) 
+        {
+          target_label->ranguvannja_set_dt_source_plus[N_BIG*i+j]    &= ~maska_1[j];
+          target_label->ranguvannja_set_dt_source_minus[N_BIG*i+j]   &= ~maska_1[j];
+          target_label->ranguvannja_reset_dt_source_plus[N_BIG*i+j]  &= ~maska_1[j];
+          target_label->ranguvannja_reset_dt_source_minus[N_BIG*i+j] &= ~maska_1[j];
+        }
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "І"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_AND; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_and[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "АБО"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_OR; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_or[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "Викл.АБО"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_XOR; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_xor[N_BIG*i+j] &= ~maska_1[j];
+      }
+  
+      //Знімаємо всі функції для ранжування визначуваних "НЕ"
+      for(unsigned int i = 0; i < NUMBER_DEFINED_NOT; i++)
+      {
+        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_not[N_BIG*i+j] &= ~maska_1[j];
+      }
+    }
+
     //Перевіряємо, чи ТЗНП зараз знято з конфігурації
     if ((target_label->configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
     {
@@ -459,6 +579,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL   +
                   i
                  )
                 );
@@ -471,6 +592,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG + 
                   NUMBER_OZT_SIGNAL_FOR_RANG     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG     +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG   +
                   i
                  )
                 );
@@ -570,6 +692,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   i
                  )
@@ -583,6 +706,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   i
                  )
@@ -686,6 +810,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   i
@@ -700,6 +825,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   i
@@ -809,6 +935,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -824,6 +951,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG       +
@@ -934,6 +1062,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -950,6 +1079,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1062,6 +1192,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -1079,6 +1210,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1192,6 +1324,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -1210,6 +1343,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1324,6 +1458,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -1343,6 +1478,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1364,142 +1500,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       }
 
       //Знімаємо всі функції для ранжування входів, які відповідають за "Тепловий захист"
-      for (int i = 0; i < NUMBER_INPUTS; i++)
-      {
-        target_label->ranguvannja_inputs[N_SMALL*i  ] &= ~maska[0];
-        target_label->ranguvannja_inputs[N_SMALL*i+1] &= ~maska[1];
-        target_label->ranguvannja_inputs[N_SMALL*i+2] &= ~maska[2];
-      }
-      //Знімаємо всі функції для ранжування виходів
-      for (int i = 0; i < NUMBER_OUTPUTS; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_outputs[N_BIG*i+j] &= ~maska_1[j];
-      }
-      //Знімаємо всі функції для ранжування світоіндикаторів
-      for (int i = 0; i < NUMBER_LEDS; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_leds[N_BIG*i+j] &= ~maska_1[j];
-      }
-      //Знімаємо всі функції для ранжування аналогового і дискретного реєстраторів
-      for (unsigned int j = 0; j < N_BIG; j++ ) 
-      {
-        target_label->ranguvannja_analog_registrator[j]  &= ~maska_1[j];
-        target_label->ranguvannja_digital_registrator[j] &= ~maska_1[j];
-        target_label->ranguvannja_off_cb[j] &= ~maska_1[j];
-        target_label->ranguvannja_on_cb[j]  &= ~maska_1[j];
-      }
-      //Знімаємо всі функції для ранжування оприділювальних функцій
-      for (int i = 0; i < NUMBER_DEFINED_FUNCTIONS; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) 
-        {
-          target_label->ranguvannja_df_source_plus[N_BIG*i+j]  &= ~maska_1[j];
-          target_label->ranguvannja_df_source_minus[N_BIG*i+j] &= ~maska_1[j];
-          target_label->ranguvannja_df_source_blk[N_BIG*i+j]   &= ~maska_1[j];
-        }
-      }
-      //Знімаємо всі функції для ранжування оприділювальних триґерів
-      for (int i = 0; i < NUMBER_DEFINED_TRIGGERS; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) 
-        {
-          target_label->ranguvannja_set_dt_source_plus[N_BIG*i+j]    &= ~maska_1[j];
-          target_label->ranguvannja_set_dt_source_minus[N_BIG*i+j]   &= ~maska_1[j];
-          target_label->ranguvannja_reset_dt_source_plus[N_BIG*i+j]  &= ~maska_1[j];
-          target_label->ranguvannja_reset_dt_source_minus[N_BIG*i+j] &= ~maska_1[j];
-        }
-      }
-  
-      //Знімаємо всі функції для ранжування визначуваних "І"
-      for(unsigned int i = 0; i < NUMBER_DEFINED_AND; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_and[N_BIG*i+j] &= ~maska_1[j];
-      }
-  
-      //Знімаємо всі функції для ранжування визначуваних "АБО"
-      for(unsigned int i = 0; i < NUMBER_DEFINED_OR; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_or[N_BIG*i+j] &= ~maska_1[j];
-      }
-  
-      //Знімаємо всі функції для ранжування визначуваних "Викл.АБО"
-      for(unsigned int i = 0; i < NUMBER_DEFINED_XOR; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_xor[N_BIG*i+j] &= ~maska_1[j];
-      }
-  
-      //Знімаємо всі функції для ранжування визначуваних "НЕ"
-      for(unsigned int i = 0; i < NUMBER_DEFINED_NOT; i++)
-      {
-        for (unsigned int j = 0; j < N_BIG; j++ ) target_label->ranguvannja_d_not[N_BIG*i+j] &= ~maska_1[j];
-      }
-    }
-
-    //Перевіряємо, чи "Елегазовий захист" зараз знято з конфігурації
-    if ((target_label->configuration & (1<<EP_BIT_CONFIGURATION)) == 0)
-    {
-//      //Виводим ступені "Елегазовий захист"
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Елегазовий захист" з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
-   
-      //Формуємо маски функцій "Елегазовий захист"
-      for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
-      for (int i = 0; i < NUMBER_EP_SIGNAL_FOR_RANG_SMALL; i++)
-        _SET_BIT(
-                 maska, 
-                 (
-                  NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
-                  NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
-                  NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
-                  NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
-                  NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
-                  NUMBER_TP_SIGNAL_FOR_RANG_SMALL         +
-                  i
-                 )
-                );
-     
-      for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
-      for (int i = 0; i < NUMBER_EP_SIGNAL_FOR_RANG; i++)
-        _SET_BIT(
-                 maska_1, 
-                 (
-                  NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
-                  NUMBER_OZT_SIGNAL_FOR_RANG        +
-                  NUMBER_MTZ_SIGNAL_FOR_RANG        +
-                  NUMBER_TZNP_SIGNAL_FOR_RANG       +
-                  NUMBER_UROV_SIGNAL_FOR_RANG       +
-                  NUMBER_ZOP_SIGNAL_FOR_RANG        +
-                  NUMBER_UMIN_SIGNAL_FOR_RANG       +
-                  NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
-                  NUMBER_GP_SIGNAL_FOR_RANG         +
-                  NUMBER_TP_SIGNAL_FOR_RANG         +
-                  i
-                 )
-                );
-
-
-      //Знімаємо всі функції для ранжування входів, які відповідають за "Елегазовий захист"
-      for (int i = 0; i < NUMBER_DEFINED_BUTTONS; i++)
-      {
-        target_label->ranguvannja_buttons[N_SMALL*i  ] &= ~maska[0];
-        target_label->ranguvannja_buttons[N_SMALL*i+1] &= ~maska[1];
-        target_label->ranguvannja_buttons[N_SMALL*i+2] &= ~maska[2];
-      }
-
-      //Знімаємо всі функції для ранжування входів, які відповідають за "Елегазовий захист"
       for (int i = 0; i < NUMBER_INPUTS; i++)
       {
         target_label->ranguvannja_inputs[N_SMALL*i  ] &= ~maska[0];
@@ -1592,6 +1592,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -1600,7 +1601,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         +
-                  NUMBER_EP_SIGNAL_FOR_RANG_SMALL         +
                   i
                  )
                 );
@@ -1613,6 +1613,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1621,7 +1622,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
                   NUMBER_GP_SIGNAL_FOR_RANG         +
                   NUMBER_TP_SIGNAL_FOR_RANG         +
-                  NUMBER_EP_SIGNAL_FOR_RANG         +
                   i
                  )
                 );
@@ -1724,6 +1724,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UROV_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
@@ -1732,7 +1733,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         +
-                  NUMBER_EP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_UP_SIGNAL_FOR_RANG_SMALL         +
                   i
                  )
@@ -1745,6 +1745,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
+                  NUMBER_P_3U0_SIGNAL_FOR_RANG      +
                   NUMBER_TZNP_SIGNAL_FOR_RANG       +
                   NUMBER_UROV_SIGNAL_FOR_RANG       +
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
@@ -1753,7 +1754,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
                   NUMBER_GP_SIGNAL_FOR_RANG         +
                   NUMBER_TP_SIGNAL_FOR_RANG         +
-                  NUMBER_EP_SIGNAL_FOR_RANG         +
                   NUMBER_UP_SIGNAL_FOR_RANG         +
                   i
                  )
