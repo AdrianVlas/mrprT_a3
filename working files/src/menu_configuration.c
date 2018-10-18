@@ -12,6 +12,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
     {
      "ÎÇÒ       ",
      "ÌÒÇ       ",
+     "3U0       ",
      "ÒÇÍÏ      ",
      "ÓĞÎÂ      ",
      "ÇÎÏ(ÊÎÔ)  ",
@@ -20,13 +21,13 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Âí.Âíåø.Ï.",
      "ÃÇ        ",
      "ÒÇ        ",
-     "ÅÇ        ",
      "ÓÇ        ",
      "Ğàñø.ëîã. "
     },
     {
      "ÎÇÒ       ",
      "ÌÑÇ       ",
+     "3U0       ",
      "ÑÇÍÏ      ",
      "ÏĞÂÂ      ",
      "ÇÇÏ(ÊÎÔ)  ",
@@ -35,13 +36,13 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Âí.Çîâí.Ï.",
      "ÃÇ        ",
      "ÒÇ        ",
-     "ÅÇ        ",
      "ÓÇ        ",
      "Ğîçø.ëîã. "
     },
     {
      "ÎÇÒ       ",
      "OCP       ",
+     "3U0       ",
      "ÒÇÍÏ      ",
      "CBFP      ",
      "NPSP      ",
@@ -50,13 +51,13 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Âí.Âíåø.Ï.",
      "GP        ",
      "TP        ",
-     "ShP       ",
      "UP        ",
      "Ext.logic "
     },
     {
      "ÎÇÒ       ",
      "ÌÒK       ",
+     "3U0       ",
      "ÒÇÍÏ      ",
      "Ñ²ØĞK     ",
      "ÊKK       ",
@@ -65,7 +66,6 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Âí.Âíåø.Ï.",
      "ÃÇ        ",
      "ÒÇ        ",
-     "ÅÇ        ",
      "ÓÇ        ",
      "Ğàñø.ëîã. "
     }

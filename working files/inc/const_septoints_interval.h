@@ -194,6 +194,12 @@ enum _type_con_ozt
 #define TIMEOUT_MTZ4_PO_NAPRUZI_MIN             0
 #define TIMEOUT_MTZ4_PO_NAPRUZI_MAX             300000
 
+#define SETPOINT_P_3U0_MIN                      5000
+#define SETPOINT_P_3U0_MAX                      150000
+
+#define TIMEOUT_P_3U0_MIN                       0
+#define TIMEOUT_P_3U0_MAX                       32000
+
 #define SETPOINT_TZNP1_3I0_VPERED_MIN 500
 #define SETPOINT_TZNP1_3I0_VPERED_MAX 150000
 

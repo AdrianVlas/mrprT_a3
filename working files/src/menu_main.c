@@ -18,6 +18,7 @@ void make_ekran_main(void)
      " Конфигурация   ",
      " ОЗТ            ",
      " МТЗ            ",
+     " 3U0            ",
      " ТЗНП           ",
      " УРОВ           ",
      " ЗОП(КОФ)       ",
@@ -26,7 +27,6 @@ void make_ekran_main(void)
      " Вн.Внеш.П.     ",
      " ГЗ             ",
      " ТЗ             ",
-     " ЕЗ             ",
      " УЗ             "
     },
     {
@@ -40,6 +40,7 @@ void make_ekran_main(void)
      " Конфігурація   ",
      " ОЗТ            ",
      " МСЗ            ",
+     " 3U0            ",
      " СЗНП           ",
      " ПРВВ           ",
      " ЗЗП(КОФ)       ",
@@ -48,7 +49,6 @@ void make_ekran_main(void)
      " Вн.Зовн.П.     ",
      " ГЗ             ",
      " ТЗ             ",
-     " ЕЗ             ",
      " УЗ             "
     },
     {
@@ -62,6 +62,7 @@ void make_ekran_main(void)
      " Configuration  ",
      " ОЗТ            ",
      " OCP            ",
+     " 3U0            ",
      " ТЗНП           ",
      " CBFP           ",
      " NPSP           ",
@@ -70,7 +71,6 @@ void make_ekran_main(void)
      " Вн.Внеш.П.     ",
      " GP             ",
      " TP             ",
-     " ShP            ",
      " UP             "
     },
     {
@@ -84,6 +84,7 @@ void make_ekran_main(void)
      " Конфигурациялар",
      " ОЗТ            ",
      " МТK            ",
+     " 3U0            ",
      " ТЗНП           ",
      " СІШРK          ",
      " КKK            ",
@@ -92,7 +93,6 @@ void make_ekran_main(void)
      " Вн.Внеш.П.     ",
      " ГЗ             ",
      " ТЗ             ",
-     " ЕЗ             ",
      " УЗ             "
     }
   };

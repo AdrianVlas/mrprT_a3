@@ -735,6 +735,8 @@ void main_manu_function(void)
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
+                if ((current_ekran.index_position == INDEX_ML1_IN_OUT) && ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) == 0))
+                  current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_UMIN) && ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0))

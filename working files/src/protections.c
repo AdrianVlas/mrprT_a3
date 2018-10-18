@@ -973,7 +973,8 @@ inline void calc_measurement(unsigned int number_group_stp)
       default:
         {
           //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(66);
+          continue;
+//          total_error_sw_fixed(66);
         }
       }
       
@@ -1002,7 +1003,8 @@ inline void calc_measurement(unsigned int number_group_stp)
       default:
         {
           //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(67);
+          continue;
+//          total_error_sw_fixed(67);
         }
       }
       
@@ -7226,6 +7228,7 @@ inline void main_protection(void)
         MASKA_P_3U0_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_p_3U0_signals[i]);
+      global_timers[INDEX_TIMER_P_3U0] = -1;
     }
     /**************************/
     

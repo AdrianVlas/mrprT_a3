@@ -1345,6 +1345,7 @@ void min_settings(__SETTINGS *target_label)
 
   target_label->control_ozt = 0;
   target_label->control_mtz = 0;
+  target_label->control_P_3U0 = 0;
   target_label->control_tznp = 0;
   target_label->control_urov = 0;
   target_label->control_zop = 0;
@@ -1453,6 +1454,9 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_mtz_4_n_vpered[i] = TIMEOUT_MTZ4_N_VPERED_MIN; 
     target_label->timeout_mtz_4_n_nazad[i] = TIMEOUT_MTZ4_N_NAZAD_MIN; 
     target_label->timeout_mtz_4_po_napruzi[i] = TIMEOUT_MTZ4_PO_NAPRUZI_MIN; 
+
+    target_label->setpoint_P_3U0[i] = SETPOINT_P_3U0_MIN;
+    target_label->timeout_P_3U0[i]  = TIMEOUT_P_3U0_MIN; 
 
     angle = SETPOINT_TZNP1_ANGLE_MIN;
     angle_f = (float)angle;
