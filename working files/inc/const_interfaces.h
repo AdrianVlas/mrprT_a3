@@ -28,7 +28,7 @@
 #define USB_RECUEST           0
 #define RS485_RECUEST         1
 
-enum __data_changed_bit
+enum _data_changed_bit
 {
 SETTINGS_DATA_CHANGED_BIT = 0,
 RANGUVANNJA_DATA_CHANGED_BIT,

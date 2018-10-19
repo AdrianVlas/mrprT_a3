@@ -3,7 +3,7 @@
 
 #define EKRAN_MAIN              (EKRAN_LEVEL_PASSWORD_HARD + 1)
 
-enum __index_ml1
+enum _index_ml1
 {
 INDEX_ML1_TIME = 0,
 INDEX_ML1_MEASURMENTS,

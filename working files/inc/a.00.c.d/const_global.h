@@ -70,7 +70,7 @@ TOTAL_NUMBER_PROTECTION
 /*****************************************/
 //Константи для ранжування дискретних входів
 /*****************************************/
-enum __rang_small {
+enum _rang_small {
 RANG_SMALL_BLOCK_VKL_VV = 0,
 RANG_SMALL_RESET_LEDS,
 RANG_SMALL_RESET_RELES,
@@ -173,7 +173,7 @@ RANG_SMALL_DT4_RESET,
 /*****************************************/
 //Константи для ранжування дискретних виходів-свтодіодів-О-функцій-реєстраторів
 /*****************************************/
-enum __rang_output_led_df_reg 
+enum _rang_output_led_df_reg 
 {
 RANG_BLOCK_VKL_VV = 0,
 RANG_RESET_LEDS,
@@ -426,7 +426,7 @@ RANG_ERROR_CONF_EL
 
 /*****************************************/
 
-enum __mtz_const {
+enum _mtz_const {
   RANG_BLOCK_MTZ = 0,
   RANG_BLOCK_USK_MTZ,
   RANG_SECTOR_VPERED_MTZN,
@@ -441,7 +441,7 @@ enum __mtz_const {
   MTZ_SETTINGS_LENGTH
 };
 
-enum __mtz_levels_const {
+enum _mtz_levels_const {
   MTZ_LEVEL1 = 0,
   MTZ_LEVEL2,
   MTZ_LEVEL3,
@@ -450,13 +450,13 @@ enum __mtz_levels_const {
   NUMBER_LEVEL_MTZ //Количество ступеней МТЗ
 };
 
-enum __mtz_abc_const {
+enum _mtz_abc_const {
   PHASE_A_INDEX = 0,
   PHASE_B_INDEX,
   PHASE_C_INDEX
 };
 
-enum __mtz_abc_direction_const {
+enum _mtz_abc_direction_const {
   MTZ_NEVYZN = 0,
   MTZ_VPERED,
   MTZ_NAZAD
@@ -1454,7 +1454,7 @@ enum __mtz_abc_direction_const {
 /*****************************************/
 //Відключення від захистів
 /*****************************************/
-typedef enum __vymknennja_vid_zakhystiv__
+typedef enum _vymknennja_vid_zakhystiv__
 {
   VYMKNENNJA_VID_MTZ1,
   VYMKNENNJA_VID_MTZ2,
@@ -1573,7 +1573,7 @@ enum _leds_colors
 /*****************************************/
 //Константи для ранжування функціональних кнопок
 /*****************************************/
-enum __odynyci_vymirjuvannja {
+enum _odynyci_vymirjuvannja {
 INDEX_A = 0,
 INDEX_V,
 INDEX_SECOND,

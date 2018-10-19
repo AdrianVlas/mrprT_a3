@@ -386,7 +386,7 @@ typedef struct
   unsigned char name_of_cell[MAX_CHAR_IN_NAME_OF_CELL];
 } __HEADER_AR;
 
-typedef enum __STATE_READING_ADCs {
+typedef enum _STATE_READING_ADCs {
 STATE_READING_ADCs_NONE = 0,
 STATE_READING_WRITE,
 STATE_READING_WRITE_READ,

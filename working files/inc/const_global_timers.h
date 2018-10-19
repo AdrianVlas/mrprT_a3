@@ -72,7 +72,7 @@ enum _index_timer
   NEXT_TIMER = (INDEX_TIMER_UP1 + NUMBER_UP)
 };
 
-enum __mtz_tmr_const {
+enum _mtz_tmr_const {
   INDEX_TIMER_MTZ = 0,
   INDEX_TIMER_MTZ_N_VPERED,
   INDEX_TIMER_MTZ_N_NAZAD,
