@@ -64,10 +64,10 @@ void make_ekran_chose_extra_settings(void)
         const unsigned char information[MAX_ROW_FOR_CHOSE_EXTRA_SETTINGS][MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
         {
           {
-            {"   Високая ст.  ", "   Низкая ст.   "},
-            {"   Висока ст.   ", "   Низька ст.   "},
-            {"      HIGH      ", "      LOW       "},
-            {"   Високая ст.  ", "   Низкая ст.   "}
+            {"       ВН       ", "       НН       "},
+            {"       ВН       ", "       НН       "},
+            {"       HV       ", "       LV       "},
+            {"       ВН       ", "       НН       "}
           },
           {
             {"     Откл.      ", "      Вкл.      "},
@@ -103,10 +103,10 @@ void make_ekran_chose_extra_settings(void)
         const unsigned int cursor_x[MAX_ROW_FOR_CHOSE_EXTRA_SETTINGS][MAX_NAMBER_LANGUAGE][2] = 
         {
           {
-            {2, 2},
-            {2, 2},
-            {5, 5},
-            {2, 2}
+            {6, 6},
+            {6, 6},
+            {6, 6},
+            {6, 6}
           },
           {
             {4, 5},
