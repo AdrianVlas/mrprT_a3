@@ -569,15 +569,11 @@ int main(void)
   else password_set_RS485 = 1;
   timeout_idle_RS485 = current_settings.timeout_deactivation_password_interface_RS485;
   
-  timeout_idle_new_settings = current_settings.timeout_idle_new_settings;
-  //Визначаємо, чи стоїть дозвіл запису через інтерфейси з паролем
-  if (current_settings.password_interface_RS485 == 0) password_set_RS485 = 0;
-  else password_set_RS485 = 1;
-  timeout_idle_RS485 = current_settings.timeout_deactivation_password_interface_RS485;
-  
   if (current_settings.password_interface_USB   == 0) password_set_USB   = 0;
   else password_set_USB   = 1;
   timeout_idle_USB = current_settings.timeout_deactivation_password_interface_USB;
+
+  timeout_idle_new_settings = current_settings.timeout_idle_new_settings;
   
   //Перевірка параметрування мікросхем DataFlash
   start_checking_dataflash();

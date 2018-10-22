@@ -1682,7 +1682,7 @@
                 </file>
             </group>
             <group>
-                <name>microcontriller</name>
+                <name>microcontroller</name>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\hw_config.h</name>
                 </file>
