@@ -462,18 +462,18 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
 //  count_bit = 4;
-  case 146:
-    (*editValue) = &edition_settings.setpoint_urov[gruppa];
-    if(regUst<SETPOINT_UROV_MIN/10 || regUst>SETPOINT_UROV_MAX/10) diapazon=0;
-    break;
-  case 147:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_1[gruppa];
-    if(regUst<TIMEOUT_UROV1_MIN/10 || regUst>TIMEOUT_UROV1_MAX/10) diapazon=0;
-    break;
-  case 148:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_2[gruppa];
-    if(regUst<TIMEOUT_UROV2_MIN/10 || regUst>TIMEOUT_UROV2_MAX/10) diapazon=0;
-    break;
+//  case 146:
+//    (*editValue) = &edition_settings.setpoint_urov[gruppa];
+//    if(regUst<SETPOINT_UROV_MIN/10 || regUst>SETPOINT_UROV_MAX/10) diapazon=0;
+//    break;
+//  case 147:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_1[gruppa];
+//    if(regUst<TIMEOUT_UROV1_MIN/10 || regUst>TIMEOUT_UROV1_MAX/10) diapazon=0;
+//    break;
+//  case 148:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_2[gruppa];
+//    if(regUst<TIMEOUT_UROV2_MIN/10 || regUst>TIMEOUT_UROV2_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 10;
 //  case 179:

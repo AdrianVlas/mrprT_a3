@@ -1347,7 +1347,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_mtz = 0;
   target_label->control_P_3U0 = 0;
   target_label->control_tznp = 0;
-  target_label->control_urov = 0;
+  for (size_t i = 0; i < NUMBER_PRVV; i++) target_label->control_urov[i] = 0;
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
@@ -1493,9 +1493,12 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_tznp_3_vpered[i] = TIMEOUT_TZNP3_VPERED_MIN; 
     target_label->timeout_tznp_3_nazad[i] = TIMEOUT_TZNP3_NAZAD_MIN; 
     
-    target_label->setpoint_urov[i]  = SETPOINT_UROV_MIN;
-    target_label->timeout_urov_1[i] = TIMEOUT_UROV1_MIN;
-    target_label->timeout_urov_2[i] = TIMEOUT_UROV2_MIN;
+    for (size_t j = 0; j < NUMBER_PRVV; j++)
+    {
+      target_label->setpoint_urov[j][i]  = SETPOINT_UROV_MIN;
+      target_label->timeout_urov_1[j][i] = TIMEOUT_UROV1_MIN;
+      target_label->timeout_urov_2[j][i] = TIMEOUT_UROV2_MIN;
+    }
 
     target_label->setpoint_zop[i] = SETPOINT_ZOP_MIN;
     target_label->timeout_zop[i] = TIMEOUT_ZOP_MIN; 

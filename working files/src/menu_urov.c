@@ -3,7 +3,7 @@
 /*****************************************************/
 //Формуємо екран відображення уставок УРОВ
 /*****************************************************/
-void make_ekran_setpoint_urov(unsigned int group)
+void make_ekran_setpoint_urov(uint32_t prvv, unsigned int group)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_UROV][MAX_COL_LCD] = 
   {
@@ -42,8 +42,8 @@ void make_ekran_setpoint_urov(unsigned int group)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
 
         vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки УРОВ
-        if (view == true) value = current_settings.setpoint_urov[group]; //у змінну value поміщаємо значення уставки ЗЗ
-        else value = edition_settings.setpoint_urov[group];
+        if (view == true) value = current_settings.setpoint_urov[prvv][group]; //у змінну value поміщаємо значення уставки ЗЗ
+        else value = edition_settings.setpoint_urov[prvv][group];
         first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
       }
       else
@@ -97,7 +97,7 @@ void make_ekran_setpoint_urov(unsigned int group)
 /*****************************************************/
 //Формуємо екран відображення витримок УРОВ
 /*****************************************************/
-void make_ekran_timeout_urov(unsigned int group)
+void make_ekran_timeout_urov(uint32_t prvv, unsigned int group)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_UROV][MAX_COL_LCD] = 
   {
@@ -141,15 +141,15 @@ void make_ekran_timeout_urov(unsigned int group)
         if (index_of_ekran_tmp == INDEX_ML_TMOUROV1)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки 1 Ступені УРОВ
-          if (view == true) value = current_settings.timeout_urov_1[group]; //у змінну value поміщаємо значення витримки 1 Ступені УРОВ
-          else value = edition_settings.timeout_urov_1[group];
+          if (view == true) value = current_settings.timeout_urov_1[prvv][group]; //у змінну value поміщаємо значення витримки 1 Ступені УРОВ
+          else value = edition_settings.timeout_urov_1[prvv][group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if (index_of_ekran_tmp == INDEX_ML_TMOUROV2)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки 2 Ступені УРОВ
-          if (view == true) value = current_settings.timeout_urov_2[group]; //у змінну value поміщаємо значення витримки 2 Ступені УРОВ
-          else value = edition_settings.timeout_urov_2[group];
+          if (view == true) value = current_settings.timeout_urov_2[prvv][group]; //у змінну value поміщаємо значення витримки 2 Ступені УРОВ
+          else value = edition_settings.timeout_urov_2[prvv][group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
       }
@@ -228,7 +228,7 @@ void make_ekran_timeout_urov(unsigned int group)
 /*****************************************************/
 //Формуємо екран відображення значення управлінської інформації для УРОВ
 /*****************************************************/
-void make_ekran_control_urov()
+void make_ekran_control_urov(uint32_t prvv)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_UROV - NUMBER_UP + 1][MAX_COL_LCD] = 
   {
@@ -351,8 +351,8 @@ void make_ekran_control_urov()
   }
   
   unsigned int temp_data;
-  if(current_ekran.edition == 0) temp_data = current_settings.control_urov;
-  else temp_data = edition_settings.control_urov;
+  if(current_ekran.edition == 0) temp_data = current_settings.control_urov[prvv];
+  else temp_data = edition_settings.control_urov[prvv];
         
   /******************************************/
   //Виключаємо поля, які не треба відображати
