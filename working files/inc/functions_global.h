@@ -190,6 +190,10 @@ void tznp_handler(unsigned int*, unsigned int);
 void zop_handler(unsigned int*, unsigned int);
 void umin1_handler(unsigned int*, unsigned int);
 void umin2_handler(unsigned int*, unsigned int);
+void umin1_handler1(unsigned int*, unsigned int);
+void umin1_handler2(unsigned int*, unsigned int);
+void umin2_handler1(unsigned int*, unsigned int);
+
 void umax1_handler(unsigned int*, unsigned int);
 void umax2_handler(unsigned int*, unsigned int);
 void in_out_handler(unsigned int*, unsigned int);

@@ -192,6 +192,10 @@ extern void tznp_handler(unsigned int*, unsigned int);
 extern void zop_handler(unsigned int*, unsigned int);
 extern void umin1_handler(unsigned int*, unsigned int);
 extern void umin2_handler(unsigned int*, unsigned int);
+extern void umin1_handler1(unsigned int*, unsigned int);
+extern void umin1_handler2(unsigned int*, unsigned int);
+extern void umin2_handler1(unsigned int*, unsigned int);
+
 extern void umax1_handler(unsigned int*, unsigned int);
 extern void umax2_handler(unsigned int*, unsigned int);
 extern void in_out_handler(unsigned int*, unsigned int);

@@ -1,0 +1,198 @@
+cd /G/emb_pj/mrzs_T
+
+$ cd /G/emb_pj/mrzs_T
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T
+$  git clone https://github.com/Malynovsky/Device2_v.17.0.x.y.git mrprT_a
+Cloning into 'mrprT_a'...
+remote: Enumerating objects: 818, done.
+remote: Counting objects: 100% (818/818), done.
+remote: Compressing objects: 100% (581/581), done.
+remote: Total 818 (delta 428), reused 617 (delta 227), pack-reused 0
+Receiving objects: 100% (818/818), 1.47 MiB | 1.24 MiB/s, done.
+Resolving deltas: 100% (428/428), done.
+
+git pull https://github.com/Malynovsky/Device2_v.17.0.x.y.git Synchro
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T
+$ git pull https://github.com/Malynovsky/Device2_v.17.0.x.y.git Synchro
+fatal: Not a git repository (or any of the parent directories): .git
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T
+$ cd mrprT_a
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git pull https://github.com/Malynovsky/Device2_v.17.0.x.y.git Synchro
+From https://github.com/Malynovsky/Device2_v.17.0.x.y
+ * branch            Synchro    -> FETCH_HEAD
+Updating 6daef88..d52a19d
+Fast-forward
+ .../v.17.00/device_2_v_17_0_0_0(IAR 7 50 2).ewp    |   43 +-
+ .../v.17.00/device_2_v_17_0_0_0(IAR 7 50 2).ewt    |   43 +-
+ project files/v.17.00/device_2_v_17_0_0_0.ewp      |   90 +-
+ project files/v.17.00/device_2_v_17_0_0_0.ewt      |   42 +-
+ .../inc/a.00.c.d/const_driver_serial_dataflash.h   |    5 +-
+ working files/inc/a.00.c.d/const_global.h          | 1106 ++--
+ working files/inc/a.00.c.d/const_menu_outputs.h    |  208 +-
+ working files/inc/const_eeprom.h                   |   33 -
+ working files/inc/const_global_timers.h            |   41 +-
+ working files/inc/const_lcd_and_keyboard.h         |    2 +-
+ working files/inc/const_measurement.h              |   67 +-
+ working files/inc/const_menu_3U0.h                 |   37 +
+ working files/inc/const_menu_VMP.h                 |   35 -
+ working files/inc/const_menu_achr_chapv.h          |   85 -
+ working files/inc/const_menu_apv.h                 |   87 -
+ .../inc/const_menu_chose_extra_settings.h          |   18 +-
+ .../inc/const_menu_chose_settings_protection.h     |   59 +-
+ .../inc/const_menu_chose_settings_switcher.h       |    9 +-
+ working files/inc/const_menu_inputs.h              |   68 +-
+ working files/inc/const_menu_main.h                |   13 +-
+ working files/inc/const_menu_measurement.h         |    7 +-
+ working files/inc/const_menu_mtz04.h               |   72 -
+ working files/inc/const_menu_ozt.h                 |   47 +
+ working files/inc/const_menu_resurs.h              |   11 -
+ .../inc/const_menu_state_inputs_outputs.h          |    2 +-
+ working files/inc/const_menu_switch.h              |    3 +-
+ working files/inc/const_menu_transformator.h       |   14 +-
+ working files/inc/const_menu_tznp.h                |    6 +-
+ working files/inc/const_menu_urov.h                |   18 +-
+ working files/inc/const_menu_zdz.h                 |   90 -
+ working files/inc/const_menu_zz.h                  |   60 -
+ working files/inc/const_septoints_interval.h       |  163 +-
+ working files/inc/constants.h                      |    9 +-
+ working files/inc/functions_external.h             |   47 +-
+ working files/inc/functions_global.h               |   46 +-
+ working files/inc/type_definition.h                |   96 +-
+ working files/inc/variables_external.h             |   74 +-
+ working files/inc/variables_global.h               |  154 +-
+ working files/src/eeprom.c                         |  517 +-
+ working files/src/interrupts.c                     |   25 +-
+ working files/src/main.c                           |   15 +-
+ working files/src/measurement.c                    |  220 +-
+ working files/src/menu.c                           | 6096 +++-----------------
+ working files/src/menu_3U0.c                       |  300 +
+ working files/src/menu_UP.c                        |   23 +-
+ working files/src/menu_VMP.c                       |  289 -
+ working files/src/menu_achr_chapv.c                |  514 --
+ working files/src/menu_apv.c                       |  472 --
+ working files/src/menu_chose_extra_settings .c     |  108 +-
+ working files/src/menu_chose_settings_protection.c |   66 -
+ working files/src/menu_configuration.c             |  118 +-
+ working files/src/menu_energy.c                    |  167 -
+ .../src/menu_inputs_outputs_leds_reg_df_buttons.c  |  468 +-
+ working files/src/menu_main.c                      |   77 +-
+ working files/src/menu_mtz04.c                     |  453 --
+ working files/src/menu_registrators.c              |  229 +-
+ working files/src/menu_resurs.c                    |  145 -
+ working files/src/menu_switch.c                    |  251 -
+ working files/src/menu_tf.c                        |   44 +-
+ working files/src/menu_transformator.c             |  151 +-
+ working files/src/menu_urov.c                      |   90 +-
+ working files/src/menu_view_measurement.c          |  347 +-
+ working files/src/menu_zdz.c                       |  335 --
+ working files/src/menu_zz.c                        |  529 --
+ .../modbusroutine/component/ACMDSmallComponent.c   |  388 +-
+ .../src/modbusroutine/component/AISmallComponent.c |  272 +-
+ .../modbusroutine/component/QAISmallComponent.c    |    8 +-
+ .../modbusroutine/component/RAISmallComponent.c    |  134 +-
+ .../src/modbusroutine/component/UPRBigComponent.c  |  606 +-
+ .../src/modbusroutine/component/USTBigComponent.c  |  668 +--
+ .../src/modbusroutine/component/YustBigComponent.c |   16 +-
+ working files/src/modbusroutine/procedures_m.c     |  186 +-
+ working files/src/procedures.c                     |  954 +--
+ working files/src/protections.c                    | 4048 ++-----------
+ working files/src/start_settings.c                 |  171 +-
+ 75 files changed, 4416 insertions(+), 18094 deletions(-)
+ create mode 100644 working files/inc/const_menu_3U0.h
+ delete mode 100644 working files/inc/const_menu_VMP.h
+ delete mode 100644 working files/inc/const_menu_achr_chapv.h
+ delete mode 100644 working files/inc/const_menu_apv.h
+ delete mode 100644 working files/inc/const_menu_mtz04.h
+ create mode 100644 working files/inc/const_menu_ozt.h
+ delete mode 100644 working files/inc/const_menu_resurs.h
+ delete mode 100644 working files/inc/const_menu_zdz.h
+ delete mode 100644 working files/inc/const_menu_zz.h
+ create mode 100644 working files/src/menu_3U0.c
+ delete mode 100644 working files/src/menu_VMP.c
+ delete mode 100644 working files/src/menu_achr_chapv.c
+ delete mode 100644 working files/src/menu_apv.c
+ delete mode 100644 working files/src/menu_energy.c
+ delete mode 100644 working files/src/menu_mtz04.c
+ delete mode 100644 working files/src/menu_resurs.c
+ delete mode 100644 working files/src/menu_zdz.c
+ delete mode 100644 working files/src/menu_zz.c
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 22 commits.
+  (use "git push" to publish your local commits)
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        working files/gitses.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git branch -r
+  origin/Developing
+  origin/HEAD -> origin/master
+  origin/Synchro
+  origin/master
+  origin/temp
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git branch -a
+* master
+  remotes/origin/Developing
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/Synchro
+  remotes/origin/master
+  remotes/origin/temp
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git fetch --progress origin Synchro
+From https://github.com/Malynovsky/Device2_v.17.0.x.y
+ * branch            Synchro    -> FETCH_HEAD
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git merge FETCH_HEAD
+Already up-to-date.
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$  git branch Synchro
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ Synchro
+bash: Synchro: command not found
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git branch
+  Synchro
+* master
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 22 commits.
+  (use "git push" to publish your local commits)
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        working files/gitses.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (master)
+$ git checkout Synchro
+Switched to branch 'Synchro'
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+$  git merge FETCH_HEAD
+Already up-to-date.
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+$ git checkout --  './project files/v.17.00/device_2_v_17_0_0_0.ewt'
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+$ git checkout --  './project files/v.17.00/device_2_v_17_0_0_0.ewp'
+
+

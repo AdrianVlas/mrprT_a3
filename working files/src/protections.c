@@ -1266,6 +1266,10 @@ inline void clocking_global_timers(void)
   }
 }
 /*****************************************************/
+#include "ozt.c "
+#include "G3U0.c"
+#include "umin.c"
+
 
 /*****************************************************/
 //Опрацювання Ориділювальних функцій - має запускатися після відкрпацювання блоків всіх захистів
@@ -7297,13 +7301,17 @@ inline void main_protection(void)
       /**************************/
       //ЗНМИН1
       /**************************/
-      umin1_handler(active_functions, number_group_stp);
+      //umin1_handler(active_functions, number_group_stp);
+      umin1_handler1(active_functions, number_group_stp);
+	  
       /**************************/
       
       /**************************/
       //ЗНМИН2
       /**************************/
-      umin2_handler(active_functions, number_group_stp);
+      //umin2_handler(active_functions, number_group_stp);
+      umin2_handler1(active_functions, number_group_stp);
+	  
       /**************************/
     } 
     else 
@@ -8519,22 +8527,22 @@ void setpoints_selecting(unsigned int *p_active_functions, unsigned int act_inp_
 /*****************************************************/
 //ОЗТ
 /*****************************************************/
-void ozt_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  UNUSED(p_active_functions);
-  UNUSED(number_group_stp);
-}
+//void ozt_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+//{
+//  UNUSED(p_active_functions);
+//  UNUSED(number_group_stp);
+//}
 /*****************************************************/
 
 
 /*****************************************************/
 //Захист 3U0
 /*****************************************************/
-void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  UNUSED(p_active_functions);
-  UNUSED(number_group_stp);
-}
+//void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+//{
+//  UNUSED(p_active_functions);
+//  UNUSED(number_group_stp);
+//}
 /*****************************************************/
 
 /*****************************************************/
