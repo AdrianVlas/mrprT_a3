@@ -12,7 +12,8 @@ void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_s
 //
 //--------------------------------------------------------------------------------------------------------
 //````````````````````````````````````````````````````````````````````````````````````````````````````````
-
+git push -n --repo https://github.com/AdrianVlas/mrprT_a3.git
+git remote add origin  https://github.com/AdrianVlas/mrprT_a3.git
 UMIN_DV_BLOCK_CMD_BIT  = 1,  
 UMIN_DV_BLOCK_INVERSE_CMD_BIT,
 UMIN_MCTR_TRANSFORMATOR_PHASE_LINE_BIT,

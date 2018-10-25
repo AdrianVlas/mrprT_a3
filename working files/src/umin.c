@@ -341,7 +341,7 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_
 	  || (measurement[IM_UB] <= pick_up_Ublk) || (measurement[IM_UC] <= pick_up_Ublk);
   
     //_AND4(Ua_is_smaller_than_Umin1, 0, Ub_is_smaller_than_Umin1, 0, Uc_is_smaller_than_Umin1, 0, u32_val, 3, u32_val, 9);
-	lV = (wrp.lVl&( (1<<4)|(1<<5)|(1<<6) )!=0;
+	lV = (wrp.lVl&( (1<<4)|(1<<5)|(1<<6) )!=0);
     u32_bit_holder |= lV << (UMIN_AND4_1_STATE_BIT);
     //_OR3(Ua_is_smaller_than_Umin1, 0, Ub_is_smaller_than_Umin1, 0, Uc_is_smaller_than_Umin1, 0, u32_val, 10);
     lV = ( ( wrp.lVl&(1<<4))|(wrp.lVl&(1<<5)) |(wrp.lVl&(1<<6)) )!=0;
@@ -381,9 +381,9 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_
 	
 	
     //_AND4(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, u32_val, 3, u32_val, 9);
-    wrp.bool_vars.
+    //wrp.bool_vars.
 	//_OR3(Uab_is_smaller_than_Umin1, 0, Ubc_is_smaller_than_Umin1, 0, Uca_is_smaller_than_Umin1, 0, u32_val, 10);
-    wrp.bool_vars.
+    //wrp.bool_vars.
 	//_INVERTOR(u32_val, 3, u32_val, 3);
     
 	//_AND2(u32_val, 10, u32_val, 3, u32_val, 11);
@@ -401,10 +401,10 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_
       _CLEAR_BIT(p_active_functions, RANG_PO_UBLK_UMIN1);
   }
   //_INVERTOR(u32_val, 12, u32_val, 12);
-  lV = !(u32_bit_holder&(1<<));
+  //lV = !(u32_bit_holder&(1<<));
 	u32_bit_holder |= (lV) << UMIN_NOT_8_STATE_BIT;
   //_INVERTOR(u32_val, 13, u32_val, 13);
-  lV = !(u32_bit_holder&(1<<));
+  //lV = !(u32_bit_holder&(1<<));
 	u32_bit_holder |= (lV) << UMIN_NOT_9_STATE_BIT;
   //_OR3(u32_val, 7, u32_val, 9, u32_val, 11, u32_val, 14);
   
