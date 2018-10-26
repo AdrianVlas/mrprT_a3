@@ -7394,26 +7394,26 @@ inline void main_protection(void)
     /**************************/
     //Вн.Зовн.Пошкодження
     /**************************/
-    if ((current_settings_prt.configuration & (1 << IN_OUT_BIT_CONFIGURATION)) != 0)
+    if ((current_settings_prt.configuration & (1 << KZ_ZV_BIT_CONFIGURATION)) != 0)
     {
-      in_out_handler(active_functions, number_group_stp);
+      kz_zv_handler(active_functions, number_group_stp);
     }
     else
     {
       //Очищуємо сигнали, які не можуть бути у даній конфігурації
-      const unsigned int maska_in_out_signals[N_BIG] = 
+      const unsigned int maska_kz_zv_signals[N_BIG] = 
       {
-        MASKA_IN_OUT_SIGNALS_0,
-        MASKA_IN_OUT_SIGNALS_1,
-        MASKA_IN_OUT_SIGNALS_2, 
-        MASKA_IN_OUT_SIGNALS_3, 
-        MASKA_IN_OUT_SIGNALS_4, 
-        MASKA_IN_OUT_SIGNALS_5,
-        MASKA_IN_OUT_SIGNALS_6, 
-        MASKA_IN_OUT_SIGNALS_7, 
-        MASKA_IN_OUT_SIGNALS_8
+        MASKA_KZ_ZV_SIGNALS_0,
+        MASKA_KZ_ZV_SIGNALS_1,
+        MASKA_KZ_ZV_SIGNALS_2, 
+        MASKA_KZ_ZV_SIGNALS_3, 
+        MASKA_KZ_ZV_SIGNALS_4, 
+        MASKA_KZ_ZV_SIGNALS_5,
+        MASKA_KZ_ZV_SIGNALS_6, 
+        MASKA_KZ_ZV_SIGNALS_7, 
+        MASKA_KZ_ZV_SIGNALS_8
       };
-      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_in_out_signals[i]);
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_kz_zv_signals[i]);
     }
     /**************************/
 
@@ -8540,7 +8540,7 @@ void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_s
 /*****************************************************/
 //Вн.Зовн.Пошкодження
 /*****************************************************/
-void in_out_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+void kz_zv_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
 {
   UNUSED(p_active_functions);
   UNUSED(number_group_stp);

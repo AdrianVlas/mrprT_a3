@@ -194,7 +194,7 @@ extern void umin1_handler(unsigned int*, unsigned int);
 extern void umin2_handler(unsigned int*, unsigned int);
 extern void umax1_handler(unsigned int*, unsigned int);
 extern void umax2_handler(unsigned int*, unsigned int);
-extern void in_out_handler(unsigned int*, unsigned int);
+extern void kz_zv_handler(unsigned int*, unsigned int);
 extern void gp_handler(unsigned int*, unsigned int);
 extern void gp_handler(unsigned int*, unsigned int);
 extern void tp_handler(unsigned int*, unsigned int);

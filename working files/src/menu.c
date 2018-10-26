@@ -554,7 +554,7 @@ void main_manu_function(void)
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
-              if ((current_ekran.index_position == INDEX_ML1_IN_OUT) && ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) == 0))
+              if ((current_ekran.index_position == INDEX_ML1_KZ_ZV) && ((current_settings.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
               if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                 current_ekran.index_position++;
@@ -675,7 +675,7 @@ void main_manu_function(void)
                       (current_ekran.index_position == INDEX_ML1_ZOP       ) ||
                       (current_ekran.index_position == INDEX_ML1_UMIN      ) ||
                       (current_ekran.index_position == INDEX_ML1_UMAX      ) || 
-                      (current_ekran.index_position == INDEX_ML1_IN_OUT    ) || 
+                      (current_ekran.index_position == INDEX_ML1_KZ_ZV    ) || 
                       (current_ekran.index_position == INDEX_ML1_GP        ) || 
                       (current_ekran.index_position == INDEX_ML1_TP        ) || 
                       (current_ekran.index_position == INDEX_ML1_UP        )
@@ -698,7 +698,7 @@ void main_manu_function(void)
                 //Переходимо на меню Umax
                 else if(current_ekran.index_position == INDEX_ML1_UMAX) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UMAX;
                 //Переходимо на меню "Вн.Зовн. Пошкодження"
-                else if(current_ekran.index_position == INDEX_ML1_IN_OUT) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_IN_OUT;
+                else if(current_ekran.index_position == INDEX_ML1_KZ_ZV) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_KZ_ZV;
                 //Переходимо на меню "Газовий захист"
                 else if(current_ekran.index_position == INDEX_ML1_GP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_GP;
                 //Переходимо на меню "Тепловий захист"
@@ -735,7 +735,7 @@ void main_manu_function(void)
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
-                if ((current_ekran.index_position == INDEX_ML1_IN_OUT) && ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) == 0))
+                if ((current_ekran.index_position == INDEX_ML1_KZ_ZV) && ((current_settings.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
                 if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position--;
@@ -787,7 +787,7 @@ void main_manu_function(void)
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_UMAX) && ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
-                if ((current_ekran.index_position == INDEX_ML1_IN_OUT) && ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) == 0))
+                if ((current_ekran.index_position == INDEX_ML1_KZ_ZV) && ((current_settings.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
                 if ((current_ekran.index_position == INDEX_ML1_GP) && ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0))
                   current_ekran.index_position++;
@@ -1392,11 +1392,11 @@ void main_manu_function(void)
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_UMAX:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_UMAX:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_UMAX:
-    case EKRAN_CHOOSE_SETTINGS_IN_OUT:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_IN_OUT:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_IN_OUT:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_IN_OUT:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_IN_OUT:
+    case EKRAN_CHOOSE_SETTINGS_KZ_ZV:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_KZ_ZV:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_KZ_ZV:
+    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV:
     case EKRAN_CHOOSE_SETTINGS_GP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_GP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_GP:
@@ -1604,7 +1604,7 @@ void main_manu_function(void)
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
+                     (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV    )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
                      (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
@@ -1663,8 +1663,8 @@ void main_manu_function(void)
                      )
                      ||  
                      (
-                      (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_IN_OUT) &&
-                      (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_IN_OUT)
+                      (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
+                      (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV)
                      )
                      ||  
                      (
@@ -3505,7 +3505,7 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV    )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
@@ -3563,8 +3563,8 @@ void main_manu_function(void)
                        )
                        ||  
                        (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_IN_OUT) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_IN_OUT)
+                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV)
                        )
                        ||  
                        (
@@ -4150,7 +4150,7 @@ void main_manu_function(void)
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_ZOP       )|| 
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMIN      )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UMAX      )||
-                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_IN_OUT    )||
+                       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV    )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP        )||
                        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UP        )
@@ -4209,8 +4209,8 @@ void main_manu_function(void)
                        )
                        ||  
                        (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_IN_OUT) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_IN_OUT)
+                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV)
                        )
                        ||  
                        (
@@ -14562,7 +14562,7 @@ void main_manu_function(void)
                                                                      NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL,
-                                                                     NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
+                                                                     NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
@@ -14789,7 +14789,7 @@ void main_manu_function(void)
                                                                      NUMBER_ZOP_SIGNAL_FOR_RANG,
                                                                      NUMBER_UMIN_SIGNAL_FOR_RANG,
                                                                      NUMBER_UMAX_SIGNAL_FOR_RANG,
-                                                                     NUMBER_IN_OUT_SIGNAL_FOR_RANG,
+                                                                     NUMBER_KZ_ZV_SIGNAL_FOR_RANG,
                                                                      NUMBER_GP_SIGNAL_FOR_RANG,
                                                                      NUMBER_TP_SIGNAL_FOR_RANG,
                                                                      NUMBER_UP_SIGNAL_FOR_RANG,
@@ -16114,7 +16114,7 @@ void main_manu_function(void)
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL,
-                                                                       NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
@@ -16397,7 +16397,7 @@ void main_manu_function(void)
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UMIN_SIGNAL_FOR_RANG,
                                                                        NUMBER_UMAX_SIGNAL_FOR_RANG,
-                                                                       NUMBER_IN_OUT_SIGNAL_FOR_RANG,
+                                                                       NUMBER_KZ_ZV_SIGNAL_FOR_RANG,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG,
@@ -16771,7 +16771,7 @@ void main_manu_function(void)
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL,
-                                                                       NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG_SMALL,
@@ -17054,7 +17054,7 @@ void main_manu_function(void)
                                                                        NUMBER_ZOP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UMIN_SIGNAL_FOR_RANG,
                                                                        NUMBER_UMAX_SIGNAL_FOR_RANG,
-                                                                       NUMBER_IN_OUT_SIGNAL_FOR_RANG,
+                                                                       NUMBER_KZ_ZV_SIGNAL_FOR_RANG,
                                                                        NUMBER_GP_SIGNAL_FOR_RANG,
                                                                        NUMBER_TP_SIGNAL_FOR_RANG,
                                                                        NUMBER_UP_SIGNAL_FOR_RANG,

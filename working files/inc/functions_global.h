@@ -192,7 +192,7 @@ void umin1_handler(unsigned int*, unsigned int);
 void umin2_handler(unsigned int*, unsigned int);
 void umax1_handler(unsigned int*, unsigned int);
 void umax2_handler(unsigned int*, unsigned int);
-void in_out_handler(unsigned int*, unsigned int);
+void kz_zv_handler(unsigned int*, unsigned int);
 void gp_handler(unsigned int*, unsigned int);
 void tp_handler(unsigned int*, unsigned int);
 void p_3U0_handler(unsigned int*, unsigned int);

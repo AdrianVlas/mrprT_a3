@@ -1203,7 +1203,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     }
 
     //Перевіряємо, чи "Вн./Зовн.П." зараз знято з конфігурації
-    if ((target_label->configuration & (1<<IN_OUT_BIT_CONFIGURATION)) == 0)
+    if ((target_label->configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0)
     {
 //      //Виводим ступені "Вн./Зовн.П."
 //      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
@@ -1218,7 +1218,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
    
       //Формуємо маски функцій "Вн./Зовн.П."
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
-      for (int i = 0; i < NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL; i++)
+      for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL; i++)
         _SET_BIT(
                  maska, 
                  (
@@ -1236,7 +1236,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 );
      
       for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
-      for (int i = 0; i < NUMBER_IN_OUT_SIGNAL_FOR_RANG; i++)
+      for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG; i++)
         _SET_BIT(
                  maska_1, 
                  (
@@ -1363,13 +1363,13 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL     +
                   i
                  )
                 );
      
       for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
-      for (int i = 0; i < NUMBER_IN_OUT_SIGNAL_FOR_RANG; i++)
+      for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG; i++)
         _SET_BIT(
                  maska_1, 
                  (
@@ -1382,7 +1382,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG     +
                   i
                  )
                 );
@@ -1497,7 +1497,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
                   i
                  )
@@ -1517,7 +1517,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG     +
                   NUMBER_GP_SIGNAL_FOR_RANG         +
                   i
                  )
@@ -1631,7 +1631,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         +
                   i
@@ -1652,7 +1652,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG     +
                   NUMBER_GP_SIGNAL_FOR_RANG         +
                   NUMBER_TP_SIGNAL_FOR_RANG         +
                   i
@@ -1763,7 +1763,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         +
                   NUMBER_UP_SIGNAL_FOR_RANG_SMALL         +
@@ -1784,7 +1784,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                   NUMBER_ZOP_SIGNAL_FOR_RANG        +
                   NUMBER_UMIN_SIGNAL_FOR_RANG       +
                   NUMBER_UMAX_SIGNAL_FOR_RANG       +
-                  NUMBER_IN_OUT_SIGNAL_FOR_RANG     +
+                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG     +
                   NUMBER_GP_SIGNAL_FOR_RANG         +
                   NUMBER_TP_SIGNAL_FOR_RANG         +
                   NUMBER_UP_SIGNAL_FOR_RANG         +

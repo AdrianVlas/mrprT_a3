@@ -60,7 +60,7 @@ UROV_BIT_CONFIGURATION,
 ZOP_BIT_CONFIGURATION,
 UMIN_BIT_CONFIGURATION,
 UMAX_BIT_CONFIGURATION,
-IN_OUT_BIT_CONFIGURATION,
+KZ_ZV_BIT_CONFIGURATION,
 GP_BIT_CONFIGURATION,
 TP_BIT_CONFIGURATION,
 UP_BIT_CONFIGURATION,
@@ -148,7 +148,7 @@ RANG_SMALL_DT4_RESET,
 #define NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL         1
 #define NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL        4
 #define NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL        2
-#define NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL      0
+#define NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL      0
 #define NUMBER_GP_SIGNAL_FOR_RANG_SMALL          0
 #define NUMBER_TP_SIGNAL_FOR_RANG_SMALL          0
 #define NUMBER_UP_SIGNAL_FOR_RANG_SMALL          NUMBER_UP
@@ -164,7 +164,7 @@ RANG_SMALL_DT4_RESET,
                                                   NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL        + \
                                                   NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL       + \
                                                   NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL       + \
-                                                  NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL     + \
+                                                  NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL     + \
                                                   NUMBER_GP_SIGNAL_FOR_RANG_SMALL         + \
                                                   NUMBER_TP_SIGNAL_FOR_RANG_SMALL         + \
                                                   NUMBER_UP_SIGNAL_FOR_RANG_SMALL         + \
@@ -403,7 +403,7 @@ RANG_ERROR_CONF_EL
 #define NUMBER_ZOP_SIGNAL_FOR_RANG         3
 #define NUMBER_UMIN_SIGNAL_FOR_RANG        12
 #define NUMBER_UMAX_SIGNAL_FOR_RANG        6
-#define NUMBER_IN_OUT_SIGNAL_FOR_RANG      0
+#define NUMBER_KZ_ZV_SIGNAL_FOR_RANG      0
 #define NUMBER_GP_SIGNAL_FOR_RANG          0
 #define NUMBER_TP_SIGNAL_FOR_RANG          0
 #define NUMBER_UP_SIGNAL_FOR_RANG          (3*NUMBER_UP)
@@ -419,7 +419,7 @@ RANG_ERROR_CONF_EL
                                             NUMBER_ZOP_SIGNAL_FOR_RANG        + \
                                             NUMBER_UMIN_SIGNAL_FOR_RANG       + \
                                             NUMBER_UMAX_SIGNAL_FOR_RANG       + \
-                                            NUMBER_IN_OUT_SIGNAL_FOR_RANG     + \
+                                            NUMBER_KZ_ZV_SIGNAL_FOR_RANG     + \
                                             NUMBER_GP_SIGNAL_FOR_RANG         + \
                                             NUMBER_TP_SIGNAL_FOR_RANG         + \
                                             NUMBER_UP_SIGNAL_FOR_RANG         + \
@@ -896,15 +896,15 @@ enum _mtz_abc_direction_const {
 /*****************************************/
 //Макски всіх сигналів Вн.Зовн.П.
 /*****************************************/
-#define MASKA_IN_OUT_SIGNALS_0               0
-#define MASKA_IN_OUT_SIGNALS_1               0
-#define MASKA_IN_OUT_SIGNALS_2               0
-#define MASKA_IN_OUT_SIGNALS_3               0
-#define MASKA_IN_OUT_SIGNALS_4               0
-#define MASKA_IN_OUT_SIGNALS_5               0
-#define MASKA_IN_OUT_SIGNALS_6               0
-#define MASKA_IN_OUT_SIGNALS_7               0
-#define MASKA_IN_OUT_SIGNALS_8               0
+#define MASKA_KZ_ZV_SIGNALS_0               0
+#define MASKA_KZ_ZV_SIGNALS_1               0
+#define MASKA_KZ_ZV_SIGNALS_2               0
+#define MASKA_KZ_ZV_SIGNALS_3               0
+#define MASKA_KZ_ZV_SIGNALS_4               0
+#define MASKA_KZ_ZV_SIGNALS_5               0
+#define MASKA_KZ_ZV_SIGNALS_6               0
+#define MASKA_KZ_ZV_SIGNALS_7               0
+#define MASKA_KZ_ZV_SIGNALS_8               0
 /*****************************************/
 
 /*****************************************/
