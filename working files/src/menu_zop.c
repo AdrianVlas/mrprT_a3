@@ -1,23 +1,23 @@
 #include "header.h"
 
 /*****************************************************/
-//Формуємо екран відображення уставок ЗОП(КОФ)
+//Формуємо екран відображення уставок ЗОП
 /*****************************************************/
 void make_ekran_setpoint_zop(unsigned int group)
 {
  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_ZOP][MAX_COL_LCD] = 
   {
     {
-      "Уставка ЗОП(КОФ)"
+      "  Уставка ЗОП   "
     },
     {
-      "Уставка ЗЗП(КОФ)"
+      "  Уставка ЗЗП   "
     },
     {
       "  NPSP Pickup   "
     },
     {
-      "Уставка ЗОП(КОФ)"
+      "  Уставка ЗОП   "
     }
   };
   const unsigned char symbols[MAX_NAMBER_LANGUAGE][3] = {"ед.", "од.", "u  ", "ед."};

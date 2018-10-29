@@ -3,7 +3,7 @@
 /*****************************************************/
 //Формуємо екран відображення уставок УРОВ
 /*****************************************************/
-void make_ekran_setpoint_urov(unsigned int group)
+void make_ekran_setpoint_urov(uint32_t prvv, unsigned int group)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_UROV][MAX_COL_LCD] = 
   {
@@ -42,8 +42,8 @@ void make_ekran_setpoint_urov(unsigned int group)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
 
         vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки УРОВ
-        if (view == true) value = current_settings.setpoint_urov[group]; //у змінну value поміщаємо значення уставки ЗЗ
-        else value = edition_settings.setpoint_urov[group];
+        if (view == true) value = current_settings.setpoint_urov[prvv][group]; //у змінну value поміщаємо значення уставки ЗЗ
+        else value = edition_settings.setpoint_urov[prvv][group];
         first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
       }
       else
@@ -97,7 +97,7 @@ void make_ekran_setpoint_urov(unsigned int group)
 /*****************************************************/
 //Формуємо екран відображення витримок УРОВ
 /*****************************************************/
-void make_ekran_timeout_urov(unsigned int group)
+void make_ekran_timeout_urov(uint32_t prvv, unsigned int group)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_UROV][MAX_COL_LCD] = 
   {
@@ -141,15 +141,15 @@ void make_ekran_timeout_urov(unsigned int group)
         if (index_of_ekran_tmp == INDEX_ML_TMOUROV1)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки 1 Ступені УРОВ
-          if (view == true) value = current_settings.timeout_urov_1[group]; //у змінну value поміщаємо значення витримки 1 Ступені УРОВ
-          else value = edition_settings.timeout_urov_1[group];
+          if (view == true) value = current_settings.timeout_urov_1[prvv][group]; //у змінну value поміщаємо значення витримки 1 Ступені УРОВ
+          else value = edition_settings.timeout_urov_1[prvv][group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if (index_of_ekran_tmp == INDEX_ML_TMOUROV2)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки 2 Ступені УРОВ
-          if (view == true) value = current_settings.timeout_urov_2[group]; //у змінну value поміщаємо значення витримки 2 Ступені УРОВ
-          else value = edition_settings.timeout_urov_2[group];
+          if (view == true) value = current_settings.timeout_urov_2[prvv][group]; //у змінну value поміщаємо значення витримки 2 Ступені УРОВ
+          else value = edition_settings.timeout_urov_2[prvv][group];
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
       }
@@ -228,104 +228,92 @@ void make_ekran_timeout_urov(unsigned int group)
 /*****************************************************/
 //Формуємо екран відображення значення управлінської інформації для УРОВ
 /*****************************************************/
-void make_ekran_control_urov()
+void make_ekran_control_urov(uint32_t prvv)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_UROV - NUMBER_UP + 1][MAX_COL_LCD] = 
   {
     {
       "      УРОВ      ",
+      "  Пуск от ОЗТ1  ",
+      "  Пуск от ОЗТ2  ",
       "  Пуск от МТЗ1  ",
       "  Пуск от МТЗ2  ",
       "  Пуск от МТЗ3  ",
       "  Пуск от МТЗ4  ",
-      "Пуск от МТЗ0.4 1",
-      "Пуск от МТЗ0.4 2",
-      "  Пуск от ЗДЗ   ",
-      "  Пуск от 3I0   ",
       "  Пуск от 3U0   ",
-      "  Пуск от НЗЗ   ",
       " Пуск от ТЗНП1  ",
       " Пуск от ТЗНП2  ",
       " Пуск от ТЗНП3  ",
-      "Пуск от ЗОП(КОФ)",
+      " Пуск от ТЗНП4  ",
+      " Пуск от ЗОП1   ",
+      " Пуск от ЗОП2   ",
       " Пуск от ЗНмин1 ",
       " Пуск от ЗНмин2 ",
       " Пуск от ЗНмакс1",
       " Пуск от ЗНмакс2",
-      "  Пуск от АЧР1  ",
-      "  Пуск от АЧР2  ",
       "  Пуск от УЗх   "
     },
     {
       "      ПРВВ      ",
+      " Пуск від ОЗТ1  ",
+      " Пуск від ОЗТ2  ",
       " Пуск від МСЗ1  ",
       " Пуск від МСЗ2  ",
       " Пуск від МСЗ3  ",
       " Пуск від МСЗ4  ",
-      "П-к від МСЗ0.4 1",
-      "П-к від МСЗ0.4 2",
-      "  Пуск від ЗДЗ  ",
-      "  Пуск від 3I0  ",
       "  Пуск від 3U0  ",
-      "  Пуск від НЗЗ  ",
       " Пуск від СЗНП1 ",
       " Пуск від СЗНП2 ",
       " Пуск від СЗНП3 ",
-      " П.від ЗЗП(КОФ) ",
+      " Пуск від СЗНП4 ",
+      " П.від ЗЗП1     ",
+      " П.від ЗЗП2     ",
       " Пуск від ЗНмін1",
       " Пуск від ЗНмін2",
       "Пуск від ЗНмакс1",
       "Пуск від ЗНмакс2",
-      " Пуск від АЧР1  ",
-      " Пуск від АЧР2  ",
       "  Пуск від УЗx  "
     },
     {
       "      CBFP      ",
+      "  Пуск от ОЗТ1  ",
+      "  Пуск от ОЗТ2  ",
       " Start from OCP1",
       " Start from OCP2",
       " Start from OCP3",
       " Start from OCP4",
-      "Start f.OCP0.4 1",
-      "Start f.OCP0.4 2",
-      "  Пуск от ЗДЗ   ",
-      " Start from 3I0 ",
       " Start from 3U0 ",
-      "  Пуск от НЗЗ   ",
       " Пуск от ТЗНП1  ",
       " Пуск от ТЗНП2  ",
       " Пуск от ТЗНП3  ",
-      " Start from NPSP",
+      " Пуск от ТЗНП4  ",
+      "Start from NPSP1",
+      "Start from NPSP2",
       "Start from Umin1",
       "Start from Umin2",
       "Start from Umax1",
       "Start from Umax2",
-      "  Пуск от АЧР1  ",
-      "  Пуск от АЧР2  ",
       "  Пуск от УЗх   "
     },
     {
       "      УРОВ      ",
+      "  Пуск от ОЗТ1  ",
+      "  Пуск от ОЗТ2  ",
       "  Пуск от МТЗ1  ",
       "  Пуск от МТЗ2  ",
       "  Пуск от МТЗ3  ",
       "  Пуск от МТЗ4  ",
-      "Пуск от МТЗ0.4 1",
-      "Пуск от МТЗ0.4 2",
-      "  Пуск от ЗДЗ   ",
-      "  Пуск от 3I0   ",
       "  Пуск от 3U0   ",
-      "  Пуск от НЗЗ   ",
       " Пуск от ТЗНП1  ",
       " Пуск от ТЗНП2  ",
       " Пуск от ТЗНП3  ",
-      "Пуск от ЗОП(КОФ)",
+      " Пуск от ТЗНП4  ",
+      " Пуск от ЗОП1   ",
+      " Пуск от ЗОП2   ",
       " Пуск от ЗНмин1 ",
       " Пуск от ЗНмин2 ",
       " Пуск от ЗНмакс1",
       " Пуск от ЗНмакс2",
-      "  Пуск от АЧР1  ",
-      "  Пуск от АЧР2  ",
       "  Пуск от УЗх   "
     }
   };
@@ -351,20 +339,22 @@ void make_ekran_control_urov()
   }
   
   unsigned int temp_data;
-  if(current_ekran.edition == 0) temp_data = current_settings.control_urov;
-  else temp_data = edition_settings.control_urov;
+  if(current_ekran.edition == 0) temp_data = current_settings.control_urov[prvv];
+  else temp_data = edition_settings.control_urov[prvv];
         
   /******************************************/
   //Виключаємо поля, які не треба відображати
   /******************************************/
-  int additional_current_mtz = 0;
+  int additional_current_ozt = 0, additional_current_mtz = 0, additional_current_p_3U0 = 0;
   int additional_current_tznp = 0, additional_current_zop = 0;
   int additional_current_Umin = 0, additional_current_Umax = 0;
   int additional_current_up = 0;
   int position_temp = current_ekran.index_position;
   int index_of_ekran;
 
-  int additional_current = additional_current_mtz  +
+  int additional_current = additional_current_ozt  +
+                           additional_current_mtz  +
+                           additional_current_p_3U0+
                            additional_current_tznp + 
                            additional_current_zop  + 
                            additional_current_Umin + 
@@ -372,8 +362,16 @@ void make_ekran_control_urov()
                            additional_current_up;
   for (int current_index = 0; current_index < MAX_ROW_FOR_CONTROL_UROV; current_index++ )
   {
-
     if (
+        (
+         (
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_OZT1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_OZT2)
+         )   
+         &&
+         ((current_settings.configuration & (1<<OZT_BIT_CONFIGURATION)) == 0)
+        )  
+        ||
         (
          (
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) ||
@@ -387,9 +385,18 @@ void make_ekran_control_urov()
         ||
         (
          (
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)
+         )   
+         &&
+         ((current_settings.configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0)
+        )
+        ||
+        (
+         (
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) ||
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) ||
-          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)
          )   
          &&
          ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
@@ -397,7 +404,8 @@ void make_ekran_control_urov()
         ||
         (
          (
-          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)
          )   
          &&
          ((current_settings.configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
@@ -452,6 +460,12 @@ void make_ekran_control_urov()
       temp_data = (temp_data & maska_1) | temp_data_1;
 
       if (
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_OZT1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_OZT2)
+         )   
+        additional_current_ozt++;
+
+      if (
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) ||
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) ||
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) ||
@@ -460,14 +474,21 @@ void make_ekran_control_urov()
         additional_current_mtz++;
 
       if (
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)
+         )   
+        additional_current_p_3U0++;
+
+      if (
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) ||
           (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) ||
-          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)
          )   
         additional_current_tznp++;
 
       if (
-          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)
          )   
         additional_current_zop++;
 
@@ -489,11 +510,13 @@ void make_ekran_control_urov()
          )   
         additional_current_up++;
       
-      additional_current = additional_current_mtz  + 
-                           additional_current_tznp + 
-                           additional_current_zop  + 
-                           additional_current_Umin + 
-                           additional_current_Umax + 
+      additional_current = additional_current_ozt   + 
+                           additional_current_mtz   + 
+                           additional_current_p_3U0 + 
+                           additional_current_tznp  + 
+                           additional_current_zop   + 
+                           additional_current_Umin  + 
+                           additional_current_Umax  + 
                            additional_current_up;
     }
   }

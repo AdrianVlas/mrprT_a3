@@ -123,6 +123,9 @@ typedef struct
   uint32_t pickup_ozt_Kg1[NUMBER_GROUP_USTAVOK];                //Уставка kг1 (коефіцієнт гальмування ділянки 1)
   uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування)
   uint32_t pickup_ozt_Kg2[NUMBER_GROUP_USTAVOK];                //Уставка kг2 (коефіцієнт гальмування ділянки 2)
+  uint32_t pickup_ozt_K_aI[NUMBER_GROUP_USTAVOK];                //Уставка відносної величини для аперіодичної складової (з точністю до дисячних, тобто x1000)
+  uint32_t pickup_ozt_K_2I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для другої гармоніки (з точністю до дисячних, тобто x1000)
+  uint32_t pickup_ozt_K_5I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для п'ятої гармоніки (з точністю до дисячних, тобто x1000)
   uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ
   
   int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня"
@@ -221,26 +224,35 @@ typedef struct
   unsigned int setpoint_tznp_3_angle[NUMBER_GROUP_USTAVOK];     //Уставка ТЗНП першої третьої (кут довороту)
            int setpoint_tznp_3_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (косинус кута довороту)
            int setpoint_tznp_3_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (синус кута довороту)
+  unsigned int setpoint_tznp_4_3I0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3I0 третьої ступені (направлена:вперед)
+  unsigned int setpoint_tznp_4_3U0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3U0 третьої ступені  (направлена:вперед)
+  unsigned int setpoint_tznp_4_3I0_nazad[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП 3I0 третьої ступені (направлена:назад)
+  unsigned int setpoint_tznp_4_3U0_nazad[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП 3U0 третьої ступені  (направлена:назад)
+  unsigned int setpoint_tznp_4_angle[NUMBER_GROUP_USTAVOK];     //Уставка ТЗНП першої третьої (кут довороту)
+           int setpoint_tznp_4_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (косинус кута довороту)
+           int setpoint_tznp_4_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (синус кута довороту)
 
   int timeout_tznp_1_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
   int timeout_tznp_1_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
-  int timeout_tznp_2_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
-  int timeout_tznp_2_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
-  int timeout_tznp_3_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
-  int timeout_tznp_3_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
+  int timeout_tznp_2_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП другої ступені (направлена:вперед)
+  int timeout_tznp_2_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП другої ступені (направлена:назад)
+  int timeout_tznp_3_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП третьої ступені (направлена:вперед)
+  int timeout_tznp_3_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП третьої ступені (направлена:назад)
+  int timeout_tznp_4_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП четвертої ступені (направлена:вперед)
+  int timeout_tznp_4_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП четвертої ступені (направлена:назад)
 
    unsigned int control_tznp;                                   //Поле для управління ТЗНП
   
   //УРОВ
-  unsigned int setpoint_urov[NUMBER_GROUP_USTAVOK];         //уставка УРОВ
-  int timeout_urov_1[NUMBER_GROUP_USTAVOK];                 //Витримка УРОВ першої ступені
-  int timeout_urov_2[NUMBER_GROUP_USTAVOK];                 //Витримка УРОВ другої ступені
-  unsigned int control_urov;                                //Поле для управління УРОВ
+  unsigned int setpoint_urov[NUMBER_PRVV][NUMBER_GROUP_USTAVOK];//уставка УРОВ
+  int timeout_urov_1[NUMBER_PRVV][NUMBER_GROUP_USTAVOK];        //Витримка УРОВ першої ступені
+  int timeout_urov_2[NUMBER_PRVV][NUMBER_GROUP_USTAVOK];        //Витримка УРОВ другої ступені
+  unsigned int control_urov[NUMBER_PRVV];                       //Поле для управління УРОВ
 
-  //ЗОП(КОФ)
-  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП(КОФ)
-  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП(КОФ)
-  unsigned int control_zop;                                 //Поле для управління ЗОП(КОФ)
+  //ЗОП
+  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП
+  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП
+  unsigned int control_zop;                                 //Поле для управління ЗОП
 
   //Umin
   unsigned int setpoint_Umin1[NUMBER_GROUP_USTAVOK];        //уставка Umin1

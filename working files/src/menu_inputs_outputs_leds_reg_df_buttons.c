@@ -474,23 +474,23 @@ void make_ekran_set_function_in_bi(unsigned int number_ekran, unsigned int type_
       },
       {
        (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL  + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_IN_OUT_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL + NUMBER_EL_SIGNAL_FOR_RANG_SMALL - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + NUMBER_OZT_SIGNAL_FOR_RANG_SMALL + NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL + NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL + NUMBER_TZNP_SIGNAL_FOR_RANG_SMALL + NUMBER_UROV_SIGNAL_FOR_RANG_SMALL + NUMBER_ZOP_SIGNAL_FOR_RANG_SMALL + NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL + NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL + NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL + NUMBER_GP_SIGNAL_FOR_RANG_SMALL + NUMBER_TP_SIGNAL_FOR_RANG_SMALL + NUMBER_UP_SIGNAL_FOR_RANG_SMALL + NUMBER_EL_SIGNAL_FOR_RANG_SMALL - 1)
       }
     };
     
@@ -1308,23 +1308,23 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
       },
       {
        (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG  + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG - 1)
       },
       {
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG),
-       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_IN_OUT_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG + NUMBER_EL_SIGNAL_FOR_RANG - 1)
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG),
+       (NUMBER_GENERAL_SIGNAL_FOR_RANG + NUMBER_OZT_SIGNAL_FOR_RANG + NUMBER_MTZ_SIGNAL_FOR_RANG + NUMBER_P_3U0_SIGNAL_FOR_RANG + NUMBER_TZNP_SIGNAL_FOR_RANG + NUMBER_UROV_SIGNAL_FOR_RANG + NUMBER_ZOP_SIGNAL_FOR_RANG + NUMBER_UMIN_SIGNAL_FOR_RANG + NUMBER_UMAX_SIGNAL_FOR_RANG + NUMBER_KZ_ZV_SIGNAL_FOR_RANG + NUMBER_GP_SIGNAL_FOR_RANG + NUMBER_TP_SIGNAL_FOR_RANG + NUMBER_UP_SIGNAL_FOR_RANG + NUMBER_EL_SIGNAL_FOR_RANG - 1)
       }
     };
     
@@ -1812,7 +1812,7 @@ void check_current_index_is_presented_in_configuration(
                                                                   int number_zop_function,
                                                                   int number_Umin_function,
                                                                   int number_Umax_function,
-                                                                  int number_in_out_function,
+                                                                  int number_kz_zv_function,
                                                                   int number_GP_function,
                                                                   int number_TP_function,
                                                                   int number_UP_function,
@@ -1864,30 +1864,30 @@ void check_current_index_is_presented_in_configuration(
         if ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
         else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function))
       {
-        if ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function;
+        if ((current_settings.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function))
       {
         if ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function))
       {
         if ((current_settings.configuration & (1<<TP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function))
       {
         if ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function + number_el_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function + number_el_function))
       {
         if ((current_settings.configuration & (1<<EL_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function + number_el_function;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function + number_el_function;
       }
     }
 
@@ -1967,30 +1967,30 @@ void check_current_index_is_presented_in_configuration(
         if ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
         else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function))
       {
-        if ((current_settings.configuration & (1<<IN_OUT_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
+        if ((current_settings.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
         else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function))
       {
         if ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function - 1;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function))
       {
         if ((current_settings.configuration & (1<<TP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function - 1;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function))
       {
         if ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function - 1;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function - 1;
       }
-      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function + number_el_function))
+      else if (current_ekran.index_position < (number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function + number_el_function))
       {
         if ((current_settings.configuration & (1<<EL_BIT_CONFIGURATION)) != 0) *found_new_index_tmp = 1;
-        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_in_out_function + number_GP_function + number_TP_function + number_UP_function - 1;
+        else current_ekran.index_position = number_general_function + number_ozt_function + number_mtz_function + number_P_3U0_function + number_tznp_function + number_urov_function + number_zop_function + number_Umin_function + number_Umax_function + number_kz_zv_function + number_GP_function + number_TP_function + number_UP_function - 1;
       }
     }
 

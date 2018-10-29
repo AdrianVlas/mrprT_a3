@@ -40,6 +40,15 @@ enum _type_con_ozt
 #define PICKUP_OZT_Kg2_MIN              0
 #define PICKUP_OZT_Kg2_MAX              900
 
+#define PICKUP_OZT_K_AI_MIN             500
+#define PICKUP_OZT_K_AI_MAX             10000
+
+#define PICKUP_OZT_K_2I_MIN             0
+#define PICKUP_OZT_K_2I_MAX             500
+
+#define PICKUP_OZT_K_5I_MIN             0
+#define PICKUP_OZT_K_5I_MAX             500
+
 #define PICKUP_OZT_KP_MIN               50
 #define PICKUP_OZT_KP_DEFAULT           95
 #define PICKUP_OZT_KP_MAX               98
@@ -245,6 +254,21 @@ enum _type_con_ozt
 #define SETPOINT_TZNP3_ANGLE_MIN      0
 #define SETPOINT_TZNP3_ANGLE_MAX      90
 
+#define SETPOINT_TZNP4_3I0_VPERED_MIN 500
+#define SETPOINT_TZNP4_3I0_VPERED_MAX 150000
+
+#define SETPOINT_TZNP4_3U0_VPERED_MIN 5000
+#define SETPOINT_TZNP4_3U0_VPERED_MAX 150000
+
+#define SETPOINT_TZNP4_3I0_NAZAD_MIN  500
+#define SETPOINT_TZNP4_3I0_NAZAD_MAX  150000
+
+#define SETPOINT_TZNP4_3U0_NAZAD_MIN  5000
+#define SETPOINT_TZNP4_3U0_NAZAD_MAX  150000
+
+#define SETPOINT_TZNP4_ANGLE_MIN      0
+#define SETPOINT_TZNP4_ANGLE_MAX      90
+
 #define TIMEOUT_TZNP1_VPERED_MIN      0
 #define TIMEOUT_TZNP1_VPERED_MAX      32000
 
@@ -262,6 +286,12 @@ enum _type_con_ozt
 
 #define TIMEOUT_TZNP3_NAZAD_MIN       0
 #define TIMEOUT_TZNP3_NAZAD_MAX       32000
+
+#define TIMEOUT_TZNP4_VPERED_MIN      0
+#define TIMEOUT_TZNP4_VPERED_MAX      32000
+
+#define TIMEOUT_TZNP4_NAZAD_MIN       0
+#define TIMEOUT_TZNP4_NAZAD_MAX       32000
 
 #define SETPOINT_UROV_MIN             250
 #define SETPOINT_UROV_MAX             5000
