@@ -25,7 +25,7 @@ register union {
 }wrp;
    long lV; 
    wrp.lVl = 0;
-   wrp.bool_vars.previous_state_po_3U0_1 = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_P_3U0) > 0;
+   wrp.bool_vars.previous_state_po_3U0_1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_P_3U0) > 0;
 unsigned long pick_up_3U0_1 = wrp.bool_vars.previous_state_po_3U0_1 ?
           current_settings_prt.setpoint_P_3U0[number_group_stp] * KOEF_POVERNENNJA_3U0 / 100 :
           current_settings_prt.setpoint_P_3U0[number_group_stp];

@@ -1,3 +1,10 @@
+
+typedef struct Setpoints_tag{
+
+ 
+}Setpoints;
+
+
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //                  
@@ -12,33 +19,43 @@ void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_s
 //
 //--------------------------------------------------------------------------------------------------------
 //````````````````````````````````````````````````````````````````````````````````````````````````````````
-git push -n --repo https://github.com/AdrianVlas/mrprT_a3.git
-git remote add origin  https://github.com/AdrianVlas/mrprT_a3.git
-UMIN_DV_BLOCK_CMD_BIT  = 1,  
-UMIN_DV_BLOCK_INVERSE_CMD_BIT,
-UMIN_MCTR_TRANSFORMATOR_PHASE_LINE_BIT,
-UMIN_MCTR_UMIN1_BIT,
-UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT,  
-UMIN_MCTRLR_UMIN1_UBLK_BIT,  
-UMIN_MCTRLR_UMIN1_IBLK_BIT,
-  
-UMIN_MENU_P_3U0_STATE_BIT,
-UMIN_PICKUP_3U0_STATE_BIT,
-UMIN_TMR_3U0_STATE_BIT,
-TOTAL_UMIN_BITS
-//LU_GEN_OP_EV_FIX_IBUS
-};
+
   lV = (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_P_3U0) != 0);
   u32_bit_holder |= lV << G3U0_DV_BLOCK_CMD_BIT;
   
-IA_AND_IC_IS_SMALLER_THAN_IUST_STATE_BIT,
-  UA_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UB_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UC_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UA_OR_UB_OR_UC_IS_SMALLER_THAN_250MV_STATE_BIT, 
-  UAB_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UBC_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UCA_IS_SMALLER_THAN_UMIN1_STATE_BIT,      
-  UAB_OR_UBC_OR_UCA_IS_SMALLER_THAN_250MV_STATE_BIT,  
+unsigned long pick_up_dfrp1 = wrp.bool_vars.previous_state_po_dfrp1 ?
+          current_settings_prt.setpoint_P_3U0[number_group_stp] * KOEF_POVERNENNJA_3U0 / 100 :
+          current_settings_prt.setpoint_P_3U0[number_group_stp];
+		  
+measurement[IM_dIA]||
+measurement[IM_dIB]||
+measurement[IM_dIC]||
+
+pickup_ozt_delta_Id
+type_con_ozt
+ pickup_ozt_kp
+
+
+
   
-  
+ 
+CYCLECOUNTER	631174246	ReadOnly	
+631174684
+438
+CYCLECOUNTER	1659503	ReadOnly	
+CYCLECOUNTER	1659861	ReadOnly
+358	
+
+ 
+5.1.  Функції контролю та вимірювання
+Пристрій повинен забезпечувати контроль та вимірювання наступних величин:
+
+po_Id_aA 
+po_Id_aB 
+po_Id_aC 
+po_Id_2gA
+po_Id_2gB
+po_Id_2gC
+po_Id_5gA
+po_Id_5gB
+po_Id_5gC

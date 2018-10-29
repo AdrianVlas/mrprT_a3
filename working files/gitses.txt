@@ -195,4 +195,18 @@ $ git checkout --  './project files/v.17.00/device_2_v_17_0_0_0.ewt'
 user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
 $ git checkout --  './project files/v.17.00/device_2_v_17_0_0_0.ewp'
 
-
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+$  git push  --repo https://github.com/AdrianVlas/mrprT_a3.git
+Username for 'https://github.com': vid25prtvcs@gmail.com
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 683 bytes | 0 bytes/s, done.
+Total 6 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/AdrianVlas/mrprT_a3.git
+   67d7564..63c7459  Synchro -> Synchro
+git add -v .
+ git commit -m " commit 25-10-2018"
+AdnVsforGIT17093
+vid25prtvcs@gmail.com
