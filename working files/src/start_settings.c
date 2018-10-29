@@ -1371,6 +1371,9 @@ void min_settings(__SETTINGS *target_label)
     target_label->pickup_ozt_Kg1[i] = PICKUP_OZT_Kg1_MIN;
     target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_Kg2[i] = PICKUP_OZT_Kg2_MIN;
+    target_label->pickup_ozt_K_aI[i] = PICKUP_OZT_K_AI_MIN;
+    target_label->pickup_ozt_K_2I[i] = PICKUP_OZT_K_2I_MIN;
+    target_label->pickup_ozt_K_5I[i] = PICKUP_OZT_K_5I_MIN;
     target_label->pickup_ozt_kp[i] = PICKUP_OZT_KP_DEFAULT;
 
     target_label->timeout_ozt1[i] = TIMEOUT_OZT1_MIN; 

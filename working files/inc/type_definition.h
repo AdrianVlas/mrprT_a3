@@ -123,6 +123,9 @@ typedef struct
   uint32_t pickup_ozt_Kg1[NUMBER_GROUP_USTAVOK];                //Уставка kг1 (коефіцієнт гальмування ділянки 1)
   uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування)
   uint32_t pickup_ozt_Kg2[NUMBER_GROUP_USTAVOK];                //Уставка kг2 (коефіцієнт гальмування ділянки 2)
+  uint32_t pickup_ozt_K_aI[NUMBER_GROUP_USTAVOK];                //Уставка відносної величини для аперіодичної складової (з точністю до дисячних, тобто x1000)
+  uint32_t pickup_ozt_K_2I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для другої гармоніки (з точністю до дисячних, тобто x1000)
+  uint32_t pickup_ozt_K_5I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для п'ятої гармоніки (з точністю до дисячних, тобто x1000)
   uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ
   
   int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня"
