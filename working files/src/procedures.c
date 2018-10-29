@@ -824,7 +824,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ЗОП(КОФ)
-      target_label->control_zop &= (unsigned int)(~CTR_ZOP_STATE);
+      target_label->control_zop &= (unsigned int)(~(MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE) | MASKA_FOR_BIT(INDEX_ML_CTRZOP_2_STATE)));
    
       //Виводим захисти ЗОП(КОФ) з УРОВ
       for (size_t j = 0; j < NUMBER_PRVV; j++) target_label->control_urov[j] &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1));

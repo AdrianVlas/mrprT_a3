@@ -250,8 +250,10 @@ typedef struct
   unsigned int control_urov[NUMBER_PRVV];                       //Поле для управління УРОВ
 
   //ЗОП
-  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП
-  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП
+  unsigned int setpoint_zop1[NUMBER_GROUP_USTAVOK];         //уставка ЗОП1
+  unsigned int setpoint_zop2[NUMBER_GROUP_USTAVOK];         //уставка ЗОП2
+  int timeout_zop1[NUMBER_GROUP_USTAVOK];                   //Витримка  ЗОП1
+  int timeout_zop2[NUMBER_GROUP_USTAVOK];                   //Витримка  ЗОП2
   unsigned int control_zop;                                 //Поле для управління ЗОП
 
   //Umin

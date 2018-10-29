@@ -302,11 +302,17 @@ enum _type_con_ozt
 #define TIMEOUT_UROV2_MIN             0
 #define TIMEOUT_UROV2_MAX             32000
 
-#define SETPOINT_ZOP_MIN              10
-#define SETPOINT_ZOP_MAX              1000
+#define SETPOINT_ZOP1_MIN             10
+#define SETPOINT_ZOP1_MAX             1000
 
-#define TIMEOUT_ZOP_MIN               0
-#define TIMEOUT_ZOP_MAX               32000
+#define SETPOINT_ZOP2_MIN             10
+#define SETPOINT_ZOP2_MAX             1000
+
+#define TIMEOUT_ZOP1_MIN              0
+#define TIMEOUT_ZOP1_MAX              32000
+
+#define TIMEOUT_ZOP2_MIN              0
+#define TIMEOUT_ZOP2_MAX              32000
 
 #define SETPOINT_UMIN1_MIN            5000
 #define SETPOINT_UMIN1_MAX            110000

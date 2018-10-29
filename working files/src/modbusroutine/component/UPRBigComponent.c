@@ -344,7 +344,7 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
         }//if(actControl)
       break;
     case 145:
-      (*uprMaska)   = CTR_ZOP_STATE_BIT;
+      (*uprMaska)   = INDEX_ML_CTRZOP_1_STATE;
       (*editControl) = &edition_settings.control_zop;
       if(isValidCONFCondition(**editControl, ZOP_BIT_CONFIGURATION,
                               *uprMaska, validData)) isValid = 0;

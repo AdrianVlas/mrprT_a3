@@ -1516,8 +1516,10 @@ void min_settings(__SETTINGS *target_label)
       target_label->timeout_urov_2[j][i] = TIMEOUT_UROV2_MIN;
     }
 
-    target_label->setpoint_zop[i] = SETPOINT_ZOP_MIN;
-    target_label->timeout_zop[i] = TIMEOUT_ZOP_MIN; 
+    target_label->setpoint_zop1[i] = SETPOINT_ZOP1_MIN;
+    target_label->setpoint_zop2[i] = SETPOINT_ZOP2_MIN;
+    target_label->timeout_zop1[i] = TIMEOUT_ZOP1_MIN; 
+    target_label->timeout_zop2[i] = TIMEOUT_ZOP2_MIN; 
 
     target_label->setpoint_Umin1[i] = SETPOINT_UMIN1_MIN;
     target_label->setpoint_Umin1_Iblk[i] = SETPOINT_UMIN1_IBLK_MIN;

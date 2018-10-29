@@ -3013,7 +3013,7 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
   /*******************************/
   //1 ступінь ЗОП(КОФ)
   /*******************************/
-  if ((current_settings_prt.control_zop & CTR_ZOP_STATE) != 0)
+  if ((current_settings_prt.control_zop & MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE)) != 0)
   {
     //1 ступінь ЗОП(КОФ) включена
     unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
@@ -3030,15 +3030,15 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
     
     //Якщо ПО ЗОП(КОФ) ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
     //Якщо ПО ЗОП(КОФ) вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
-    if(( previous_state_po_zop1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_ZOP) ) == 0 )
+    if(( previous_state_po_zop1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_ZOP1) ) == 0 )
     {
       //Працюємо по утавці спрацювання
-      setpoint = current_settings_prt.setpoint_zop[number_group_stp];
+      setpoint = current_settings_prt.setpoint_zop1[number_group_stp];
     }
     else
     {
       //Працюємо по утавці відпускання
-      setpoint = current_settings_prt.setpoint_zop[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      setpoint = current_settings_prt.setpoint_zop1[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
     
     //Виставляємо, або скидаємо сигнал "ПО КОФ"
@@ -3063,17 +3063,17 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
         (i1_bilshe_porogu_tmp != 0) &&
         (i2_bilshe_porogu_tmp != 0) &&
         ((i2_current*1000) >= (i1_current*setpoint))                            && 
-        (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ZOP) == 0)
+        (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ZOP1) == 0)
        )
     {
       //Існує умова активного пускового органу зворотньої послідовності
       if(previous_state_po_zop1 == 0)
       {
         //Встановлюємо сигнал "ПО КОФ"
-        _SET_BIT(p_active_functions, RANG_PO_ZOP);
+        _SET_BIT(p_active_functions, RANG_PO_ZOP1);
       
         //Запускаємо таймер ЗОП(КОФ), якщо він ще не запущений
-        global_timers[INDEX_TIMER_ZOP] = 0;
+        global_timers[INDEX_TIMER_ZOP1] = 0;
       }
     }
     else 
@@ -3082,29 +3082,29 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
       if(previous_state_po_zop1 != 0)
       {
         //Скидаємо сигнал "ПО КОФ"
-        _CLEAR_BIT(p_active_functions, RANG_PO_ZOP);
+        _CLEAR_BIT(p_active_functions, RANG_PO_ZOP1);
         //Це є умовою також скидання сигналу "Сраб. КОФ"
-        _CLEAR_BIT(p_active_functions, RANG_ZOP);
+        _CLEAR_BIT(p_active_functions, RANG_ZOP1);
         //Якщо таймер ще не скинутий? то скидаємо його
-        if ( global_timers[INDEX_TIMER_ZOP] >=0) global_timers[INDEX_TIMER_ZOP] = -1;
+        if ( global_timers[INDEX_TIMER_ZOP1] >=0) global_timers[INDEX_TIMER_ZOP1] = -1;
       }
     }
     
-    if(global_timers[INDEX_TIMER_ZOP] >= current_settings_prt.timeout_zop[number_group_stp])
+    if(global_timers[INDEX_TIMER_ZOP1] >= current_settings_prt.timeout_zop1[number_group_stp])
     {
       //Якщо витримана Витримка ЗОП(КОФ) то встановлюємо сигнал "Сраб. КОФ"
-      _SET_BIT(p_active_functions, RANG_ZOP);
+      _SET_BIT(p_active_functions, RANG_ZOP1);
 
       //Скидаємо таймер ЗОП(КОФ)
-      global_timers[INDEX_TIMER_ZOP] = -1;
+      global_timers[INDEX_TIMER_ZOP1] = -1;
     }
   }
   else
   {
     //Треба скинути всі таймери і сигнали, які за 1 ступінь ЗОП(КОФ) відповідають
-    _CLEAR_BIT(p_active_functions, RANG_PO_ZOP);
-    _CLEAR_BIT(p_active_functions, RANG_ZOP);
-    global_timers[INDEX_TIMER_ZOP] = -1;
+    _CLEAR_BIT(p_active_functions, RANG_PO_ZOP1);
+    _CLEAR_BIT(p_active_functions, RANG_ZOP1);
+    global_timers[INDEX_TIMER_ZOP1] = -1;
 
   }  
 }
@@ -3533,7 +3533,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP4 ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP   ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP2  ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1 ) != 0)) ||
@@ -4114,14 +4115,14 @@ inline void on_off_handler(unsigned int *p_active_functions)
       
       //ЗОП
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP) != 0) &&
-         (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_ZOP);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP);
+        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP1);
       }
       
       //Umin1
@@ -6858,7 +6859,8 @@ inline void main_protection(void)
     active_functions[RANG_PUSK_UROV2_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_PUSK_UROV2_VID_DV) != 0) << (RANG_PUSK_UROV2_VID_DV & 0x1f);
 
     //Блок ЗОП(КОФ)
-    active_functions[RANG_BLOCK_ZOP >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP) != 0) << (RANG_BLOCK_ZOP & 0x1f);
+    active_functions[RANG_BLOCK_ZOP1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP1) != 0) << (RANG_BLOCK_ZOP1 & 0x1f);
+    active_functions[RANG_BLOCK_ZOP2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP2) != 0) << (RANG_BLOCK_ZOP2 & 0x1f);
 
     //Блок для Umin
     active_functions[RANG_BLOCK_UMIN1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMIN1) != 0) << (RANG_BLOCK_UMIN1 & 0x1f);
@@ -7320,7 +7322,7 @@ inline void main_protection(void)
         MASKA_ZOP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_zop_signals[i]);
-      global_timers[INDEX_TIMER_ZOP] = -1;
+      global_timers[INDEX_TIMER_ZOP1] = -1;
     }
     /**************************/
     
