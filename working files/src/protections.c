@@ -2738,7 +2738,7 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
   
   unsigned int maska_ctrl_bits = CTR_TZNP | CTR_TZNP_VPERED | CTR_TZNP_NAZAD;
   
-  for (unsigned int tznp = 0; tznp < 3; tznp++)
+  for (unsigned int tznp = 0; tznp < 4; tznp++)
   {
     unsigned int setpoint_tznp_3I0_vpered;
     unsigned int setpoint_tznp_3U0_vpered;
@@ -2811,6 +2811,25 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
         control_tznp = (current_settings_prt.control_tznp >> INDEX_ML_CTR_TZNP3) & maska_ctrl_bits;
         
         shift_to_base_rang_index = RANG_BLOCK_TZNP3 - RANG_BLOCK_TZNP;
+        
+        break;
+      }
+    case 3:
+      {
+        setpoint_tznp_3I0_vpered = current_settings_prt.setpoint_tznp_4_3I0_vpered[number_group_stp];
+        setpoint_tznp_3U0_vpered = current_settings_prt.setpoint_tznp_4_3U0_vpered[number_group_stp];
+        setpoint_tznp_3I0_nazad  = current_settings_prt.setpoint_tznp_4_3I0_nazad[number_group_stp];
+        setpoint_tznp_3U0_nazad  = current_settings_prt.setpoint_tznp_4_3U0_nazad[number_group_stp];
+        
+        timeout_tznp_vpered = current_settings_prt.timeout_tznp_4_vpered[number_group_stp];
+        timeout_tznp_nazad  = current_settings_prt.timeout_tznp_4_nazad[number_group_stp]; 
+        
+        index_timer_vpered = INDEX_TIMER_TZNP4_VPERED; 
+        index_timer_nazad  = INDEX_TIMER_TZNP4_NAZAD;
+        
+        control_tznp = (current_settings_prt.control_tznp >> INDEX_ML_CTR_TZNP4) & maska_ctrl_bits;
+        
+        shift_to_base_rang_index = RANG_BLOCK_TZNP4 - RANG_BLOCK_TZNP;
         
         break;
       }
@@ -3502,19 +3521,23 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
      (state_UROV != 0) &&
      (
       (start_from_UP == true) ||
-      (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_UROV_VID_DV) != 0) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ1             ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2             ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3             ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4             ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP1            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP              ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1            ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2            ) != 0))
+      (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_UROV1_VID_DV) != 0) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_OZT1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_OZT2  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_P_3U0 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP4 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP   ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2 ) != 0))
      )     
     )
   {
@@ -3525,7 +3548,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     
     //Якщо ПО УРОВ ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
     //Якщо ПО УРОВ вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
-    if(( previous_state_po_urov = _CHECK_SET_BIT(p_active_functions, RANG_PO_UROV) ) ==0 )
+    if(( previous_state_po_urov = _CHECK_SET_BIT(p_active_functions, RANG_PO_UROV1) ) ==0 )
     {
       //Працюємо по утавці спрацювання
       setpoint = current_settings_prt.setpoint_urov[0][number_group_stp];
@@ -3543,7 +3566,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
       if(previous_state_po_urov == 0)
       {
         //Встановлюємо сигнал "ПО УРОВ"
-        _SET_BIT(p_active_functions, RANG_PO_UROV);
+        _SET_BIT(p_active_functions, RANG_PO_UROV1);
       
         //Запускаємо таймери УРОВ1 і УРОВ2, якщо вони ще не запущені
         global_timers[INDEX_TIMER_UROV1] = 0;
@@ -3556,10 +3579,10 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
       if(previous_state_po_urov != 0)
       {
         //Скидаємо сигнал "ПО УРОВ"
-        _CLEAR_BIT(p_active_functions, RANG_PO_UROV);
+        _CLEAR_BIT(p_active_functions, RANG_PO_UROV1);
         //Це є умовою також скидання сигналів "Сраб. УРОВ1" і "Сраб. УРОВ2"
-        _CLEAR_BIT(p_active_functions, RANG_UROV1);
-        _CLEAR_BIT(p_active_functions, RANG_UROV2);
+        _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
+        _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
         //Якщо таймери ще не скинуті, то скидаємо їх
         if ( global_timers[INDEX_TIMER_UROV1] >=0) global_timers[INDEX_TIMER_UROV1] = -1;
         if ( global_timers[INDEX_TIMER_UROV2] >=0) global_timers[INDEX_TIMER_UROV2] = -1;
@@ -3570,7 +3593,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     if(global_timers[INDEX_TIMER_UROV1] >= current_settings_prt.timeout_urov_1[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ1 то встановлюємо сигнал "Сраб. УРОВ1"
-      _SET_BIT(p_active_functions, RANG_UROV1);
+      _SET_BIT(p_active_functions, RANG_UROV1_1);
 
       //Скидаємо таймер УРОВ1
       global_timers[INDEX_TIMER_UROV1] = -1;
@@ -3580,7 +3603,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     if(global_timers[INDEX_TIMER_UROV2] >= current_settings_prt.timeout_urov_2[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ2 то встановлюємо сигнал "Сраб. УРОВ2"
-      _SET_BIT(p_active_functions, RANG_UROV2);
+      _SET_BIT(p_active_functions, RANG_UROV1_2);
 
       //Скидаємо таймер УРОВ2
       global_timers[INDEX_TIMER_UROV2] = -1;
@@ -3589,9 +3612,9 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
   else
   {
     //Треба скинути всі таймери і сигнали, які за УРОВ відповідають
-    _CLEAR_BIT(p_active_functions, RANG_PO_UROV);
-    _CLEAR_BIT(p_active_functions, RANG_UROV1);
-    _CLEAR_BIT(p_active_functions, RANG_UROV2);
+    _CLEAR_BIT(p_active_functions, RANG_PO_UROV1);
+    _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
+    _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
     global_timers[INDEX_TIMER_UROV1] = -1;
     global_timers[INDEX_TIMER_UROV2] = -1;
   }  
@@ -4067,26 +4090,26 @@ inline void on_off_handler(unsigned int *p_active_functions)
 
       //УРОВ1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1) != 0) &&
-         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1_1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1_1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1);
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1_1);
       }
       
       //УРОВ2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV2) != 0) &&
-         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1_2) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1_2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV2);
+        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1_2);
       }
       
       //ЗОП
@@ -6810,6 +6833,10 @@ inline void main_protection(void)
       else _SET_BIT(active_functions, RANG_OTKL_VV);
     }
 
+    //ОЗТ
+    active_functions[RANG_BLOCK_OZT1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT1    ) != 0) << (RANG_BLOCK_OZT1     & 0x1f);
+    active_functions[RANG_BLOCK_OZT2     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT2    ) != 0) << (RANG_BLOCK_OZT2     & 0x1f);
+
     //МТЗ
     active_functions[RANG_BLOCK_MTZ1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_MTZ1    ) != 0) << (RANG_BLOCK_MTZ1     & 0x1f);
     active_functions[RANG_BLOCK_MTZ2     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_MTZ2    ) != 0) << (RANG_BLOCK_MTZ2     & 0x1f);
@@ -6817,13 +6844,18 @@ inline void main_protection(void)
     active_functions[RANG_BLOCK_MTZ3     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_MTZ3    ) != 0) << (RANG_BLOCK_MTZ3     & 0x1f);
     active_functions[RANG_BLOCK_MTZ4     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_MTZ4    ) != 0) << (RANG_BLOCK_MTZ4     & 0x1f);
 
+    //3U0
+    active_functions[RANG_BLOCK_P_3U0 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_P_3U0) != 0) << (RANG_BLOCK_P_3U0 & 0x1f);
+
     //Блок ТЗНП
     active_functions[RANG_BLOCK_TZNP1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TZNP1) != 0) << (RANG_BLOCK_TZNP1 & 0x1f);
     active_functions[RANG_BLOCK_TZNP2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TZNP2) != 0) << (RANG_BLOCK_TZNP2 & 0x1f);
     active_functions[RANG_BLOCK_TZNP3 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TZNP3) != 0) << (RANG_BLOCK_TZNP3 & 0x1f);
+    active_functions[RANG_BLOCK_TZNP4 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TZNP4) != 0) << (RANG_BLOCK_TZNP4 & 0x1f);
 
     //УРОВ
-    active_functions[RANG_PUSK_UROV_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_PUSK_UROV_VID_DV) != 0) << (RANG_PUSK_UROV_VID_DV & 0x1f);
+    active_functions[RANG_PUSK_UROV1_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_PUSK_UROV1_VID_DV) != 0) << (RANG_PUSK_UROV1_VID_DV & 0x1f);
+    active_functions[RANG_PUSK_UROV2_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_PUSK_UROV2_VID_DV) != 0) << (RANG_PUSK_UROV2_VID_DV & 0x1f);
 
     //Блок ЗОП(КОФ)
     active_functions[RANG_BLOCK_ZOP >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP) != 0) << (RANG_BLOCK_ZOP & 0x1f);

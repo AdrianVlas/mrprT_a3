@@ -583,7 +583,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ступені ТЗНП
-      target_label->control_tznp &= (unsigned int)(~(CTR_TZNP1 | CTR_TZNP2 | CTR_TZNP3));
+      target_label->control_tznp &= (unsigned int)(~(CTR_TZNP1 | CTR_TZNP2 | CTR_TZNP3 | CTR_TZNP4));
    
       //Виводим ступені ТЗНП з УРОВ
       for (size_t j = 0; j < NUMBER_PRVV; j++)
@@ -592,7 +592,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                                                         ~(
                                                           MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) |
                                                           MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) |
-                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3) |
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)
                                                          )
                                                        );
       }

@@ -594,23 +594,23 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 
 //  count_bit = 5;
 #define UROV_CONFIGURATION_BEGIN 304
-  case UROV_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_PUSK_UROV_VID_DV;
-    (*dvMaska) = RANG_SMALL_PUSK_UROV_VID_DV;
-    break;
-  case 305:
-    (*outMaska) = RANG_UROV1;
-//        (*dvMaska) =
-    break;
-  case 306:
-    (*outMaska) = RANG_UROV2;
-//        (*dvMaska) =
-    break;
+//  case UROV_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_PUSK_UROV_VID_DV;
+//    (*dvMaska) = RANG_SMALL_PUSK_UROV_VID_DV;
+//    break;
+//  case 305:
+//    (*outMaska) = RANG_UROV1;
+////        (*dvMaska) =
+//    break;
+//  case 306:
+//    (*outMaska) = RANG_UROV2;
+////        (*dvMaska) =
+//    break;
 #define UROV_CONFIGURATION_END 307
-  case UROV_CONFIGURATION_END:
-    (*outMaska) = RANG_PO_UROV;
-//        (*dvMaska) =
-    break;
+//  case UROV_CONFIGURATION_END:
+//    (*outMaska) = RANG_PO_UROV;
+////        (*dvMaska) =
+//    break;
 
 //  count_bit = 1;
 //#define ACHR_CHAPV_CONFIGURATION_BEGIN 368

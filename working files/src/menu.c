@@ -12289,26 +12289,23 @@ void main_manu_function(void)
           
                 //Виділяємо, який біт треба міняти
                 if (current_ekran.index_position == INDEX_ML_CTRUROV_STATE) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ4   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZDZ    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZDZ);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_3I0    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_3I0);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_3U0    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_3U0);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_NZZ    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_NZZ);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_P_3U0  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP4  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ACHR1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ACHR1);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ACHR2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ACHR2);
                 else
                 {
                   for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)
@@ -13622,26 +13619,23 @@ void main_manu_function(void)
           
                 //Виділяємо, який біт треба міняти
                 if (current_ekran.index_position == INDEX_ML_CTRUROV_STATE) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ4   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_1);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ04_2);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZDZ    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZDZ);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_3I0    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_3I0);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_3U0    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_3U0);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_NZZ    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_NZZ);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_P_3U0  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP4  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ACHR1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ACHR1);
-                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ACHR2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ACHR2);
                 else
                 {
                   for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)

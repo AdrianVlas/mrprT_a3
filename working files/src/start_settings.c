@@ -1486,12 +1486,25 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_tznp_3_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
     target_label->setpoint_tznp_3_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
 
+    target_label->setpoint_tznp_4_3I0_vpered[i] = SETPOINT_TZNP4_3I0_VPERED_MIN;
+    target_label->setpoint_tznp_4_3U0_vpered[i] = SETPOINT_TZNP4_3U0_VPERED_MIN;
+    target_label->setpoint_tznp_4_3I0_nazad[i] = SETPOINT_TZNP4_3I0_NAZAD_MIN;
+    target_label->setpoint_tznp_4_3U0_nazad[i] = SETPOINT_TZNP4_3U0_NAZAD_MIN;
+    
+    angle = SETPOINT_TZNP4_ANGLE_MIN;
+    angle_f = (float)angle;
+    target_label->setpoint_tznp_4_angle[i] = angle;
+    target_label->setpoint_tznp_4_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->setpoint_tznp_4_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
+
     target_label->timeout_tznp_1_vpered[i] = TIMEOUT_TZNP1_VPERED_MIN; 
     target_label->timeout_tznp_1_nazad[i] = TIMEOUT_TZNP1_NAZAD_MIN; 
     target_label->timeout_tznp_2_vpered[i] = TIMEOUT_TZNP2_VPERED_MIN; 
     target_label->timeout_tznp_2_nazad[i] = TIMEOUT_TZNP2_NAZAD_MIN; 
     target_label->timeout_tznp_3_vpered[i] = TIMEOUT_TZNP3_VPERED_MIN; 
     target_label->timeout_tznp_3_nazad[i] = TIMEOUT_TZNP3_NAZAD_MIN; 
+    target_label->timeout_tznp_4_vpered[i] = TIMEOUT_TZNP4_VPERED_MIN; 
+    target_label->timeout_tznp_4_nazad[i] = TIMEOUT_TZNP4_NAZAD_MIN; 
     
     for (size_t j = 0; j < NUMBER_PRVV; j++)
     {

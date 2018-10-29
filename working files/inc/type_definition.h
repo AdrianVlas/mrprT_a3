@@ -221,13 +221,22 @@ typedef struct
   unsigned int setpoint_tznp_3_angle[NUMBER_GROUP_USTAVOK];     //Уставка ТЗНП першої третьої (кут довороту)
            int setpoint_tznp_3_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (косинус кута довороту)
            int setpoint_tznp_3_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (синус кута довороту)
+  unsigned int setpoint_tznp_4_3I0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3I0 третьої ступені (направлена:вперед)
+  unsigned int setpoint_tznp_4_3U0_vpered[NUMBER_GROUP_USTAVOK];//Уставка ТЗНП 3U0 третьої ступені  (направлена:вперед)
+  unsigned int setpoint_tznp_4_3I0_nazad[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП 3I0 третьої ступені (направлена:назад)
+  unsigned int setpoint_tznp_4_3U0_nazad[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП 3U0 третьої ступені  (направлена:назад)
+  unsigned int setpoint_tznp_4_angle[NUMBER_GROUP_USTAVOK];     //Уставка ТЗНП першої третьої (кут довороту)
+           int setpoint_tznp_4_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (косинус кута довороту)
+           int setpoint_tznp_4_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка ТЗНП першої третьої (синус кута довороту)
 
   int timeout_tznp_1_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
   int timeout_tznp_1_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
-  int timeout_tznp_2_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
-  int timeout_tznp_2_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
-  int timeout_tznp_3_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП першої ступені (направлена:вперед)
-  int timeout_tznp_3_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП першої ступені (направлена:назад)
+  int timeout_tznp_2_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП другої ступені (направлена:вперед)
+  int timeout_tznp_2_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП другої ступені (направлена:назад)
+  int timeout_tznp_3_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП третьої ступені (направлена:вперед)
+  int timeout_tznp_3_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП третьої ступені (направлена:назад)
+  int timeout_tznp_4_vpered[NUMBER_GROUP_USTAVOK];              //Витримка ТЗНП четвертої ступені (направлена:вперед)
+  int timeout_tznp_4_nazad[NUMBER_GROUP_USTAVOK];               //Витримка ТЗНП четвертої ступені (направлена:назад)
 
    unsigned int control_tznp;                                   //Поле для управління ТЗНП
   
@@ -237,10 +246,10 @@ typedef struct
   int timeout_urov_2[NUMBER_PRVV][NUMBER_GROUP_USTAVOK];        //Витримка УРОВ другої ступені
   unsigned int control_urov[NUMBER_PRVV];                       //Поле для управління УРОВ
 
-  //ЗОП(КОФ)
-  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП(КОФ)
-  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП(КОФ)
-  unsigned int control_zop;                                 //Поле для управління ЗОП(КОФ)
+  //ЗОП
+  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП
+  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП
+  unsigned int control_zop;                                 //Поле для управління ЗОП
 
   //Umin
   unsigned int setpoint_Umin1[NUMBER_GROUP_USTAVOK];        //уставка Umin1
