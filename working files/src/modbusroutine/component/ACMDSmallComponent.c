@@ -469,16 +469,16 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //  count_bit = 3;
 #define ZOP_CONFIGURATION_BEGIN 176
   case ZOP_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_BLOCK_ZOP;
-    (*dvMaska) = RANG_SMALL_BLOCK_ZOP;
+    (*outMaska) = RANG_BLOCK_ZOP1;
+    (*dvMaska) = RANG_SMALL_BLOCK_ZOP1;
     break;
   case 177:
-    (*outMaska) = RANG_ZOP;
+    (*outMaska) = RANG_ZOP1;
 //        (*dvMaska) =
     break;
 #define ZOP_CONFIGURATION_END 178
   case ZOP_CONFIGURATION_END:
-    (*outMaska) = RANG_PO_ZOP;
+    (*outMaska) = RANG_PO_ZOP1;
 //        (*dvMaska) =
     break;
 
@@ -594,23 +594,23 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 
 //  count_bit = 5;
 #define UROV_CONFIGURATION_BEGIN 304
-  case UROV_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_PUSK_UROV_VID_DV;
-    (*dvMaska) = RANG_SMALL_PUSK_UROV_VID_DV;
-    break;
-  case 305:
-    (*outMaska) = RANG_UROV1;
-//        (*dvMaska) =
-    break;
-  case 306:
-    (*outMaska) = RANG_UROV2;
-//        (*dvMaska) =
-    break;
+//  case UROV_CONFIGURATION_BEGIN:
+//    (*outMaska) = RANG_PUSK_UROV_VID_DV;
+//    (*dvMaska) = RANG_SMALL_PUSK_UROV_VID_DV;
+//    break;
+//  case 305:
+//    (*outMaska) = RANG_UROV1;
+////        (*dvMaska) =
+//    break;
+//  case 306:
+//    (*outMaska) = RANG_UROV2;
+////        (*dvMaska) =
+//    break;
 #define UROV_CONFIGURATION_END 307
-  case UROV_CONFIGURATION_END:
-    (*outMaska) = RANG_PO_UROV;
-//        (*dvMaska) =
-    break;
+//  case UROV_CONFIGURATION_END:
+//    (*outMaska) = RANG_PO_UROV;
+////        (*dvMaska) =
+//    break;
 
 //  count_bit = 1;
 //#define ACHR_CHAPV_CONFIGURATION_BEGIN 368

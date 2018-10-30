@@ -401,12 +401,12 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
 
   case 113:
     (*multer) = 1;
-    (*editValue) = &edition_settings.setpoint_zop[gruppa];
-    if(regUst<SETPOINT_ZOP_MIN || regUst>SETPOINT_ZOP_MAX) diapazon=0;
+    (*editValue) = &edition_settings.setpoint_zop1[gruppa];
+    if(regUst<SETPOINT_ZOP1_MIN || regUst>SETPOINT_ZOP1_MAX) diapazon=0;
     break;
   case 114:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_zop[gruppa];
-    if(regUst<TIMEOUT_ZOP_MIN/10 || regUst>TIMEOUT_ZOP_MAX/10) diapazon=0;
+    (*editValue) = (uint32_t*)&edition_settings.timeout_zop1[gruppa];
+    if(regUst<TIMEOUT_ZOP1_MIN/10 || regUst>TIMEOUT_ZOP1_MAX/10) diapazon=0;
     break;
 
 //  count_bit = 10;
@@ -462,18 +462,18 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
 //  count_bit = 4;
-  case 146:
-    (*editValue) = &edition_settings.setpoint_urov[gruppa];
-    if(regUst<SETPOINT_UROV_MIN/10 || regUst>SETPOINT_UROV_MAX/10) diapazon=0;
-    break;
-  case 147:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_1[gruppa];
-    if(regUst<TIMEOUT_UROV1_MIN/10 || regUst>TIMEOUT_UROV1_MAX/10) diapazon=0;
-    break;
-  case 148:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_2[gruppa];
-    if(regUst<TIMEOUT_UROV2_MIN/10 || regUst>TIMEOUT_UROV2_MAX/10) diapazon=0;
-    break;
+//  case 146:
+//    (*editValue) = &edition_settings.setpoint_urov[gruppa];
+//    if(regUst<SETPOINT_UROV_MIN/10 || regUst>SETPOINT_UROV_MAX/10) diapazon=0;
+//    break;
+//  case 147:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_1[gruppa];
+//    if(regUst<TIMEOUT_UROV1_MIN/10 || regUst>TIMEOUT_UROV1_MAX/10) diapazon=0;
+//    break;
+//  case 148:
+//    (*editValue) = (uint32_t*)&edition_settings.timeout_urov_2[gruppa];
+//    if(regUst<TIMEOUT_UROV2_MIN/10 || regUst>TIMEOUT_UROV2_MAX/10) diapazon=0;
+//    break;
 
 //  count_bit = 10;
 //  case 179:

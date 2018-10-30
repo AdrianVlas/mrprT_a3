@@ -137,6 +137,12 @@
 #define CTR_TZNP3_VPERED                        (1 << INDEX_ML_CTR_TZNP3_VPERED)   
 #define INDEX_ML_CTR_TZNP3_NAZAD                8          
 #define CTR_TZNP3_NAZAD                         (1 << INDEX_ML_CTR_TZNP3_NAZAD)   
+#define INDEX_ML_CTR_TZNP4                      9          
+#define CTR_TZNP4                               (1 << INDEX_ML_CTR_TZNP4)   
+#define INDEX_ML_CTR_TZNP4_VPERED               10          
+#define CTR_TZNP4_VPERED                        (1 << INDEX_ML_CTR_TZNP4_VPERED)   
+#define INDEX_ML_CTR_TZNP4_NAZAD                11         
+#define CTR_TZNP4_NAZAD                         (1 << INDEX_ML_CTR_TZNP4_NAZAD)   
 
 #define CTR_TZNP_MASKA                          (                  \
                                                  CTR_TZNP1        |\
@@ -147,7 +153,10 @@
                                                  CTR_TZNP2_NAZAD  |\
                                                  CTR_TZNP3        |\
                                                  CTR_TZNP3_VPERED |\
-                                                 CTR_TZNP3_NAZAD   \
+                                                 CTR_TZNP3_NAZAD  |\
+                                                 CTR_TZNP4        |\
+                                                 CTR_TZNP4_VPERED |\
+                                                 CTR_TZNP4_NAZAD   \
                                                 )   
 
 #endif

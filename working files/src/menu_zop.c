@@ -1,23 +1,23 @@
 #include "header.h"
 
 /*****************************************************/
-//Формуємо екран відображення уставок ЗОП(КОФ)
+//Формуємо екран відображення уставок ЗОП
 /*****************************************************/
 void make_ekran_setpoint_zop(unsigned int group)
 {
  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_ZOP][MAX_COL_LCD] = 
   {
     {
-      "Уставка ЗОП(КОФ)"
+      "  Уставка ЗОП   "
     },
     {
-      "Уставка ЗЗП(КОФ)"
+      "  Уставка ЗЗП   "
     },
     {
       "  NPSP Pickup   "
     },
     {
-      "Уставка ЗОП(КОФ)"
+      "  Уставка ЗОП   "
     }
   };
   const unsigned char symbols[MAX_NAMBER_LANGUAGE][3] = {"ед.", "од.", "u  ", "ед."};
@@ -42,8 +42,8 @@ void make_ekran_setpoint_zop(unsigned int group)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
 
         vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для уставки ЗТОП
-        if (view == true) value = current_settings.setpoint_zop[group]; //у змінну value поміщаємо значення уставки ЗТОП
-        else value = edition_settings.setpoint_zop[group];
+        if (view == true) value = current_settings.setpoint_zop1[group]; //у змінну value поміщаємо значення уставки ЗТОП
+        else value = edition_settings.setpoint_zop1[group];
         first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
       }
       else
@@ -52,16 +52,16 @@ void make_ekran_setpoint_zop(unsigned int group)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
           if (
-              ((j < COL_SETPOINT_ZOP_BEGIN) ||  (j > COL_SETPOINT_ZOP_END )) &&
+              ((j < COL_SETPOINT_ZOP1_BEGIN) ||  (j > COL_SETPOINT_ZOP1_END )) &&
               (
-               !((j >= (COL_SETPOINT_ZOP_END + 2)) && (j <= (COL_SETPOINT_ZOP_END + 4)))
+               !((j >= (COL_SETPOINT_ZOP1_END + 2)) && (j <= (COL_SETPOINT_ZOP1_END + 4)))
               )    
              )working_ekran[i][j] = ' ';
-          else if (j == COL_SETPOINT_ZOP_COMMA )working_ekran[i][j] = ',';
-          else if ((j >= (COL_SETPOINT_ZOP_END + 2)) && (j <= (COL_SETPOINT_ZOP_END + 4)))
-            working_ekran[i][j] = symbols[index_language][j - (COL_SETPOINT_ZOP_END + 2)];
+          else if (j == COL_SETPOINT_ZOP1_COMMA )working_ekran[i][j] = ',';
+          else if ((j >= (COL_SETPOINT_ZOP1_END + 2)) && (j <= (COL_SETPOINT_ZOP1_END + 4)))
+            working_ekran[i][j] = symbols[index_language][j - (COL_SETPOINT_ZOP1_END + 2)];
           else
-            calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_ZOP_COMMA, view, 0);
+            calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_ZOP1_COMMA, view, 0);
         }
       }
         
@@ -77,8 +77,8 @@ void make_ekran_setpoint_zop(unsigned int group)
   //Курсор по горизонталі відображається на першому символі у випадку, коли ми не в режимі редагування, інакше позиція буде визначена у функцї main_manu_function
   if (current_ekran.edition == 0)
   {
-    current_ekran.position_cursor_x = COL_SETPOINT_ZOP_BEGIN;
-    int last_position_cursor_x = COL_SETPOINT_ZOP_END;
+    current_ekran.position_cursor_x = COL_SETPOINT_ZOP1_BEGIN;
+    int last_position_cursor_x = COL_SETPOINT_ZOP1_END;
 
     //Підтягуємо курсор до першого символу
     while (((working_ekran[current_ekran.position_cursor_y][current_ekran.position_cursor_x + 1]) == ' ') && 
@@ -138,8 +138,8 @@ void make_ekran_timeout_zop(unsigned int group)
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
         vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки ЗОП(КОФ)
-        if (view == true) value = current_settings.timeout_zop[group]; //у змінну value поміщаємо значення витримки ЗОП(КОФ)
-        else value = edition_settings.timeout_zop[group];
+        if (view == true) value = current_settings.timeout_zop1[group]; //у змінну value поміщаємо значення витримки ЗОП(КОФ)
+        else value = edition_settings.timeout_zop1[group];
         first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
       }
       else
@@ -148,13 +148,13 @@ void make_ekran_timeout_zop(unsigned int group)
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
           if (
-              ((j < COL_TMO_ZOP_BEGIN) ||  (j > COL_TMO_ZOP_END )) &&
-              (j != (COL_TMO_ZOP_END + 2))  
+              ((j < COL_TMO_ZOP1_BEGIN) ||  (j > COL_TMO_ZOP1_END )) &&
+              (j != (COL_TMO_ZOP1_END + 2))  
              )working_ekran[i][j] = ' ';
-          else if (j == COL_TMO_ZOP_COMMA )working_ekran[i][j] = ',';
-          else if (j == (COL_TMO_ZOP_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
+          else if (j == COL_TMO_ZOP1_COMMA )working_ekran[i][j] = ',';
+          else if (j == (COL_TMO_ZOP1_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_SECOND];
           else
-            calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_ZOP_COMMA, view, 0);
+            calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_TMO_ZOP1_COMMA, view, 0);
         }
       }
         
@@ -170,8 +170,8 @@ void make_ekran_timeout_zop(unsigned int group)
   //Курсор по горизонталі відображається на першому символі у випадку, коли ми не в режимі редагування, інакше позиція буде визначена у функцї main_manu_function
   if (current_ekran.edition == 0)
   {
-    current_ekran.position_cursor_x = COL_TMO_ZOP_BEGIN;
-    int last_position_cursor_x = COL_TMO_ZOP_END;
+    current_ekran.position_cursor_x = COL_TMO_ZOP1_BEGIN;
+    int last_position_cursor_x = COL_TMO_ZOP1_END;
 
     //Підтягуємо курсор до першого символу
     while (((working_ekran[current_ekran.position_cursor_y][current_ekran.position_cursor_x + 1]) == ' ') && 

@@ -344,7 +344,7 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
         }//if(actControl)
       break;
     case 145:
-      (*uprMaska)   = CTR_ZOP_STATE_BIT;
+      (*uprMaska)   = INDEX_ML_CTRZOP_1_STATE;
       (*editControl) = &edition_settings.control_zop;
       if(isValidCONFCondition(**editControl, ZOP_BIT_CONFIGURATION,
                               *uprMaska, validData)) isValid = 0;
@@ -773,11 +773,11 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
 //          if(isValidCONFCondition(**editControl, APV_BIT_CONFIGURATION, *uprMaska, validData)) isValid = 0;
 //        }//if
 
-      if(inOffset>=UROV_CONFIGURATION_BEGIN && inOffset<=UROV_CONFIGURATION_END)
-        {
-          (*editControl) = &edition_settings.control_urov;
-          if(isValidCONFCondition(**editControl, UROV_BIT_CONFIGURATION, *uprMaska, validData)) isValid = 0;
-        }//if
+//      if(inOffset>=UROV_CONFIGURATION_BEGIN && inOffset<=UROV_CONFIGURATION_END)
+//        {
+//          (*editControl) = &edition_settings.control_urov;
+//          if(isValidCONFCondition(**editControl, UROV_BIT_CONFIGURATION, *uprMaska, validData)) isValid = 0;
+//        }//if
 
     }//if((*uprMaska)!=-1)
 
@@ -799,7 +799,7 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
     {
       int inupOffset = inOffset-329;
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UP1+inupOffset;
-      (*editControl) = &edition_settings.control_urov;
+//      (*editControl) = &edition_settings.control_urov;
       if(isValidCONFCondition(**editControl, UROV_BIT_CONFIGURATION,
                               *uprMaska, validData)) isValid = 0;
       if(isValidCONFCondition(**editControl, UP_BIT_CONFIGURATION,

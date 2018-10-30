@@ -1347,7 +1347,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_mtz = 0;
   target_label->control_P_3U0 = 0;
   target_label->control_tznp = 0;
-  target_label->control_urov = 0;
+  for (size_t i = 0; i < NUMBER_PRVV; i++) target_label->control_urov[i] = 0;
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
@@ -1371,6 +1371,9 @@ void min_settings(__SETTINGS *target_label)
     target_label->pickup_ozt_Kg1[i] = PICKUP_OZT_Kg1_MIN;
     target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_Kg2[i] = PICKUP_OZT_Kg2_MIN;
+    target_label->pickup_ozt_K_aI[i] = PICKUP_OZT_K_AI_MIN;
+    target_label->pickup_ozt_K_2I[i] = PICKUP_OZT_K_2I_MIN;
+    target_label->pickup_ozt_K_5I[i] = PICKUP_OZT_K_5I_MIN;
     target_label->pickup_ozt_kp[i] = PICKUP_OZT_KP_DEFAULT;
 
     target_label->timeout_ozt1[i] = TIMEOUT_OZT1_MIN; 
@@ -1486,19 +1489,37 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_tznp_3_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
     target_label->setpoint_tznp_3_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
 
+    target_label->setpoint_tznp_4_3I0_vpered[i] = SETPOINT_TZNP4_3I0_VPERED_MIN;
+    target_label->setpoint_tznp_4_3U0_vpered[i] = SETPOINT_TZNP4_3U0_VPERED_MIN;
+    target_label->setpoint_tznp_4_3I0_nazad[i] = SETPOINT_TZNP4_3I0_NAZAD_MIN;
+    target_label->setpoint_tznp_4_3U0_nazad[i] = SETPOINT_TZNP4_3U0_NAZAD_MIN;
+    
+    angle = SETPOINT_TZNP4_ANGLE_MIN;
+    angle_f = (float)angle;
+    target_label->setpoint_tznp_4_angle[i] = angle;
+    target_label->setpoint_tznp_4_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->setpoint_tznp_4_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
+
     target_label->timeout_tznp_1_vpered[i] = TIMEOUT_TZNP1_VPERED_MIN; 
     target_label->timeout_tznp_1_nazad[i] = TIMEOUT_TZNP1_NAZAD_MIN; 
     target_label->timeout_tznp_2_vpered[i] = TIMEOUT_TZNP2_VPERED_MIN; 
     target_label->timeout_tznp_2_nazad[i] = TIMEOUT_TZNP2_NAZAD_MIN; 
     target_label->timeout_tznp_3_vpered[i] = TIMEOUT_TZNP3_VPERED_MIN; 
     target_label->timeout_tznp_3_nazad[i] = TIMEOUT_TZNP3_NAZAD_MIN; 
+    target_label->timeout_tznp_4_vpered[i] = TIMEOUT_TZNP4_VPERED_MIN; 
+    target_label->timeout_tznp_4_nazad[i] = TIMEOUT_TZNP4_NAZAD_MIN; 
     
-    target_label->setpoint_urov[i]  = SETPOINT_UROV_MIN;
-    target_label->timeout_urov_1[i] = TIMEOUT_UROV1_MIN;
-    target_label->timeout_urov_2[i] = TIMEOUT_UROV2_MIN;
+    for (size_t j = 0; j < NUMBER_PRVV; j++)
+    {
+      target_label->setpoint_urov[j][i]  = SETPOINT_UROV_MIN;
+      target_label->timeout_urov_1[j][i] = TIMEOUT_UROV1_MIN;
+      target_label->timeout_urov_2[j][i] = TIMEOUT_UROV2_MIN;
+    }
 
-    target_label->setpoint_zop[i] = SETPOINT_ZOP_MIN;
-    target_label->timeout_zop[i] = TIMEOUT_ZOP_MIN; 
+    target_label->setpoint_zop1[i] = SETPOINT_ZOP1_MIN;
+    target_label->setpoint_zop2[i] = SETPOINT_ZOP2_MIN;
+    target_label->timeout_zop1[i] = TIMEOUT_ZOP1_MIN; 
+    target_label->timeout_zop2[i] = TIMEOUT_ZOP2_MIN; 
 
     target_label->setpoint_Umin1[i] = SETPOINT_UMIN1_MIN;
     target_label->setpoint_Umin1_Iblk[i] = SETPOINT_UMIN1_IBLK_MIN;
