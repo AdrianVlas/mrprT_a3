@@ -82,23 +82,23 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
     case MTZ_CONFIGURATION_BEGIN:
       (*uprMaska)   = N_BIT_CTRMTZ_1;
       break;
-    case 2:
-      (*uprMaska)   = N_BIT_CTRMTZ_1_VPERED;
-      break;
-    case 3:
-      (*uprMaska)   = N_BIT_CTRMTZ_1_NAZAD;
-      break;
+//    case 2:
+//      (*uprMaska)   = N_BIT_CTRMTZ_1_VPERED;
+//      break;
+//    case 3:
+//      (*uprMaska)   = N_BIT_CTRMTZ_1_NAZAD;
+//      break;
 
 //  count_bit = 3;
     case 6:
       (*uprMaska)   = N_BIT_CTRMTZ_2;
       break;
-    case 7:
-      (*uprMaska)   = N_BIT_CTRMTZ_2_VPERED;
-      break;
-    case 8:
-      (*uprMaska)   = N_BIT_CTRMTZ_2_NAZAD;
-      break;
+//    case 7:
+//      (*uprMaska)   = N_BIT_CTRMTZ_2_VPERED;
+//      break;
+//    case 8:
+//      (*uprMaska)   = N_BIT_CTRMTZ_2_NAZAD;
+//      break;
     case 9:
       (*uprMaska)   = N_BIT_CTRMTZ_2_PRYSKORENNJA;
       break;
@@ -110,28 +110,28 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
     case 13:
       (*uprMaska)   = N_BIT_CTRMTZ_3;
       break;
-    case 14:
-      (*uprMaska)   = N_BIT_CTRMTZ_3_VPERED;
-      break;
-    case 15:
-      (*uprMaska)   = N_BIT_CTRMTZ_3_NAZAD;
-      break;
+//    case 14:
+//      (*uprMaska)   = N_BIT_CTRMTZ_3_VPERED;
+//      break;
+//    case 15:
+//      (*uprMaska)   = N_BIT_CTRMTZ_3_NAZAD;
+//      break;
 
 //  count_bit = 3;
     case 20:
       (*uprMaska)   = N_BIT_CTRMTZ_4;
       break;
-    case 21:
-      (*uprMaska)   = N_BIT_CTRMTZ_4_VPERED;
-      break;
-    case 22:
-      (*uprMaska)   = N_BIT_CTRMTZ_4_NAZAD;
-      break;
+//    case 21:
+//      (*uprMaska)   = N_BIT_CTRMTZ_4_VPERED;
+//      break;
+//    case 22:
+//      (*uprMaska)   = N_BIT_CTRMTZ_4_NAZAD;
+      //break;
 
 //  count_bit = 3;
 #define MTZ_CONFIGURATION_END 25
     case MTZ_CONFIGURATION_END:
-      (*uprMaska)   = N_BIT_CTRMTZ_NESPR_KIL_NAPR;
+      //(*uprMaska)   = N_BIT_CTRMTZ_NESPR_KIL_NAPR;
       break;
 
 //  count_bit = 3;

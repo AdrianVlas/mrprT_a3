@@ -266,44 +266,66 @@ enum _index_ml_ctrmtz
   MAX_ROW_FOR_CONTROL_MTZ
 };
 
-#define N_BIT_CTRMTZ_1                          (INDEX_ML_CTRMTZ_1 - 0)          
+#define N_BIT_CTRMTZ_1                          0
+//(INDEX_ML_CTRMTZ_1 - 0)          
 #define CTR_MTZ_1                               (1 << N_BIT_CTRMTZ_1)          
-#define N_BIT_CTRMTZ_1_SEL_I                    (INDEX_ML_CTRMTZ_1_SEL_I - 0)          
+#define N_BIT_CTRMTZ_1_SEL_I                    1
+//(INDEX_ML_CTRMTZ_1_SEL_I - 0)          
 #define CTR_MTZ_1_SEL_I                         (1 << N_BIT_CTRMTZ_1_SEL_I)          
-#define N_BIT_CTRMTZ_1_VPERED                   (INDEX_ML_CTRMTZ_1_VPERED - 1)          
+#define N_BIT_CTRMTZ_1_VPERED                   2
+//(INDEX_ML_CTRMTZ_1_VPERED - 1)          
 #define CTR_MTZ_1_VPERED                        (1 << N_BIT_CTRMTZ_1_VPERED)          
-#define N_BIT_CTRMTZ_1_NAZAD                    (INDEX_ML_CTRMTZ_1_NAZAD - 1)          
+#define N_BIT_CTRMTZ_1_NAZAD                    3
+//(INDEX_ML_CTRMTZ_1_NAZAD - 1)          
 #define CTR_MTZ_1_NAZAD                         (1 << N_BIT_CTRMTZ_1_NAZAD)          
-#define N_BIT_CTRMTZ_2                          (INDEX_ML_CTRMTZ_2 - 1)        
+#define N_BIT_CTRMTZ_2                          4
+//(INDEX_ML_CTRMTZ_2 - 1)        
 #define CTR_MTZ_2                               (1 << N_BIT_CTRMTZ_2)          
-#define N_BIT_CTRMTZ_2_SEL_I                    (INDEX_ML_CTRMTZ_2_SEL_I - 1)          
+#define N_BIT_CTRMTZ_2_SEL_I                    5
+//(INDEX_ML_CTRMTZ_2_SEL_I - 1)          
 #define CTR_MTZ_2_SEL_I                         (1 << N_BIT_CTRMTZ_2_SEL_I)          
-#define N_BIT_CTRMTZ_2_VPERED                   (INDEX_ML_CTRMTZ_2_VPERED - 2)          
+#define N_BIT_CTRMTZ_2_VPERED                   6
+//(INDEX_ML_CTRMTZ_2_VPERED - 2)          
 #define CTR_MTZ_2_VPERED                        (1 << N_BIT_CTRMTZ_2_VPERED)          
-#define N_BIT_CTRMTZ_2_NAZAD                    (INDEX_ML_CTRMTZ_2_NAZAD - 2)          
+#define N_BIT_CTRMTZ_2_NAZAD                    7
+//(INDEX_ML_CTRMTZ_2_NAZAD - 2)          
 #define CTR_MTZ_2_NAZAD                         (1 << N_BIT_CTRMTZ_2_NAZAD)          
-#define N_BIT_CTRMTZ_2_PRYSKORENNJA             (INDEX_ML_CTRMTZ_2_PRYSKORENNJA - 2)         
+
+#define N_BIT_CTRMTZ_2_PRYSKORENNJA             8
+//(INDEX_ML_CTRMTZ_2_PRYSKORENNJA - 2)         
 #define CTR_MTZ_2_PRYSKORENNJA                  (1 << N_BIT_CTRMTZ_2_PRYSKORENNJA)      
-#define N_BIT_CTRMTZ_2_PRYSKORENA               (INDEX_ML_CTRMTZ_2_PRYSKORENA - 2)          
+#define N_BIT_CTRMTZ_2_PRYSKORENA               9
+//(INDEX_ML_CTRMTZ_2_PRYSKORENA - 2)          
 #define CTR_MTZ_2_PRYSKORENA                    (1 << N_BIT_CTRMTZ_2_PRYSKORENA)          
-#define N_BIT_CTRMTZ_3                          (INDEX_ML_CTRMTZ_3 - 2)         
+#define N_BIT_CTRMTZ_3                          10
+//(INDEX_ML_CTRMTZ_3 - 2)         
 #define CTR_MTZ_3                               (1 << N_BIT_CTRMTZ_3)          
-#define N_BIT_CTRMTZ_3_SEL_I                    (INDEX_ML_CTRMTZ_3_SEL_I - 2)          
+#define N_BIT_CTRMTZ_3_SEL_I                    11
+//(INDEX_ML_CTRMTZ_3_SEL_I - 2)          
 #define CTR_MTZ_3_SEL_I                         (1 << N_BIT_CTRMTZ_3_SEL_I)          
-#define N_BIT_CTRMTZ_3_VPERED                   (INDEX_ML_CTRMTZ_3_VPERED - 3)          
+#define N_BIT_CTRMTZ_3_VPERED                   12
+//(INDEX_ML_CTRMTZ_3_VPERED - 3)          
 #define CTR_MTZ_3_VPERED                        (1 << N_BIT_CTRMTZ_3_VPERED)          
-#define N_BIT_CTRMTZ_3_NAZAD                    (INDEX_ML_CTRMTZ_3_NAZAD - 3)          
+#define N_BIT_CTRMTZ_3_NAZAD                    13
+//(INDEX_ML_CTRMTZ_3_NAZAD - 3)          
 #define CTR_MTZ_3_NAZAD                         (1 << N_BIT_CTRMTZ_3_NAZAD)          
-#define N_BIT_CTRMTZ_4                          (INDEX_ML_CTRMTZ_4 - 3)         
+#define N_BIT_CTRMTZ_4                          14
+//(INDEX_ML_CTRMTZ_4 - 3)         
 #define CTR_MTZ_4                               (1 << N_BIT_CTRMTZ_4)          
-#define N_BIT_CTRMTZ_4_SEL_I                    (INDEX_ML_CTRMTZ_4_SEL_I - 3)          
+#define N_BIT_CTRMTZ_4_SEL_I                    15
+//(INDEX_ML_CTRMTZ_4_SEL_I - 3)          
 #define CTR_MTZ_4_SEL_I                         (1 << N_BIT_CTRMTZ_4_SEL_I)          
-#define N_BIT_CTRMTZ_4_VPERED                   (INDEX_ML_CTRMTZ_4_VPERED - 4)         
+#define N_BIT_CTRMTZ_4_VPERED                   16
+//(INDEX_ML_CTRMTZ_4_VPERED - 4)         
 #define CTR_MTZ_4_VPERED                        (1 << N_BIT_CTRMTZ_4_VPERED)          
-#define N_BIT_CTRMTZ_4_NAZAD                    (INDEX_ML_CTRMTZ_4_NAZAD - 4)         
+#define N_BIT_CTRMTZ_4_NAZAD                    17
+//(INDEX_ML_CTRMTZ_4_NAZAD - 4)         
 #define CTR_MTZ_4_NAZAD                         (1 << N_BIT_CTRMTZ_4_NAZAD)          
-#define N_BIT_CTRMTZ_NESPR_KIL_NAPR             (INDEX_ML_CTRMTZ_NESPR_KIL_NAPR - 4)      
-#define CTR_MTZ_NESPR_KIL_NAPR                  (1 << N_BIT_CTRMTZ_NESPR_KIL_NAPR)          
+#define N_BIT_CTRMTZ_NESPR_KIL_NAPR             18
+//(INDEX_ML_CTRMTZ_NESPR_KIL_NAPR - 4)      
+#define CTR_MTZ_NESPR_KIL_NAPR                  (1 << N_BIT_CTRMTZ_NESPR_KIL_NAPR)
+
+//            (1 << N_BIT_CTRMTZ_NESPR_KIL_NAPR)          
 
 enum {
   CTR_MTZ = 0,

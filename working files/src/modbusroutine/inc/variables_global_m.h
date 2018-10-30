@@ -10,5 +10,4 @@
  short tempWriteArray[MAXIMUMTW];
  int   indexTW;//индекс буфера записи
  int   pointInterface=0;//метка интерфейса 0-USB 1-RS485
-
 #endif
