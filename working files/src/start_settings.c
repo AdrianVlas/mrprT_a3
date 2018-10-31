@@ -1351,6 +1351,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
+  target_label->control_kz_zv = 0;
   target_label->control_UP = 0;
   
   target_label->grupa_ustavok = SETPOINT_GRUPA_USTAVOK_MIN;
@@ -1533,6 +1534,13 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_kp_Umax[i] = SETPOINT_KP_UMAX_DEFAULT;
     target_label->timeout_Umax1[i] = TIMEOUT_UMAX1_MIN;
     target_label->timeout_Umax2[i] = TIMEOUT_UMAX2_MIN;
+
+    target_label->pickup_kz_zv[i] = SETPOINT_KZ_ZV_MIN;
+    angle = SETPOINT_KZ_ZV_ANGLE_MIN;
+    angle_f = (float)angle;
+    target_label->pickup_kz_zv_angle[i] = angle;
+    target_label->pickup_kz_zv_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->pickup_kz_zv_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
     
     for (size_t j = 0; j < NUMBER_UP; j++ )
     {

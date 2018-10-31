@@ -348,6 +348,12 @@ enum _type_con_ozt
 #define TIMEOUT_UMAX2_MIN             0
 #define TIMEOUT_UMAX2_MAX             600000
 
+#define SETPOINT_KZ_ZV_MIN            10
+#define SETPOINT_KZ_ZV_MAX            1000
+
+#define SETPOINT_KZ_ZV_ANGLE_MIN      30
+#define SETPOINT_KZ_ZV_ANGLE_MAX      90
+
 #define SETPOINT_UP_I_MIN             500
 #define SETPOINT_UP_I_MAX             150000
 

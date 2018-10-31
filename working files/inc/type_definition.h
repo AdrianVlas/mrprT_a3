@@ -272,6 +272,13 @@ typedef struct
   int timeout_Umax1[NUMBER_GROUP_USTAVOK];                  //Витримка  Umax1
   int timeout_Umax2[NUMBER_GROUP_USTAVOK];                  //Витримка  Umax2
   unsigned int control_Umax;                                //Поле для управління Umax
+
+  //КЗ З/В
+  unsigned int pickup_kz_zv[NUMBER_GROUP_USTAVOK];           //Уставка КЗ З/В
+  unsigned int pickup_kz_zv_angle[NUMBER_GROUP_USTAVOK];     //Уставка кут КЗ З/В
+           int pickup_kz_zv_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка косинус кута КЗ З/В
+           int pickup_kz_zv_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка синус кута КЗ З/В
+  unsigned int control_kz_zv;                                //Поле для управління КЗ З/В
   
   //Універсальний захист
   int32_t setpoint_UP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];      //Уставка для всіх ступенів
