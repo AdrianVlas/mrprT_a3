@@ -6872,6 +6872,9 @@ inline void main_protection(void)
     active_functions[RANG_BLOCK_UMAX1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMAX1) != 0) << (RANG_BLOCK_UMAX1 & 0x1f);
     active_functions[RANG_BLOCK_UMAX2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMAX2) != 0) << (RANG_BLOCK_UMAX2 & 0x1f);
 
+    //Блок для КЗ З/В
+    active_functions[RANG_BLOCK_KZ_ZV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_KZ_ZV) != 0) << (RANG_BLOCK_KZ_ZV & 0x1f);
+
     //Блокування для УЗ
     for (size_t i = 0; i < NUMBER_UP; i++)
     {

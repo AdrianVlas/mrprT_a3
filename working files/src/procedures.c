@@ -10,6 +10,31 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
   /************************/
   //Спершу перевіряємо чи не знаходимося зараз ми у такому вікні, яке забороняє змінювати текучу конфігурацію
   /************************/
+  //Перевірка ОЗТ
+  if ((new_configuration & ( 1<< OZT_BIT_CONFIGURATION )) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_OZT) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_OZT) 
+       )  
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_OZT_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_OZT_GROUP4)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_OZT_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_OZT_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_OZT)
+      )
+      error_window |= (1 << OZT_BIT_CONFIGURATION );
+  }
   //Перевірка МТЗ
   if ((new_configuration & ( 1<< MTZ_BIT_CONFIGURATION )) == 0)
   {
@@ -34,6 +59,31 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        (current_ekran.current_level == EKRAN_CONTROL_MTZ)
       )
       error_window |= (1 << MTZ_BIT_CONFIGURATION );
+  }
+  //Перевірка 3U0
+  if ((new_configuration & ( 1<< P_3U0_BIT_CONFIGURATION )) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_P_3U0)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0) 
+       )  
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_P_3U0_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_P_3U0_GROUP4)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_P_3U0_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_P_3U0_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_P_3U0)
+      )
+      error_window |= (1 << P_3U0_BIT_CONFIGURATION );
   }
   //Перевірка ТЗНП
   if ((new_configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
@@ -181,6 +231,26 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       )
       error_window |= (1 << UMAX_BIT_CONFIGURATION );
   }
+  //Перевірка КЗ З/В
+  if ((new_configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV) 
+       )  
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_KZ_ZV_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_KZ_ZV_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_KZ_ZV        )
+      )
+      error_window |= (1 << KZ_ZV_BIT_CONFIGURATION );
+  }
   //Перевірка Універсальний Пристрій
   if ((new_configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
   {
@@ -230,12 +300,15 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       //Виводим ступені ОЗТ
       target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
    
-//      //Виводим ступені ОЗТ з УРОВ
-//      target_label->control_urov &= (unsigned int)(~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
-//                                                    )
-//                                                  );
+      //Виводим ступені ОЗТ з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++)
+      {
+        target_label->control_urov[j] &= (unsigned int)(~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
+                                                         )
+                                                       );
+      }
       
       //Формуємо маски функцій ОЗТ
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -463,16 +536,16 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ступені 3U0
-//      target_label->control_P_3U0 &= (unsigned int)(~());
+      target_label->control_P_3U0 &= (unsigned int)(~(CTR_P_3U0_STATE));
    
-//      //Виводим ступені МТЗ з УРОВ
-//      target_label->control_urov &= (unsigned int)(~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
-//                                                    )
-//                                                  );
+      //Виводим ступені 3U0 з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++)
+      {
+        target_label->control_urov[j] &= (unsigned int)(~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)
+                                                         )
+                                                       );
+      }
       
       //Формуємо маски функцій 3U0
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -827,7 +900,15 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       target_label->control_zop &= (unsigned int)(~(MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE) | MASKA_FOR_BIT(INDEX_ML_CTRZOP_2_STATE)));
    
       //Виводим захисти ЗОП(КОФ) з УРОВ
-      for (size_t j = 0; j < NUMBER_PRVV; j++) target_label->control_urov[j] &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1));
+      for (size_t j = 0; j < NUMBER_PRVV; j++) 
+      {
+        target_label->control_urov[j] &= (unsigned int)(
+                                                        ~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1) |
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)
+                                                         )
+                                                       );
+      }
 
       //Формуємо маки функцій ЗОП(КОФ)
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -1206,17 +1287,9 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Перевіряємо, чи "Вн./Зовн.П." зараз знято з конфігурації
     if ((target_label->configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0)
     {
-//      //Виводим ступені "Вн./Зовн.П."
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Вн./Зовн.П." з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
-   
+      //Виводим ступені "Вн./Зовн.П."
+      target_label->control_kz_zv &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTR_KZ_ZV_STATE));
+
       //Формуємо маски функцій "Вн./Зовн.П."
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
       for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL; i++)

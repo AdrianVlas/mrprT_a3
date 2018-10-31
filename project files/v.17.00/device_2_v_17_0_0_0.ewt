@@ -1618,6 +1618,9 @@
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_inputs.h</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_kz_zv.h</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_leds.h</name>
                 </file>
                 <file>
@@ -1946,6 +1949,9 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_inputs_outputs_leds_reg_df_buttons.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\working files\src\menu_kz_zp.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_level_password.c</name>
