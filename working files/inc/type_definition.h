@@ -280,6 +280,12 @@ typedef struct
            int pickup_kz_zv_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка синус кута КЗ З/В
   unsigned int control_kz_zv;                                //Поле для управління КЗ З/В
   
+  //ГЗ
+  int timeout_GZ1[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ1
+  int timeout_GZ2[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ2
+  int timeout_GZ_RPN[NUMBER_GROUP_USTAVOK];                  //Витримка  ГЗ-РПН
+  unsigned int control_GZ;                                   //Поле для управління ГЗ
+  
   //Універсальний захист
   int32_t setpoint_UP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];      //Уставка для всіх ступенів
   uint32_t setpoint_UP_KP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];  //Уставка для "Коефіцієнта повернення" всіх ступенів

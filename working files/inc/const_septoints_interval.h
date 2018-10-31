@@ -354,6 +354,15 @@ enum _type_con_ozt
 #define SETPOINT_KZ_ZV_ANGLE_MIN      30
 #define SETPOINT_KZ_ZV_ANGLE_MAX      90
 
+#define TIMEOUT_GZ1_MIN               2000
+#define TIMEOUT_GZ1_MAX               10000
+
+#define TIMEOUT_GZ2_MIN               0
+#define TIMEOUT_GZ2_MAX               500
+
+#define TIMEOUT_GZ_RPN_MIN            0
+#define TIMEOUT_GZ_RPN_MAX            500
+
 #define SETPOINT_UP_I_MIN             500
 #define SETPOINT_UP_I_MAX             150000
 
