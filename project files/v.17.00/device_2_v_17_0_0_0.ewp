@@ -4633,7 +4633,7 @@
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_general_pickups_el.h</name>
                 </file>
                 <file>
-                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_GZ.h</name>
+                    <name>$PROJ_DIR$\..\..\working files\inc\const_menu_GP.h</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\inc\const_menu_info.h</name>
@@ -4967,6 +4967,9 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_general_pickups_el.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\working files\src\menu_GP.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_info.c</name>

@@ -251,6 +251,9 @@ void make_ekran_control_urov(uint32_t prvv)
       " ѕуск от «Ќмин2 ",
       " ѕуск от «Ќмакс1",
       " ѕуск от «Ќмакс2",
+      "  ѕуск от √«1   ",
+      "  ѕуск от √«2   ",
+      " ѕуск от √«-–ѕЌ ",
       "  ѕуск от ”«х   "
     },
     {
@@ -272,6 +275,9 @@ void make_ekran_control_urov(uint32_t prvv)
       " ѕуск в≥д «Ќм≥н2",
       "ѕуск в≥д «Ќмакс1",
       "ѕуск в≥д «Ќмакс2",
+      "  ѕуск в≥д √«1  ",
+      "  ѕуск в≥д √«2  ",
+      " ѕуск в≥д √«-–ѕЌ",
       "  ѕуск в≥д ”«x  "
     },
     {
@@ -293,6 +299,9 @@ void make_ekran_control_urov(uint32_t prvv)
       "Start from Umin2",
       "Start from Umax1",
       "Start from Umax2",
+      "  ѕуск от √«1   ",
+      "  ѕуск от √«2   ",
+      " ѕуск от √«-–ѕЌ ",
       "  ѕуск от ”«х   "
     },
     {
@@ -314,6 +323,9 @@ void make_ekran_control_urov(uint32_t prvv)
       " ѕуск от «Ќмин2 ",
       " ѕуск от «Ќмакс1",
       " ѕуск от «Ќмакс2",
+      "  ѕуск от √«1   ",
+      "  ѕуск от √«2   ",
+      " ѕуск от √«-–ѕЌ ",
       "  ѕуск от ”«х   "
     }
   };
@@ -348,7 +360,7 @@ void make_ekran_control_urov(uint32_t prvv)
   int additional_current_ozt = 0, additional_current_mtz = 0, additional_current_p_3U0 = 0;
   int additional_current_tznp = 0, additional_current_zop = 0;
   int additional_current_Umin = 0, additional_current_Umax = 0;
-  int additional_current_up = 0;
+  int additional_current_GP = 0, additional_current_up = 0;
   int position_temp = current_ekran.index_position;
   int index_of_ekran;
 
@@ -359,6 +371,7 @@ void make_ekran_control_urov(uint32_t prvv)
                            additional_current_zop  + 
                            additional_current_Umin + 
                            additional_current_Umax + 
+                           additional_current_GP   + 
                            additional_current_up;
   for (int current_index = 0; current_index < MAX_ROW_FOR_CONTROL_UROV; current_index++ )
   {
@@ -427,6 +440,15 @@ void make_ekran_control_urov(uint32_t prvv)
          )   
          &&
          ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0)
+        )  
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_CTRUROV_STARTED_FROM_GP1) ||
+          (current_index <= INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN)
+         )   
+         &&
+         ((current_settings.configuration & (1<<GP_BIT_CONFIGURATION)) == 0)
         )  
         ||
         (
@@ -505,6 +527,12 @@ void make_ekran_control_urov(uint32_t prvv)
         additional_current_Umax++;
 
       if (
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_GP1) ||
+          (current_index == INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN)
+         )   
+        additional_current_GP++;
+
+      if (
           (current_index >= INDEX_ML_CTRUROV_STARTED_FROM_UP1) &&
           (current_index <= INDEX_ML_CTRUROV_STARTED_FROM_UP1 + NUMBER_UP - 1)
          )   
@@ -517,6 +545,7 @@ void make_ekran_control_urov(uint32_t prvv)
                            additional_current_zop   + 
                            additional_current_Umin  + 
                            additional_current_Umax  + 
+                           additional_current_GP    + 
                            additional_current_up;
     }
   }

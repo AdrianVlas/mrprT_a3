@@ -6875,6 +6875,12 @@ inline void main_protection(void)
     //Блок для КЗ З/В
     active_functions[RANG_BLOCK_KZ_ZV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_KZ_ZV) != 0) << (RANG_BLOCK_KZ_ZV & 0x1f);
 
+    //Блок для Газового захисту
+    active_functions[RANG_BLOCK_GP  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_GP ) != 0) << (RANG_BLOCK_GP  & 0x1f);
+    active_functions[RANG_IN_GP1    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP1   ) != 0) << (RANG_IN_GP1    & 0x1f);
+    active_functions[RANG_IN_GP2    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP2   ) != 0) << (RANG_IN_GP2    & 0x1f);
+    active_functions[RANG_IN_GP_RPN >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP_RPN) != 0) << (RANG_IN_GP_RPN & 0x1f);
+
     //Блокування для УЗ
     for (size_t i = 0; i < NUMBER_UP; i++)
     {

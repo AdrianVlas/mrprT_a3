@@ -281,10 +281,10 @@ typedef struct
   unsigned int control_kz_zv;                                //Поле для управління КЗ З/В
   
   //ГЗ
-  int timeout_GZ1[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ1
-  int timeout_GZ2[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ2
-  int timeout_GZ_RPN[NUMBER_GROUP_USTAVOK];                  //Витримка  ГЗ-РПН
-  unsigned int control_GZ;                                   //Поле для управління ГЗ
+  int timeout_GP1[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ1
+  int timeout_GP2[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ2
+  int timeout_GP_RPN[NUMBER_GROUP_USTAVOK];                  //Витримка  ГЗ-РПН
+  unsigned int control_GP;                                   //Поле для управління ГЗ
   
   //Універсальний захист
   int32_t setpoint_UP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];      //Уставка для всіх ступенів

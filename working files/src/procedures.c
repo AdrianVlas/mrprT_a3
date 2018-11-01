@@ -251,6 +251,26 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       )
       error_window |= (1 << KZ_ZV_BIT_CONFIGURATION );
   }
+  //Перевірка ГЗ
+  if ((new_configuration & (1<<GP_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_GP) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_GP) 
+       )  
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_GP_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_GP        )
+      )
+      error_window |= (1 << GP_BIT_CONFIGURATION );
+  }
   //Перевірка Універсальний Пристрій
   if ((new_configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
   {
@@ -1411,16 +1431,20 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Перевіряємо, чи "Газовий захист" зараз знято з конфігурації
     if ((target_label->configuration & (1<<GP_BIT_CONFIGURATION)) == 0)
     {
-//      //Виводим ступені "Газовий захист"
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Газовий захист" з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
+      //Виводим ступені "Газовий захист"
+      target_label->control_GP &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTR_GP_STATE));
+
+      //Виводим ступені "Газовий захист" з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++) 
+      {
+        target_label->control_urov[j] &= (unsigned int)(
+                                                       ~(
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP1   ) |
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP2   ) |
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN)
+                                                        )
+                                                      );
+      }
    
       //Формуємо маски функцій "Газовий захист"
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;

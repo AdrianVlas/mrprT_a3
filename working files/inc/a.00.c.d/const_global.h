@@ -125,6 +125,11 @@ RANG_SMALL_BLOCK_UMAX2,
 
 RANG_SMALL_BLOCK_KZ_ZV,
 
+RANG_SMALL_BLOCK_GP,
+RANG_SMALL_IN_GP1,
+RANG_SMALL_IN_GP2,
+RANG_SMALL_IN_GP_RPN,
+
 RANG_SMALL_BLOCK_UP1,
 
 RANG_SMALL_DF1_IN = (RANG_SMALL_BLOCK_UP1 + NUMBER_UP),
@@ -155,7 +160,7 @@ RANG_SMALL_DT4_RESET,
 #define NUMBER_UMIN_SIGNAL_FOR_RANG_SMALL        4
 #define NUMBER_UMAX_SIGNAL_FOR_RANG_SMALL        2
 #define NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL       1
-#define NUMBER_GP_SIGNAL_FOR_RANG_SMALL          0
+#define NUMBER_GP_SIGNAL_FOR_RANG_SMALL          4
 #define NUMBER_TP_SIGNAL_FOR_RANG_SMALL          0
 #define NUMBER_UP_SIGNAL_FOR_RANG_SMALL          NUMBER_UP
 #define NUMBER_EL_SIGNAL_FOR_RANG_SMALL          16
@@ -346,6 +351,17 @@ RANG_BLOCK_KZ_ZV,
 RANG_KZ_V,
 RANG_KZ_Z,
 
+RANG_BLOCK_GP,
+RANG_IN_GP1,
+RANG_PO_GP1,
+RANG_GP1,
+RANG_IN_GP2,
+RANG_PO_GP2,
+RANG_GP2,
+RANG_IN_GP_RPN,
+RANG_PO_GP_RPN,
+RANG_GP_RPN,
+
 RANG_BLOCK_UP1,
 RANG_PO_UP1,
 RANG_UP1,
@@ -431,7 +447,7 @@ RANG_ERROR_CONF_EL
 #define NUMBER_UMIN_SIGNAL_FOR_RANG        12
 #define NUMBER_UMAX_SIGNAL_FOR_RANG        6
 #define NUMBER_KZ_ZV_SIGNAL_FOR_RANG       3
-#define NUMBER_GP_SIGNAL_FOR_RANG          0
+#define NUMBER_GP_SIGNAL_FOR_RANG          10
 #define NUMBER_TP_SIGNAL_FOR_RANG          0
 #define NUMBER_UP_SIGNAL_FOR_RANG          (3*NUMBER_UP)
 #define NUMBER_EL_SIGNAL_FOR_RANG          69
@@ -512,14 +528,14 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_SMALL_DT1_SET - 32))                          \
   | (1 << (RANG_SMALL_DT1_RESET - 32))                        \
   | (1 << (RANG_SMALL_DT2_SET - 32))                          \
-  | (1 << (RANG_SMALL_DT2_RESET - 32))                        \
-  | (1 << (RANG_SMALL_DT3_SET - 32))                          \
-  | (1 << (RANG_SMALL_DT3_RESET - 32))                        \
-  | (1 << (RANG_SMALL_DT4_SET - 32))                          \
 )
 
 #define MASKA_BUTTON_MODE_0_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DT4_RESET - 64))                        \
+    (1 << (RANG_SMALL_DT2_RESET - 64))                        \
+  | (1 << (RANG_SMALL_DT3_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT3_RESET - 64))                        \
+  | (1 << (RANG_SMALL_DT4_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT4_RESET - 64))                        \
 )
 /*****************************************/
 
@@ -558,6 +574,7 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_SMALL_BLOCK_UMAX1 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_UMAX2 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_KZ_ZV - 32))                      \
+  | (1 << (RANG_SMALL_BLOCK_GP - 32))                         \
   | (1 << (RANG_SMALL_BLOCK_UP1 + 0 - 32))                    \
   | (1 << (RANG_SMALL_BLOCK_UP1 + 1 - 32))                    \
   | (1 << (RANG_SMALL_BLOCK_UP1 + 2 - 32))                    \
@@ -577,14 +594,14 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_SMALL_DT1_SET - 32))                          \
   | (1 << (RANG_SMALL_DT1_RESET - 32))                        \
   | (1 << (RANG_SMALL_DT2_SET - 32))                          \
-  | (1 << (RANG_SMALL_DT2_RESET - 32))                        \
-  | (1 << (RANG_SMALL_DT3_SET - 32))                          \
-  | (1 << (RANG_SMALL_DT3_RESET - 32))                        \
-  | (1 << (RANG_SMALL_DT4_SET - 32))                          \
 )
 
 #define MASKA_BUTTON_MODE_1_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DT4_RESET - 64))                        \
+    (1 << (RANG_SMALL_DT2_RESET - 64))                        \
+  | (1 << (RANG_SMALL_DT3_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT3_RESET - 64))                        \
+  | (1 << (RANG_SMALL_DT4_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT4_RESET - 64))                        \
 )
 /*****************************************/
 
@@ -642,13 +659,17 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_BLOCK_UMAX1 - 128))                           \
   | (1 << (RANG_BLOCK_UMAX2 - 128))                           \
   | (1 << (RANG_BLOCK_KZ_ZV - 128))                           \
-  | (1 << (RANG_BLOCK_UP1 + 3*0 - 128))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*1 - 128))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*2 - 128))                       \
+  | (1 << (RANG_BLOCK_GP - 128))                              \
+  | (1 << (RANG_IN_GP1 - 128))                                \
+  | (1 << (RANG_IN_GP2 - 128))                                \
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_5        (unsigned int)(      \
-    (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                       \
+    (1 << (RANG_IN_GP_RPN - 160))                             \
+  | (1 << (RANG_BLOCK_UP1 + 3*0 - 160))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*1 - 160))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*2 - 160))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                       \
   | (1 << (RANG_BLOCK_UP1 + 3*4 - 160))                       \
   | (1 << (RANG_BLOCK_UP1 + 3*5 - 160))                       \
   | (1 << (RANG_BLOCK_UP1 + 3*6 - 160))                       \
@@ -656,15 +677,15 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_DF1_IN - 160))                                \
   | (1 << (RANG_DF2_IN - 160))                                \
   | (1 << (RANG_DF3_IN - 160))                                \
-  | (1 << (RANG_DF4_IN - 160))                                \
-  | (1 << (RANG_DF5_IN - 160))                                \
-  | (1 << (RANG_DF6_IN - 160))                                \
-  | (1 << (RANG_DF7_IN - 160))                                \
-  | (1 << (RANG_DF8_IN - 160))                                \
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_6        (unsigned int)(      \
-    (1 << (RANG_DT1_SET - 192))                               \
+    (1 << (RANG_DF4_IN - 192))                                \
+  | (1 << (RANG_DF5_IN - 192))                                \
+  | (1 << (RANG_DF6_IN - 192))                                \
+  | (1 << (RANG_DF7_IN - 192))                                \
+  | (1 << (RANG_DF8_IN - 192))                                \
+  | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
   | (1 << (RANG_DT2_SET - 192))                               \
   | (1 << (RANG_DT2_RESET - 192))                             \
@@ -976,8 +997,23 @@ enum _mtz_abc_direction_const {
 #define MASKA_GP_SIGNALS_1               0
 #define MASKA_GP_SIGNALS_2               0
 #define MASKA_GP_SIGNALS_3               0
-#define MASKA_GP_SIGNALS_4               0
-#define MASKA_GP_SIGNALS_5               0
+     
+#define MASKA_GP_SIGNALS_4       (unsigned int)(            \
+     (1 << (RANG_BLOCK_GP - 128))                           \
+   | (1 << (RANG_IN_GP1 - 128))                             \
+   | (1 << (RANG_PO_GP1 - 128))                             \
+   | (1 << (RANG_GP1 - 128))                                \
+   | (1 << (RANG_IN_GP2 - 128))                             \
+   | (1 << (RANG_PO_GP2 - 128))                             \
+   | (1 << (RANG_GP2 - 128))                                \
+)
+     
+#define MASKA_GP_SIGNALS_5       (unsigned int)(            \
+     (1 << (RANG_IN_GP_RPN - 160))                          \
+   | (1 << (RANG_PO_GP_RPN - 160))                          \
+   | (1 << (RANG_GP_RPN - 160))                             \
+)
+
 #define MASKA_GP_SIGNALS_6               0
 #define MASKA_GP_SIGNALS_7               0
 #define MASKA_GP_SIGNALS_8               0
@@ -1004,19 +1040,17 @@ enum _mtz_abc_direction_const {
 #define MASKA_UP_SIGNALS_1                 0
 #define MASKA_UP_SIGNALS_2                 0
 #define MASKA_UP_SIGNALS_3                 0
-
-#define MASKA_UP_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_BLOCK_UP1 + 3*0 - 128))                    \
-   | (1 << (RANG_PO_UP1 + 3*0 - 128))                       \
-   | (1 << (RANG_UP1 + 3*0 - 128))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*1 - 128))                    \
-   | (1 << (RANG_PO_UP1 + 3*1 - 128))                       \
-   | (1 << (RANG_UP1 + 3*1 - 128))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*2 - 128))                    \
-)
+#define MASKA_UP_SIGNALS_4                 0
 
 #define MASKA_UP_SIGNALS_5       (unsigned int)(            \
-     (1 << (RANG_PO_UP1 + 3*2 - 160))                       \
+     (1 << (RANG_BLOCK_UP1 + 3*0 - 160))                    \
+   | (1 << (RANG_PO_UP1 + 3*0 - 160))                       \
+   | (1 << (RANG_UP1 + 3*0 - 160))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*1 - 160))                    \
+   | (1 << (RANG_PO_UP1 + 3*1 - 160))                       \
+   | (1 << (RANG_UP1 + 3*1 - 160))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*2 - 160))                    \
+   | (1 << (RANG_PO_UP1 + 3*2 - 160))                       \
    | (1 << (RANG_UP1 + 3*2 - 160))                          \
    | (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                    \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                       \
@@ -1055,20 +1089,20 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_DF2_IN - 160))                                \
   | (1 << (RANG_DF2_OUT - 160))                               \
   | (1 << (RANG_DF3_IN - 160))                                \
-  | (1 << (RANG_DF3_OUT - 160))                               \
-  | (1 << (RANG_DF4_IN - 160))                                \
-  | (1 << (RANG_DF4_OUT - 160))                               \
-  | (1 << (RANG_DF5_IN - 160))                                \
-  | (1 << (RANG_DF5_OUT - 160))                               \
-  | (1 << (RANG_DF6_IN - 160))                                \
-  | (1 << (RANG_DF6_OUT - 160))                               \
-  | (1 << (RANG_DF7_IN - 160))                                \
-  | (1 << (RANG_DF7_OUT - 160))                               \
-  | (1 << (RANG_DF8_IN - 160))                                \
 )
 
 #define MASKA_EL_SIGNALS_6        (unsigned int)(             \
-    (1 << (RANG_DF8_OUT - 192))                               \
+    (1 << (RANG_DF3_OUT - 192))                               \
+  | (1 << (RANG_DF4_IN - 192))                                \
+  | (1 << (RANG_DF4_OUT - 192))                               \
+  | (1 << (RANG_DF5_IN - 192))                                \
+  | (1 << (RANG_DF5_OUT - 192))                               \
+  | (1 << (RANG_DF6_IN - 192))                                \
+  | (1 << (RANG_DF6_OUT - 192))                               \
+  | (1 << (RANG_DF7_IN - 192))                                \
+  | (1 << (RANG_DF7_OUT - 192))                               \
+  | (1 << (RANG_DF8_IN - 192))                                \
+  | (1 << (RANG_DF8_OUT - 192))                               \
   | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
   | (1 << (RANG_DT1_OUT - 192))                               \
@@ -1090,20 +1124,20 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_D_AND7 - 192))                                \
   | (1 << (RANG_D_AND8 - 192))                                \
   | (1 << (RANG_D_OR1 - 192))                                 \
-  | (1 << (RANG_D_OR2 - 192))                                 \
-  | (1 << (RANG_D_OR3 - 192))                                 \
-  | (1 << (RANG_D_OR4 - 192))                                 \
-  | (1 << (RANG_D_OR5 - 192))                                 \
-  | (1 << (RANG_D_OR6 - 192))                                 \
-  | (1 << (RANG_D_OR7 - 192))                                 \
-  | (1 << (RANG_D_OR8 - 192))                                 \
-  | (1 << (RANG_D_XOR1 - 192))                                \
-  | (1 << (RANG_D_XOR2 - 192))                                \
-  | (1 << (RANG_D_XOR3 - 192))                                \
 )
 
 #define MASKA_EL_SIGNALS_7        (unsigned int)(             \
-    (1 << (RANG_D_XOR4 - 224))                                \
+    (1 << (RANG_D_OR2 - 224))                                 \
+  | (1 << (RANG_D_OR3 - 224))                                 \
+  | (1 << (RANG_D_OR4 - 224))                                 \
+  | (1 << (RANG_D_OR5 - 224))                                 \
+  | (1 << (RANG_D_OR6 - 224))                                 \
+  | (1 << (RANG_D_OR7 - 224))                                 \
+  | (1 << (RANG_D_OR8 - 224))                                 \
+  | (1 << (RANG_D_XOR1 - 224))                                \
+  | (1 << (RANG_D_XOR2 - 224))                                \
+  | (1 << (RANG_D_XOR3 - 224))                                \
+  | (1 << (RANG_D_XOR4 - 224))                                \
   | (1 << (RANG_D_XOR5 - 224))                                \
   | (1 << (RANG_D_XOR6 - 224))                                \
   | (1 << (RANG_D_XOR7 - 224))                                \
@@ -1241,15 +1275,19 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
    | (1 << (RANG_PO_UMAX2 - 128))                             \
-   | (1 << (RANG_UMAX2 - 128))                                \
-   | (1 << (RANG_PO_UP1 + 3*0 - 128))                         \
-   | (1 << (RANG_UP1 + 3*0 - 128))                            \
-   | (1 << (RANG_PO_UP1 + 3*1 - 128))                         \
-   | (1 << (RANG_UP1 + 3*1 - 128))                            \
+   | (1 << (RANG_PO_GP1 - 128))                               \
+   | (1 << (RANG_GP1 - 128))                                  \
+   | (1 << (RANG_PO_GP2 - 128))                               \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_5 (unsigned int)(\
-     (1 << (RANG_PO_UP1 + 3*2 - 160))                         \
+     (1 << (RANG_PO_GP_RPN - 160))                            \
+   | (1 << (RANG_GP_RPN - 160))                               \
+   | (1 << (RANG_PO_UP1 + 3*0 - 160))                         \
+   | (1 << (RANG_UP1 + 3*0 - 160))                            \
+   | (1 << (RANG_PO_UP1 + 3*1 - 160))                         \
+   | (1 << (RANG_UP1 + 3*1 - 160))                            \
+   | (1 << (RANG_PO_UP1 + 3*2 - 160))                         \
    | (1 << (RANG_UP1 + 3*2 - 160))                            \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                         \
    | (1 << (RANG_UP1 + 3*3 - 160))                            \
