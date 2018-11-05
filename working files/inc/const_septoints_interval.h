@@ -1,8 +1,11 @@
 #ifndef __CONST_SETPOINT_INTERVAL__
 #define __CONST_SETPOINT_INTERVAL__
 
-#define KOEF_TT_MIN                   1
-#define KOEF_TT_MAX                   2000
+#define KOEF_TT_HV_MIN                1
+#define KOEF_TT_HV_MAX                2000
+
+#define KOEF_TT_LV_MIN                1
+#define KOEF_TT_LV_MAX                2000
 
 #define KOEF_TN_MIN                   50
 #define KOEF_TN_MAX                   1800

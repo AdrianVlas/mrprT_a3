@@ -297,7 +297,8 @@ typedef struct
   uint32_t control_UP;                                          //Поля для управління
   int32_t ctrl_UP_input[NUMBER_UP];                             //Вибір входу Універсального захисту
 
-  unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів
+  unsigned int TCurrent_HV;             //Коефіцієнт трансформації для трансформатора струмів високої сторони
+  unsigned int TCurrent_LV;             //Коефіцієнт трансформації для трансформатора струмів низької сторони
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
   unsigned int control_transformator;   //налаштування для меню "Трансформатор"
   

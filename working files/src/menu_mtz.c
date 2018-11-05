@@ -1636,11 +1636,11 @@ int corelCTRMTZ_1_SEL_I(void)
   unsigned int mtz_data = current_settings.control_mtz;
   if(current_ekran.edition)
                mtz_data = edition_settings.control_mtz;
-  unsigned int ext_data = current_settings.control_extra_settings_1;
+  unsigned int transformator_data = current_settings.control_transformator;
   int tmp1 = 0;
   int tmp2 = 0;
   if(mtz_data & CTR_MTZ_1_SEL_I) tmp1=1;
-  if(ext_data & CTR_EXTRA_SETTINGS_1_CTRL_VH_VL) tmp2=1;
+  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
 //1 - нет корел€ции  
   return tmp1^tmp2;
 }
@@ -1649,11 +1649,11 @@ int corelCTRMTZ_2_SEL_I(void)
   unsigned int mtz_data = current_settings.control_mtz;
   if(current_ekran.edition)
                mtz_data = edition_settings.control_mtz;
-  unsigned int ext_data = current_settings.control_extra_settings_1;
+  unsigned int transformator_data = current_settings.control_transformator;
   int tmp1 = 0;
   int tmp2 = 0;
   if(mtz_data & CTR_MTZ_2_SEL_I) tmp1=1;
-  if(ext_data & CTR_EXTRA_SETTINGS_1_CTRL_VH_VL) tmp2=1;
+  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
 //1 - нет корел€ции  
   return tmp1^tmp2;
 }
@@ -1662,11 +1662,11 @@ int corelCTRMTZ_3_SEL_I(void)
   unsigned int mtz_data = current_settings.control_mtz;
   if(current_ekran.edition)
                mtz_data = edition_settings.control_mtz;
-  unsigned int ext_data = current_settings.control_extra_settings_1;
+  unsigned int transformator_data = current_settings.control_transformator;
   int tmp1 = 0;
   int tmp2 = 0;
   if(mtz_data & CTR_MTZ_3_SEL_I) tmp1=1;
-  if(ext_data & CTR_EXTRA_SETTINGS_1_CTRL_VH_VL) tmp2=1;
+  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
 //1 - нет корел€ции  
   return tmp1^tmp2;
 }
@@ -1675,11 +1675,11 @@ int corelCTRMTZ_4_SEL_I(void)
   unsigned int mtz_data = current_settings.control_mtz;
   if(current_ekran.edition)
                mtz_data = edition_settings.control_mtz;
-  unsigned int ext_data = current_settings.control_extra_settings_1;
+  unsigned int transformator_data = current_settings.control_transformator;
   int tmp1 = 0;
   int tmp2 = 0;
   if(mtz_data & CTR_MTZ_4_SEL_I) tmp1=1;
-  if(ext_data & CTR_EXTRA_SETTINGS_1_CTRL_VH_VL) tmp2=1;
+  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
 //1 - нет корел€ции  
   return tmp1^tmp2;
 }

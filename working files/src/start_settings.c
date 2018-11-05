@@ -1574,9 +1574,10 @@ void min_settings(__SETTINGS *target_label)
   
   target_label->timeout_idle_new_settings = TIMEOUT_NEW_SETTINGS_MIN;
   
-  target_label->TCurrent = KOEF_TT_MIN;
+  target_label->TCurrent_HV = KOEF_TT_HV_MIN;
+  target_label->TCurrent_LV = KOEF_TT_LV_MIN;
   target_label->TVoltage = KOEF_TN_MIN;
-  target_label->control_transformator = CTR_TRANSFORMATOR_PHASE_LINE;
+  target_label->control_transformator = MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE);
 
   for(unsigned int i=0; i< ((M_ADDRESS_LAST_USER_REGISTER_DATA - M_ADDRESS_FIRST_USER_REGISTER_DATA) + 1); i++) target_label->user_register[i] = 0;
 

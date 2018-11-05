@@ -5,23 +5,34 @@
 #define EKRAN_TRANSFORMATOR_INFO_SETPOINT   (EKRAN_TRANSFORMATOR_INFO          + 1)
 #define EKRAN_TRANSFORMATOR_INFO_CONTROL    (EKRAN_TRANSFORMATOR_INFO_SETPOINT + 1)
 
-#define MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT         2  
-#define MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL          1  
+enum _index_ml_stp_transformator
+{
+  INDEX_ML_TT_HV = 0,
+  INDEX_ML_TT_LV,
+  INDEX_ML_TN,
+  
+  MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT
+};
 
-#define INDEX_ML_TT                         0
-#define INDEX_ML_TN                         1
+#define COL_TT_HV_BEGIN                     6
+#define COL_TT_HV_END                       9
 
-#define COL_TT_BEGIN                        6
-#define COL_TT_END                          9
+#define COL_TT_LV_BEGIN                     6
+#define COL_TT_LV_END                       9
 
 #define COL_TN_BEGIN                        6
 #define COL_TN_END                          9
 
-#define INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE           0          
-#define CTR_TRANSFORMATOR_PHASE_LINE                    (1 << INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)   
+enum _index_ml_ctrl_transformator
+{
+  INDEX_ML_CTR_TRANSFORMATOR_VH_VL = 0,
+  INDEX_ML_CTR_TRANSFORMATOR_I_VH,
+  INDEX_ML_CTR_TRANSFORMATOR_I_VL,
+  INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE,
+  
+  MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL
+};
 
-#define CTR_TRANSFORMATOR_MASKA                         (                                 \
-                                                         CTR_TRANSFORMATOR_PHASE_LINE     \
-                                                        )
+#define CTR_TRANSFORMATOR_MASKA                         (MASKA_FOR_BIT(MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL) - 1)
 
 #endif

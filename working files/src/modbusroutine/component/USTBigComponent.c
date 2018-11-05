@@ -594,8 +594,8 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
 //  count_bit = 9;
   case 1023:
     (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.TCurrent;
-    if(regUst<KOEF_TT_MIN || regUst>KOEF_TT_MAX) diapazon=0;
+    (*editValue) = (uint32_t*)&edition_settings.TCurrent_HV;
+    if(regUst<KOEF_TT_HV_MIN || regUst>KOEF_TT_HV_MAX) diapazon=0;
     break;
 //  case 1024:
 //    (*multer) = 1;

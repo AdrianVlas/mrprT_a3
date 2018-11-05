@@ -6015,10 +6015,15 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT_HV)
                   {
-                    edition_settings.TCurrent = current_settings.TCurrent;
-                    current_ekran.position_cursor_x = COL_TT_BEGIN;
+                    edition_settings.TCurrent_HV = current_settings.TCurrent_HV;
+                    current_ekran.position_cursor_x = COL_TT_HV_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                  {
+                    edition_settings.TCurrent_LV = current_settings.TCurrent_LV;
+                    current_ekran.position_cursor_x = COL_TT_LV_BEGIN;
                   }
                   else
                   {
@@ -6764,9 +6769,13 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT_HV)
                   {
-                    if (edition_settings.TCurrent != current_settings.TCurrent) found_changes = 1;
+                    if (edition_settings.TCurrent_HV != current_settings.TCurrent_HV) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                  {
+                    if (edition_settings.TCurrent_LV != current_settings.TCurrent_LV) found_changes = 1;
                   }
                   else
                   {
@@ -8859,16 +8868,33 @@ void main_manu_function(void)
                 }
                 else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
                 {
-                  if (current_ekran.index_position == INDEX_ML_TT)
+                  if (current_ekran.index_position == INDEX_ML_TT_HV)
                   {
-                    if (check_data_setpoint(edition_settings.TCurrent, KOEF_TT_MIN, KOEF_TT_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.TCurrent_HV, KOEF_TT_HV_MIN, KOEF_TT_HV_MAX) == 1)
                     {
-                      if (edition_settings.TCurrent != current_settings.TCurrent)
+                      if (edition_settings.TCurrent_HV != current_settings.TCurrent_HV)
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.TCurrent = edition_settings.TCurrent;
+                        current_settings.TCurrent_HV = edition_settings.TCurrent_HV;
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                  {
+                    if (check_data_setpoint(edition_settings.TCurrent_LV, KOEF_TT_LV_MIN, KOEF_TT_LV_MAX) == 1)
+                    {
+                      if (edition_settings.TCurrent_LV != current_settings.TCurrent_LV)
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.TCurrent_LV = edition_settings.TCurrent_LV;
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10341,8 +10367,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_TT)
-                    edition_settings.TCurrent = edit_setpoint(1, edition_settings.TCurrent, 0, 0, COL_TT_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_TT_HV)
+                    edition_settings.TCurrent_HV = edit_setpoint(1, edition_settings.TCurrent_HV, 0, 0, COL_TT_HV_END, 1);
+                  else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                    edition_settings.TCurrent_LV = edit_setpoint(1, edition_settings.TCurrent_LV, 0, 0, COL_TT_LV_END, 1);
                   else
                     edition_settings.TVoltage = edit_setpoint(1, edition_settings.TVoltage, 0, 0, COL_TN_END, 1);
                 }
@@ -11386,8 +11414,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  if (current_ekran.index_position == INDEX_ML_TT)
-                    edition_settings.TCurrent = edit_setpoint(0, edition_settings.TCurrent, 0, 0, COL_TT_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_TT_HV)
+                    edition_settings.TCurrent_HV = edit_setpoint(0, edition_settings.TCurrent_HV, 0, 0, COL_TT_HV_END, 1);
+                  else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                    edition_settings.TCurrent_LV = edit_setpoint(0, edition_settings.TCurrent_LV, 0, 0, COL_TT_LV_END, 1);
                   else
                     edition_settings.TVoltage = edit_setpoint(0, edition_settings.TVoltage, 0, 0, COL_TN_END, 1);
                 }
@@ -12810,11 +12840,17 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
               {
-                if (current_ekran.index_position == INDEX_ML_TT)
+                if (current_ekran.index_position == INDEX_ML_TT_HV)
                 {
-                  if ((current_ekran.position_cursor_x < COL_TT_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TT_END))
-                    current_ekran.position_cursor_x = COL_TT_BEGIN;
+                  if ((current_ekran.position_cursor_x < COL_TT_HV_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TT_HV_END))
+                    current_ekran.position_cursor_x = COL_TT_HV_BEGIN;
+                }
+                else if (current_ekran.index_position == INDEX_ML_TT_LV)
+                {
+                  if ((current_ekran.position_cursor_x < COL_TT_LV_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TT_LV_END))
+                    current_ekran.position_cursor_x = COL_TT_LV_BEGIN;
                 }
                 else
                 {
@@ -14196,11 +14232,17 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_TRANSFORMATOR_INFO_SETPOINT)
               {
-                if(current_ekran.index_position == INDEX_ML_TT)
+                if(current_ekran.index_position == INDEX_ML_TT_HV)
                 {
-                  if ((current_ekran.position_cursor_x < COL_TT_BEGIN) ||
-                      (current_ekran.position_cursor_x > COL_TT_END))
-                    current_ekran.position_cursor_x = COL_TT_END;
+                  if ((current_ekran.position_cursor_x < COL_TT_HV_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TT_HV_END))
+                    current_ekran.position_cursor_x = COL_TT_HV_END;
+                }
+                else if(current_ekran.index_position == INDEX_ML_TT_LV)
+                {
+                  if ((current_ekran.position_cursor_x < COL_TT_LV_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TT_LV_END))
+                    current_ekran.position_cursor_x = COL_TT_LV_END;
                 }
                 else
                 {
