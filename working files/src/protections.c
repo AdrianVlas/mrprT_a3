@@ -6881,6 +6881,10 @@ inline void main_protection(void)
     active_functions[RANG_IN_GP2    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP2   ) != 0) << (RANG_IN_GP2    & 0x1f);
     active_functions[RANG_IN_GP_RPN >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP_RPN) != 0) << (RANG_IN_GP_RPN & 0x1f);
 
+    //Блок для Теплового захисту
+    active_functions[RANG_BLOCK_TP >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TP) != 0) << (RANG_BLOCK_TP & 0x1f);
+    active_functions[RANG_IN_TP    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_TP   ) != 0) << (RANG_IN_TP    & 0x1f);
+    
     //Блокування для УЗ
     for (size_t i = 0; i < NUMBER_UP; i++)
     {

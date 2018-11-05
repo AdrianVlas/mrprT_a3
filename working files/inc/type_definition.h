@@ -286,6 +286,10 @@ typedef struct
   int timeout_GP_RPN[NUMBER_GROUP_USTAVOK];                  //Витримка  ГЗ-РПН
   unsigned int control_GP;                                   //Поле для управління ГЗ
   
+  //ТЗ
+  int timeout_TP[NUMBER_GROUP_USTAVOK];                      //Витримка  ТЗ
+  unsigned int control_TP;                                   //Поле для управління ТЗ
+  
   //Універсальний захист
   int32_t setpoint_UP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];      //Уставка для всіх ступенів
   uint32_t setpoint_UP_KP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];  //Уставка для "Коефіцієнта повернення" всіх ступенів

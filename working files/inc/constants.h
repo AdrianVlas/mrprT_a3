@@ -26,6 +26,7 @@
 #include "const_menu_Umax.h"
 #include "const_menu_kz_zv.h"
 #include "const_menu_GP.h"
+#include "const_menu_TP.h"
 #include "const_menu_UP.h"
 #include "const_menu_inputs.h"
 #include "const_menu_outputs.h"

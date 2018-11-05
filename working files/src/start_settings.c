@@ -1353,6 +1353,7 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_Umax = 0;
   target_label->control_kz_zv = 0;
   target_label->control_GP = 0;
+  target_label->control_TP = 0;
   target_label->control_UP = 0;
   
   target_label->grupa_ustavok = SETPOINT_GRUPA_USTAVOK_MIN;
@@ -1546,6 +1547,8 @@ void min_settings(__SETTINGS *target_label)
     target_label->timeout_GP1[i] = TIMEOUT_GP1_MIN;
     target_label->timeout_GP2[i] = TIMEOUT_GP2_MIN;
     target_label->timeout_GP_RPN[i] = TIMEOUT_GP_RPN_MIN;
+
+    target_label->timeout_TP[i] = TIMEOUT_TP_MIN;
     
     for (size_t j = 0; j < NUMBER_UP; j++ )
     {
