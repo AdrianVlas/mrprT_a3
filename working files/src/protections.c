@@ -3570,8 +3570,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
         _SET_BIT(p_active_functions, RANG_PO_UROV1);
       
         //Запускаємо таймери УРОВ1 і УРОВ2, якщо вони ще не запущені
-        global_timers[INDEX_TIMER_UROV1] = 0;
-        global_timers[INDEX_TIMER_UROV2] = 0;
+        global_timers[INDEX_TIMER_UROV1_1] = 0;
+        global_timers[INDEX_TIMER_UROV1_2] = 0;
       }
     }
     else 
@@ -3585,29 +3585,29 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
         _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
         _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
         //Якщо таймери ще не скинуті, то скидаємо їх
-        if ( global_timers[INDEX_TIMER_UROV1] >=0) global_timers[INDEX_TIMER_UROV1] = -1;
-        if ( global_timers[INDEX_TIMER_UROV2] >=0) global_timers[INDEX_TIMER_UROV2] = -1;
+        if ( global_timers[INDEX_TIMER_UROV1_1] >=0) global_timers[INDEX_TIMER_UROV1_1] = -1;
+        if ( global_timers[INDEX_TIMER_UROV1_2] >=0) global_timers[INDEX_TIMER_UROV1_2] = -1;
       }
     }
     
     //Перевіряємо чи таймер УРОВ1 досягнув значення своєї витримки
-    if(global_timers[INDEX_TIMER_UROV1] >= current_settings_prt.timeout_urov_1[0][number_group_stp])
+    if(global_timers[INDEX_TIMER_UROV1_1] >= current_settings_prt.timeout_urov_1[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ1 то встановлюємо сигнал "Сраб. УРОВ1"
       _SET_BIT(p_active_functions, RANG_UROV1_1);
 
       //Скидаємо таймер УРОВ1
-      global_timers[INDEX_TIMER_UROV1] = -1;
+      global_timers[INDEX_TIMER_UROV1_1] = -1;
     }
 
     //Перевіряємо чи таймер УРОВ2 досягнув значення своєї витримки
-    if(global_timers[INDEX_TIMER_UROV2] >= current_settings_prt.timeout_urov_2[0][number_group_stp])
+    if(global_timers[INDEX_TIMER_UROV1_2] >= current_settings_prt.timeout_urov_2[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ2 то встановлюємо сигнал "Сраб. УРОВ2"
       _SET_BIT(p_active_functions, RANG_UROV1_2);
 
       //Скидаємо таймер УРОВ2
-      global_timers[INDEX_TIMER_UROV2] = -1;
+      global_timers[INDEX_TIMER_UROV1_2] = -1;
     }
   }
   else
@@ -3616,8 +3616,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     _CLEAR_BIT(p_active_functions, RANG_PO_UROV1);
     _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
     _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
-    global_timers[INDEX_TIMER_UROV1] = -1;
-    global_timers[INDEX_TIMER_UROV2] = -1;
+    global_timers[INDEX_TIMER_UROV1_1] = -1;
+    global_timers[INDEX_TIMER_UROV1_2] = -1;
   }  
 }
   /*******************************/
@@ -7309,6 +7309,8 @@ inline void main_protection(void)
       global_timers[INDEX_TIMER_TZNP2_NAZAD] = -1;
       global_timers[INDEX_TIMER_TZNP3_VPERED] = -1;
       global_timers[INDEX_TIMER_TZNP3_NAZAD] = -1;
+      global_timers[INDEX_TIMER_TZNP4_VPERED] = -1;
+      global_timers[INDEX_TIMER_TZNP4_NAZAD] = -1;
     }
     /**************************/
   
@@ -7336,6 +7338,7 @@ inline void main_protection(void)
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_zop_signals[i]);
       global_timers[INDEX_TIMER_ZOP1] = -1;
+      global_timers[INDEX_TIMER_ZOP2] = -1;
     }
     /**************************/
     
@@ -7433,8 +7436,11 @@ inline void main_protection(void)
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_urov_signals[i]);
 
-      global_timers[INDEX_TIMER_UROV1] = -1;
-      global_timers[INDEX_TIMER_UROV2] = -1;
+      global_timers[INDEX_TIMER_UROV1_1] = -1;
+      global_timers[INDEX_TIMER_UROV1_2] = -1;
+
+      global_timers[INDEX_TIMER_UROV2_1] = -1;
+      global_timers[INDEX_TIMER_UROV2_2] = -1;
     }
     /**************************/
 
@@ -7487,6 +7493,9 @@ inline void main_protection(void)
         MASKA_GP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_gp_signals[i]);
+
+      global_timers[INDEX_TIMER_GZ1] = -1;
+      global_timers[INDEX_TIMER_GZ2] = -1;
     }
     /**************************/
 
@@ -7513,6 +7522,8 @@ inline void main_protection(void)
         MASKA_TP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_tp_signals[i]);
+
+      global_timers[INDEX_TIMER_TZ] = -1;
     }
     /**************************/
 
