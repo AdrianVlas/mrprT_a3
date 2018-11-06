@@ -19,7 +19,13 @@ enum _type_con_ozt
   _N_TYPE_CON_OZT 
 };
 
-#define PICKUP_OZT_DELTA_Id_MIN         200
+#define PICKUP_OZT_BB_MIN               1500
+#define PICKUP_OZT_BB_MAX               20000
+
+#define PICKUP_OZT_BH_MIN               1500
+#define PICKUP_OZT_BH_MAX               20000
+
+#define PICKUP_OZT_DELTA_Id_MIN         2000
 #define PICKUP_OZT_DELTA_Id_MAX         40000
 
 #define PICKUP_OZT_K_MIN                0
@@ -58,6 +64,9 @@ enum _type_con_ozt
 
 #define TIMEOUT_OZT2_MIN                0
 #define TIMEOUT_OZT2_MAX                32000
+
+#define TIMEOUT_OZT2_A_BLK_MIN          500
+#define TIMEOUT_OZT2_A_BLK_MAX          10000
 
 #define TYPE_MTZ_SIMPLE                0
 #define TYPE_MTZ_DIRECTIONAL           1

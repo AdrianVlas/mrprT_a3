@@ -1364,13 +1364,15 @@ void min_settings(__SETTINGS *target_label)
   
   for (unsigned int i = 0; i < NUMBER_GROUP_USTAVOK; i++)
   {
-    target_label->pickup_ozt_delta_Id[i] = PICKUP_OZT_DELTA_Id_MIN;
-    target_label->pickup_ozt_k[i] = PICKUP_OZT_K_MIN;
+    target_label->pickup_ozt_BB[i] = PICKUP_OZT_BB_MIN;
+    target_label->pickup_ozt_BH[i] = PICKUP_OZT_BH_MIN;
     target_label->pickup_ozt_Id0[i] = PICKUP_OZT_Id0_MIN;
-    target_label->pickup_ozt_Ig0[i] = PICKUP_OZT_Ig0_MIN;
+    target_label->pickup_ozt_delta_Id[i] = PICKUP_OZT_DELTA_Id_MIN;
     target_label->pickup_ozt_Kg1[i] = PICKUP_OZT_Kg1_MIN;
-    target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_Kg2[i] = PICKUP_OZT_Kg2_MIN;
+    target_label->pickup_ozt_k[i] = PICKUP_OZT_K_MIN;
+    target_label->pickup_ozt_Ig0[i] = PICKUP_OZT_Ig0_MIN;
+    target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_K_aI[i] = PICKUP_OZT_K_AI_MIN;
     target_label->pickup_ozt_K_2I[i] = PICKUP_OZT_K_2I_MIN;
     target_label->pickup_ozt_K_5I[i] = PICKUP_OZT_K_5I_MIN;
@@ -1378,6 +1380,7 @@ void min_settings(__SETTINGS *target_label)
 
     target_label->timeout_ozt1[i] = TIMEOUT_OZT1_MIN; 
     target_label->timeout_ozt2[i] = TIMEOUT_OZT2_MIN; 
+    target_label->timeout_ozt2_a_blk[i] = TIMEOUT_OZT2_A_BLK_MIN; 
     
     unsigned int angle;
     float angle_f;

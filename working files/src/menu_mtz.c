@@ -1720,7 +1720,6 @@ int findMenuListIndex_control_mtz(int ekranListIndex)
 int findEkranListIndex_control_mtz(int menuListIndex)
 {
 //найти экранный индeкс по  индексу меню control mtz 
-  int index = -1;
   if(menuListIndex<0) return -1;
   int ekranListSize = findEkranListSize_control_mtz();
   for(int i=0; i< ekranListSize; i++)
