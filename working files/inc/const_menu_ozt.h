@@ -25,7 +25,7 @@
 #define INDEX_ML_T_OZT_IT0               7
 #define INDEX_ML_T_OZT_ITG1              8
 
-#define INDEX_ML_A_OZT_AK               9
+#define INDEX_ML_A_OZT_AK                9
 
 #define INDEX_ML_N_OZT_N2G              10
 #define INDEX_ML_N_OZT_N5G              11
@@ -68,10 +68,6 @@
 #define COL_SETPOINT_T_OZT_ITG1_COMMA              6
 #define COL_SETPOINT_T_OZT_ITG1_END                8
 
-#define COL_SETPOINT_T_OZT_ITG2_BEGIN              4
-#define COL_SETPOINT_T_OZT_ITG2_COMMA              6
-#define COL_SETPOINT_T_OZT_ITG2_END                8
-
 #define COL_SETPOINT_A_OZT_AK_BEGIN                5
 #define COL_SETPOINT_A_OZT_AK_COMMA                7
 #define COL_SETPOINT_A_OZT_AK_END                  9
@@ -90,7 +86,7 @@
 
 #define INDEX_ML_TMOOZT1                0
 #define INDEX_ML_TMOOZT2                1
-#define INDEX_ML_A_OZT_AB               11
+#define INDEX_ML_TMOOZT_AB              2
 
 #define COL_TMO_OZT_1_BEGIN                        4
 #define COL_TMO_OZT_1_COMMA                        6
@@ -150,7 +146,7 @@ enum _index_ml_ctrozt
                                          CTR_OZT_2_G              |\
                                          CTR_OZT_2_BLK_A          |\
                                          CTR_OZT_2_BLK_2G         |\
-                                         CTR_OZT_2_BLK_5G         |\
+                                         CTR_OZT_2_BLK_5G          \
                                         )
 
 #endif

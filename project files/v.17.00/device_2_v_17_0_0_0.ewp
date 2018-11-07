@@ -4978,6 +4978,9 @@
                     <name>$PROJ_DIR$\..\..\working files\src\menu_mtz.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\..\working files\src\menu_ozt.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\..\working files\src\menu_point_time_settings.c</name>
                 </file>
                 <file>
