@@ -43,7 +43,7 @@ enum _type_con_ozt
 #define PICKUP_OZT_Kg1_MIN              300
 #define PICKUP_OZT_Kg1_MAX              900
 
-#define PICKUP_OZT_Ig_OBM_MIN           2000
+#define PICKUP_OZT_Ig_OBM_MIN           20000
 #define PICKUP_OZT_Ig_OBM_MAX           80000
 
 #define PICKUP_OZT_Kg2_MIN              0
@@ -68,8 +68,8 @@ enum _type_con_ozt
 #define TIMEOUT_OZT2_MIN                0
 #define TIMEOUT_OZT2_MAX                32000
 
-#define TIMEOUT_OZT2_A_BLK_MIN          500
-#define TIMEOUT_OZT2_A_BLK_MAX          10000
+#define TIMEOUT_OZT2_A_BLK_MIN          50
+#define TIMEOUT_OZT2_A_BLK_MAX          1000
 
 #define TYPE_MTZ_SIMPLE                0
 #define TYPE_MTZ_DIRECTIONAL           1
