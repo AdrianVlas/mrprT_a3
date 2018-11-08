@@ -23,10 +23,6 @@ enum _index_ml_stp_UP
 #define COL_SETPOINT_UP_I_COMMA      7
 #define COL_SETPOINT_UP_I_END        9
 
-#define COL_SETPOINT_UP_3I0_BEGIN    4
-#define COL_SETPOINT_UP_3I0_COMMA    5
-#define COL_SETPOINT_UP_3I0_END      8
-
 #define COL_SETPOINT_UP_U_BEGIN      4
 #define COL_SETPOINT_UP_U_COMMA      7
 #define COL_SETPOINT_UP_U_END        8
@@ -58,20 +54,28 @@ enum _control_type_UP
 {
   _UP_CTRL_MIN = 0,
   
-  UP_CTRL_Ia_Ib_Ic = _UP_CTRL_MIN,
-  UP_CTRL_Ia,
-  UP_CTRL_Ib,
-  UP_CTRL_Ic,
-  UP_CTRL_I1,
-  UP_CTRL_I2,
-  UP_CTRL_I04,
-  UP_CTRL_3I0_r,
-  UP_CTRL_3I0,
-  UP_CTRL_3I0_others,
+  UP_CTRL_Ia_Ib_Ic_H = _UP_CTRL_MIN,
+  UP_CTRL_Ia_H,
+  UP_CTRL_Ib_H,
+  UP_CTRL_Ic_H,
+  UP_CTRL_I1_H,
+  UP_CTRL_I2_H,
+  UP_CTRL_3I0_r_H,
+  UP_CTRL_Ia_Ib_Ic_L,
+  UP_CTRL_Ia_L,
+  UP_CTRL_Ib_L,
+  UP_CTRL_Ic_L,
+  UP_CTRL_I1_L,
+  UP_CTRL_I2_L,
+  UP_CTRL_3I0_r_L,
   UP_CTRL_Ua_Ub_Uc,
+  UP_CTRL_Uab_Ubc_Uca,
   UP_CTRL_Ua,
+  UP_CTRL_Uab,
   UP_CTRL_Ub,
+  UP_CTRL_Ubc,
   UP_CTRL_Uc,
+  UP_CTRL_Uca,
   UP_CTRL_U1,
   UP_CTRL_U2,
   UP_CTRL_3U0,

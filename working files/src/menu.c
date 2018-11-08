@@ -5243,8 +5243,10 @@ void main_manu_function(void)
               uint32_t ctrl_UP_input = point->ctrl_UP_input[current_ekran.index_position / (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)];
               while (
                      ((current_ekran.index_position % (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)) == CTR_UP_OR_AND_BIT) &&
-                     (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic) &&
-                     (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc)
+                     (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_H ) &&
+                     (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_L ) &&
+                     (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc   ) &&
+                     (ctrl_UP_input != UP_CTRL_Uab_Ubc_Uca)
                     )
               {
                 current_ekran.index_position++;
@@ -6130,28 +6132,32 @@ void main_manu_function(void)
                     edition_settings.setpoint_UP[_n_UP][0][group] = current_settings.setpoint_UP[_n_UP][0][group];
                     switch (current_settings.ctrl_UP_input[_n_UP])
                     {
-                    case UP_CTRL_Ia_Ib_Ic:
-                    case UP_CTRL_Ia:
-                    case UP_CTRL_Ib:
-                    case UP_CTRL_Ic:
-                    case UP_CTRL_I1:
-                    case UP_CTRL_I2:
-                    case UP_CTRL_I04:
-                    case UP_CTRL_3I0_r:
+                    case UP_CTRL_Ia_Ib_Ic_H:
+                    case UP_CTRL_Ia_H:
+                    case UP_CTRL_Ib_H:
+                    case UP_CTRL_Ic_H:
+                    case UP_CTRL_I1_H:
+                    case UP_CTRL_I2_H:
+                    case UP_CTRL_3I0_r_H:
+                    case UP_CTRL_Ia_Ib_Ic_L:
+                    case UP_CTRL_Ia_L:
+                    case UP_CTRL_Ib_L:
+                    case UP_CTRL_Ic_L:
+                    case UP_CTRL_I1_L:
+                    case UP_CTRL_I2_L:
+                    case UP_CTRL_3I0_r_L:
                       {
                         current_ekran.position_cursor_x = COL_SETPOINT_UP_I_BEGIN;
-                        break;
-                      }
-                    case UP_CTRL_3I0:
-                    case UP_CTRL_3I0_others:
-                      {
-                        current_ekran.position_cursor_x = COL_SETPOINT_UP_3I0_BEGIN;
                         break;
                       }
                     case UP_CTRL_Ua_Ub_Uc:
                     case UP_CTRL_Ua:
                     case UP_CTRL_Ub:
                     case UP_CTRL_Uc:
+                    case UP_CTRL_Uab_Ubc_Uca:
+                    case UP_CTRL_Uab:
+                    case UP_CTRL_Ubc:
+                    case UP_CTRL_Uca:
                     case UP_CTRL_U1:
                     case UP_CTRL_U2:
                     case UP_CTRL_3U0:
@@ -9308,30 +9314,33 @@ void main_manu_function(void)
                     uint32_t min, max, PQ = false;
                     switch (current_settings.ctrl_UP_input[_n_UP])
                     {
-                    case UP_CTRL_Ia_Ib_Ic:
-                    case UP_CTRL_Ia:
-                    case UP_CTRL_Ib:
-                    case UP_CTRL_Ic:
-                    case UP_CTRL_I1:
-                    case UP_CTRL_I2:
-                    case UP_CTRL_I04:
-                    case UP_CTRL_3I0_r:
+                    case UP_CTRL_Ia_Ib_Ic_H:
+                    case UP_CTRL_Ia_H:
+                    case UP_CTRL_Ib_H:
+                    case UP_CTRL_Ic_H:
+                    case UP_CTRL_I1_H:
+                    case UP_CTRL_I2_H:
+                    case UP_CTRL_3I0_r_H:
+                    case UP_CTRL_Ia_Ib_Ic_L:
+                    case UP_CTRL_Ia_L:
+                    case UP_CTRL_Ib_L:
+                    case UP_CTRL_Ic_L:
+                    case UP_CTRL_I1_L:
+                    case UP_CTRL_I2_L:
+                    case UP_CTRL_3I0_r_L:
                       {
                         min = SETPOINT_UP_I_MIN;
                         max = SETPOINT_UP_I_MAX;
-                        break;
-                      }
-                    case UP_CTRL_3I0:
-                    case UP_CTRL_3I0_others:
-                      {
-                        min = SETPOINT_UP_3I0_MIN;
-                        max = SETPOINT_UP_3I0_MAX;
                         break;
                       }
                     case UP_CTRL_Ua_Ub_Uc:
                     case UP_CTRL_Ua:
                     case UP_CTRL_Ub:
                     case UP_CTRL_Uc:
+                    case UP_CTRL_Uab_Ubc_Uca:
+                    case UP_CTRL_Uab:
+                    case UP_CTRL_Ubc:
+                    case UP_CTRL_Uca:
                     case UP_CTRL_U1:
                     case UP_CTRL_U2:
                     case UP_CTRL_3U0:
@@ -10946,32 +10955,34 @@ void main_manu_function(void)
                     int32_t sign_before = 1, sign_after = 1;
                     switch (current_settings.ctrl_UP_input[_n_UP])
                     {
-                    case UP_CTRL_Ia_Ib_Ic:
-                    case UP_CTRL_Ia:
-                    case UP_CTRL_Ib:
-                    case UP_CTRL_Ic:
-                    case UP_CTRL_I1:
-                    case UP_CTRL_I2:
-                    case UP_CTRL_I04:
-                    case UP_CTRL_3I0_r:
+                    case UP_CTRL_Ia_Ib_Ic_H:
+                    case UP_CTRL_Ia_H:
+                    case UP_CTRL_Ib_H:
+                    case UP_CTRL_Ic_H:
+                    case UP_CTRL_I1_H:
+                    case UP_CTRL_I2_H:
+                    case UP_CTRL_3I0_r_H:
+                    case UP_CTRL_Ia_Ib_Ic_L:
+                    case UP_CTRL_Ia_L:
+                    case UP_CTRL_Ib_L:
+                    case UP_CTRL_Ic_L:
+                    case UP_CTRL_I1_L:
+                    case UP_CTRL_I2_L:
+                    case UP_CTRL_3I0_r_L:
                       {
                         comma = COL_SETPOINT_UP_I_COMMA;
                         end = COL_SETPOINT_UP_I_END;
                         min_step = 10;
                         break;
                       }
-                    case UP_CTRL_3I0:
-                    case UP_CTRL_3I0_others:
-                      {
-                        comma = COL_SETPOINT_UP_3I0_COMMA;
-                        end = COL_SETPOINT_UP_3I0_END;
-                        min_step = 1;
-                        break;
-                      }
                     case UP_CTRL_Ua_Ub_Uc:
                     case UP_CTRL_Ua:
                     case UP_CTRL_Ub:
                     case UP_CTRL_Uc:
+                    case UP_CTRL_Uab_Ubc_Uca:
+                    case UP_CTRL_Uab:
+                    case UP_CTRL_Ubc:
+                    case UP_CTRL_Uca:
                     case UP_CTRL_U1:
                     case UP_CTRL_U2:
                     case UP_CTRL_3U0:
@@ -11056,8 +11067,10 @@ void main_manu_function(void)
                 uint32_t ctrl_UP_input = point->ctrl_UP_input[current_ekran.index_position / (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)];
                 while (
                        ((current_ekran.index_position % (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)) == CTR_UP_OR_AND_BIT) &&
-                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic) &&
-                       (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc)
+                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_H ) &&
+                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_L ) &&
+                       (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc   ) &&
+                       (ctrl_UP_input != UP_CTRL_Uab_Ubc_Uca)
                       )
                 {
                   current_ekran.index_position--;
@@ -12089,32 +12102,34 @@ void main_manu_function(void)
                     int32_t sign_before = 1, sign_after = 1;
                     switch (current_settings.ctrl_UP_input[_n_UP])
                     {
-                    case UP_CTRL_Ia_Ib_Ic:
-                    case UP_CTRL_Ia:
-                    case UP_CTRL_Ib:
-                    case UP_CTRL_Ic:
-                    case UP_CTRL_I1:
-                    case UP_CTRL_I2:
-                    case UP_CTRL_I04:
-                    case UP_CTRL_3I0_r:
+                    case UP_CTRL_Ia_Ib_Ic_H:
+                    case UP_CTRL_Ia_H:
+                    case UP_CTRL_Ib_H:
+                    case UP_CTRL_Ic_H:
+                    case UP_CTRL_I1_H:
+                    case UP_CTRL_I2_H:
+                    case UP_CTRL_3I0_r_H:
+                    case UP_CTRL_Ia_Ib_Ic_L:
+                    case UP_CTRL_Ia_L:
+                    case UP_CTRL_Ib_L:
+                    case UP_CTRL_Ic_L:
+                    case UP_CTRL_I1_L:
+                    case UP_CTRL_I2_L:
+                    case UP_CTRL_3I0_r_L:
                       {
                         comma = COL_SETPOINT_UP_I_COMMA;
                         end = COL_SETPOINT_UP_I_END;
                         min_step = 10;
                         break;
                       }
-                    case UP_CTRL_3I0:
-                    case UP_CTRL_3I0_others:
-                      {
-                        comma = COL_SETPOINT_UP_3I0_COMMA;
-                        end = COL_SETPOINT_UP_3I0_END;
-                        min_step = 1;
-                        break;
-                      }
                     case UP_CTRL_Ua_Ub_Uc:
                     case UP_CTRL_Ua:
                     case UP_CTRL_Ub:
                     case UP_CTRL_Uc:
+                    case UP_CTRL_Uab_Ubc_Uca:
+                    case UP_CTRL_Uab:
+                    case UP_CTRL_Ubc:
+                    case UP_CTRL_Uca:
                     case UP_CTRL_U1:
                     case UP_CTRL_U2:
                     case UP_CTRL_3U0:
@@ -12199,8 +12214,10 @@ void main_manu_function(void)
                 uint32_t ctrl_UP_input = point->ctrl_UP_input[current_ekran.index_position / (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)];
                 while (
                        ((current_ekran.index_position % (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)) == CTR_UP_OR_AND_BIT) &&
-                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic) &&
-                       (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc)
+                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_H ) &&
+                       (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_L ) &&
+                       (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc   ) &&
+                       (ctrl_UP_input != UP_CTRL_Uab_Ubc_Uca)
                       )
                 {
                   current_ekran.index_position++;
@@ -13678,32 +13695,34 @@ void main_manu_function(void)
                   int32_t begin, comma, end;
                   switch (current_settings.ctrl_UP_input[_n_UP])
                   {
-                  case UP_CTRL_Ia_Ib_Ic:
-                  case UP_CTRL_Ia:
-                  case UP_CTRL_Ib:
-                  case UP_CTRL_Ic:
-                  case UP_CTRL_I1:
-                  case UP_CTRL_I2:
-                  case UP_CTRL_I04:
-                  case UP_CTRL_3I0_r:
+                  case UP_CTRL_Ia_Ib_Ic_H:
+                  case UP_CTRL_Ia_H:
+                  case UP_CTRL_Ib_H:
+                  case UP_CTRL_Ic_H:
+                  case UP_CTRL_I1_H:
+                  case UP_CTRL_I2_H:
+                  case UP_CTRL_3I0_r_H:
+                  case UP_CTRL_Ia_Ib_Ic_L:
+                  case UP_CTRL_Ia_L:
+                  case UP_CTRL_Ib_L:
+                  case UP_CTRL_Ic_L:
+                  case UP_CTRL_I1_L:
+                  case UP_CTRL_I2_L:
+                  case UP_CTRL_3I0_r_L:
                     {
                       begin = COL_SETPOINT_UP_I_BEGIN;
                       comma = COL_SETPOINT_UP_I_COMMA;
                       end = COL_SETPOINT_UP_I_END;
                       break;
                     }
-                  case UP_CTRL_3I0:
-                  case UP_CTRL_3I0_others:
-                    {
-                      begin = COL_SETPOINT_UP_3I0_BEGIN;
-                      comma = COL_SETPOINT_UP_3I0_COMMA;
-                      end = COL_SETPOINT_UP_3I0_END;
-                      break;
-                    }
                   case UP_CTRL_Ua_Ub_Uc:
                   case UP_CTRL_Ua:
                   case UP_CTRL_Ub:
                   case UP_CTRL_Uc:
+                  case UP_CTRL_Uab_Ubc_Uca:
+                  case UP_CTRL_Uab:
+                  case UP_CTRL_Ubc:
+                  case UP_CTRL_Uca:
                   case UP_CTRL_U1:
                   case UP_CTRL_U2:
                   case UP_CTRL_3U0:
@@ -13782,18 +13801,7 @@ void main_manu_function(void)
                                         MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_MORE_LESS_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I));  
                   edition_settings.control_UP &= (uint32_t)(~ctrl_maska);
                   
-                  do
-                  {
-                    if (++edition_settings.ctrl_UP_input[n_UP] >= _UP_CTRL_NUMBER) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_MIN;
-                  }
-                  while(
-//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
-//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
-                        (
-                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
-                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
-                        )
-                       ); 
+                  if (++edition_settings.ctrl_UP_input[n_UP] >= _UP_CTRL_NUMBER) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_MIN;
                 }
                 else
                 {
@@ -15232,32 +15240,34 @@ void main_manu_function(void)
                   int32_t begin, comma, end;
                   switch (current_settings.ctrl_UP_input[_n_UP])
                   {
-                  case UP_CTRL_Ia_Ib_Ic:
-                  case UP_CTRL_Ia:
-                  case UP_CTRL_Ib:
-                  case UP_CTRL_Ic:
-                  case UP_CTRL_I1:
-                  case UP_CTRL_I2:
-                  case UP_CTRL_I04:
-                  case UP_CTRL_3I0_r:
+                  case UP_CTRL_Ia_Ib_Ic_H:
+                  case UP_CTRL_Ia_H:
+                  case UP_CTRL_Ib_H:
+                  case UP_CTRL_Ic_H:
+                  case UP_CTRL_I1_H:
+                  case UP_CTRL_I2_H:
+                  case UP_CTRL_3I0_r_H:
+                  case UP_CTRL_Ia_Ib_Ic_L:
+                  case UP_CTRL_Ia_L:
+                  case UP_CTRL_Ib_L:
+                  case UP_CTRL_Ic_L:
+                  case UP_CTRL_I1_L:
+                  case UP_CTRL_I2_L:
+                  case UP_CTRL_3I0_r_L:
                     {
                       begin = COL_SETPOINT_UP_I_BEGIN;
                       comma = COL_SETPOINT_UP_I_COMMA;
                       end = COL_SETPOINT_UP_I_END;
                       break;
                     }
-                  case UP_CTRL_3I0:
-                  case UP_CTRL_3I0_others:
-                    {
-                      begin = COL_SETPOINT_UP_3I0_BEGIN;
-                      comma = COL_SETPOINT_UP_3I0_COMMA;
-                      end = COL_SETPOINT_UP_3I0_END;
-                      break;
-                    }
                   case UP_CTRL_Ua_Ub_Uc:
                   case UP_CTRL_Ua:
                   case UP_CTRL_Ub:
                   case UP_CTRL_Uc:
+                  case UP_CTRL_Uab_Ubc_Uca:
+                  case UP_CTRL_Uab:
+                  case UP_CTRL_Ubc:
+                  case UP_CTRL_Uca:
                   case UP_CTRL_U1:
                   case UP_CTRL_U2:
                   case UP_CTRL_3U0:
@@ -15336,18 +15346,7 @@ void main_manu_function(void)
                                         MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_MORE_LESS_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I));  
                   edition_settings.control_UP &= (uint32_t)(~ctrl_maska);
                   
-                  do
-                  {
-                    if (--edition_settings.ctrl_UP_input[n_UP] < 0) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_NUMBER - 1;
-                  }
-                  while(
-//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_I04  ) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)) ||
-//                        ((edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_3I0_r) && ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) != 0)) ||
-                        (
-                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U1) ||
-                         (edition_settings.ctrl_UP_input[n_UP] == UP_CTRL_U2)
-                        )
-                       ); 
+                  if (--edition_settings.ctrl_UP_input[n_UP] < 0) edition_settings.ctrl_UP_input[n_UP] = _UP_CTRL_NUMBER - 1;
                 }
                 else
                 {
