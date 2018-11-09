@@ -5007,6 +5007,56 @@ void main_manu_function(void)
               )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_SETPOINT_MTZ) current_ekran.index_position = 0;
+              
+              unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+              while (
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_STPMTZ1_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_STPMTZ1_U)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_STPMTZ2_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_STPMTZ2_U)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_STPMTZ3_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_STPMTZ3_U)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_STPMTZ4_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_STPMTZ4_U)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                    )
+              {
+                if(++current_ekran.index_position >= MAX_ROW_FOR_SETPOINT_MTZ) current_ekran.index_position = 0;
+              }
               position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
               //Формуємо екран уставок МТЗ
@@ -5019,6 +5069,56 @@ void main_manu_function(void)
                    )  
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_MTZ) current_ekran.index_position = 0;
+              
+              unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+              while (
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_TMOMTZ1_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_TMOMTZ1_PO_NAPRUZI)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_TMOMTZ2_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_TMOMTZ3_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_TMOMTZ3_PO_NAPRUZI)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                     ||
+                     (
+                      (
+                       (current_ekran.index_position >= INDEX_ML_TMOMTZ4_N_VPERED) &&
+                       (current_ekran.index_position <= INDEX_ML_TMOMTZ4_PO_NAPRUZI)
+                      )   
+                      &&
+                      (
+                       (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                      )
+                     )
+                    )
+              {
+                if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_MTZ) current_ekran.index_position = 0;
+              }
               position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
               //Формуємо екран витримок МТЗ
@@ -10530,7 +10630,57 @@ void main_manu_function(void)
                 
                 if(current_ekran.edition == 0)
                 {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_SETPOINT_MTZ - 1;
+                  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+                  do
+                  {
+                    if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_SETPOINT_MTZ - 1;
+                  }
+                  while (
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ1_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ1_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ2_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ2_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ3_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ3_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ4_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ4_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                        );
+              
                   position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else
@@ -10597,7 +10747,57 @@ void main_manu_function(void)
 
                 if(current_ekran.edition == 0)
                 {
-                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TIMEOUT_MTZ - 1;
+                  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+                  do
+                  {
+                    if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TIMEOUT_MTZ - 1;
+                  }
+                  while (
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ1_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ1_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ2_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ3_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ3_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ4_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ4_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                        );
+                  
                   position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else
@@ -11731,7 +11931,57 @@ void main_manu_function(void)
                 
                 if(current_ekran.edition == 0)
                 {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_SETPOINT_MTZ) current_ekran.index_position = 0;
+                  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+                  do
+                  {
+                    if(++current_ekran.index_position >= MAX_ROW_FOR_SETPOINT_MTZ) current_ekran.index_position = 0;
+                  }
+                  while (
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ1_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ1_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ2_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ2_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ3_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ3_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_STPMTZ4_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_STPMTZ4_U)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                        );
+                  
                   position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else
@@ -11798,7 +12048,57 @@ void main_manu_function(void)
                 
                 if(current_ekran.edition == 0)
                 {
-                  if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_MTZ) current_ekran.index_position = 0;
+                  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+                  do
+                  {
+                    if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_MTZ) current_ekran.index_position = 0;
+                  }
+                  while (
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ1_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ1_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ2_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ3_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ3_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                         ||
+                         (
+                          (
+                           (current_ekran.index_position >= INDEX_ML_TMOMTZ4_N_VPERED) &&
+                           (current_ekran.index_position <= INDEX_ML_TMOMTZ4_PO_NAPRUZI)
+                          )   
+                          &&
+                          (
+                           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+                          )
+                         )
+                        );
+                  
                   position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else

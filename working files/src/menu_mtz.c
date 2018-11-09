@@ -158,19 +158,91 @@ void make_ekran_setpoint_mtz(unsigned int group)
   };
   int index_language = index_language_in_array(current_settings.language);
   
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  unsigned int vaga, value, first_symbol;
+  /******************************************/
+  //Фіксуємо зміщення
+  /******************************************/
+  int additional_current = 0;
+  int position_temp = current_ekran.index_position;
+  uint32_t value_index_shift[MAX_ROW_FOR_SETPOINT_MTZ];
+
+  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  for (intptr_t current_index = 0; current_index < MAX_ROW_FOR_SETPOINT_MTZ; current_index++ )
+  {
+    if (
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ1_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ1_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ2_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ2_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ3_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ3_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+          )
+         )
+         ||
+         (
+          (
+           (current_index >= INDEX_ML_STPMTZ4_N_VPERED) &&
+           (current_index <= INDEX_ML_STPMTZ4_U)
+          )   
+          &&
+          (
+           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+          )
+         )
+        )
+    {
+      int i = current_index - additional_current;
+    
+      uint32_t additional_current_new = additional_current + 1;
+      if ((i+1) <= position_temp) position_temp--;
+      do
+      {
+        value_index_shift[i] = additional_current_new;
+        i++;
+      }
+      while (i < MAX_ROW_FOR_SETPOINT_MTZ);
+      additional_current = additional_current_new;
+    }
+    else value_index_shift[current_index - additional_current] = additional_current;
+  }
+  /******************************************/
+  
   
   //Множення на два величини position_temp потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
-  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  unsigned int index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
+  unsigned int vaga, value, first_symbol;
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
     unsigned int view = ((current_ekran.edition == 0) || (position_temp != index_of_ekran_tmp));
+    index_of_ekran_tmp = index_of_ekran_tmp + value_index_shift[index_of_ekran_tmp];
     if (index_of_ekran_tmp < MAX_ROW_FOR_SETPOINT_MTZ)
     {
+      
       if ((i & 0x1) == 0)
       {
         //У непарному номері рядку виводимо заголовок
@@ -844,18 +916,87 @@ void make_ekran_timeout_mtz(unsigned int group)
   };
   int index_language = index_language_in_array(current_settings.language);
  
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  unsigned int vaga, value, first_symbol;
+  /******************************************/
+  //Фіксуємо зміщення
+  /******************************************/
+  int additional_current = 0;
+  int position_temp = current_ekran.index_position;
+  uint32_t value_index_shift[MAX_ROW_FOR_TIMEOUT_MTZ];
+
+  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  for (intptr_t current_index = 0; current_index < MAX_ROW_FOR_TIMEOUT_MTZ; current_index++ )
+  {
+    if (
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ1_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ1_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ2_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ3_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ3_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ4_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ4_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+         )
+        )
+       )
+    {
+      int i = current_index - additional_current;
+    
+      uint32_t additional_current_new = additional_current + 1;
+      if ((i+1) <= position_temp) position_temp--;
+      do
+      {
+        value_index_shift[i] = additional_current_new;
+        i++;
+      }
+      while (i < MAX_ROW_FOR_TIMEOUT_MTZ);
+      additional_current = additional_current_new;
+    }
+    else value_index_shift[current_index - additional_current] = additional_current;
+  }
+  /******************************************/
   
   //Множення на два величини position_temp потрібне для того, бо на одну позицію ми використовуємо два рядки (назва + значення)
-  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  unsigned int index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
 
-  
+  unsigned int vaga, value, first_symbol;
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
     unsigned int view = ((current_ekran.edition == 0) || (position_temp != index_of_ekran_tmp));
+    index_of_ekran_tmp = index_of_ekran_tmp + value_index_shift[index_of_ekran_tmp];
     if (index_of_ekran_tmp < MAX_ROW_FOR_TIMEOUT_MTZ)
     {
       if ((i & 0x1) == 0)
