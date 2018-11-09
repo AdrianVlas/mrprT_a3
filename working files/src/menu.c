@@ -9791,7 +9791,10 @@ void main_manu_function(void)
                     {
                       //Помічаємо, що поле структури зараз буде змінене
                       changed_settings = CHANGED_ETAP_EXECUTION;
-                        
+                      
+                      //При потребі змінюємо заборонені режими захистів на дозволені
+                      action_after_changing_ctrl_transformator(&current_settings, edition_settings.control_transformator);
+                      
                       current_settings.control_transformator = edition_settings.control_transformator;
                       
                       //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок

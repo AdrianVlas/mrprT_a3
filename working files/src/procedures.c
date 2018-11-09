@@ -2247,6 +2247,65 @@ void action_after_changing_ctrl_UP(__SETTINGS *current_label, uint32_t value)
 }
 /*****************************************************/
 
+/*****************************************************
+Функція обновлення змінних при зміні вхідної напруги
+*****************************************************/
+void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_t new_value)
+{
+  unsigned int voltage = new_value & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL);
+  
+  if ((current_label->control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) != voltage)
+  {
+    voltage = (voltage != 0);
+
+    //МСЗ1
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz1 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz1 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz1 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ2
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz2 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz2 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz2 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ3
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz3 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz3 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz3 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ4
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz4 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz4 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz4 = TYPE_MTZ_SIMPLE;
+    }
+  }
+}
+/*****************************************************/
+
 ///*****************************************************/
 ////Функція обновлення змінних при зміні кількості елементів розширеної логіки
 ///*****************************************************/
