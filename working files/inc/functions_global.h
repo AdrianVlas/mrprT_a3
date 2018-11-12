@@ -88,6 +88,7 @@ int  corelCTRMTZ_1_SEL_I(void);
 int  corelCTRMTZ_2_SEL_I(void);
 int  corelCTRMTZ_3_SEL_I(void);
 int  corelCTRMTZ_4_SEL_I(void);
+int  normalizAction_mtz(void);
 void calc_symbol_and_put_into_working_ekran(unsigned char*, void*, void*, unsigned int*, unsigned int, unsigned int, unsigned int, unsigned int);
 void calc_int_symbol_and_put_into_working_ekran(unsigned char*, unsigned int*, unsigned int*, unsigned int*, unsigned int);
 unsigned int edit_setpoint(unsigned int,  unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
