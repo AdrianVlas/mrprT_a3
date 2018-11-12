@@ -2,7 +2,7 @@
 
 int ekranListIndex_control_mtz=0;//индекс экранного списка control mtz
 
-int controlaction_mtz(int poz);
+int validAction_mtz(int poz);
 /*****************************************************/
 //Вираховуваня символу і поміщення його в робочий екран
 /*****************************************************/
@@ -1825,26 +1825,40 @@ int corelCTRMTZ_4_SEL_I(void)
   return tmp1^tmp2;
 }
 
-int controlaction_mtz(int poz)
+int validAction_mtz(int poz)
 {
   if(corelCTRMTZ_1_SEL_I()) {//нет кореляции
-     if(poz == INDEX_ML_CTRMTZ_1_VPERED) return 0;//убрать позицию
-     if(poz == INDEX_ML_CTRMTZ_1_NAZAD)  return 0;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_1_VPERED) return -1;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_1_NAZAD)  return -1;//убрать позицию
   }//if
   if(corelCTRMTZ_2_SEL_I()) {//нет кореляции
-     if(poz == INDEX_ML_CTRMTZ_2_VPERED) return 0;//убрать позицию
-     if(poz == INDEX_ML_CTRMTZ_2_NAZAD)  return 0;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_2_VPERED) return -2;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_2_NAZAD)  return -2;//убрать позицию
   }//if
   if(corelCTRMTZ_3_SEL_I()) {//нет кореляции
-     if(poz == INDEX_ML_CTRMTZ_3_VPERED) return 0;//убрать позицию
-     if(poz == INDEX_ML_CTRMTZ_3_NAZAD)  return 0;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_3_VPERED) return -3;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_3_NAZAD)  return -3;//убрать позицию
   }//if
   if(corelCTRMTZ_4_SEL_I()) {//нет кореляции
-     if(poz == INDEX_ML_CTRMTZ_4_VPERED) return 0;//убрать позицию
-     if(poz == INDEX_ML_CTRMTZ_4_NAZAD)  return 0;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_4_VPERED) return -4;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_4_NAZAD)  return -4;//убрать позицию
   }//if
   return 1;
-}
+}//validAction_mtz(int poz)
+
+int normalizAction_mtz()
+{
+//нормализация экранного индекса
+    if(validAction_mtz(current_ekran.index_position)==-1) 
+                       current_ekran.index_position = INDEX_ML_CTRMTZ_1_SEL_I;
+    if(validAction_mtz(current_ekran.index_position)==-2) 
+                       current_ekran.index_position = INDEX_ML_CTRMTZ_2_SEL_I;
+    if(validAction_mtz(current_ekran.index_position)==-3) 
+                       current_ekran.index_position = INDEX_ML_CTRMTZ_3_SEL_I;
+    if(validAction_mtz(current_ekran.index_position)==-4) 
+                       current_ekran.index_position = INDEX_ML_CTRMTZ_4_SEL_I;
+    return findEkranListIndex_control_mtz(current_ekran.index_position);//найти экранный индeкс
+}//normalizAction_mtz()
 
 int findMenuListIndex_control_mtz(int ekranListIndex)
 {
@@ -1853,7 +1867,7 @@ int findMenuListIndex_control_mtz(int ekranListIndex)
   if(ekranListIndex<0) return -1;
   for(int i=0; i< MAX_ROW_FOR_CONTROL_MTZ; i++)
   {
-    if(controlaction_mtz(i)) index++;
+    if(validAction_mtz(i)>0) index++;
     if(index==ekranListIndex) return i;
   }//for
   return -1;//не найдено
@@ -1877,7 +1891,7 @@ int findEkranListSize_control_mtz(void)
   int size = 0;
   for(int i=0; i< MAX_ROW_FOR_CONTROL_MTZ; i++)
   {
-    if(controlaction_mtz(i)) size++;
+    if(validAction_mtz(i)>0) size++;
   }//for
   return size;
 }

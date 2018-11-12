@@ -11,9 +11,9 @@
 #define EKRAN_TIMEOUT_TZNP_GROUP4    (EKRAN_TIMEOUT_TZNP_GROUP3  + 1)
 #define EKRAN_CONTROL_TZNP           (EKRAN_CONTROL_P_3U0 + 1)
 
-#define MAX_ROW_FOR_SETPOINT_TZNP        15
-#define MAX_ROW_FOR_TIMEOUT_TZNP         6
-#define MAX_ROW_FOR_CONTROL_TZNP         9
+#define MAX_ROW_FOR_SETPOINT_TZNP        20
+#define MAX_ROW_FOR_TIMEOUT_TZNP         8
+#define MAX_ROW_FOR_CONTROL_TZNP         12
 
 #define INDEX_ML_STPTZNP1_3I0_VPERED     0
 #define INDEX_ML_STPTZNP1_3U0_VPERED     1
@@ -30,6 +30,11 @@
 #define INDEX_ML_STPTZNP3_3I0_NAZAD      12
 #define INDEX_ML_STPTZNP3_3U0_NAZAD      13
 #define INDEX_ML_STPTZNP3_ANGLE          14
+#define INDEX_ML_STPTZNP4_3I0_VPERED     15
+#define INDEX_ML_STPTZNP4_3U0_VPERED     16
+#define INDEX_ML_STPTZNP4_3I0_NAZAD      17
+#define INDEX_ML_STPTZNP4_3U0_NAZAD      18
+#define INDEX_ML_STPTZNP4_ANGLE          19
 
 #define INDEX_ML_TMOTZNP1_VPERED         0
 #define INDEX_ML_TMOTZNP1_NAZAD          1
@@ -37,6 +42,8 @@
 #define INDEX_ML_TMOTZNP2_NAZAD          3
 #define INDEX_ML_TMOTZNP3_VPERED         4
 #define INDEX_ML_TMOTZNP3_NAZAD          5
+#define INDEX_ML_TMOTZNP4_VPERED         6
+#define INDEX_ML_TMOTZNP4_NAZAD          7
 
 #define COL_SETPOINT_TZNP1_3I0_VPERED_BEGIN     3
 #define COL_SETPOINT_TZNP1_3I0_VPERED_COMMA     6
@@ -95,6 +102,25 @@
 #define COL_SETPOINT_TZNP3_ANGLE_BEGIN         6
 #define COL_SETPOINT_TZNP3_ANGLE_END           7
 
+#define COL_SETPOINT_TZNP4_3I0_VPERED_BEGIN     3
+#define COL_SETPOINT_TZNP4_3I0_VPERED_COMMA     6
+#define COL_SETPOINT_TZNP4_3I0_VPERED_END       8
+
+#define COL_SETPOINT_TZNP4_3U0_VPERED_BEGIN     3
+#define COL_SETPOINT_TZNP4_3U0_VPERED_COMMA     6
+#define COL_SETPOINT_TZNP4_3U0_VPERED_END       8
+
+#define COL_SETPOINT_TZNP4_3I0_NAZAD_BEGIN     3
+#define COL_SETPOINT_TZNP4_3I0_NAZAD_COMMA     6
+#define COL_SETPOINT_TZNP4_3I0_NAZAD_END       8
+
+#define COL_SETPOINT_TZNP4_3U0_NAZAD_BEGIN     3
+#define COL_SETPOINT_TZNP4_3U0_NAZAD_COMMA     6
+#define COL_SETPOINT_TZNP4_3U0_NAZAD_END       8
+
+#define COL_SETPOINT_TZNP4_ANGLE_BEGIN         6
+#define COL_SETPOINT_TZNP4_ANGLE_END           7
+
 #define COL_TMO_TZNP1_VPERED_BEGIN              4
 #define COL_TMO_TZNP1_VPERED_COMMA              6
 #define COL_TMO_TZNP1_VPERED_END                8
@@ -118,6 +144,14 @@
 #define COL_TMO_TZNP3_NAZAD_BEGIN               4
 #define COL_TMO_TZNP3_NAZAD_COMMA               6
 #define COL_TMO_TZNP3_NAZAD_END                 8
+
+#define COL_TMO_TZNP4_VPERED_BEGIN              4
+#define COL_TMO_TZNP4_VPERED_COMMA              6
+#define COL_TMO_TZNP4_VPERED_END                8
+
+#define COL_TMO_TZNP4_NAZAD_BEGIN               4
+#define COL_TMO_TZNP4_NAZAD_COMMA               6
+#define COL_TMO_TZNP4_NAZAD_END                 8
 
 #define INDEX_ML_CTR_TZNP1                      0          
 #define CTR_TZNP1                               (1 << INDEX_ML_CTR_TZNP1)   
