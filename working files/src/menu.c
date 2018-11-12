@@ -690,7 +690,7 @@ void main_manu_function(void)
                 //Переходимо на меню ТЗНП
                 else if(current_ekran.index_position == INDEX_ML1_TZNP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_TZNP;
                 //Переходимо на меню УРОВ
-                else if(current_ekran.index_position == INDEX_ML1_UROV) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UROV1;
+                else if(current_ekran.index_position == INDEX_ML1_UROV) current_ekran.current_level = EKRAN_CHOOSE_LIST_PRVV;
                 //Переходимо на меню ЗОП(КОФ)
                 else if(current_ekran.index_position == INDEX_ML1_ZOP) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_ZOP;
                 //Переходимо на меню Umin
@@ -1457,6 +1457,7 @@ void main_manu_function(void)
     case EKRAN_LIST_D_NOT:
     case EKRAN_LIST_TF_FOR_RANGUVANNJA:
     case EKRAN_LIST_BUTTONS_FOR_RANGUVANNJA:
+    case EKRAN_CHOOSE_LIST_PRVV:
     case EKRAN_INFO:
     case EKRAN_DATE_TIME_PZ:
     case EKRAN_POINT_TIME_SETTINGS:
@@ -1936,6 +1937,14 @@ void main_manu_function(void)
             
               //Формуємо екран заголовків функціональних кнопок для ранжування
               make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_DB);
+            }
+            else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
+            {
+              if(current_ekran.index_position >= NUMBER_PRVV) current_ekran.index_position = 0;
+              position_in_current_level_menu[EKRAN_CHOOSE_LIST_PRVV] = current_ekran.index_position;
+            
+              //Формуємо екран заголовків ПРВВ
+              make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
             }
             else if (current_ekran.current_level == EKRAN_INFO)
             {
@@ -2421,7 +2430,7 @@ void main_manu_function(void)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення обраної групи уставок для УРОВ
-                  current_ekran.current_level = (EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UROV1 + (current_ekran.current_level - EKRAN_CHOOSE_SETTINGS_UROV1)) + (current_ekran.index_position - INDEX_ML_GROUP1);
+                  current_ekran.current_level = (EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UROV1 + NUMBER_GROUP_USTAVOK*(current_ekran.current_level - EKRAN_CHOOSE_SETTINGS_UROV1)) + (current_ekran.index_position - INDEX_ML_GROUP1);
                 }
                 else if (current_ekran.index_position == INDEX_ML_CONTROL_WITH_GROUPS)
                 {
@@ -3204,6 +3213,15 @@ void main_manu_function(void)
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
               }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
+              {
+                //Запам'ятовуємо поперердній екран
+                //Переходимо на меню відображення списку ПРВВ
+                current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UROV1 + current_ekran.index_position;
+
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+              }
               else if (current_ekran.current_level == EKRAN_INFO)
               {
                 //Натисну кнопка Enter у вікні інформації по версії прошивки і карти пам'яті
@@ -3904,6 +3922,14 @@ void main_manu_function(void)
                 //Формуємо екран заголовків функціональних кнопок для ранжування
                 make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_DB);
               }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
+              {
+                if(--current_ekran.index_position < 0) current_ekran.index_position = NUMBER_PRVV - 1;
+                position_in_current_level_menu[EKRAN_CHOOSE_LIST_PRVV] = current_ekran.index_position;
+            
+                //Формуємо екран заголовків ПРВВ
+                make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
+              }
               else if(current_ekran.current_level == EKRAN_INFO)
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_INFO - 1;
@@ -4559,6 +4585,14 @@ void main_manu_function(void)
                 position_in_current_level_menu[EKRAN_LIST_BUTTONS_FOR_RANGUVANNJA] = current_ekran.index_position;
                 //Формуємо екран заголовків функціональних кнопок для ранжування
                 make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_DB);
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
+              {
+                if(++current_ekran.index_position >= NUMBER_PRVV) current_ekran.index_position = 0;
+                position_in_current_level_menu[EKRAN_CHOOSE_LIST_PRVV] = current_ekran.index_position;
+            
+                //Формуємо екран заголовків ПРВВ
+                make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
               }
               else if(current_ekran.current_level == EKRAN_INFO)
               {

@@ -114,7 +114,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
   if ((new_configuration & (1<<UROV_BIT_CONFIGURATION)) == 0)
   {
     if(
-       (current_ekran.current_level == EKRAN_CHOOSE_LIST_UROV)
+       (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
        || 
        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UROV1)
        || 

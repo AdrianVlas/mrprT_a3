@@ -549,7 +549,7 @@ typedef enum _index_I_U
   _NUMBER_FOR_I_U
 } __index_I_U;
 
-typedef enum _id_input_output
+typedef enum _id_list
 {
   ID_INPUT = 0,
   ID_OUTPUT,
@@ -561,8 +561,10 @@ typedef enum _id_input_output
   ID_OR,
   ID_XOR,
   ID_NOT,
-  ID_TF
-  
-} __id_input_output;
+  ID_TF,
+  ID_PRVV,
+    
+  MAX_NUMBER_IN_ID_LIST
+} __id_list;
 
 #endif

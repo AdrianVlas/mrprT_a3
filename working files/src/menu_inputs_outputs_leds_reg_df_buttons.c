@@ -19,25 +19,25 @@
 -------------------------------------------------------
 */
 /*****************************************************/
-void make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(__id_input_output type_of_window)
+void make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(__id_list type_of_window)
 {
-  const unsigned char information[MAX_NAMBER_LANGUAGE][11][MAX_COL_LCD] = 
+  const unsigned char information[MAX_NAMBER_LANGUAGE][MAX_NUMBER_IN_ID_LIST][MAX_COL_LCD] = 
   {
-    {" Двх.           ", " Двых.          ", " Св             ", " О-функция      ", " F              ", " О-триггер      ", " О-И            ", " О-ИЛИ          ", " О-Искл.ИЛИ     ", " О-НЕ           ", " Пер.ф.         "},
-    {" Двх.           ", " Двих.          ", " Св             ", " В-функція      ", " F              ", " В-триґер       ", " В-І            ", " В-АБО          ", " В-Викл.АБО     ", " В-НЕ           ", " Пер.ф.         "},
-    {" DI.            ", " DO.            ", " LED            ", " UD Function    ", " F              ", " UD Flip-Flop   ", " UD AND         ", " UD OR          ", " UD XOR         ", " UD NOT         ", " Tr.F.          "},
-    {" Двх.           ", " Двых.          ", " Св             ", " О-функция      ", " F              ", " О-триггер      ", " О-И            ", " О-ИЛИ          ", " О-Искл.ИЛИ     ", " О-НЕ           ", " Пер.ф.         "}
+    {" Двх.           ", " Двых.          ", " Св             ", " О-функция      ", " F              ", " О-триггер      ", " О-И            ", " О-ИЛИ          ", " О-Искл.ИЛИ     ", " О-НЕ           ", " Пер.ф.         ", " УРОВ           "},
+    {" Двх.           ", " Двих.          ", " Св             ", " В-функція      ", " F              ", " В-триґер       ", " В-І            ", " В-АБО          ", " В-Викл.АБО     ", " В-НЕ           ", " Пер.ф.         ", " ПРВВ           "},
+    {" DI.            ", " DO.            ", " LED            ", " UD Function    ", " F              ", " UD Flip-Flop   ", " UD AND         ", " UD OR          ", " UD XOR         ", " UD NOT         ", " Tr.F.          ", " CBFP           "},
+    {" Двх.           ", " Двых.          ", " Св             ", " О-функция      ", " F              ", " О-триггер      ", " О-И            ", " О-ИЛИ          ", " О-Искл.ИЛИ     ", " О-НЕ           ", " Пер.ф.         ", " УРОВ           "}
   };
 
-  const unsigned int first_index_number[MAX_NAMBER_LANGUAGE][11] = 
+  const unsigned int first_index_number[MAX_NAMBER_LANGUAGE][MAX_NUMBER_IN_ID_LIST] = 
   {
-    {5, 6, 3, 10, 2, 10, 4, 6, 11, 5, 7},
-    {5, 6, 3, 10, 2,  9, 4, 6, 11, 5, 7},
-    {4, 4, 4, 12, 2, 13, 7, 6,  7, 6, 6},
-    {5, 6, 3, 10, 2, 10, 4, 6, 11, 5, 7}
+    {5, 6, 3, 10, 2, 10, 4, 6, 11, 5, 7, 5},
+    {5, 6, 3, 10, 2,  9, 4, 6, 11, 5, 7, 5},
+    {4, 4, 4, 12, 2, 13, 7, 6,  7, 6, 6, 5},
+    {5, 6, 3, 10, 2, 10, 4, 6, 11, 5, 7, 5}
   };
   
-  const unsigned int max_row[11] =
+  const unsigned int max_row[MAX_NUMBER_IN_ID_LIST] =
   {
     MAX_ROW_LIST_INPUTS_FOR_RANGUVANNJA,
     MAX_ROW_LIST_OUTPUTS_FOR_RANGUVANNJA,
@@ -49,7 +49,8 @@ void make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(__id_inp
     MAX_ROW_FOR_LIST_D_OR,
     MAX_ROW_FOR_LIST_D_XOR,
     MAX_ROW_FOR_LIST_D_NOT,
-    MAX_ROW_FOR_LIST_TF
+    MAX_ROW_FOR_LIST_TF,
+    NUMBER_PRVV
   };
   int index_language = index_language_in_array(current_settings.language);
   unsigned int first_index_number_1 = first_index_number[index_language][type_of_window];
