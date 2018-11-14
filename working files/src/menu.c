@@ -1,5 +1,7 @@
 #include "header.h"
 extern int ekranListIndex_control_mtz;//индекс экранного списка control mtz
+extern int ekranListIndex_control_urov1;//индекс экранного списка control urov1
+extern int ekranListIndex_control_urov2;//индекс экранного списка control urov2
 /*****************************************************/
 //Функція меню з якої здійснюються всі інші операції
 /*****************************************************/
@@ -5161,7 +5163,7 @@ void main_manu_function(void)
             }
             else if(current_ekran.current_level == EKRAN_CONTROL_MTZ)
             {
-              ekranListIndex_control_mtz = normalizAction_mtz();//нормализация экранного индекса
+              ekranListIndex_control_mtz = normalizEkranIndex_control_mtz();//нормализация экранного индекса
               if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_MTZ) current_ekran.index_position = 0;
               position_in_current_level_menu[EKRAN_CONTROL_MTZ] = current_ekran.index_position;
 
@@ -5274,74 +5276,15 @@ void main_manu_function(void)
                     (current_ekran.current_level == EKRAN_CONTROL_UROV2)
                    )   
             {
-              if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_UROV) current_ekran.index_position = 0;
-              while(
-                    (
-                     (
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                    )  
-                    ||
-                    (
-                     (
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
-                    )  
-                    ||
-                    (
-                     (
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
-                    )
-                    ||
-                    (
-                     (
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                    )  
-                    ||
-                    (
-                     (
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) ||
-                      (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0)
-                    )  
-                    ||
-                    (
-                     (
-                      (current_ekran.index_position >= INDEX_ML_CTRUROV_STARTED_FROM_UP1) &&
-                      (current_ekran.index_position <= INDEX_ML_CTRUROV_STARTED_FROM_UP1 + NUMBER_UP - 1)
-                     )   
-                     &&
-                     ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
-                    )
-                   )
-              {
-                current_ekran.index_position++;
-                if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_UROV) current_ekran.index_position = 0;
-              }
 
+              if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_UROV) current_ekran.index_position = 0;
               position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
               uint32_t prvv;
               if (current_ekran.current_level == EKRAN_CONTROL_UROV1) prvv = 0;
               else prvv = 1;
+              if(prvv) ekranListIndex_control_urov2 = normalizEkranIndex_control_urov();//нормализация экранного индекса
+              else     ekranListIndex_control_urov1 = normalizEkranIndex_control_urov();//нормализация экранного индекса
               //Формуємо екран управлінської інформації для УРОВ
               make_ekran_control_urov(prvv);
             }
@@ -11086,7 +11029,7 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_CONTROL_MTZ)
               {
-                  ekranListIndex_control_mtz = normalizAction_mtz();//нормализация экранного индекса
+                  ekranListIndex_control_mtz = normalizEkranIndex_control_mtz();//нормализация экранного индекса
                   ekranListIndex_control_mtz--;//индекс экранного списка control mtz
                   if(ekranListIndex_control_mtz<0) ekranListIndex_control_mtz = findEkranListSize_control_mtz() - 1;
                   //Формуємо екран управлінської інформації для МТЗ
@@ -11453,79 +11396,22 @@ void main_manu_function(void)
                       (current_ekran.current_level == EKRAN_CONTROL_UROV2)
                      )   
               {
-                current_ekran.index_position--;
-                
-                if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_UROV - 1;
-                while(
-                      (
-                       (  
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
-                      )
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position >= INDEX_ML_CTRUROV_STARTED_FROM_UP1) &&
-                        (current_ekran.index_position <= INDEX_ML_CTRUROV_STARTED_FROM_UP1 + NUMBER_UP - 1)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
-                      )
-                    )
-                {
-                  current_ekran.index_position--;
-                  if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_UROV - 1;
-                }
-
-                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
-
                 uint32_t prvv;
                 if (current_ekran.current_level == EKRAN_CONTROL_UROV1) prvv = 0;
                 else prvv = 1;
-                  
+                if(prvv) {
+                  ekranListIndex_control_urov2 = normalizEkranIndex_control_urov();//нормализация экранного индекса
+                  ekranListIndex_control_urov2--;//индекс экранного списка control urov
+                  if(ekranListIndex_control_urov2<0) ekranListIndex_control_urov2 = findEkranListSize_control_urov() - 1;
+                }//if  
+                else {
+                  ekranListIndex_control_urov1 = normalizEkranIndex_control_urov();//нормализация экранного индекса
+                  ekranListIndex_control_urov1--;//индекс экранного списка control urov
+                  if(ekranListIndex_control_urov1<0) ekranListIndex_control_urov1 = findEkranListSize_control_urov() - 1;
+                }//if  
                 //Формуємо екран управлінської інформації для УРОВ
                 make_ekran_control_urov(prvv);
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
               }
               else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZOP_GROUP1) &&
@@ -12414,7 +12300,7 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_CONTROL_MTZ)
               {
-                  ekranListIndex_control_mtz = normalizAction_mtz();//нормализация экранного индекса
+                  ekranListIndex_control_mtz = normalizEkranIndex_control_mtz();//нормализация экранного индекса
                   ekranListIndex_control_mtz++;//индекс экранного списка control mtz
                   if(findMenuListIndex_control_mtz(ekranListIndex_control_mtz) <0) ekranListIndex_control_mtz = 0;//индекс экранного списка
                   //Формуємо екран управлінської інформації для МТЗ
@@ -12779,79 +12665,23 @@ void main_manu_function(void)
                       (current_ekran.current_level == EKRAN_CONTROL_UROV2)
                      )   
               {
-                current_ekran.index_position++;
-                
-                if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_UROV) current_ekran.index_position = 0;
-                while(
-                      (
-                       (  
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<MTZ_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP2) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
-                      )
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMIN_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) ||
-                        (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UMAX_BIT_CONFIGURATION)) == 0)
-                      )  
-                      ||
-                      (
-                       (
-                        (current_ekran.index_position >= INDEX_ML_CTRUROV_STARTED_FROM_UP1) &&
-                        (current_ekran.index_position <= INDEX_ML_CTRUROV_STARTED_FROM_UP1 + NUMBER_UP - 1)
-                       )   
-                       &&
-                       ((current_settings.configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
-                      )
-                     )
-                {
-                  current_ekran.index_position++;
-                  if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_UROV) current_ekran.index_position = 0;
-                }
-
-                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
-
                 uint32_t prvv;
                 if (current_ekran.current_level == EKRAN_CONTROL_UROV1) prvv = 0;
                 else prvv = 1;
-                  
+                if(prvv) {
+                  ekranListIndex_control_urov2 = normalizEkranIndex_control_urov();//нормализация экранного индекса
+                  ekranListIndex_control_urov2++;//индекс экранного списка control 
+                  if(findMenuListIndex_control_urov(ekranListIndex_control_urov2) <0) ekranListIndex_control_urov2 = 0;//индекс экранного списка
+                }//if
+                else {
+                  ekranListIndex_control_urov1 = normalizEkranIndex_control_urov();//нормализация экранного индекса
+                  ekranListIndex_control_urov1++;//индекс экранного списка control 
+                  if(findMenuListIndex_control_urov(ekranListIndex_control_urov1) <0) ekranListIndex_control_urov1 = 0;//индекс экранного списка
+                }//if
+
                 //Формуємо екран управлінської інформації для УРОВ
                 make_ekran_control_urov(prvv);
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
               }
               else if(
                       (current_ekran.current_level >= EKRAN_SETPOINT_ZOP_GROUP1) &&
@@ -14487,6 +14317,7 @@ void main_manu_function(void)
           
                 //Виділяємо, який біт треба міняти
                 if (current_ekran.index_position == INDEX_ML_CTRUROV_STATE) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_SEL_I) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_SEL_I);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1);
@@ -14504,6 +14335,10 @@ void main_manu_function(void)
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP1    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP2    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP2);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TP     ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TP);
                 else
                 {
                   for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)
@@ -16135,6 +15970,7 @@ void main_manu_function(void)
           
                 //Виділяємо, який біт треба міняти
                 if (current_ekran.index_position == INDEX_ML_CTRUROV_STATE) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_SEL_I) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_SEL_I);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_OZT2   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_MTZ1   ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1);
@@ -16152,6 +15988,10 @@ void main_manu_function(void)
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMIN2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX1  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1);
                 else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_UMAX2  ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP1    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP1);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP2    ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP2);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN);
+                else if (current_ekran.index_position == INDEX_ML_CTRUROV_STARTED_FROM_TP     ) maska = MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TP);
                 else
                 {
                   for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)
