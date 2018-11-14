@@ -1341,7 +1341,7 @@ void min_settings(__SETTINGS *target_label)
 
   target_label->configuration = 0;
   
-  for (size_t i = 0; i < NUMBER_UP; i++) target_label->ctrl_UP_input[i] = UP_CTRL_Ia_Ib_Ic;
+  for (size_t i = 0; i < NUMBER_UP; i++) target_label->ctrl_UP_input[i] = _UP_CTRL_MIN;
 
   target_label->control_ozt = 0;
   target_label->control_mtz = 0;
@@ -1351,6 +1351,9 @@ void min_settings(__SETTINGS *target_label)
   target_label->control_zop = 0;
   target_label->control_Umin = 0;
   target_label->control_Umax = 0;
+  target_label->control_kz_zv = 0;
+  target_label->control_GP = 0;
+  target_label->control_TP = 0;
   target_label->control_UP = 0;
   
   target_label->grupa_ustavok = SETPOINT_GRUPA_USTAVOK_MIN;
@@ -1364,13 +1367,15 @@ void min_settings(__SETTINGS *target_label)
   
   for (unsigned int i = 0; i < NUMBER_GROUP_USTAVOK; i++)
   {
-    target_label->pickup_ozt_delta_Id[i] = PICKUP_OZT_DELTA_Id_MIN;
-    target_label->pickup_ozt_k[i] = PICKUP_OZT_K_MIN;
+    target_label->pickup_ozt_BB[i] = PICKUP_OZT_BB_MIN;
+    target_label->pickup_ozt_BH[i] = PICKUP_OZT_BH_MIN;
     target_label->pickup_ozt_Id0[i] = PICKUP_OZT_Id0_MIN;
-    target_label->pickup_ozt_Ig0[i] = PICKUP_OZT_Ig0_MIN;
+    target_label->pickup_ozt_delta_Id[i] = PICKUP_OZT_DELTA_Id_MIN;
     target_label->pickup_ozt_Kg1[i] = PICKUP_OZT_Kg1_MIN;
-    target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_Kg2[i] = PICKUP_OZT_Kg2_MIN;
+    target_label->pickup_ozt_k[i] = PICKUP_OZT_K_MIN;
+    target_label->pickup_ozt_Ig0[i] = PICKUP_OZT_Ig0_MIN;
+    target_label->pickup_ozt_Ig_obm[i] = PICKUP_OZT_Ig_OBM_MIN;
     target_label->pickup_ozt_K_aI[i] = PICKUP_OZT_K_AI_MIN;
     target_label->pickup_ozt_K_2I[i] = PICKUP_OZT_K_2I_MIN;
     target_label->pickup_ozt_K_5I[i] = PICKUP_OZT_K_5I_MIN;
@@ -1378,6 +1383,7 @@ void min_settings(__SETTINGS *target_label)
 
     target_label->timeout_ozt1[i] = TIMEOUT_OZT1_MIN; 
     target_label->timeout_ozt2[i] = TIMEOUT_OZT2_MIN; 
+    target_label->timeout_ozt2_a_blk[i] = TIMEOUT_OZT2_A_BLK_MIN; 
     
     unsigned int angle;
     float angle_f;
@@ -1516,8 +1522,10 @@ void min_settings(__SETTINGS *target_label)
       target_label->timeout_urov_2[j][i] = TIMEOUT_UROV2_MIN;
     }
 
-    target_label->setpoint_zop[i] = SETPOINT_ZOP_MIN;
-    target_label->timeout_zop[i] = TIMEOUT_ZOP_MIN; 
+    target_label->setpoint_zop1[i] = SETPOINT_ZOP1_MIN;
+    target_label->setpoint_zop2[i] = SETPOINT_ZOP2_MIN;
+    target_label->timeout_zop1[i] = TIMEOUT_ZOP1_MIN; 
+    target_label->timeout_zop2[i] = TIMEOUT_ZOP2_MIN; 
 
     target_label->setpoint_Umin1[i] = SETPOINT_UMIN1_MIN;
     target_label->setpoint_Umin1_Iblk[i] = SETPOINT_UMIN1_IBLK_MIN;
@@ -1531,6 +1539,19 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_kp_Umax[i] = SETPOINT_KP_UMAX_DEFAULT;
     target_label->timeout_Umax1[i] = TIMEOUT_UMAX1_MIN;
     target_label->timeout_Umax2[i] = TIMEOUT_UMAX2_MIN;
+
+    target_label->pickup_kz_zv[i] = SETPOINT_KZ_ZV_MIN;
+    angle = SETPOINT_KZ_ZV_ANGLE_MIN;
+    angle_f = (float)angle;
+    target_label->pickup_kz_zv_angle[i] = angle;
+    target_label->pickup_kz_zv_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->pickup_kz_zv_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
+
+    target_label->timeout_GP1[i] = TIMEOUT_GP1_MIN;
+    target_label->timeout_GP2[i] = TIMEOUT_GP2_MIN;
+    target_label->timeout_GP_RPN[i] = TIMEOUT_GP_RPN_MIN;
+
+    target_label->timeout_TP[i] = TIMEOUT_TP_MIN;
     
     for (size_t j = 0; j < NUMBER_UP; j++ )
     {
@@ -1556,9 +1577,10 @@ void min_settings(__SETTINGS *target_label)
   
   target_label->timeout_idle_new_settings = TIMEOUT_NEW_SETTINGS_MIN;
   
-  target_label->TCurrent = KOEF_TT_MIN;
+  target_label->TCurrent_HV = KOEF_TT_HV_MIN;
+  target_label->TCurrent_LV = KOEF_TT_LV_MIN;
   target_label->TVoltage = KOEF_TN_MIN;
-  target_label->control_transformator = CTR_TRANSFORMATOR_PHASE_LINE;
+  target_label->control_transformator = MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE);
 
   for(unsigned int i=0; i< ((M_ADDRESS_LAST_USER_REGISTER_DATA - M_ADDRESS_FIRST_USER_REGISTER_DATA) + 1); i++) target_label->user_register[i] = 0;
 

@@ -10,6 +10,31 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
   /************************/
   //Спершу перевіряємо чи не знаходимося зараз ми у такому вікні, яке забороняє змінювати текучу конфігурацію
   /************************/
+  //Перевірка ОЗТ
+  if ((new_configuration & ( 1<< OZT_BIT_CONFIGURATION )) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_OZT)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_OZT) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_OZT) 
+       )  
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_OZT_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_OZT_GROUP4)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_OZT_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_OZT_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_OZT)
+      )
+      error_window |= (1 << OZT_BIT_CONFIGURATION );
+  }
   //Перевірка МТЗ
   if ((new_configuration & ( 1<< MTZ_BIT_CONFIGURATION )) == 0)
   {
@@ -34,6 +59,31 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        (current_ekran.current_level == EKRAN_CONTROL_MTZ)
       )
       error_window |= (1 << MTZ_BIT_CONFIGURATION );
+  }
+  //Перевірка 3U0
+  if ((new_configuration & ( 1<< P_3U0_BIT_CONFIGURATION )) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_P_3U0)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_P_3U0) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_P_3U0) 
+       )  
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_P_3U0_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_P_3U0_GROUP4)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_P_3U0_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_P_3U0_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_P_3U0)
+      )
+      error_window |= (1 << P_3U0_BIT_CONFIGURATION );
   }
   //Перевірка ТЗНП
   if ((new_configuration & (1<<TZNP_BIT_CONFIGURATION)) == 0)
@@ -64,7 +114,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
   if ((new_configuration & (1<<UROV_BIT_CONFIGURATION)) == 0)
   {
     if(
-       (current_ekran.current_level == EKRAN_CHOOSE_LIST_UROV)
+       (current_ekran.current_level == EKRAN_CHOOSE_LIST_PRVV)
        || 
        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_UROV1)
        || 
@@ -181,6 +231,46 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       )
       error_window |= (1 << UMAX_BIT_CONFIGURATION );
   }
+  //Перевірка КЗ З/В
+  if ((new_configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV) 
+       )  
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_SETPOINT_KZ_ZV_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_SETPOINT_KZ_ZV_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_KZ_ZV        )
+      )
+      error_window |= (1 << KZ_ZV_BIT_CONFIGURATION );
+  }
+  //Перевірка ГЗ
+  if ((new_configuration & (1<<GP_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP)
+       || 
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_GP) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_GP) 
+       )  
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_GP_GROUP4)
+       )
+       ||  
+       (current_ekran.current_level == EKRAN_CONTROL_GP        )
+      )
+      error_window |= (1 << GP_BIT_CONFIGURATION );
+  }
   //Перевірка Універсальний Пристрій
   if ((new_configuration & (1<<UP_BIT_CONFIGURATION)) == 0)
   {
@@ -230,12 +320,15 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       //Виводим ступені ОЗТ
       target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
    
-//      //Виводим ступені ОЗТ з УРОВ
-//      target_label->control_urov &= (unsigned int)(~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
-//                                                    )
-//                                                  );
+      //Виводим ступені ОЗТ з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++)
+      {
+        target_label->control_urov[j] &= (unsigned int)(~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
+                                                         )
+                                                       );
+      }
       
       //Формуємо маски функцій ОЗТ
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -463,16 +556,16 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<P_3U0_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ступені 3U0
-//      target_label->control_P_3U0 &= (unsigned int)(~());
+      target_label->control_P_3U0 &= (unsigned int)(~(CTR_P_3U0_STATE));
    
-//      //Виводим ступені МТЗ з УРОВ
-//      target_label->control_urov &= (unsigned int)(~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3) | 
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)
-//                                                    )
-//                                                  );
+      //Виводим ступені 3U0 з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++)
+      {
+        target_label->control_urov[j] &= (unsigned int)(~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)
+                                                         )
+                                                       );
+      }
       
       //Формуємо маски функцій 3U0
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -824,10 +917,18 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     if ((target_label->configuration & (1<<ZOP_BIT_CONFIGURATION)) == 0)
     {
       //Виводим ЗОП(КОФ)
-      target_label->control_zop &= (unsigned int)(~CTR_ZOP_STATE);
+      target_label->control_zop &= (unsigned int)(~(MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE) | MASKA_FOR_BIT(INDEX_ML_CTRZOP_2_STATE)));
    
       //Виводим захисти ЗОП(КОФ) з УРОВ
-      for (size_t j = 0; j < NUMBER_PRVV; j++) target_label->control_urov[j] &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1));
+      for (size_t j = 0; j < NUMBER_PRVV; j++) 
+      {
+        target_label->control_urov[j] &= (unsigned int)(
+                                                        ~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1) |
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)
+                                                         )
+                                                       );
+      }
 
       //Формуємо маки функцій ЗОП(КОФ)
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -1206,17 +1307,9 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Перевіряємо, чи "Вн./Зовн.П." зараз знято з конфігурації
     if ((target_label->configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) == 0)
     {
-//      //Виводим ступені "Вн./Зовн.П."
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Вн./Зовн.П." з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
-   
+      //Виводим ступені "Вн./Зовн.П."
+      target_label->control_kz_zv &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTR_KZ_ZV_STATE));
+
       //Формуємо маски функцій "Вн./Зовн.П."
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
       for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG_SMALL; i++)
@@ -1338,16 +1431,20 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Перевіряємо, чи "Газовий захист" зараз знято з конфігурації
     if ((target_label->configuration & (1<<GP_BIT_CONFIGURATION)) == 0)
     {
-//      //Виводим ступені "Газовий захист"
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Газовий захист" з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
+      //Виводим ступені "Газовий захист"
+      target_label->control_GP &= (unsigned int)(~MASKA_FOR_BIT(INDEX_ML_CTR_GP_STATE));
+
+      //Виводим ступені "Газовий захист" з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++) 
+      {
+        target_label->control_urov[j] &= (unsigned int)(
+                                                       ~(
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP1   ) |
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP2   ) |
+                                                         MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN)
+                                                        )
+                                                      );
+      }
    
       //Формуємо маски функцій "Газовий захист"
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -2041,28 +2138,32 @@ void def_pickup_timeout_UP(__SETTINGS *current_label, uint32_t _n_UP, uint32_t g
   uint32_t min;
   switch (current_label->ctrl_UP_input[_n_UP])
   {
-  case UP_CTRL_Ia_Ib_Ic:
-  case UP_CTRL_Ia:
-  case UP_CTRL_Ib:
-  case UP_CTRL_Ic:
-  case UP_CTRL_I1:
-  case UP_CTRL_I2:
-  case UP_CTRL_I04:
-  case UP_CTRL_3I0_r:
+  case UP_CTRL_Ia_Ib_Ic_H:
+  case UP_CTRL_Ia_H:
+  case UP_CTRL_Ib_H:
+  case UP_CTRL_Ic_H:
+  case UP_CTRL_I1_H:
+  case UP_CTRL_I2_H:
+  case UP_CTRL_3I0_r_H:
+  case UP_CTRL_Ia_Ib_Ic_L:
+  case UP_CTRL_Ia_L:
+  case UP_CTRL_Ib_L:
+  case UP_CTRL_Ic_L:
+  case UP_CTRL_I1_L:
+  case UP_CTRL_I2_L:
+  case UP_CTRL_3I0_r_L:
     {
       min = SETPOINT_UP_I_MIN;
-      break;
-    }
-  case UP_CTRL_3I0:
-  case UP_CTRL_3I0_others:
-    {
-      min = SETPOINT_UP_3I0_MIN;
       break;
     }
   case UP_CTRL_Ua_Ub_Uc:
   case UP_CTRL_Ua:
   case UP_CTRL_Ub:
   case UP_CTRL_Uc:
+  case UP_CTRL_Uab_Ubc_Uca:
+  case UP_CTRL_Uab:
+  case UP_CTRL_Ubc:
+  case UP_CTRL_Uca:
   case UP_CTRL_U1:
   case UP_CTRL_U2:
   case UP_CTRL_3U0:
@@ -2142,6 +2243,65 @@ void action_after_changing_ctrl_UP(__SETTINGS *current_label, uint32_t value)
     }
     
     current_label->control_UP = value;
+  }
+}
+/*****************************************************/
+
+/*****************************************************
+Функція обновлення змінних при зміні вхідної напруги
+*****************************************************/
+void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_t new_value)
+{
+  unsigned int voltage = new_value & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL);
+  
+  if ((current_label->control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) != voltage)
+  {
+    voltage = (voltage != 0);
+
+    //МСЗ1
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz1 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz1 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz1 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ2
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz2 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz2 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz2 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ3
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz3 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz3 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz3 = TYPE_MTZ_SIMPLE;
+    }
+    //МСЗ4
+    if (
+        (voltage != ((current_label->control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1)) &&
+        (
+         (current_label->type_mtz4 == TYPE_MTZ_DIRECTIONAL) ||
+         (current_label->type_mtz4 == TYPE_MTZ_VOLTAGE)
+        )   
+       )   
+    {
+      current_label->type_mtz4 = TYPE_MTZ_SIMPLE;
+    }
   }
 }
 /*****************************************************/

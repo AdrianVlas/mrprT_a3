@@ -82,14 +82,20 @@ void make_ekran_setpoint_UP(unsigned int group)
       {
         switch (in_canal)
         {
-        case UP_CTRL_Ia_Ib_Ic:
-        case UP_CTRL_Ia:
-        case UP_CTRL_Ib:
-        case UP_CTRL_Ic:
-        case UP_CTRL_I1:
-        case UP_CTRL_I2:
-        case UP_CTRL_I04:
-        case UP_CTRL_3I0_r:
+        case UP_CTRL_Ia_Ib_Ic_H:
+        case UP_CTRL_Ia_H:
+        case UP_CTRL_Ib_H:
+        case UP_CTRL_Ic_H:
+        case UP_CTRL_I1_H:
+        case UP_CTRL_I2_H:
+        case UP_CTRL_3I0_r_H:
+        case UP_CTRL_Ia_Ib_Ic_L:
+        case UP_CTRL_Ia_L:
+        case UP_CTRL_Ib_L:
+        case UP_CTRL_Ic_L:
+        case UP_CTRL_I1_L:
+        case UP_CTRL_I2_L:
+        case UP_CTRL_3I0_r_L:
           {
             vd[i].begin = COL_SETPOINT_UP_I_BEGIN;
             vd[i].comma = COL_SETPOINT_UP_I_COMMA;
@@ -102,24 +108,14 @@ void make_ekran_setpoint_UP(unsigned int group)
             
             break;
           }
-        case UP_CTRL_3I0:
-        case UP_CTRL_3I0_others:
-          {
-            vd[i].begin = COL_SETPOINT_UP_3I0_BEGIN;
-            vd[i].comma = COL_SETPOINT_UP_3I0_COMMA;
-            vd[i].end = COL_SETPOINT_UP_3I0_END;
-            vd[i].u_begin = COL_SETPOINT_UP_3I0_END + 2;
-            vd[i].u_end = COL_SETPOINT_UP_3I0_END + 2;
-            vd[i].p_unit = &odynyci_vymirjuvannja[index_language][INDEX_A];
-            
-            vaga_arr[i] = 1000;
-            
-            break;
-          }
         case UP_CTRL_Ua_Ub_Uc:
         case UP_CTRL_Ua:
         case UP_CTRL_Ub:
         case UP_CTRL_Uc:
+        case UP_CTRL_Uab_Ubc_Uca:
+        case UP_CTRL_Uab:
+        case UP_CTRL_Ubc:
+        case UP_CTRL_Uca:
         case UP_CTRL_U1:
         case UP_CTRL_U2:
         case UP_CTRL_3U0:
@@ -520,20 +516,28 @@ void make_ekran_control_UP()
   };
   uint8_t information_2[_UP_CTRL_NUMBER][MAX_COL_LCD] = 
   {
-    "    Ia/Ib/Ic    ",
-    "       Ia       ",
-    "       Ib       ",
-    "       Ic       ",
-    "       I1       ",
-    "       I2       ",
-    "      I0.4      ",
-    "      3I0-1     ",
-    "       3I0      ",
-    "      3I0**     ",
-    "                ",
-    "                ",
-    "                ",
-    "                ",
+    "   X:Ia/Ib/Ic   ",
+    "      X:Ia      ",
+    "      X:Ib      ",
+    "      X:Ic      ",
+    "      X:I1      ",
+    "      X:I2      ",
+    "     X:3I0-1    ",
+    "   X:Ia/Ib/Ic   ",
+    "      X:Ia      ",
+    "      X:Ib      ",
+    "      X:Ic      ",
+    "      X:I1      ",
+    "      X:I2      ",
+    "     X:3I0-1    ",
+    "    Ua/Ub/Uc    ",
+    "  Uab/Ubc/Uca   ",
+    "       Ua       ",
+    "      Uab       ",
+    "       Ub       ",
+    "      Ubc       ",
+    "       Uc       ",
+    "      Uca       ",
     "       U1       ",
     "       U2       ",
     "       3U0      ",
@@ -541,16 +545,7 @@ void make_ekran_control_UP()
     "       Q        ",
     "       S        "
   };
-  const uint32_t cursor_x_2[_UP_CTRL_NUMBER] = {3, 6, 6, 6, 6, 6, 5, 5, 6, 5, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6};
-  
-  const uint8_t information_U[4][MAX_COL_LCD] = 
-  {
-    "    Ua/Ub/Uc    ",
-    "       Ua       ",
-    "       Ub       ",
-    "       Uc       "
-  };
-  const uint32_t cursor_x_U[4] = {3, 6, 6, 6};
+  const uint32_t cursor_x_2[_UP_CTRL_NUMBER] = {2, 5, 5, 5, 5, 5, 4, 2, 5, 5, 5, 5, 5, 4, 3, 1, 6, 5, 6, 5, 6, 5, 6, 6, 6, 6, 6, 6};
   
   const uint8_t information_3[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] =
   {
@@ -576,8 +571,16 @@ void make_ekran_control_UP()
         
   int index_language = index_language_in_array(current_settings.language);
 
-//  if (index_language == INDEX_LANGUAGE_EN) information_2[UP_CTRL_3I0_r][9] = 'c';
-//  else information_2[UP_CTRL_3I0_r][9] = 'ð';
+  if (index_language == INDEX_LANGUAGE_EN) 
+  {
+    for (size_t i = UP_CTRL_Ia_Ib_Ic_H; i <= UP_CTRL_3I0_r_H; i++) information_2[i][cursor_x_2[i] + 1] = 'H';
+    for (size_t i = UP_CTRL_Ia_Ib_Ic_L; i <= UP_CTRL_3I0_r_L; i++) information_2[i][cursor_x_2[i] + 1] = 'L';
+  }
+  else 
+  {
+    for (size_t i = UP_CTRL_Ia_Ib_Ic_H; i <= UP_CTRL_3I0_r_H; i++) information_2[i][cursor_x_2[i] + 1] = 'Â';
+    for (size_t i = UP_CTRL_Ia_Ib_Ic_L; i <= UP_CTRL_3I0_r_L; i++) information_2[i][cursor_x_2[i] + 1] = 'Í';
+  }
   
   __SETTINGS *point = (current_ekran.edition == 0) ? &current_settings : &edition_settings;
   
@@ -596,26 +599,8 @@ void make_ekran_control_UP()
     case 28:
       {
         uint32_t index = point->ctrl_UP_input[i / MAX_ROW_FOR_CONTROL_UP];
-        switch (index)
-        {
-        case UP_CTRL_Ua_Ub_Uc:
-        case UP_CTRL_Ua:
-        case UP_CTRL_Ub:
-        case UP_CTRL_Uc:
-          {
-            ctrl_info[i].information = information_U[index - UP_CTRL_Ua_Ub_Uc];
-            ctrl_info[i].cursor_x = cursor_x_U[index - UP_CTRL_Ua_Ub_Uc];
-            
-            break;
-          }
-        default:
-          {
-            ctrl_info[i].information = information_2[index];
-            ctrl_info[i].cursor_x = cursor_x_2[index];
-            
-            break;
-          }
-        }
+        ctrl_info[i].information = information_2[index];
+        ctrl_info[i].cursor_x = cursor_x_2[index];
         break;
       }
     case 1:
@@ -691,8 +676,10 @@ void make_ekran_control_UP()
     uint32_t ctrl_UP_input = point->ctrl_UP_input[current_index / (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)];
     if (
          ((current_index % (_CTR_UP_NEXT_BIT - _CTR_UP_PART_I)) == CTR_UP_OR_AND_BIT) &&
-         (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic) &&
-         (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc)
+         (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_H ) &&
+         (ctrl_UP_input != UP_CTRL_Ia_Ib_Ic_L ) &&
+         (ctrl_UP_input != UP_CTRL_Ua_Ub_Uc   ) &&
+         (ctrl_UP_input != UP_CTRL_Uab_Ubc_Uca)
        )   
     {
       int i = current_index - additional_current;

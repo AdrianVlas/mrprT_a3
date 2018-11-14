@@ -116,20 +116,29 @@ typedef struct
   
   //ОЗТ
   int32_t type_con_ozt;                                         //Група з'єднань (0 - Група 1; 1 - Група 1; 2 - Група 11)
-  uint32_t pickup_ozt_delta_Id[NUMBER_GROUP_USTAVOK];           //Уставка  Дельта Iд.відс.
-  uint32_t pickup_ozt_k[NUMBER_GROUP_USTAVOK];                  //Уставка k коефіцієхнт розподілу для розрахунку струму гальмування)
-  uint32_t pickup_ozt_Id0[NUMBER_GROUP_USTAVOK];                //Уставка Id0 (початкова горизонтальна ділянка)
-  uint32_t pickup_ozt_Ig0[NUMBER_GROUP_USTAVOK];                //Уставка Iг0 (струм початкового гальмування)
-  uint32_t pickup_ozt_Kg1[NUMBER_GROUP_USTAVOK];                //Уставка kг1 (коефіцієнт гальмування ділянки 1)
-  uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування)
-  uint32_t pickup_ozt_Kg2[NUMBER_GROUP_USTAVOK];                //Уставка kг2 (коефіцієнт гальмування ділянки 2)
-  uint32_t pickup_ozt_K_aI[NUMBER_GROUP_USTAVOK];                //Уставка відносної величини для аперіодичної складової (з точністю до дисячних, тобто x1000)
-  uint32_t pickup_ozt_K_2I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для другої гармоніки (з точністю до дисячних, тобто x1000)
-  uint32_t pickup_ozt_K_5I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для п'ятої гармоніки (з точністю до дисячних, тобто x1000)
-  uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ
-  
-  int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня"
-  int32_t timeout_ozt2[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії другого ступеня"
+  /*Диф.струм*/
+  uint32_t pickup_ozt_BB[NUMBER_GROUP_USTAVOK];                 //Вирівнювання В – уставка вирівнювання високої сторони #5.3.3 
+  uint32_t pickup_ozt_BH[NUMBER_GROUP_USTAVOK];                 //Вирівнювання Н – уставка вирівнювання низької сторони  #5.3.3
+  uint32_t pickup_ozt_Id0[NUMBER_GROUP_USTAVOK];                //Уставка Id0 (початкова горизонтальна ділянка)#5.3.29
+  uint32_t pickup_ozt_delta_Id[NUMBER_GROUP_USTAVOK];           //Уставка  Дельта Iд.відс. #5.3.20
+  /*Гальмування*/
+  uint32_t pickup_ozt_Kg1[NUMBER_GROUP_USTAVOK];                //Уставка kг1 (коефіцієнт гальмування ділянки 1) #5.3.31
+  uint32_t pickup_ozt_Kg2[NUMBER_GROUP_USTAVOK];                //Уставка kг2 (коефіцієнт гальмування ділянки 2) #5.3.34
+  uint32_t pickup_ozt_k[NUMBER_GROUP_USTAVOK];                  //Уставка k коефіцієхнт розподілу для розрахунку струму гальмування) #5.3.27
+  uint32_t pickup_ozt_Ig0[NUMBER_GROUP_USTAVOK];                //Уставка Iг0 (струм початкового гальмування) #5.3.32
+  uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування) #5.3.35
+  /*Аперіодична складова*/
+  uint32_t pickup_ozt_K_aI[NUMBER_GROUP_USTAVOK];                //Уставка відносної величини для аперіодичної складової (з точністю до дисячних, тобто x1000) #5.3.13
+  /*Намагнічування*/
+  uint32_t pickup_ozt_K_2I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для другої гармоніки (з точністю до дисячних, тобто x1000) #5.3.17
+  uint32_t pickup_ozt_K_5I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для п'ятої гармоніки (з точністю до дисячних, тобто x1000) #5.3.18
+  /*Коефіцієнт повернення*/
+  uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ #5.3.39
+
+  /*Вимтримки*/
+  int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня" #5.3.36
+  int32_t timeout_ozt2[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії другого ступеня" #5.3.37
+  int32_t timeout_ozt2_a_blk[NUMBER_GROUP_USTAVOK];             //Витримка "Час дії блокування другого ступеня від аперіодичної складової" #5.3.14
 
   uint32_t control_ozt;                                         //Поле для управління ОЗТ
   
@@ -250,8 +259,10 @@ typedef struct
   unsigned int control_urov[NUMBER_PRVV];                       //Поле для управління УРОВ
 
   //ЗОП
-  unsigned int setpoint_zop[NUMBER_GROUP_USTAVOK];          //уставка ЗОП
-  int timeout_zop[NUMBER_GROUP_USTAVOK];                    //Витримка  ЗОП
+  unsigned int setpoint_zop1[NUMBER_GROUP_USTAVOK];         //уставка ЗОП1
+  unsigned int setpoint_zop2[NUMBER_GROUP_USTAVOK];         //уставка ЗОП2
+  int timeout_zop1[NUMBER_GROUP_USTAVOK];                   //Витримка  ЗОП1
+  int timeout_zop2[NUMBER_GROUP_USTAVOK];                   //Витримка  ЗОП2
   unsigned int control_zop;                                 //Поле для управління ЗОП
 
   //Umin
@@ -270,6 +281,23 @@ typedef struct
   int timeout_Umax1[NUMBER_GROUP_USTAVOK];                  //Витримка  Umax1
   int timeout_Umax2[NUMBER_GROUP_USTAVOK];                  //Витримка  Umax2
   unsigned int control_Umax;                                //Поле для управління Umax
+
+  //КЗ З/В
+  unsigned int pickup_kz_zv[NUMBER_GROUP_USTAVOK];           //Уставка КЗ З/В
+  unsigned int pickup_kz_zv_angle[NUMBER_GROUP_USTAVOK];     //Уставка кут КЗ З/В
+           int pickup_kz_zv_angle_cos[NUMBER_GROUP_USTAVOK]; //Уставка косинус кута КЗ З/В
+           int pickup_kz_zv_angle_sin[NUMBER_GROUP_USTAVOK]; //Уставка синус кута КЗ З/В
+  unsigned int control_kz_zv;                                //Поле для управління КЗ З/В
+  
+  //ГЗ
+  int timeout_GP1[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ1
+  int timeout_GP2[NUMBER_GROUP_USTAVOK];                     //Витримка  ГЗ2
+  int timeout_GP_RPN[NUMBER_GROUP_USTAVOK];                  //Витримка  ГЗ-РПН
+  unsigned int control_GP;                                   //Поле для управління ГЗ
+  
+  //ТЗ
+  int timeout_TP[NUMBER_GROUP_USTAVOK];                      //Витримка  ТЗ
+  unsigned int control_TP;                                   //Поле для управління ТЗ
   
   //Універсальний захист
   int32_t setpoint_UP[NUMBER_UP][1][NUMBER_GROUP_USTAVOK];      //Уставка для всіх ступенів
@@ -278,7 +306,8 @@ typedef struct
   uint32_t control_UP;                                          //Поля для управління
   int32_t ctrl_UP_input[NUMBER_UP];                             //Вибір входу Універсального захисту
 
-  unsigned int TCurrent;                //Коефіцієнт трансформації для трансформатора струмів
+  unsigned int TCurrent_HV;             //Коефіцієнт трансформації для трансформатора струмів високої сторони
+  unsigned int TCurrent_LV;             //Коефіцієнт трансформації для трансформатора струмів низької сторони
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
   unsigned int control_transformator;   //налаштування для меню "Трансформатор"
   
@@ -520,7 +549,7 @@ typedef enum _index_I_U
   _NUMBER_FOR_I_U
 } __index_I_U;
 
-typedef enum _id_input_output
+typedef enum _id_list
 {
   ID_INPUT = 0,
   ID_OUTPUT,
@@ -532,8 +561,10 @@ typedef enum _id_input_output
   ID_OR,
   ID_XOR,
   ID_NOT,
-  ID_TF
-  
-} __id_input_output;
+  ID_TF,
+  ID_PRVV,
+    
+  MAX_NUMBER_IN_ID_LIST
+} __id_list;
 
 #endif

@@ -401,12 +401,12 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
 
   case 113:
     (*multer) = 1;
-    (*editValue) = &edition_settings.setpoint_zop[gruppa];
-    if(regUst<SETPOINT_ZOP_MIN || regUst>SETPOINT_ZOP_MAX) diapazon=0;
+    (*editValue) = &edition_settings.setpoint_zop1[gruppa];
+    if(regUst<SETPOINT_ZOP1_MIN || regUst>SETPOINT_ZOP1_MAX) diapazon=0;
     break;
   case 114:
-    (*editValue) = (uint32_t*)&edition_settings.timeout_zop[gruppa];
-    if(regUst<TIMEOUT_ZOP_MIN/10 || regUst>TIMEOUT_ZOP_MAX/10) diapazon=0;
+    (*editValue) = (uint32_t*)&edition_settings.timeout_zop1[gruppa];
+    if(regUst<TIMEOUT_ZOP1_MIN/10 || regUst>TIMEOUT_ZOP1_MAX/10) diapazon=0;
     break;
 
 //  count_bit = 10;
@@ -594,8 +594,8 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
 //  count_bit = 9;
   case 1023:
     (*multer) = 1;
-    (*editValue) = (uint32_t*)&edition_settings.TCurrent;
-    if(regUst<KOEF_TT_MIN || regUst>KOEF_TT_MAX) diapazon=0;
+    (*editValue) = (uint32_t*)&edition_settings.TCurrent_HV;
+    if(regUst<KOEF_TT_HV_MIN || regUst>KOEF_TT_HV_MAX) diapazon=0;
     break;
 //  case 1024:
 //    (*multer) = 1;
@@ -786,33 +786,34 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     if((item%4)==0 || (item%4)==1)
       switch(edition_settings.ctrl_UP_input[item/4])
       {
-      case UP_CTRL_Ia_Ib_Ic:
-      case UP_CTRL_Ia:
-      case UP_CTRL_Ib:
-      case UP_CTRL_Ic:
-      case UP_CTRL_I1:
-      case UP_CTRL_I2:
-      case UP_CTRL_I04:
-      case UP_CTRL_3I0_r:
+      case UP_CTRL_Ia_Ib_Ic_H:
+      case UP_CTRL_Ia_H:
+      case UP_CTRL_Ib_H:
+      case UP_CTRL_Ic_H:
+      case UP_CTRL_I1_H:
+      case UP_CTRL_I2_H:
+      case UP_CTRL_3I0_r_H:
+      case UP_CTRL_Ia_Ib_Ic_L:
+      case UP_CTRL_Ia_L:
+      case UP_CTRL_Ib_L:
+      case UP_CTRL_Ic_L:
+      case UP_CTRL_I1_L:
+      case UP_CTRL_I2_L:
+      case UP_CTRL_3I0_r_L:
         if((item%4)==1)
         {
           if(regUst!=0) diapazon=0;//нет старшего регистра
         }//if
         else if(regUst<SETPOINT_UP_I_MIN/10 || regUst>SETPOINT_UP_I_MAX/10) diapazon=0;
         break;
-      case UP_CTRL_3I0:
-      case UP_CTRL_3I0_others:
-        (*multer) = 1;
-        if((item%4)==1)
-        {
-          if(regUst!=0) diapazon=0;//нет старшего регистра
-        }//if
-        else if(regUst<SETPOINT_UP_3I0_MIN || regUst>SETPOINT_UP_3I0_MAX) diapazon=0;
-        break;
       case UP_CTRL_Ua_Ub_Uc:
       case UP_CTRL_Ua:
       case UP_CTRL_Ub:
       case UP_CTRL_Uc:
+      case UP_CTRL_Uab_Ubc_Uca:
+      case UP_CTRL_Uab:
+      case UP_CTRL_Ubc:
+      case UP_CTRL_Uca:
       case UP_CTRL_U1:
       case UP_CTRL_U2:
       case UP_CTRL_3U0:

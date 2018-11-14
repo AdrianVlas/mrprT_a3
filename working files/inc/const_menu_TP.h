@@ -1,0 +1,30 @@
+#ifndef __CONST_MENU_TP__
+#define __CONST_MENU_TP__
+
+#define EKRAN_TIMEOUT_TP_GROUP1     (EKRAN_TIMEOUT_GP_GROUP4 + 1)
+#define EKRAN_TIMEOUT_TP_GROUP2     (EKRAN_TIMEOUT_TP_GROUP1 + 1)
+#define EKRAN_TIMEOUT_TP_GROUP3     (EKRAN_TIMEOUT_TP_GROUP2 + 1)
+#define EKRAN_TIMEOUT_TP_GROUP4     (EKRAN_TIMEOUT_TP_GROUP3 + 1)
+#define EKRAN_CONTROL_TP            (EKRAN_CONTROL_GP + 1)
+
+enum  _index_ml_tmo_TP
+{
+  INDEX_ML_TMO_TP = 0,
+  
+  MAX_ROW_FOR_TIMEOUT_TP
+};
+
+#define COL_TMO_TP_BEGIN      4
+#define COL_TMO_TP_COMMA      6
+#define COL_TMO_TP_END        8
+
+enum _index_ml_ctrl_TP
+{
+  INDEX_ML_CTR_TP_STATE = 0,
+
+  MAX_ROW_FOR_CONTROL_TP
+};
+
+#define CTR_TP_MASKA             (MASKA_FOR_BIT(MAX_ROW_FOR_CONTROL_TP) - 1)
+
+#endif

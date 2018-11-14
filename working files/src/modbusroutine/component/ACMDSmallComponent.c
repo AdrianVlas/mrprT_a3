@@ -469,16 +469,16 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //  count_bit = 3;
 #define ZOP_CONFIGURATION_BEGIN 176
   case ZOP_CONFIGURATION_BEGIN:
-    (*outMaska) = RANG_BLOCK_ZOP;
-    (*dvMaska) = RANG_SMALL_BLOCK_ZOP;
+    (*outMaska) = RANG_BLOCK_ZOP1;
+    (*dvMaska) = RANG_SMALL_BLOCK_ZOP1;
     break;
   case 177:
-    (*outMaska) = RANG_ZOP;
+    (*outMaska) = RANG_ZOP1;
 //        (*dvMaska) =
     break;
 #define ZOP_CONFIGURATION_END 178
   case ZOP_CONFIGURATION_END:
-    (*outMaska) = RANG_PO_ZOP;
+    (*outMaska) = RANG_PO_ZOP1;
 //        (*dvMaska) =
     break;
 

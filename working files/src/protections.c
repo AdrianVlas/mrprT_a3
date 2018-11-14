@@ -3017,7 +3017,7 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
   /*******************************/
   //1 ступінь ЗОП(КОФ)
   /*******************************/
-  if ((current_settings_prt.control_zop & CTR_ZOP_STATE) != 0)
+  if ((current_settings_prt.control_zop & MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE)) != 0)
   {
     //1 ступінь ЗОП(КОФ) включена
     unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
@@ -3034,15 +3034,15 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
     
     //Якщо ПО ЗОП(КОФ) ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
     //Якщо ПО ЗОП(КОФ) вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
-    if(( previous_state_po_zop1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_ZOP) ) == 0 )
+    if(( previous_state_po_zop1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_ZOP1) ) == 0 )
     {
       //Працюємо по утавці спрацювання
-      setpoint = current_settings_prt.setpoint_zop[number_group_stp];
+      setpoint = current_settings_prt.setpoint_zop1[number_group_stp];
     }
     else
     {
       //Працюємо по утавці відпускання
-      setpoint = current_settings_prt.setpoint_zop[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      setpoint = current_settings_prt.setpoint_zop1[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
     
     //Виставляємо, або скидаємо сигнал "ПО КОФ"
@@ -3067,17 +3067,17 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
         (i1_bilshe_porogu_tmp != 0) &&
         (i2_bilshe_porogu_tmp != 0) &&
         ((i2_current*1000) >= (i1_current*setpoint))                            && 
-        (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ZOP) == 0)
+        (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ZOP1) == 0)
        )
     {
       //Існує умова активного пускового органу зворотньої послідовності
       if(previous_state_po_zop1 == 0)
       {
         //Встановлюємо сигнал "ПО КОФ"
-        _SET_BIT(p_active_functions, RANG_PO_ZOP);
+        _SET_BIT(p_active_functions, RANG_PO_ZOP1);
       
         //Запускаємо таймер ЗОП(КОФ), якщо він ще не запущений
-        global_timers[INDEX_TIMER_ZOP] = 0;
+        global_timers[INDEX_TIMER_ZOP1] = 0;
       }
     }
     else 
@@ -3086,29 +3086,29 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
       if(previous_state_po_zop1 != 0)
       {
         //Скидаємо сигнал "ПО КОФ"
-        _CLEAR_BIT(p_active_functions, RANG_PO_ZOP);
+        _CLEAR_BIT(p_active_functions, RANG_PO_ZOP1);
         //Це є умовою також скидання сигналу "Сраб. КОФ"
-        _CLEAR_BIT(p_active_functions, RANG_ZOP);
+        _CLEAR_BIT(p_active_functions, RANG_ZOP1);
         //Якщо таймер ще не скинутий? то скидаємо його
-        if ( global_timers[INDEX_TIMER_ZOP] >=0) global_timers[INDEX_TIMER_ZOP] = -1;
+        if ( global_timers[INDEX_TIMER_ZOP1] >=0) global_timers[INDEX_TIMER_ZOP1] = -1;
       }
     }
     
-    if(global_timers[INDEX_TIMER_ZOP] >= current_settings_prt.timeout_zop[number_group_stp])
+    if(global_timers[INDEX_TIMER_ZOP1] >= current_settings_prt.timeout_zop1[number_group_stp])
     {
       //Якщо витримана Витримка ЗОП(КОФ) то встановлюємо сигнал "Сраб. КОФ"
-      _SET_BIT(p_active_functions, RANG_ZOP);
+      _SET_BIT(p_active_functions, RANG_ZOP1);
 
       //Скидаємо таймер ЗОП(КОФ)
-      global_timers[INDEX_TIMER_ZOP] = -1;
+      global_timers[INDEX_TIMER_ZOP1] = -1;
     }
   }
   else
   {
     //Треба скинути всі таймери і сигнали, які за 1 ступінь ЗОП(КОФ) відповідають
-    _CLEAR_BIT(p_active_functions, RANG_PO_ZOP);
-    _CLEAR_BIT(p_active_functions, RANG_ZOP);
-    global_timers[INDEX_TIMER_ZOP] = -1;
+    _CLEAR_BIT(p_active_functions, RANG_PO_ZOP1);
+    _CLEAR_BIT(p_active_functions, RANG_ZOP1);
+    global_timers[INDEX_TIMER_ZOP1] = -1;
 
   }  
 }
@@ -3149,7 +3149,7 @@ void umin1_handler(unsigned int *p_active_functions, unsigned int number_group_s
                                          (measurement[IM_IB_H] <= setpoint3) &&
                                          (measurement[IM_IC_H] <= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
@@ -3261,7 +3261,7 @@ void umin2_handler(unsigned int *p_active_functions, unsigned int number_group_s
                                          (measurement[IM_IB_H] <= setpoint3) &&
                                          (measurement[IM_IC_H] <= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
@@ -3359,7 +3359,7 @@ void umax1_handler(unsigned int *p_active_functions, unsigned int number_group_s
   _Bool Uc_is_larger_than_Umax1 = measurement[IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX1_OR_AND) != 0)                                                  << 2;
@@ -3418,7 +3418,7 @@ void umax2_handler(unsigned int *p_active_functions, unsigned int number_group_s
   _Bool Uc_is_larger_than_Umax2 = measurement[IM_UC] >= setpoint1;
   
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umax & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umax & CTR_PO_UMAX2_OR_AND) != 0)                                                  << 2;
@@ -3537,7 +3537,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP4 ) != 0)) ||
-      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP   ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP2  ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2 ) != 0)) ||
       ( ((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1 ) != 0)) ||
@@ -3573,8 +3574,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
         _SET_BIT(p_active_functions, RANG_PO_UROV1);
       
         //Запускаємо таймери УРОВ1 і УРОВ2, якщо вони ще не запущені
-        global_timers[INDEX_TIMER_UROV1] = 0;
-        global_timers[INDEX_TIMER_UROV2] = 0;
+        global_timers[INDEX_TIMER_UROV1_1] = 0;
+        global_timers[INDEX_TIMER_UROV1_2] = 0;
       }
     }
     else 
@@ -3588,29 +3589,29 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
         _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
         _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
         //Якщо таймери ще не скинуті, то скидаємо їх
-        if ( global_timers[INDEX_TIMER_UROV1] >=0) global_timers[INDEX_TIMER_UROV1] = -1;
-        if ( global_timers[INDEX_TIMER_UROV2] >=0) global_timers[INDEX_TIMER_UROV2] = -1;
+        if ( global_timers[INDEX_TIMER_UROV1_1] >=0) global_timers[INDEX_TIMER_UROV1_1] = -1;
+        if ( global_timers[INDEX_TIMER_UROV1_2] >=0) global_timers[INDEX_TIMER_UROV1_2] = -1;
       }
     }
     
     //Перевіряємо чи таймер УРОВ1 досягнув значення своєї витримки
-    if(global_timers[INDEX_TIMER_UROV1] >= current_settings_prt.timeout_urov_1[0][number_group_stp])
+    if(global_timers[INDEX_TIMER_UROV1_1] >= current_settings_prt.timeout_urov_1[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ1 то встановлюємо сигнал "Сраб. УРОВ1"
       _SET_BIT(p_active_functions, RANG_UROV1_1);
 
       //Скидаємо таймер УРОВ1
-      global_timers[INDEX_TIMER_UROV1] = -1;
+      global_timers[INDEX_TIMER_UROV1_1] = -1;
     }
 
     //Перевіряємо чи таймер УРОВ2 досягнув значення своєї витримки
-    if(global_timers[INDEX_TIMER_UROV2] >= current_settings_prt.timeout_urov_2[0][number_group_stp])
+    if(global_timers[INDEX_TIMER_UROV1_2] >= current_settings_prt.timeout_urov_2[0][number_group_stp])
     {
       //Якщо витримана Витримка УРОВ2 то встановлюємо сигнал "Сраб. УРОВ2"
       _SET_BIT(p_active_functions, RANG_UROV1_2);
 
       //Скидаємо таймер УРОВ2
-      global_timers[INDEX_TIMER_UROV2] = -1;
+      global_timers[INDEX_TIMER_UROV1_2] = -1;
     }
   }
   else
@@ -3619,8 +3620,8 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     _CLEAR_BIT(p_active_functions, RANG_PO_UROV1);
     _CLEAR_BIT(p_active_functions, RANG_UROV1_1);
     _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
-    global_timers[INDEX_TIMER_UROV1] = -1;
-    global_timers[INDEX_TIMER_UROV2] = -1;
+    global_timers[INDEX_TIMER_UROV1_1] = -1;
+    global_timers[INDEX_TIMER_UROV1_2] = -1;
   }  
 }
   /*******************************/
@@ -3642,29 +3643,7 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
                   ) << 0;
 
     int32_t pickup = current_settings_prt.setpoint_UP[n_UP][0][number_group_stp];
-    if (
-        (current_settings_prt.ctrl_UP_input[n_UP] == UP_CTRL_3I0) ||
-        (current_settings_prt.ctrl_UP_input[n_UP] == UP_CTRL_3I0_others)
-       ) 
-    {
-      if (_CHECK_SET_BIT(p_active_functions, (RANG_PO_UP1 + 3*n_UP)) != 0)
-      {
-        /*
-        Алгебраїчне спрощення виразу
-        setpoint = (pickup*koef_povernennja/100)*10 =  pickup*koef_povernennja/10
-        */
-        pickup = (pickup * current_settings_prt.setpoint_UP_KP[n_UP][0][number_group_stp])/10;
-      }
-      else
-      {
-        pickup *= 10;
-      }
-        
-    }
-    else
-    {
-      if (_CHECK_SET_BIT(p_active_functions, (RANG_PO_UP1 + 3*n_UP)) != 0) pickup = (pickup * current_settings_prt.setpoint_UP_KP[n_UP][0][number_group_stp])/100;
-    }
+    if (_CHECK_SET_BIT(p_active_functions, (RANG_PO_UP1 + 3*n_UP)) != 0) pickup = (pickup * current_settings_prt.setpoint_UP_KP[n_UP][0][number_group_stp])/100;
 
     unsigned int more_less = ((current_settings_prt.control_UP & MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_MORE_LESS_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I))) != 0);
     
@@ -3672,7 +3651,7 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
     uint32_t PQ = false;
     switch (current_settings_prt.ctrl_UP_input[n_UP])
     {
-    case UP_CTRL_Ia_Ib_Ic:
+    case UP_CTRL_Ia_Ib_Ic_H:
       {
         analog_value = measurement[IM_IA_H];
 
@@ -3693,39 +3672,96 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
         
         break;
       }
-    case UP_CTRL_Ia:
+    case UP_CTRL_Ia_H:
       {
         analog_value = measurement[IM_IA_H];
         
         break;
       }
-    case UP_CTRL_Ib:
+    case UP_CTRL_Ib_H:
       {
         analog_value = measurement[IM_IB_H];
         
         break;
       }
-    case UP_CTRL_Ic:
+    case UP_CTRL_Ic_H:
       {
         analog_value = measurement[IM_IC_H];
         
         break;
       }
-    case UP_CTRL_I1:
+    case UP_CTRL_I1_H:
       {
         analog_value = measurement[IM_I1_H];
         
         break;
       }
-    case UP_CTRL_I2:
+    case UP_CTRL_I2_H:
       {
         analog_value = measurement[IM_I2_H];
         
         break;
       }
-    case UP_CTRL_3I0_r:
+    case UP_CTRL_3I0_r_H:
       {
         analog_value = measurement[IM_3I0_r_H];
+        
+        break;
+      }
+    case UP_CTRL_Ia_Ib_Ic_L:
+      {
+        analog_value = measurement[IM_IA_L];
+
+        unsigned int or_and = ((current_settings_prt.control_UP & MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_OR_AND_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I))) != 0);
+        if (
+            ((more_less == 0) && (or_and == 0)) ||
+            ((more_less != 0) && (or_and != 0))
+           )   
+        {
+         if ((uint32_t)analog_value < measurement[IM_IB_L]) analog_value = measurement[IM_IB_L];
+         if ((uint32_t)analog_value < measurement[IM_IC_L]) analog_value = measurement[IM_IC_L];
+        }
+        else
+        {
+         if ((uint32_t)analog_value > measurement[IM_IB_L]) analog_value = measurement[IM_IB_L];
+         if ((uint32_t)analog_value > measurement[IM_IC_L]) analog_value = measurement[IM_IC_L];
+        }
+        
+        break;
+      }
+    case UP_CTRL_Ia_L:
+      {
+        analog_value = measurement[IM_IA_L];
+        
+        break;
+      }
+    case UP_CTRL_Ib_L:
+      {
+        analog_value = measurement[IM_IB_L];
+        
+        break;
+      }
+    case UP_CTRL_Ic_L:
+      {
+        analog_value = measurement[IM_IC_L];
+        
+        break;
+      }
+    case UP_CTRL_I1_L:
+      {
+        analog_value = measurement[IM_I1_L];
+        
+        break;
+      }
+    case UP_CTRL_I2_L:
+      {
+        analog_value = measurement[IM_I2_L];
+        
+        break;
+      }
+    case UP_CTRL_3I0_r_L:
+      {
+        analog_value = measurement[IM_3I0_r_L];
         
         break;
       }
@@ -3770,6 +3806,51 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
     case UP_CTRL_Uc:
       {
         analog_value = measurement[IM_UC];
+        
+        break;
+      }
+
+    case UP_CTRL_Uab_Ubc_Uca:
+      {
+        analog_value = measurement[IM_UAB];
+        
+        unsigned int or_and = ((current_settings_prt.control_UP & MASKA_FOR_BIT(n_UP*(_CTR_UP_NEXT_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I) - _CTR_UP_PART_I) + CTR_UP_OR_AND_BIT - (_CTR_UP_PART_II - _CTR_UP_PART_I))) != 0);
+        uint32_t analog_value_tmp = measurement[IM_UBC];
+        if (
+            ((more_less == 0) && (or_and == 0)) ||
+            ((more_less != 0) && (or_and != 0))
+           )   
+        {
+          if ((uint32_t)analog_value < analog_value_tmp) analog_value = analog_value_tmp;
+         
+          analog_value_tmp = measurement[IM_UCA];
+          if ((uint32_t)analog_value < analog_value_tmp) analog_value = analog_value_tmp;
+        }
+        else
+        {
+          if ((uint32_t)analog_value > analog_value_tmp) analog_value = analog_value_tmp;
+         
+          analog_value_tmp = measurement[IM_UCA];
+          if ((uint32_t)analog_value > analog_value_tmp) analog_value = analog_value_tmp;
+        }
+        
+        break;
+      }
+    case UP_CTRL_Uab:
+      {
+        analog_value = measurement[IM_UAB];
+        
+        break;
+      }
+    case UP_CTRL_Ubc:
+      {
+        analog_value = measurement[IM_UBC];
+        
+        break;
+      }
+    case UP_CTRL_Uca:
+      {
+        analog_value = measurement[IM_UCA];
         
         break;
       }
@@ -4118,14 +4199,14 @@ inline void on_off_handler(unsigned int *p_active_functions)
       
       //ЗОП
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP) != 0) &&
-         (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
+         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP1) != 0) &&
+         (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_ZOP);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP);
+        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP1);
       }
       
       //Umin1
@@ -4680,7 +4761,7 @@ inline void start_monitoring_min_U(unsigned int time_tmp)
   measurements_U_min_dr[17] = measurement[IM_UCA];
   measurements_U_min_dr[18] = (unsigned int)frequency_int;
   
-  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
+  if ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0)
   {
     //Визначаємо мінімальної фазну напругу між трьома фазами
     min_voltage_dr = measurements_U_min_dr[9];
@@ -4711,7 +4792,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга менша, ніж та що помічена мінімальною
   if (
       (
-       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) &&
+       ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) &&
        (  
         (min_voltage_dr > measurement[IM_UA]) ||
         (min_voltage_dr > measurement[IM_UB]) ||
@@ -4720,7 +4801,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
       )   
       || 
       (
-       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0) &&
+       ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) != 0) &&
        (  
         (min_voltage_dr > measurement[IM_UAB]) ||
         (min_voltage_dr > measurement[IM_UBC]) ||
@@ -4753,7 +4834,7 @@ inline void continue_monitoring_min_U(unsigned int time_tmp)
     measurements_U_min_dr[17] = measurement[IM_UCA];
     measurements_U_min_dr[18] = (unsigned int)frequency_int;
 
-    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
+    if ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0)
     {
       //Визначаємо мінімальну фазну напругу між трьома фазами
       min_voltage_dr = measurements_U_min_dr[9];
@@ -4806,7 +4887,7 @@ inline void start_monitoring_max_U(unsigned int time_tmp)
   measurements_U_max_dr[17] = measurement[IM_UCA];
   measurements_U_max_dr[18] = (unsigned int)frequency_int;
   
-  if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
+  if ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0)
   {
     //Визначаємо макисальну фазну напругу між трьома фазами
     max_voltage_dr = measurements_U_max_dr[9];
@@ -4837,7 +4918,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
   //Перевірка, чи не є зарза досліджувана напуга більша, ніж та що помічена максимальною
   if (
       (
-       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) &&
+       ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) &&
        (  
         (max_voltage_dr < measurement[IM_UA]) ||
         (max_voltage_dr < measurement[IM_UB]) ||
@@ -4846,7 +4927,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
       )   
       || 
       (
-       ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) != 0) &&
+       ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) != 0) &&
        (  
         (max_voltage_dr < measurement[IM_UAB]) ||
         (max_voltage_dr < measurement[IM_UBC]) ||
@@ -4879,7 +4960,7 @@ inline void continue_monitoring_max_U(unsigned int time_tmp)
     measurements_U_max_dr[17] = measurement[IM_UCA];
     measurements_U_max_dr[18] = (unsigned int)frequency_int;
 
-    if ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0)
+    if ((current_settings_prt.control_transformator & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0)
     {
       //Визначаємо макисальну фазну напругу між трьома фазами
       max_voltage_dr = measurements_U_max_dr[9];
@@ -6228,7 +6309,7 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           else label_to_time_array = time;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
           //Коефіцієнт трансформації TT
-          header_ar.TCurrent = current_settings_prt.TCurrent;
+          header_ar.TCurrent = current_settings_prt.TCurrent_HV;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
           //Додаткові налаштування при яких було запущено аналоговий реєстратор
@@ -6862,7 +6943,8 @@ inline void main_protection(void)
     active_functions[RANG_PUSK_UROV2_VID_DV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_PUSK_UROV2_VID_DV) != 0) << (RANG_PUSK_UROV2_VID_DV & 0x1f);
 
     //Блок ЗОП(КОФ)
-    active_functions[RANG_BLOCK_ZOP >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP) != 0) << (RANG_BLOCK_ZOP & 0x1f);
+    active_functions[RANG_BLOCK_ZOP1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP1) != 0) << (RANG_BLOCK_ZOP1 & 0x1f);
+    active_functions[RANG_BLOCK_ZOP2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_ZOP2) != 0) << (RANG_BLOCK_ZOP2 & 0x1f);
 
     //Блок для Umin
     active_functions[RANG_BLOCK_UMIN1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMIN1) != 0) << (RANG_BLOCK_UMIN1 & 0x1f);
@@ -6874,6 +6956,19 @@ inline void main_protection(void)
     active_functions[RANG_BLOCK_UMAX1 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMAX1) != 0) << (RANG_BLOCK_UMAX1 & 0x1f);
     active_functions[RANG_BLOCK_UMAX2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_UMAX2) != 0) << (RANG_BLOCK_UMAX2 & 0x1f);
 
+    //Блок для КЗ З/В
+    active_functions[RANG_BLOCK_KZ_ZV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_KZ_ZV) != 0) << (RANG_BLOCK_KZ_ZV & 0x1f);
+
+    //Блок для Газового захисту
+    active_functions[RANG_BLOCK_GP  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_GP ) != 0) << (RANG_BLOCK_GP  & 0x1f);
+    active_functions[RANG_IN_GP1    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP1   ) != 0) << (RANG_IN_GP1    & 0x1f);
+    active_functions[RANG_IN_GP2    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP2   ) != 0) << (RANG_IN_GP2    & 0x1f);
+    active_functions[RANG_IN_GP_RPN >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_GP_RPN) != 0) << (RANG_IN_GP_RPN & 0x1f);
+
+    //Блок для Теплового захисту
+    active_functions[RANG_BLOCK_TP >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_TP) != 0) << (RANG_BLOCK_TP & 0x1f);
+    active_functions[RANG_IN_TP    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_IN_TP   ) != 0) << (RANG_IN_TP    & 0x1f);
+    
     //Блокування для УЗ
     for (size_t i = 0; i < NUMBER_UP; i++)
     {
@@ -7298,6 +7393,8 @@ inline void main_protection(void)
       global_timers[INDEX_TIMER_TZNP2_NAZAD] = -1;
       global_timers[INDEX_TIMER_TZNP3_VPERED] = -1;
       global_timers[INDEX_TIMER_TZNP3_NAZAD] = -1;
+      global_timers[INDEX_TIMER_TZNP4_VPERED] = -1;
+      global_timers[INDEX_TIMER_TZNP4_NAZAD] = -1;
     }
     /**************************/
   
@@ -7324,7 +7421,8 @@ inline void main_protection(void)
         MASKA_ZOP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_zop_signals[i]);
-      global_timers[INDEX_TIMER_ZOP] = -1;
+      global_timers[INDEX_TIMER_ZOP1] = -1;
+      global_timers[INDEX_TIMER_ZOP2] = -1;
     }
     /**************************/
     
@@ -7426,8 +7524,11 @@ inline void main_protection(void)
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_urov_signals[i]);
 
-      global_timers[INDEX_TIMER_UROV1] = -1;
-      global_timers[INDEX_TIMER_UROV2] = -1;
+      global_timers[INDEX_TIMER_UROV1_1] = -1;
+      global_timers[INDEX_TIMER_UROV1_2] = -1;
+
+      global_timers[INDEX_TIMER_UROV2_1] = -1;
+      global_timers[INDEX_TIMER_UROV2_2] = -1;
     }
     /**************************/
 
@@ -7480,6 +7581,9 @@ inline void main_protection(void)
         MASKA_GP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_gp_signals[i]);
+
+      global_timers[INDEX_TIMER_GZ1] = -1;
+      global_timers[INDEX_TIMER_GZ2] = -1;
     }
     /**************************/
 
@@ -7506,6 +7610,8 @@ inline void main_protection(void)
         MASKA_TP_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_tp_signals[i]);
+
+      global_timers[INDEX_TIMER_TZ] = -1;
     }
     /**************************/
 

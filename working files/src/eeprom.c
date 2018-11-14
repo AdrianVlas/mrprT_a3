@@ -73,7 +73,7 @@ void main_routines_for_spi1(void)
       offset_from_start = number_block_settings_write_to_eeprom*SIZE_PAGE_EEPROM;
 
       //Кількість байт до кінця буферу 
-      size_to_end = (sizeof(__SETTINGS) + 1) - offset_from_start; 
+      size_to_end = (sizeof(__SETTINGS) + 2) - offset_from_start; 
       
       if (size_to_end > 0)
       {
@@ -377,7 +377,7 @@ void main_routines_for_spi1(void)
       TxBuffer_SPI_EDF[1] = (START_ADDRESS_SETTINGS_IN_EEPROM >> 8) & 0xff; //старша  адреса початку зберігання настройок у EEPROM
       TxBuffer_SPI_EDF[2] = (START_ADDRESS_SETTINGS_IN_EEPROM     ) & 0xff; //молодша адреса початку зберігання настройок у EEPROM
                                                                                     //дальше значення байт не має значення
-      start_exchange_via_spi(INDEX_EEPROM, ((sizeof(__SETTINGS) + 1) + 3));
+      start_exchange_via_spi(INDEX_EEPROM, ((sizeof(__SETTINGS) + 2) + 3));
     }
     else if (_CHECK_SET_BIT(control_spi1_taskes, TASK_READING_USTUVANNJA_EEPROM_BIT) !=0)
     {
@@ -478,8 +478,8 @@ void main_routines_for_spi1(void)
         crc_eeprom_settings += temp_value;
       }
       //Добавляємо інвертовану контрольну суму у кінець масиву
-      TxBuffer_SPI_EDF[3 + sizeof(__SETTINGS)] = (unsigned char)((~(unsigned int)crc_eeprom_settings) & 0xff);
-      
+      TxBuffer_SPI_EDF[3 + sizeof(__SETTINGS)    ] = (unsigned char)((~(unsigned int)crc_eeprom_settings) & 0xff); /*  інвертована контрольна сума*/
+      TxBuffer_SPI_EDF[3 + sizeof(__SETTINGS) + 1] = (unsigned char)(                crc_eeprom_settings  & 0xff); /*неінвертована контрольна сума*/
       
       //Виставляємо перший блок настройок запису у EEPROM
       number_block_settings_write_to_eeprom = 0;
@@ -1035,7 +1035,10 @@ void main_routines_for_spi1(void)
           crc_eeprom_settings += temp_value;
           point++;
         }
-        if (RxBuffer_SPI_EDF[3 + sizeof(__SETTINGS)]  == ((unsigned char)((~(unsigned int)crc_eeprom_settings) & 0xff)))
+        if (
+            (RxBuffer_SPI_EDF[3 + sizeof(__SETTINGS)    ]  == ((unsigned char)((~(unsigned int)crc_eeprom_settings) & 0xff))) &&
+            (RxBuffer_SPI_EDF[3 + sizeof(__SETTINGS) + 1]  == ((unsigned char)(                crc_eeprom_settings  & 0xff)))
+           )   
         {
           //Контролдьна сума сходиться
 

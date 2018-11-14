@@ -11,20 +11,36 @@
 #define EKRAN_TIMEOUT_ZOP_GROUP4  (EKRAN_TIMEOUT_ZOP_GROUP3  + 1)
 #define EKRAN_CONTROL_ZOP         (EKRAN_CONTROL_UROV2  + 1)
 
-#define MAX_ROW_FOR_SETPOINT_ZOP  1
-#define MAX_ROW_FOR_TIMEOUT_ZOP   1
-#define MAX_ROW_FOR_CONTROL_ZOP   1
+#define MAX_ROW_FOR_SETPOINT_ZOP  2
+#define MAX_ROW_FOR_TIMEOUT_ZOP   2
 
-#define COL_SETPOINT_ZOP_BEGIN    4
-#define COL_SETPOINT_ZOP_COMMA    5
-#define COL_SETPOINT_ZOP_END      8
+#define COL_SETPOINT_ZOP1_BEGIN    4
+#define COL_SETPOINT_ZOP1_COMMA    5
+#define COL_SETPOINT_ZOP1_END      8
 
-#define COL_TMO_ZOP_BEGIN         4
-#define COL_TMO_ZOP_COMMA         6
-#define COL_TMO_ZOP_END           8
+#define COL_SETPOINT_ZOP2_BEGIN    4
+#define COL_SETPOINT_ZOP2_COMMA    5
+#define COL_SETPOINT_ZOP2_END      8
 
-#define CTR_ZOP_STATE_BIT         0          
-#define CTR_ZOP_STATE             (1 << CTR_ZOP_STATE_BIT)          
-#define CTR_ZOP_MASKA             (CTR_ZOP_STATE)
+#define COL_TMO_ZOP1_BEGIN         4
+#define COL_TMO_ZOP1_COMMA         6
+#define COL_TMO_ZOP1_END           8
+
+#define COL_TMO_ZOP2_BEGIN         4
+#define COL_TMO_ZOP2_COMMA         6
+#define COL_TMO_ZOP2_END           8
+
+enum _index_ml_ctrl_ZOP
+{
+  INDEX_ML_CTRZOP_1_STATE = 0,
+  INDEX_ML_CTRZOP_1_SEL_I,
+  INDEX_ML_CTRZOP_2_STATE = 0,
+  INDEX_ML_CTRZOP_2_SEL_I,
+
+  MAX_ROW_FOR_CONTROL_ZOP
+};
+
+
+#define CTR_ZOP_MASKA             (MASKA_FOR_BIT(MAX_ROW_FOR_CONTROL_ZOP) - 1)
 
 #endif

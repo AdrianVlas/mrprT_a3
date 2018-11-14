@@ -94,19 +94,23 @@ void make_ekran_transformator()
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT][MAX_COL_LCD] = 
   {
     {
-      "   К-т.тр.ТТ    ",
+      " К-т.тр.ТТ(ВН)  ",
+      " К-т.тр.ТТ(НН)  ",
       "   К-т.тр.ТН    "
     },
     {
-      "   К-т.тр.ТС    ",
+      " К-т.тр.ТС(ВН)  ",
+      " К-т.тр.ТС(НН)  ",
       "   К-т.тр.ТН    "
     },
     {
-      "    CT Ratio    ",
+      "  CT Ratio(HV)  ",
+      "  CT Ratio(LV)  ",
       "    VT Ratio    "
     },
     {
-      "   К-т.тр.ТТ    ",
+      " К-т.тр.ТТ(ВН)  ",
+      " К-т.тр.ТТ(НН)  ",
       "   К-т.тр.ТН    "
     }
   };
@@ -172,11 +176,18 @@ void make_ekran_transformator()
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string_tmp[index_of_ekran_tmp][j];
         
-        if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT)
+        if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT_HV)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для коефіцієнта трансформації TT
-          if (view == true) value = current_settings.TCurrent; //у змінну value поміщаємо значення коефіцієнта трансформації TT
-          else value = edition_settings.TCurrent;
+          if (view == true) value = current_settings.TCurrent_HV; //у змінну value поміщаємо значення коефіцієнта трансформації TT
+          else value = edition_settings.TCurrent_HV;
+          first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
+        }
+        else if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT_LV)
+        {
+          vaga = 1000; //максимальний ваговий коефіцієнт для коефіцієнта трансформації TT
+          if (view == true) value = current_settings.TCurrent_LV; //у змінну value поміщаємо значення коефіцієнта трансформації TT
+          else value = edition_settings.TCurrent_LV;
           first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
         }
         else if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TN)
@@ -192,9 +203,15 @@ void make_ekran_transformator()
         //У парному номері рядку виводимо значення уставки
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
-          if (index_of_ekran_tmp == INDEX_ML_TT)
+          if (index_of_ekran_tmp == INDEX_ML_TT_HV)
           {
-            if ((j < COL_TT_BEGIN) ||  (j > COL_TT_END ))working_ekran[i][j] = ' ';
+            if ((j < COL_TT_HV_BEGIN) ||  (j > COL_TT_HV_END ))working_ekran[i][j] = ' ';
+            else
+              calc_int_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, view);
+          }
+          else if (index_of_ekran_tmp == INDEX_ML_TT_LV)
+          {
+            if ((j < COL_TT_LV_BEGIN) ||  (j > COL_TT_LV_END ))working_ekran[i][j] = ' ';
             else
               calc_int_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, view);
           }
@@ -220,10 +237,15 @@ void make_ekran_transformator()
   if (current_ekran.edition == 0)
   {
     int last_position_cursor_x = MAX_COL_LCD;
-    if (current_ekran.index_position == INDEX_ML_TT)
+    if (current_ekran.index_position == INDEX_ML_TT_HV)
     {
-      current_ekran.position_cursor_x = COL_TT_BEGIN;
-      last_position_cursor_x = COL_TT_END;
+      current_ekran.position_cursor_x = COL_TT_HV_BEGIN;
+      last_position_cursor_x = COL_TT_HV_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_TT_LV)
+    {
+      current_ekran.position_cursor_x = COL_TT_LV_BEGIN;
+      last_position_cursor_x = COL_TT_LV_END;
     }
     else if (current_ekran.index_position == INDEX_ML_TN)
     {
@@ -257,15 +279,27 @@ void make_ekran_transformator_control(void)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL][MAX_COL_LCD] = 
   {
     {
+      " Вх.напряжения  ",
+      "   Изм.тр.ВН    ",
+      "   Изм.тр.НН    ",
       " Выб.U для защит"
     },
     {
+      " Вхідні напруги ",
+      "   Вим.тр.ВН    ",
+      "   Вим.тр.НН    ",
       " Виб.U для зах. "
     },
     {
+      " Вх.напряжения  ",
+      "   Изм.тр.ВН    ",
+      "   Изм.тр.НН    ",
       " Выб.U для защит"
     },
     {
+      " Вх.напряжения  ",
+      "   Изм.тр.ВН    ",
+      "   Изм.тр.НН    ",
       " Выб.U для защит"
     }
   };
@@ -279,18 +313,37 @@ void make_ekran_transformator_control(void)
   
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    if (index_of_ekran < (MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL<<1))//Множення на два константи MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL потрібне для того, бо на одну позицію ми використовуємо два рядки (назва + значення)
+    unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
+    if (index_of_ekran_tmp < MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL)
     {
       if ((i & 0x1) == 0)
       {
         //У непарному номері рядку виводимо заголовок
-        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran>>1][j];
+        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
       }
       else
       {
         //У парному номері рядку виводимо стан
         const unsigned char information[MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL][MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
         {
+          {
+            {"       ВН       ", "       НН       "},
+            {"       ВН       ", "       НН       "},
+            {"       HV       ", "       LV       "},
+            {"       ВН       ", "       НН       "}
+          },
+          {
+            {"   К объекту    ", "   От объекта   "},
+            {"   До об'єкту   ", "  Від об'єкту   "},
+            {"   К объекту    ", "   От объекта   "},
+            {"   К объекту    ", "   От объекта   "}
+          },
+          {
+            {"   К объекту    ", "   От объекта   "},
+            {"   До об'єкту   ", "  Від об'єкту   "},
+            {"   К объекту    ", "   От объекта   "},
+            {"   К объекту    ", "   От объекта   "}
+          },
           {
             {"     Фазные     ", "    Линейные    "},
             {"     Фазні      ", "    Лінійні     "},
@@ -301,6 +354,24 @@ void make_ekran_transformator_control(void)
         const unsigned int cursor_x[MAX_ROW_FOR_TRANSFORMATOR_INFO_CONTROL][MAX_NAMBER_LANGUAGE][2] = 
         {
           {
+            {6, 6},
+            {6, 6},
+            {6, 6},
+            {6, 6}
+          },
+          {
+            {2, 2},
+            {2, 1},
+            {2, 2},
+            {2, 2}
+          },
+          {
+            {2, 2},
+            {2, 1},
+            {2, 2},
+            {2, 2}
+          },
+          {
             {3, 4},
             {3, 4},
             {3, 4},
@@ -309,14 +380,17 @@ void make_ekran_transformator_control(void)
         };
       
         
-        unsigned int index_ctr = (index_of_ekran>>1);
+        unsigned int index_ctr = index_of_ekran_tmp;
 
         unsigned int temp_data;
         if(current_ekran.edition == 0) temp_data = current_settings.control_transformator;
         else temp_data = edition_settings.control_transformator;
           
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_ctr][index_language][(temp_data >> index_ctr) & 0x1][j];
-        current_ekran.position_cursor_x = cursor_x[index_ctr][index_language][(temp_data >> index_ctr) & 0x1];
+        if (position_temp == index_of_ekran_tmp)
+        {
+          current_ekran.position_cursor_x = cursor_x[index_ctr][index_language][(temp_data >> index_ctr) & 0x1];
+        }
       }
     }
     else

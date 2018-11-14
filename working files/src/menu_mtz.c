@@ -1,5 +1,9 @@
 #include "header.h"
 
+int ekranListIndex_control_mtz=0;//индекс экранного списка control mtz
+
+int validAction_mtz(int poz);
+int corelCTRMTZ(int maska);
 /*****************************************************/
 //Вираховуваня символу і поміщення його в робочий екран
 /*****************************************************/
@@ -155,19 +159,91 @@ void make_ekran_setpoint_mtz(unsigned int group)
   };
   int index_language = index_language_in_array(current_settings.language);
   
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  unsigned int vaga, value, first_symbol;
+  /******************************************/
+  //Фіксуємо зміщення
+  /******************************************/
+  int additional_current = 0;
+  int position_temp = current_ekran.index_position;
+  uint32_t value_index_shift[MAX_ROW_FOR_SETPOINT_MTZ];
+
+  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  for (intptr_t current_index = 0; current_index < MAX_ROW_FOR_SETPOINT_MTZ; current_index++ )
+  {
+    if (
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ1_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ1_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ2_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ2_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_STPMTZ3_N_VPERED) &&
+          (current_index <= INDEX_ML_STPMTZ3_U)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+          )
+         )
+         ||
+         (
+          (
+           (current_index >= INDEX_ML_STPMTZ4_N_VPERED) &&
+           (current_index <= INDEX_ML_STPMTZ4_U)
+          )   
+          &&
+          (
+           (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+          )
+         )
+        )
+    {
+      int i = current_index - additional_current;
+    
+      uint32_t additional_current_new = additional_current + 1;
+      if ((i+1) <= position_temp) position_temp--;
+      do
+      {
+        value_index_shift[i] = additional_current_new;
+        i++;
+      }
+      while (i < MAX_ROW_FOR_SETPOINT_MTZ);
+      additional_current = additional_current_new;
+    }
+    else value_index_shift[current_index - additional_current] = additional_current;
+  }
+  /******************************************/
+  
   
   //Множення на два величини position_temp потрібне для того, бо наодн позицію ми використовуємо два рядки (назва + значення)
-  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  unsigned int index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
+  unsigned int vaga, value, first_symbol;
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
     unsigned int view = ((current_ekran.edition == 0) || (position_temp != index_of_ekran_tmp));
+    index_of_ekran_tmp = index_of_ekran_tmp + value_index_shift[index_of_ekran_tmp];
     if (index_of_ekran_tmp < MAX_ROW_FOR_SETPOINT_MTZ)
     {
+      
       if ((i & 0x1) == 0)
       {
         //У непарному номері рядку виводимо заголовок
@@ -585,7 +661,7 @@ void make_ekran_setpoint_mtz(unsigned int group)
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_MTZ_4_U_COMMA, view, 0);
           }
         }
-      }
+      }//for
         
     }
     else
@@ -841,18 +917,87 @@ void make_ekran_timeout_mtz(unsigned int group)
   };
   int index_language = index_language_in_array(current_settings.language);
  
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  unsigned int vaga, value, first_symbol;
+  /******************************************/
+  //Фіксуємо зміщення
+  /******************************************/
+  int additional_current = 0;
+  int position_temp = current_ekran.index_position;
+  uint32_t value_index_shift[MAX_ROW_FOR_TIMEOUT_MTZ];
+
+  unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  for (intptr_t current_index = 0; current_index < MAX_ROW_FOR_TIMEOUT_MTZ; current_index++ )
+  {
+    if (
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ1_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ1_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_1_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ2_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ2_PO_NAPRUZI_PR)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_2_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ3_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ3_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_3_SEL_I) & 0x1) != voltage)
+         )
+        )
+        ||
+        (
+         (
+          (current_index >= INDEX_ML_TMOMTZ4_N_VPERED) &&
+          (current_index <= INDEX_ML_TMOMTZ4_PO_NAPRUZI)
+         )   
+         &&
+         (
+          (((current_settings.control_mtz >> N_BIT_CTRMTZ_4_SEL_I) & 0x1) != voltage)
+         )
+        )
+       )
+    {
+      int i = current_index - additional_current;
+    
+      uint32_t additional_current_new = additional_current + 1;
+      if ((i+1) <= position_temp) position_temp--;
+      do
+      {
+        value_index_shift[i] = additional_current_new;
+        i++;
+      }
+      while (i < MAX_ROW_FOR_TIMEOUT_MTZ);
+      additional_current = additional_current_new;
+    }
+    else value_index_shift[current_index - additional_current] = additional_current;
+  }
+  /******************************************/
   
   //Множення на два величини position_temp потрібне для того, бо на одну позицію ми використовуємо два рядки (назва + значення)
-  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  unsigned int index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
 
-  
+  unsigned int vaga, value, first_symbol;
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
     unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
     unsigned int view = ((current_ekran.edition == 0) || (position_temp != index_of_ekran_tmp));
+    index_of_ekran_tmp = index_of_ekran_tmp + value_index_shift[index_of_ekran_tmp];
     if (index_of_ekran_tmp < MAX_ROW_FOR_TIMEOUT_MTZ)
     {
       if ((i & 0x1) == 0)
@@ -1367,26 +1512,30 @@ void make_ekran_timeout_mtz(unsigned int group)
 /*****************************************************/
 //Формуємо екран відображення значення управлінської інформації для МТЗ
 /*****************************************************/
-void make_ekran_control_mtz()
+void make_ekran_control_mtz(void)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_MTZ][MAX_COL_LCD] = 
   {
     {
       "      МТЗ1      ",
+      "  Выбор I МТЗ1  ",
       "    Тип МТЗ1    ",
       "  МТЗН1 Вперёд  ",
       "  МТЗН1 Назад   ",
       "      МТЗ2      ",
+      "  Выбор I МТЗ2  ",
       "    Тип МТЗ2    ",
       "  МТЗН2 Вперёд  ",
       "  МТЗН2 Назад   ",
       " Ускорение МТЗ2 ",
       "Ускоренная МТЗ2 ",
       "      МТЗ3      ",
+      "  Выбор I МТЗ3  ",
       "    Тип МТЗ3    ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
       "      МТЗ4      ",
+      "  Выбор I МТЗ4  ",
       "    Тип МТЗ4    ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
@@ -1394,20 +1543,24 @@ void make_ekran_control_mtz()
     },
     {
       "      МСЗ1      ",
+      "  Вибiр I МТЗ1  ",
       "    Тип МСЗ1    ",
       "  МСЗН1 Вперед  ",
       "  МСЗН1 Назад   ",
       "      МСЗ2      ",
+      "  Вибiр I МТЗ2  ",
       "    Тип МСЗ2    ",
       "  МСЗН2 Вперед  ",
       "  МСЗН2 Назад   ",
       "Прискорення МСЗ2",
       "Прискорена МСЗ2 ",
       "      МСЗ3      ",
+      "  Вибiр I МТЗ3  ",
       "    Тип МСЗ3    ",
       "  МСЗН3 Вперед  ",
       "  МСЗН3 Назад   ",
       "      МСЗ4      ",
+      "  Вибiр I МТЗ4  ",
       "    Тип МСЗ4    ",
       "  МСЗН4 Вперед  ",
       "  МСЗН4 Назад   ",
@@ -1415,20 +1568,24 @@ void make_ekran_control_mtz()
     },
     {
       "  OCP Stage 1   ",
+      "  Select I OCP1 ",
       " Option of OCP1 ",
       "  МТЗН1 Вперёд  ",
       "  МТЗН1 Назад   ",
       "  OCP Stage 2   ",
+      "  Select I OCP2 ",
       " Option of OCP2 ",
       "  МТЗН2 Вперёд  ",
       "  МТЗН2 Назад   ",
       "   OCP2 Acc.    ",
       "Accelerated OCP2",
       "  OCP Stage 3   ",
-      " Option of OCP2 ",
+      "  Select I OCP3 ",
+      " Option of OCP3 ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
       "  OCP Stage 4   ",
+      "  Select I OCP4 ",
       " Option of OCP4 ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
@@ -1436,49 +1593,67 @@ void make_ekran_control_mtz()
     },
     {
       "      МТЗ1      ",
+      "  Выбор I МТЗ1  ",
       "    Тип МТЗ1    ",
       "  МТЗН1 Вперёд  ",
       "  МТЗН1 Назад   ",
       "      МТЗ2      ",
+      "  Выбор I МТЗ2  ",
       "    Тип МТЗ2    ",
       "  МТЗН2 Вперёд  ",
       "  МТЗН2 Назад   ",
       " Ускорение МТЗ2 ",
       "Ускоренная МТЗ2 ",
       "      МТЗ3      ",
+      "  Выбор I МТЗ3  ",
       "    Тип МТЗ3    ",
       "  МТЗН3 Вперёд  ",
       "  МТЗН3 Назад   ",
       "      МТЗ4      ",
+      "  Выбор I МТЗ4  ",
       "    Тип МТЗ4    ",
       "  МТЗН4 Вперёд  ",
       "  МТЗН4 Назад   ",
       "    НЦН-МТЗ     "
     }
   };
+
   int index_language = index_language_in_array(current_settings.language);
   
-  unsigned int position_temp = current_ekran.index_position;
-  unsigned int index_of_ekran;
-  
-  //Множення на два величини position_temp потрібне для того, бо на одну позицію ми використовуємо два рядки (назва + значення)
-  index_of_ekran = ((position_temp<<1) >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
-
-  
+  current_ekran.index_position = findMenuListIndex_control_mtz(ekranListIndex_control_mtz);//real menuIndex
+  int next_menuIndex = findMenuListIndex_control_mtz(ekranListIndex_control_mtz+1);//next menuIndex
+  int old_menuIndex  = findMenuListIndex_control_mtz(ekranListIndex_control_mtz-1);//old menuIndex
+  int index_of_ekran_tmp = -1;
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    unsigned int index_of_ekran_tmp = index_of_ekran >> 1;
-    if (index_of_ekran_tmp < MAX_ROW_FOR_CONTROL_MTZ)
-    {
-      if ((i & 0x1) == 0)
+    
+      if (i==0 || i==2)
       {
-        //У непарному номері рядку виводимо заголовок
-        for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
-      }
+       if(ekranListIndex_control_mtz&1)
+        {
+         if(i==0) index_of_ekran_tmp = old_menuIndex;
+         if(i==2) index_of_ekran_tmp = current_ekran.index_position;
+         current_ekran.position_cursor_y =3;
+        }//if
+       else {
+         if(i==0) index_of_ekran_tmp = current_ekran.index_position;
+         if(i==2) index_of_ekran_tmp = next_menuIndex;
+         current_ekran.position_cursor_y =1;
+       }//if
+        if(index_of_ekran_tmp<0)
+             for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+        //виводимо заголовок
+        else for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language]
+                                                     [index_of_ekran_tmp][j];
+      }//if (i==0 || i==2)
       else
       {
-        //У парному номері рядку виводимо значення уставки
+        //виводимо значення уставки
         unsigned int index_ctr = index_of_ekran_tmp;
+        if(index_of_ekran_tmp<0) {
+          for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+          break;
+        }//if
 
         __SETTINGS *point;
           if(current_ekran.edition == 0) point = &current_settings;
@@ -1513,58 +1688,82 @@ void make_ekran_control_mtz()
           };
           
           for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_language][value][j];
-          if (position_temp == index_of_ekran_tmp) current_ekran.position_cursor_x = cursor_x[index_language][value];
+          if (index_of_ekran_tmp == current_ekran.index_position) 
+                                    current_ekran.position_cursor_x = cursor_x[index_language][value];
         }
         else
         {
-          const unsigned char information[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
+           unsigned char information[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
           {
             {"     Откл.      ", "      Вкл.      "},
             {"     Вимк.      ", "     Ввімк.     "},
             {"      Off       ", "       On       "},
             {"     Сљнд.      ", "     Косу.      "}
           };
-          const unsigned int cursor_x[MAX_NAMBER_LANGUAGE][2] = 
+          const unsigned char hi_low_voltage[MAX_NAMBER_LANGUAGE][2][MAX_COL_LCD] = 
+          {
+            {"       ВН       ", "       НН       "},
+            {"       ВН       ", "       НН       "},
+            {"       HV       ", "       LV       "},
+            {"       ВН       ", "       НН       "}
+          };
+           unsigned int cursor_x[MAX_NAMBER_LANGUAGE][2] = 
           {
            {4, 5},
            {4, 4},
            {5, 6},
            {4, 4}
           };
+           unsigned int hi_low_cursor[MAX_NAMBER_LANGUAGE][2] = 
+          {
+           {6, 6},
+           {6, 6},
+           {6, 6},
+           {6, 6}
+          };
+        if (
+            (index_ctr == INDEX_ML_CTRMTZ_1_SEL_I) ||
+            (index_ctr == INDEX_ML_CTRMTZ_2_SEL_I) ||  
+            (index_ctr == INDEX_ML_CTRMTZ_3_SEL_I) || 
+            (index_ctr == INDEX_ML_CTRMTZ_4_SEL_I)  
+           )   
+        {
+          //копировать в information
+          memcpy((void*)information, (void *)hi_low_voltage, sizeof(information));
+          memcpy((void*)cursor_x,    (void *)hi_low_cursor,  sizeof(information));
+         }//if
         
           unsigned int temp_data = point->control_mtz;
           unsigned int n_bit = 0;
           
           //Виділяємо номер біту
           if      (index_ctr == INDEX_ML_CTRMTZ_1             ) n_bit = N_BIT_CTRMTZ_1;
+          else if (index_ctr == INDEX_ML_CTRMTZ_1_SEL_I       ) n_bit = N_BIT_CTRMTZ_1_SEL_I;
           else if (index_ctr == INDEX_ML_CTRMTZ_1_VPERED      ) n_bit = N_BIT_CTRMTZ_1_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_1_NAZAD       ) n_bit = N_BIT_CTRMTZ_1_NAZAD;
           else if (index_ctr == INDEX_ML_CTRMTZ_2             ) n_bit = N_BIT_CTRMTZ_2;
+          else if (index_ctr == INDEX_ML_CTRMTZ_2_SEL_I       ) n_bit = N_BIT_CTRMTZ_2_SEL_I;
           else if (index_ctr == INDEX_ML_CTRMTZ_2_VPERED      ) n_bit = N_BIT_CTRMTZ_2_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_2_NAZAD       ) n_bit = N_BIT_CTRMTZ_2_NAZAD;
           else if (index_ctr == INDEX_ML_CTRMTZ_2_PRYSKORENNJA) n_bit = N_BIT_CTRMTZ_2_PRYSKORENNJA;
           else if (index_ctr == INDEX_ML_CTRMTZ_2_PRYSKORENA  ) n_bit = N_BIT_CTRMTZ_2_PRYSKORENA;
           else if (index_ctr == INDEX_ML_CTRMTZ_3             ) n_bit = N_BIT_CTRMTZ_3;
+          else if (index_ctr == INDEX_ML_CTRMTZ_3_SEL_I       ) n_bit = N_BIT_CTRMTZ_3_SEL_I;
           else if (index_ctr == INDEX_ML_CTRMTZ_3_VPERED      ) n_bit = N_BIT_CTRMTZ_3_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_3_NAZAD       ) n_bit = N_BIT_CTRMTZ_3_NAZAD;
           else if (index_ctr == INDEX_ML_CTRMTZ_4             ) n_bit = N_BIT_CTRMTZ_4;
+          else if (index_ctr == INDEX_ML_CTRMTZ_4_SEL_I       ) n_bit = N_BIT_CTRMTZ_4_SEL_I;
           else if (index_ctr == INDEX_ML_CTRMTZ_4_VPERED      ) n_bit = N_BIT_CTRMTZ_4_VPERED;
           else if (index_ctr == INDEX_ML_CTRMTZ_4_NAZAD       ) n_bit = N_BIT_CTRMTZ_4_NAZAD;
           else if (index_ctr == INDEX_ML_CTRMTZ_NESPR_KIL_NAPR) n_bit = N_BIT_CTRMTZ_NESPR_KIL_NAPR;
           
           for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_language][(temp_data >> n_bit) & 0x1][j];
-          if (position_temp == index_of_ekran_tmp) current_ekran.position_cursor_x = cursor_x[index_language][(temp_data >> n_bit) & 0x1];
+          if (index_of_ekran_tmp == current_ekran.index_position) 
+                                    current_ekran.position_cursor_x = cursor_x[index_language][(temp_data >> n_bit) & 0x1];
         }
-      }
-    }
-    else
-      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+      }//else
+  }//for
 
-    index_of_ekran++;
-  }
-
-  //Відображення курору по вертикалі і курсор завжди має бути у полі із значенням устаки
-  current_ekran.position_cursor_y = ((position_temp<<1) + 1) & (MAX_ROW_LCD - 1);
   //Курсор видимий
   current_ekran.cursor_on = 1;
   //Курсор не мигає
@@ -1572,6 +1771,109 @@ void make_ekran_control_mtz()
   else current_ekran.cursor_blinking_on = 1;
   //Обновити повністю весь екран
   current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+
+int corelCTRMTZ_1_SEL_I(void)
+{
+  return corelCTRMTZ(CTR_MTZ_1_SEL_I);
+}
+int corelCTRMTZ_2_SEL_I(void)
+{
+  return corelCTRMTZ(CTR_MTZ_2_SEL_I);
+}
+int corelCTRMTZ_3_SEL_I(void)
+{
+  return corelCTRMTZ(CTR_MTZ_3_SEL_I);
+}
+int corelCTRMTZ_4_SEL_I(void)
+{
+  return corelCTRMTZ(CTR_MTZ_4_SEL_I);
+}
+int corelCTRMTZ(int maska)
+{
+  unsigned int mtz_data = current_settings.control_mtz;
+  if(current_ekran.edition)
+               mtz_data = edition_settings.control_mtz;
+  unsigned int transformator_data = current_settings.control_transformator;
+  int tmp1 = 0;
+  int tmp2 = 0;
+  if(mtz_data & maska) tmp1=1;
+  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
+//1 - нет кореляции  
+  return tmp1^tmp2;
+}
+
+int validAction_mtz(int poz)
+{
+  if(corelCTRMTZ_1_SEL_I()) {//нет кореляции
+     if(poz == INDEX_ML_CTRMTZ_1_VPERED) return -1;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_1_NAZAD)  return -1;//убрать позицию
+  }//if
+  if(corelCTRMTZ_2_SEL_I()) {//нет кореляции
+     if(poz == INDEX_ML_CTRMTZ_2_VPERED) return -2;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_2_NAZAD)  return -2;//убрать позицию
+  }//if
+  if(corelCTRMTZ_3_SEL_I()) {//нет кореляции
+     if(poz == INDEX_ML_CTRMTZ_3_VPERED) return -3;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_3_NAZAD)  return -3;//убрать позицию
+  }//if
+  if(corelCTRMTZ_4_SEL_I()) {//нет кореляции
+     if(poz == INDEX_ML_CTRMTZ_4_VPERED) return -4;//убрать позицию
+     if(poz == INDEX_ML_CTRMTZ_4_NAZAD)  return -4;//убрать позицию
+  }//if
+  return 1;
+}//validAction_mtz(int poz)
+
+int normalizEkranIndex_control_mtz()
+{
+//нормализация экранного индекса
+  switch(validAction_mtz(current_ekran.index_position)) 
+  {
+   case -1: current_ekran.index_position = INDEX_ML_CTRMTZ_1_SEL_I; break;
+   case -2: current_ekran.index_position = INDEX_ML_CTRMTZ_2_SEL_I; break;
+   case -3: current_ekran.index_position = INDEX_ML_CTRMTZ_3_SEL_I; break;
+   case -4: current_ekran.index_position = INDEX_ML_CTRMTZ_4_SEL_I; break;
+   default:;
+  }//switch
+  int ekranIndex = findEkranListIndex_control_mtz(current_ekran.index_position);//найти экранный индeкс
+  if(ekranIndex<0) return 0;//что-то пошло не так
+  return ekranIndex;
+}//normalizEkranIndex_control_mtz()
+
+int findMenuListIndex_control_mtz(int ekranListIndex)
+{
+//найти индeкс меню control mtz по экранному индексу
+  int index = -1;
+  if(ekranListIndex<0) return -1;
+  for(int i=0; i< MAX_ROW_FOR_CONTROL_MTZ; i++)
+  {
+    if(validAction_mtz(i)>0) index++;
+    if(index==ekranListIndex) return i;
+  }//for
+  return -1;//не найдено
+}//findMenuListIndex_control_mtz(int ekranListIndex)
+int findEkranListIndex_control_mtz(int menuListIndex)
+{
+//найти экранный индeкс по  индексу меню control mtz 
+  if(menuListIndex<0) return -1;
+  int ekranListSize = findEkranListSize_control_mtz();
+  for(int i=0; i< ekranListSize; i++)
+  {
+   if(findMenuListIndex_control_mtz(i)!=menuListIndex) continue;
+   return i;
+  }//for
+  return -1;//не найдено
+}//findEkranListIndex_control_mtz(int menuListIndex)
+
+int findEkranListSize_control_mtz(void)
+{
+//найти размер экранного меню
+  int size = 0;
+  for(int i=0; i< MAX_ROW_FOR_CONTROL_MTZ; i++)
+  {
+    if(validAction_mtz(i)>0) size++;
+  }//for
+  return size;
 }
 /*****************************************************/
 
