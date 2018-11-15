@@ -6244,8 +6244,16 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_SETPOINT_ZOP_GROUP1);
 
-                  edition_settings.setpoint_zop1[group] = current_settings.setpoint_zop1[group];
-                  current_ekran.position_cursor_x = COL_SETPOINT_ZOP1_BEGIN;
+                  if (current_ekran.index_position == INDEX_ML_STPZOP1)
+                  {
+                   edition_settings.setpoint_zop1[group] = current_settings.setpoint_zop1[group];
+                   current_ekran.position_cursor_x = COL_SETPOINT_ZOP1_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_STPZOP2)
+                  {
+                   edition_settings.setpoint_zop2[group] = current_settings.setpoint_zop2[group];
+                   current_ekran.position_cursor_x = COL_SETPOINT_ZOP2_BEGIN;
+                  }
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_ZOP_GROUP1) &&
@@ -6254,8 +6262,16 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZOP_GROUP1);
 
-                  edition_settings.timeout_zop1[group] = current_settings.timeout_zop1[group];
-                  current_ekran.position_cursor_x = COL_TMO_ZOP1_BEGIN;
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP1)
+                  {
+                   edition_settings.timeout_zop1[group] = current_settings.timeout_zop1[group];
+                   current_ekran.position_cursor_x = COL_TMO_ZOP1_BEGIN;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOZOP2)
+                  {
+                   edition_settings.timeout_zop2[group] = current_settings.timeout_zop2[group];
+                   current_ekran.position_cursor_x = COL_TMO_ZOP2_BEGIN;
+                  }
                 }
                 else if(current_ekran.current_level == EKRAN_CONTROL_ZOP)
                 {
@@ -7215,7 +7231,14 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_SETPOINT_ZOP_GROUP1);
                  
-                  if (edition_settings.setpoint_zop1[group] != current_settings.setpoint_zop1[group]) found_changes = 1;
+                  if (current_ekran.index_position == INDEX_ML_STPZOP1)
+                  {
+                   if (edition_settings.setpoint_zop1[group] != current_settings.setpoint_zop1[group]) found_changes = 1;
+                  }
+                  if (current_ekran.index_position == INDEX_ML_STPZOP2)
+                  {
+                   if (edition_settings.setpoint_zop2[group] != current_settings.setpoint_zop2[group]) found_changes = 1;
+                  }
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_ZOP_GROUP1) &&
@@ -7224,7 +7247,14 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZOP_GROUP1);
                  
-                  if (edition_settings.timeout_zop1[group] != current_settings.timeout_zop1[group]) found_changes = 1;
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP1)
+                  {
+                   if (edition_settings.timeout_zop1[group] != current_settings.timeout_zop1[group]) found_changes = 1;
+                  }
+                  else if (current_ekran.index_position == INDEX_ML_TMOZOP2)
+                  {
+                   if (edition_settings.timeout_zop2[group] != current_settings.timeout_zop2[group]) found_changes = 1;
+                  }
                 }
                 else if(current_ekran.current_level == EKRAN_CONTROL_ZOP)
                 {
@@ -9507,6 +9537,8 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_SETPOINT_ZOP_GROUP1);
                   
+                 if (current_ekran.index_position == INDEX_ML_STPZOP1)
+                 {
                   if (check_data_setpoint(edition_settings.setpoint_zop1[group], SETPOINT_ZOP1_MIN, SETPOINT_ZOP1_MAX) == 1)
                   {
                     if (edition_settings.setpoint_zop1[group] != current_settings.setpoint_zop1[group])
@@ -9521,6 +9553,24 @@ void main_manu_function(void)
                     //Виходимо з режиму редагування
                     current_ekran.edition = 0;
                   }
+                 }
+                 else if (current_ekran.index_position == INDEX_ML_STPZOP2)
+                 {
+                  if (check_data_setpoint(edition_settings.setpoint_zop2[group], SETPOINT_ZOP2_MIN, SETPOINT_ZOP2_MAX) == 1)
+                  {
+                    if (edition_settings.setpoint_zop2[group] != current_settings.setpoint_zop2[group])
+                    {
+                      //Помічаємо, що поле структури зараз буде змінене
+                      changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                      current_settings.setpoint_zop2[group] = edition_settings.setpoint_zop2[group];
+                      //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                      fix_change_settings(0, 1);
+                    }
+                    //Виходимо з режиму редагування
+                    current_ekran.edition = 0;
+                  }
+                 }
                 }
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_ZOP_GROUP1) &&
@@ -9529,6 +9579,8 @@ void main_manu_function(void)
                 {
                   int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZOP_GROUP1);
                   
+                 if (current_ekran.index_position == INDEX_ML_TMOZOP1)
+                 {
                   if (check_data_setpoint(edition_settings.timeout_zop1[group], TIMEOUT_ZOP1_MIN, TIMEOUT_ZOP1_MAX) == 1)
                   {
                     if (edition_settings.timeout_zop1[group] != current_settings.timeout_zop1[group])
@@ -9543,6 +9595,24 @@ void main_manu_function(void)
                     //Виходимо з режиму редагування
                     current_ekran.edition = 0;
                   }
+                 }
+                 else if (current_ekran.index_position == INDEX_ML_TMOZOP2)
+                 {
+                  if (check_data_setpoint(edition_settings.timeout_zop2[group], TIMEOUT_ZOP2_MIN, TIMEOUT_ZOP2_MAX) == 1)
+                  {
+                    if (edition_settings.timeout_zop2[group] != current_settings.timeout_zop2[group])
+                    {
+                      //Помічаємо, що поле структури зараз буде змінене
+                      changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                      current_settings.timeout_zop2[group] = edition_settings.timeout_zop2[group];
+                      //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                      fix_change_settings(0, 1);
+                    }
+                    //Виходимо з режиму редагування
+                    current_ekran.edition = 0;
+                  }
+                 }
                 }
                 else if(current_ekran.current_level == EKRAN_CONTROL_ZOP)
                 {
@@ -11428,7 +11498,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.setpoint_zop1[group] = edit_setpoint(1, edition_settings.setpoint_zop1[group], 1, COL_SETPOINT_ZOP1_COMMA, COL_SETPOINT_ZOP1_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_STPZOP1)
+                    edition_settings.setpoint_zop1[group] = edit_setpoint(1, edition_settings.setpoint_zop1[group], 1, COL_SETPOINT_ZOP1_COMMA, COL_SETPOINT_ZOP1_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_STPZOP2)
+                    edition_settings.setpoint_zop2[group] = edit_setpoint(1, edition_settings.setpoint_zop2[group], 1, COL_SETPOINT_ZOP2_COMMA, COL_SETPOINT_ZOP2_END, 1);
                 }
                 //Формуємо екран уставок ЗТОП
                 make_ekran_setpoint_zop(group);
@@ -11448,7 +11521,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.timeout_zop1[group] = edit_setpoint(1, edition_settings.timeout_zop1[group], 1, COL_TMO_ZOP1_COMMA, COL_TMO_ZOP1_END, 10);
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP1)
+                   edition_settings.timeout_zop1[group] = edit_setpoint(1, edition_settings.timeout_zop1[group], 1, COL_TMO_ZOP1_COMMA, COL_TMO_ZOP1_END, 10);
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP2)
+                   edition_settings.timeout_zop2[group] = edit_setpoint(1, edition_settings.timeout_zop2[group], 1, COL_TMO_ZOP2_COMMA, COL_TMO_ZOP2_END, 10);
                 }
                 //Формуємо екран витримок ЗОП(КОФ)
                 make_ekran_timeout_zop(group);
@@ -12698,7 +12774,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.setpoint_zop1[group] = edit_setpoint(0, edition_settings.setpoint_zop1[group], 1, COL_SETPOINT_ZOP1_COMMA, COL_SETPOINT_ZOP1_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_STPZOP1)
+                   edition_settings.setpoint_zop1[group] = edit_setpoint(0, edition_settings.setpoint_zop1[group], 1, COL_SETPOINT_ZOP1_COMMA, COL_SETPOINT_ZOP1_END, 1);
+                  if (current_ekran.index_position == INDEX_ML_STPZOP2)
+                   edition_settings.setpoint_zop2[group] = edit_setpoint(0, edition_settings.setpoint_zop2[group], 1, COL_SETPOINT_ZOP2_COMMA, COL_SETPOINT_ZOP2_END, 1);
                 }
                 //Формуємо екран уставок ЗТОП
                 make_ekran_setpoint_zop(group);
@@ -12718,7 +12797,10 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.timeout_zop1[group] = edit_setpoint(0, edition_settings.timeout_zop1[group], 1, COL_TMO_ZOP1_COMMA, COL_TMO_ZOP1_END, 10);
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP1)
+                   edition_settings.timeout_zop1[group] = edit_setpoint(0, edition_settings.timeout_zop1[group], 1, COL_TMO_ZOP1_COMMA, COL_TMO_ZOP1_END, 10);
+                  if (current_ekran.index_position == INDEX_ML_TMOZOP2)
+                   edition_settings.timeout_zop2[group] = edit_setpoint(0, edition_settings.timeout_zop2[group], 1, COL_TMO_ZOP2_COMMA, COL_TMO_ZOP2_END, 10);
                 }
                 //Формуємо екран витримок ЗОП(КОФ)
                 make_ekran_timeout_zop(group);
@@ -14366,10 +14448,20 @@ void main_manu_function(void)
                       (current_ekran.current_level <= EKRAN_SETPOINT_ZOP_GROUP4)
                      )   
               {
+               if(current_ekran.index_position == INDEX_ML_STPZOP1)
+               {
                 if (current_ekran.position_cursor_x == COL_SETPOINT_ZOP1_COMMA )current_ekran.position_cursor_x++;
                 if ((current_ekran.position_cursor_x < COL_SETPOINT_ZOP1_BEGIN) ||
                     (current_ekran.position_cursor_x > COL_SETPOINT_ZOP1_END))
                   current_ekran.position_cursor_x = COL_SETPOINT_ZOP1_BEGIN;
+               }
+               else if(current_ekran.index_position == INDEX_ML_STPZOP2)
+               {
+                if (current_ekran.position_cursor_x == COL_SETPOINT_ZOP2_COMMA )current_ekran.position_cursor_x++;
+                if ((current_ekran.position_cursor_x < COL_SETPOINT_ZOP2_BEGIN) ||
+                    (current_ekran.position_cursor_x > COL_SETPOINT_ZOP2_END))
+                  current_ekran.position_cursor_x = COL_SETPOINT_ZOP2_BEGIN;
+               }
 
                 //Формуємо екран уставок ЗТОП
                 int group = (current_ekran.current_level - EKRAN_SETPOINT_ZOP_GROUP1);
@@ -14380,10 +14472,20 @@ void main_manu_function(void)
                       (current_ekran.current_level <= EKRAN_TIMEOUT_ZOP_GROUP4)
                      )   
               {
+               if(current_ekran.index_position == INDEX_ML_TMOZOP1)
+               {
                 if (current_ekran.position_cursor_x == COL_TMO_ZOP1_COMMA )current_ekran.position_cursor_x++;
                 if ((current_ekran.position_cursor_x < COL_TMO_ZOP1_BEGIN) ||
                     (current_ekran.position_cursor_x > COL_TMO_ZOP1_END))
                   current_ekran.position_cursor_x = COL_TMO_ZOP1_BEGIN;
+               }
+               else if(current_ekran.index_position == INDEX_ML_TMOZOP2)
+               {
+                if (current_ekran.position_cursor_x == COL_TMO_ZOP2_COMMA )current_ekran.position_cursor_x++;
+                if ((current_ekran.position_cursor_x < COL_TMO_ZOP2_BEGIN) ||
+                    (current_ekran.position_cursor_x > COL_TMO_ZOP2_END))
+                  current_ekran.position_cursor_x = COL_TMO_ZOP2_BEGIN;
+               }
 
                 //Формуємо екран витримок ЗОП(КОФ)
                 int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZOP_GROUP1);
@@ -14394,7 +14496,10 @@ void main_manu_function(void)
                 unsigned int maska;
           
                 //Виділяємо, який біт треба міняти
-                maska = MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE);
+                if      (current_ekran.index_position == INDEX_ML_CTRZOP_1_STATE  ) maska = CTRZOP_1_STATE;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_1_SEL_I  ) maska = CTRZOP_1_SEL_I;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_2_STATE  ) maska = CTRZOP_2_STATE;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_2_SEL_I  ) maska = CTRZOP_2_SEL_I;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_zop ^= maska;
@@ -16019,10 +16124,20 @@ void main_manu_function(void)
                       (current_ekran.current_level <= EKRAN_SETPOINT_ZOP_GROUP4)
                      )   
               {
+               if(current_ekran.index_position == INDEX_ML_STPZOP1)
+               {
                 if (current_ekran.position_cursor_x == COL_SETPOINT_ZOP1_COMMA )current_ekran.position_cursor_x--;
                 if ((current_ekran.position_cursor_x < COL_SETPOINT_ZOP1_BEGIN) ||
                     (current_ekran.position_cursor_x > COL_SETPOINT_ZOP1_END))
                   current_ekran.position_cursor_x = COL_SETPOINT_ZOP1_END;
+               }
+               else if(current_ekran.index_position == INDEX_ML_STPZOP2)
+               {
+                if (current_ekran.position_cursor_x == COL_SETPOINT_ZOP2_COMMA )current_ekran.position_cursor_x--;
+                if ((current_ekran.position_cursor_x < COL_SETPOINT_ZOP2_BEGIN) ||
+                    (current_ekran.position_cursor_x > COL_SETPOINT_ZOP2_END))
+                  current_ekran.position_cursor_x = COL_SETPOINT_ZOP2_END;
+               }
 
                 //Формуємо екран уставок ЗОП(КОФ)
                 int group = (current_ekran.current_level - EKRAN_SETPOINT_ZOP_GROUP1);
@@ -16033,10 +16148,20 @@ void main_manu_function(void)
                       (current_ekran.current_level <= EKRAN_TIMEOUT_ZOP_GROUP4)
                      )   
               {
+               if(current_ekran.index_position == INDEX_ML_TMOZOP1)
+               {
                 if (current_ekran.position_cursor_x == COL_TMO_ZOP1_COMMA )current_ekran.position_cursor_x--;
                 if ((current_ekran.position_cursor_x < COL_TMO_ZOP1_BEGIN) ||
                     (current_ekran.position_cursor_x > COL_TMO_ZOP1_END))
                   current_ekran.position_cursor_x = COL_TMO_ZOP1_END;
+               }
+               else if(current_ekran.index_position == INDEX_ML_TMOZOP2)
+               {
+                if (current_ekran.position_cursor_x == COL_TMO_ZOP2_COMMA )current_ekran.position_cursor_x--;
+                if ((current_ekran.position_cursor_x < COL_TMO_ZOP2_BEGIN) ||
+                    (current_ekran.position_cursor_x > COL_TMO_ZOP2_END))
+                  current_ekran.position_cursor_x = COL_TMO_ZOP2_END;
+               }
 
                 //Формуємо екран витримок ЗОП(КОФ)
                 int group = (current_ekran.current_level - EKRAN_TIMEOUT_ZOP_GROUP1);
@@ -16047,7 +16172,10 @@ void main_manu_function(void)
                 unsigned int maska;
           
                 //Виділяємо, який біт треба міняти
-                maska = MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_STATE);
+                if      (current_ekran.index_position == INDEX_ML_CTRZOP_1_STATE  ) maska = CTRZOP_1_STATE;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_1_SEL_I  ) maska = CTRZOP_1_SEL_I;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_2_STATE  ) maska = CTRZOP_2_STATE;
+                else if (current_ekran.index_position == INDEX_ML_CTRZOP_2_SEL_I  ) maska = CTRZOP_2_SEL_I;
                 
                 //Міняємо на протилежний відповідний біт для вибраної позиції
                 edition_settings.control_zop ^= maska;
