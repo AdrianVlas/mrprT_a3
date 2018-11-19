@@ -7284,6 +7284,7 @@ inline void main_protection(void)
 
       global_timers[INDEX_TIMER_OZT1] = -1;
       global_timers[INDEX_TIMER_OZT2] = -1;
+      global_timers[INDEX_TIMER_OZT_AB] = -1;
     }
     /**************************/
 
