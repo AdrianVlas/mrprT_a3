@@ -4,6 +4,8 @@
 #define N_BIG   9
 #define N_SMALL 3
 
+#define N_DIAGN 4
+
 //Величина, яка необхідна для періодичної (період 1  мс   ) генерації переривань каналом 1 таймеру 2 з прескаллером 2000 = (1999 + 1)
 #define TIM2_CCR1_VAL                   1000
 #define TIM2_MIN_PERIOD_WRITE_READ      1 /*мкс*/
@@ -21,7 +23,7 @@
 #define DELTA_TIME_FOR_TIMERS           1
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
-#define NUMBER_ANALOG_CANALES           8
+#define NUMBER_ANALOG_CANALES           9
 
 #define NUMBER_INPUTS                   16
 #define NUMBER_OUTPUTS                  16

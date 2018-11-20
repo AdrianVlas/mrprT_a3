@@ -192,14 +192,14 @@ inline void periodical_operations(void)
   Щоб за один оберт виконувалася тільки одна перевірка, тобто щоб в одному оберті
   не було надто довга затримка на фонову перевірку, хоч і важливу.
   */
-  if (periodical_tasks_CALC_ENERGY_DATA != 0)
+  if (periodical_tasks_CALC_POWER_DATA != 0)
   {
     //Стоїть у черзі активна задача розразунку потужності і енергій
       
-    calc_power_and_energy();
+    calc_power_total();
 
     //Скидаємо активну задачу розрахунку потужності і енергій
-    periodical_tasks_CALC_ENERGY_DATA = false;
+    periodical_tasks_CALC_POWER_DATA = false;
   }
   else if (periodical_tasks_CALCULATION_ANGLE != 0)
   {

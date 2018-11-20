@@ -1988,7 +1988,8 @@ void main_manu_function(void)
               if (
                   (diagnostyka[0] == 0) &&
                   (diagnostyka[1] == 0) &&
-                  ((diagnostyka[2]/* & USED_BITS_IN_LAST_INDEX*/) == 0)
+                  (diagnostyka[2] == 0) &&
+                  ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
                  )
               {
                 current_ekran.index_position = 0;
@@ -3970,7 +3971,8 @@ void main_manu_function(void)
                 if (
                     (diagnostyka[0] == 0) &&
                     (diagnostyka[1] == 0) &&
-                    ((diagnostyka[2]/* & USED_BITS_IN_LAST_INDEX*/) == 0)
+                    (diagnostyka[2] == 0) &&
+                    ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
                    )
                 {
                   current_ekran.index_position = 0;
@@ -4634,7 +4636,8 @@ void main_manu_function(void)
                 if (
                     (diagnostyka[0] == 0) &&
                     (diagnostyka[1] == 0) &&
-                    ((diagnostyka[2]/* & USED_BITS_IN_LAST_INDEX*/) == 0)
+                    (diagnostyka[2] == 0) &&
+                    ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
                    )
                 {
                   current_ekran.index_position = 0;

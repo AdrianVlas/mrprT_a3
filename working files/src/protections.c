@@ -130,44 +130,49 @@ inline unsigned int sqrt_32(unsigned int y)
 /*****************************************************/
 //Розрахунок струму зворотньої послідовності
 /*****************************************************/
-inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[], const __index_I_U i_u)
+inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[])
 {
   enum _n_phase {_A = 0, _B, _C, _A_B_C};
   const enum _full_ort_index a_b_c[_NUMBER_FOR_I_U][_A_B_C] = 
   {
-    {FULL_ORT_Ia, FULL_ORT_Ib, FULL_ORT_Ic},
-    {FULL_ORT_Ua, FULL_ORT_Ub, FULL_ORT_Uc}
+    {FULL_ORT_Ia_H, FULL_ORT_Ib_H, FULL_ORT_Ic_H},
+    {FULL_ORT_Ia_L, FULL_ORT_Ib_L, FULL_ORT_Ic_L},
+    {FULL_ORT_Ua  , FULL_ORT_Ub  , FULL_ORT_Uc  }
   };
   const uint32_t const_val[_NUMBER_FOR_I_U][4] = 
   {
     {IM_I2_H, IM_I1_H, MNOGNYK_I_DIJUCHE, (VAGA_DILENNJA_I_DIJUCHE + 4)},
-    {IM_U2, IM_U1, MNOGNYK_U_DIJUCHE, (VAGA_DILENNJA_U_DIJUCHE + 4)}
+    {IM_I2_L, IM_I1_L, MNOGNYK_I_DIJUCHE, (VAGA_DILENNJA_I_DIJUCHE + 4)},
+    {IM_U2  , IM_U1  , MNOGNYK_U_DIJUCHE, (VAGA_DILENNJA_U_DIJUCHE + 4)}
   };
     
   int ortogonal_tmp[2];
   int mul_x1, mul_x2, mul_x3, mul_x4, mul_y1, mul_y2, mul_y3, mul_y4;
   
-  mul_x1 = (      ortogonal_local_calc[2*a_b_c[i_u][_B]    ]>>1 );
-  mul_y1 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_B]    ]>>10);
+  for (__index_I_U i_u = INDEX_I_H; i_u < _NUMBER_FOR_I_U; i_u++)
+  {
+    mul_x1 = (      ortogonal_local_calc[2*a_b_c[i_u][_B]    ]>>1 );
+    mul_y1 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_B]    ]>>10);
 
-  mul_x2 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_B] + 1]>>10);
-  mul_y2 = (      ortogonal_local_calc[2*a_b_c[i_u][_B] + 1]>>1 );
+    mul_x2 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_B] + 1]>>10);
+    mul_y2 = (      ortogonal_local_calc[2*a_b_c[i_u][_B] + 1]>>1 );
 
-  mul_x3 = (      ortogonal_local_calc[2*a_b_c[i_u][_C]    ]>>1 );
-  mul_y3 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_C]    ]>>10);
+    mul_x3 = (      ortogonal_local_calc[2*a_b_c[i_u][_C]    ]>>1 );
+    mul_y3 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_C]    ]>>10);
 
-  mul_x4 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_C] + 1]>>10);
-  mul_y4 = (      ortogonal_local_calc[2*a_b_c[i_u][_C] + 1]>>1 );
+    mul_x4 = (0x376*ortogonal_local_calc[2*a_b_c[i_u][_C] + 1]>>10);
+    mul_y4 = (      ortogonal_local_calc[2*a_b_c[i_u][_C] + 1]>>1 );
 
-  //Зворотня послідовність
-  ortogonal_tmp[0] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A]    ] - mul_x1  + mul_x2  - mul_x3 - mul_x4)))>>10;
-  ortogonal_tmp[1] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A] + 1] - mul_y1  - mul_y2  + mul_y3 - mul_y4)))>>10;
-  measurement[const_val[i_u][0]] = (unsigned int)((unsigned long long)( const_val[i_u][2]*(sqrt_32((unsigned int)ortogonal_tmp[0]*ortogonal_tmp[0] + (unsigned int)ortogonal_tmp[1]*ortogonal_tmp[1])) ) >> const_val[i_u][3]);
+    //Зворотня послідовність
+    ortogonal_tmp[0] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A]    ] - mul_x1  + mul_x2  - mul_x3 - mul_x4)))>>10;
+    ortogonal_tmp[1] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A] + 1] - mul_y1  - mul_y2  + mul_y3 - mul_y4)))>>10;
+    measurement[const_val[i_u][0]] = (unsigned int)((unsigned long long)( const_val[i_u][2]*(sqrt_32((unsigned int)ortogonal_tmp[0]*ortogonal_tmp[0] + (unsigned int)ortogonal_tmp[1]*ortogonal_tmp[1])) ) >> const_val[i_u][3]);
 
-  //Пряма послідовність
-  ortogonal_tmp[0] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A]    ] - mul_x1  - mul_x2  - mul_x3 + mul_x4)))>>10;
-  ortogonal_tmp[1] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A] + 1] + mul_y1  - mul_y2  - mul_y3 - mul_y4)))>>10;
-  measurement[const_val[i_u][1]] = (unsigned int)((unsigned long long)( const_val[i_u][2]*(sqrt_32((unsigned int)ortogonal_tmp[0]*ortogonal_tmp[0] + (unsigned int)ortogonal_tmp[1]*ortogonal_tmp[1])) ) >> const_val[i_u][3]);
+    //Пряма послідовність
+    ortogonal_tmp[0] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A]    ] - mul_x1  - mul_x2  - mul_x3 + mul_x4)))>>10;
+    ortogonal_tmp[1] = ((int)(0x155*(ortogonal_local_calc[2*a_b_c[i_u][_A] + 1] + mul_y1  - mul_y2  - mul_y3 - mul_y4)))>>10;
+    measurement[const_val[i_u][1]] = (unsigned int)((unsigned long long)( const_val[i_u][2]*(sqrt_32((unsigned int)ortogonal_tmp[0]*ortogonal_tmp[0] + (unsigned int)ortogonal_tmp[1]*ortogonal_tmp[1])) ) >> const_val[i_u][3]);
+  }
 }
 /*****************************************************/
 
@@ -753,17 +758,17 @@ inline void calc_power(int ortogonal_local_calc[])
     Q_4q[bank_for_enegry_tmp] = 0;
     
     lichylnyk_1s_po_20ms = 0;
-    if (periodical_tasks_CALC_ENERGY_DATA == 0)
+    if (periodical_tasks_CALC_POWER_DATA == 0)
     {
       //Скидаємо повідомлення у слові діагностики
-      _SET_BIT(clear_diagnostyka, LOSE_ENERGY_DATA);
+      _SET_BIT(clear_diagnostyka, LOSE_POWER_DATA);
     }
     else
     {
       //Виствляємо повідомлення у слові діагностики
-      _SET_BIT(set_diagnostyka, LOSE_ENERGY_DATA);
+      _SET_BIT(set_diagnostyka, LOSE_POWER_DATA);
     }
-    periodical_tasks_CALC_ENERGY_DATA = true;
+    periodical_tasks_CALC_POWER_DATA = true;
   }
   
 }
@@ -854,9 +859,6 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
-  const unsigned int *array_point_to_index_converter[1/*4*/] = {index_converter_Ib_p/*, index_converter_I04_p, index_converter_Ib_l, index_converter_I04_l*/};
-  const unsigned int *point_to_index_converter = array_point_to_index_converter[0/*current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_IB_I04 | CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)*/];
-
   unsigned int copy_to_low_tasks = (semaphore_measure_values_low == 0) ? true : false;
   for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
@@ -866,7 +868,7 @@ inline void calc_measurement(unsigned int number_group_stp)
     float sin_beta =  phi_ustuvannja_sin_cos_meas[2*i    ];
     float cos_beta =  phi_ustuvannja_sin_cos_meas[2*i + 1];
     
-    unsigned int new_index = *(point_to_index_converter + i);
+    unsigned int new_index = index_converter[i];
     int ortogonal_sin = ortogonal_calc[2*new_index    ] = (int)(sin_alpha*cos_beta + cos_alpha*sin_beta);
     int ortogonal_cos = ortogonal_calc[2*new_index + 1] = (int)(cos_alpha*cos_beta - sin_alpha*sin_beta);
 
@@ -1093,7 +1095,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   //Розраховуємо напругу прямої і зворотньої послідовності
   /***/
-  velychyna_zvorotnoi_poslidovnosti(ortogonal_calc, INDEX_U);
+  velychyna_zvorotnoi_poslidovnosti(ortogonal_calc);
   /***/
 
   /***/
@@ -1113,12 +1115,6 @@ inline void calc_measurement(unsigned int number_group_stp)
     directional_tznp(ortogonal_calc, number_group_stp);
     /***/
   }
-  
-  /***/
-  //Розраховуємо струм прямої і зворотньої послідовності
-  /***/
-  velychyna_zvorotnoi_poslidovnosti(ortogonal_calc, INDEX_I);
-  /***/
   
   if(++number_inputs_for_fix_one_period >= 20)
   {
@@ -7184,10 +7180,11 @@ inline void main_protection(void)
   /**************************/
   //Сигнал "Несправность Общая"
   /**************************/
-  unsigned int diagnostyka_tmp[3];
+  unsigned int diagnostyka_tmp[N_DIAGN];
   diagnostyka_tmp[0] = diagnostyka[0];
   diagnostyka_tmp[1] = diagnostyka[1];
   diagnostyka_tmp[2] = diagnostyka[2];
+  diagnostyka_tmp[3] = diagnostyka[3];
 
   diagnostyka_tmp[0] &= (unsigned int)(~clear_diagnostyka[0]); 
   diagnostyka_tmp[0] |= set_diagnostyka[0]; 
@@ -7197,8 +7194,11 @@ inline void main_protection(void)
 
   diagnostyka_tmp[2] &= (unsigned int)(~clear_diagnostyka[2]); 
   diagnostyka_tmp[2] |= set_diagnostyka[2]; 
+
+  diagnostyka_tmp[3] &= (unsigned int)(~clear_diagnostyka[3]); 
+  diagnostyka_tmp[3] |= set_diagnostyka[3]; 
   
-//  diagnostyka_tmp[2] &= USED_BITS_IN_LAST_INDEX; 
+  diagnostyka_tmp[3] &= USED_BITS_IN_LAST_INDEX; 
 
   _CLEAR_BIT(diagnostyka_tmp, EVENT_START_SYSTEM_BIT);
   _CLEAR_BIT(diagnostyka_tmp, EVENT_SOFT_RESTART_SYSTEM_BIT);
@@ -7206,7 +7206,8 @@ inline void main_protection(void)
   if (
       (diagnostyka_tmp[0] != 0) ||
       (diagnostyka_tmp[1] != 0) ||
-      (diagnostyka_tmp[2] != 0)
+      (diagnostyka_tmp[2] != 0) ||
+      (diagnostyka_tmp[3] != 0)
      )   
   {
     _SET_BIT(active_functions, RANG_DEFECT);
@@ -7216,7 +7217,8 @@ inline void main_protection(void)
     if (
         ((diagnostyka_tmp[0] & MASKA_AVAR_ERROR_0) != 0) ||
         ((diagnostyka_tmp[1] & MASKA_AVAR_ERROR_1) != 0) ||
-        ((diagnostyka_tmp[2] & MASKA_AVAR_ERROR_2) != 0)
+        ((diagnostyka_tmp[2] & MASKA_AVAR_ERROR_2) != 0) ||
+        ((diagnostyka_tmp[3] & MASKA_AVAR_ERROR_3) != 0)
        )   
     {
       _SET_BIT(active_functions, RANG_AVAR_DEFECT);

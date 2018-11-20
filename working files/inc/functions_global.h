@@ -248,6 +248,7 @@ void error_start_i2c(void);
 
 void find_new_ADC_canal_to_read(unsigned int, unsigned int*);
 void control_reading_ADCs(void);
+void operate_test_ADCs(void);
 void Fourier(void);
 void fapch(void);
 void calc_measurement(unsigned int);
@@ -258,9 +259,9 @@ unsigned int get_order(int);
 
 void calc_angle(void);
 void calc_power(int*);
-void calc_power_and_energy(void);
+void calc_power_total(void);
 
-void velychyna_zvorotnoi_poslidovnosti(int*, const __index_I_U);
+void velychyna_zvorotnoi_poslidovnosti(int*);
 
 void directional_mtz(int*, unsigned int);
 void directional_tznp(int*, unsigned int);
