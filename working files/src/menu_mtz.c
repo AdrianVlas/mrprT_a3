@@ -3,6 +3,7 @@
 int ekranListIndex_control_mtz=0;//индекс экранного списка control mtz
 
 int validAction_mtz(int poz);
+int corelCTRMTZ(int maska);
 /*****************************************************/
 //¬ираховуван€ символу ≥ пом≥щенн€ його в робочий екран
 /*****************************************************/
@@ -1774,44 +1775,21 @@ void make_ekran_control_mtz(void)
 
 int corelCTRMTZ_1_SEL_I(void)
 {
-  unsigned int mtz_data = current_settings.control_mtz;
-  if(current_ekran.edition)
-               mtz_data = edition_settings.control_mtz;
-  unsigned int transformator_data = current_settings.control_transformator;
-  int tmp1 = 0;
-  int tmp2 = 0;
-  if(mtz_data & CTR_MTZ_1_SEL_I) tmp1=1;
-  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
-//1 - нет корел€ции  
-  return tmp1^tmp2;
+  return corelCTRMTZ(CTR_MTZ_1_SEL_I);
 }
 int corelCTRMTZ_2_SEL_I(void)
 {
-  unsigned int mtz_data = current_settings.control_mtz;
-  if(current_ekran.edition)
-               mtz_data = edition_settings.control_mtz;
-  unsigned int transformator_data = current_settings.control_transformator;
-  int tmp1 = 0;
-  int tmp2 = 0;
-  if(mtz_data & CTR_MTZ_2_SEL_I) tmp1=1;
-  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
-//1 - нет корел€ции  
-  return tmp1^tmp2;
+  return corelCTRMTZ(CTR_MTZ_2_SEL_I);
 }
 int corelCTRMTZ_3_SEL_I(void)
 {
-  unsigned int mtz_data = current_settings.control_mtz;
-  if(current_ekran.edition)
-               mtz_data = edition_settings.control_mtz;
-  unsigned int transformator_data = current_settings.control_transformator;
-  int tmp1 = 0;
-  int tmp2 = 0;
-  if(mtz_data & CTR_MTZ_3_SEL_I) tmp1=1;
-  if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
-//1 - нет корел€ции  
-  return tmp1^tmp2;
+  return corelCTRMTZ(CTR_MTZ_3_SEL_I);
 }
 int corelCTRMTZ_4_SEL_I(void)
+{
+  return corelCTRMTZ(CTR_MTZ_4_SEL_I);
+}
+int corelCTRMTZ(int maska)
 {
   unsigned int mtz_data = current_settings.control_mtz;
   if(current_ekran.edition)
@@ -1819,7 +1797,7 @@ int corelCTRMTZ_4_SEL_I(void)
   unsigned int transformator_data = current_settings.control_transformator;
   int tmp1 = 0;
   int tmp2 = 0;
-  if(mtz_data & CTR_MTZ_4_SEL_I) tmp1=1;
+  if(mtz_data & maska) tmp1=1;
   if(transformator_data & MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) tmp2=1;
 //1 - нет корел€ции  
   return tmp1^tmp2;
@@ -1846,19 +1824,21 @@ int validAction_mtz(int poz)
   return 1;
 }//validAction_mtz(int poz)
 
-int normalizAction_mtz()
+int normalizEkranIndex_control_mtz()
 {
 //нормализаци€ экранного индекса
-    if(validAction_mtz(current_ekran.index_position)==-1) 
-                       current_ekran.index_position = INDEX_ML_CTRMTZ_1_SEL_I;
-    if(validAction_mtz(current_ekran.index_position)==-2) 
-                       current_ekran.index_position = INDEX_ML_CTRMTZ_2_SEL_I;
-    if(validAction_mtz(current_ekran.index_position)==-3) 
-                       current_ekran.index_position = INDEX_ML_CTRMTZ_3_SEL_I;
-    if(validAction_mtz(current_ekran.index_position)==-4) 
-                       current_ekran.index_position = INDEX_ML_CTRMTZ_4_SEL_I;
-    return findEkranListIndex_control_mtz(current_ekran.index_position);//найти экранный индeкс
-}//normalizAction_mtz()
+  switch(validAction_mtz(current_ekran.index_position)) 
+  {
+   case -1: current_ekran.index_position = INDEX_ML_CTRMTZ_1_SEL_I; break;
+   case -2: current_ekran.index_position = INDEX_ML_CTRMTZ_2_SEL_I; break;
+   case -3: current_ekran.index_position = INDEX_ML_CTRMTZ_3_SEL_I; break;
+   case -4: current_ekran.index_position = INDEX_ML_CTRMTZ_4_SEL_I; break;
+   default:;
+  }//switch
+  int ekranIndex = findEkranListIndex_control_mtz(current_ekran.index_position);//найти экранный индeкс
+  if(ekranIndex<0) return 0;//что-то пошло не так
+  return ekranIndex;
+}//normalizEkranIndex_control_mtz()
 
 int findMenuListIndex_control_mtz(int ekranListIndex)
 {
