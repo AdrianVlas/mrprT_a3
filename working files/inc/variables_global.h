@@ -350,7 +350,7 @@ unsigned int temp_states_for_mtz/* = 0*/;
 //ргмо
 unsigned int TZNP_3U0_bilshe_porogu/* = 0*/;
 unsigned int TZNP_3I0_r_bilshe_porogu/* = 0*/;
-unsigned int sector_directional_tznp[3]/* = {0, 0, 0}*/;
+unsigned int sector_directional_tznp[4];
 
 unsigned int i1_bilshe_porogu/* = 0*/, i2_bilshe_porogu/* = 0*/;
 

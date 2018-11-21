@@ -235,7 +235,7 @@ extern void command_start_saving_record_dr_into_dataflash(void);
 extern void routine_for_queue_dr(void);
 extern void digital_registrator(unsigned int*);
 extern void analog_registrator(unsigned int*);
-//extern void diagnostyca_adc_execution(void);
+extern void diagnostyca_adc_execution(void);
 
 extern void Usb_routines(void);
 extern void USART_RS485_Configure(void);
@@ -261,13 +261,13 @@ extern unsigned int sqrt_64(unsigned long long);
 extern unsigned int get_order(int);
 
 extern void calc_angle(void);
-extern void calc_power(int*);
+extern void calc_power(int*, unsigned int);
 extern void calc_power_total(void);
 
 extern void velychyna_zvorotnoi_poslidovnosti(int*);
 
-extern void directional_mtz(int*, unsigned int);
-extern void directional_tznp(int*, unsigned int);
+extern void directional_mtz(int*, unsigned int, unsigned int);
+extern void directional_tznp(int*, unsigned int, unsigned int);
 
 extern void main_routines_for_spi1(void);
 extern void main_function_for_dataflash_resp(int);

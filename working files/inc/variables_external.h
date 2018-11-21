@@ -139,7 +139,7 @@ extern unsigned int temp_states_for_mtz;
 //ргмо
 extern unsigned int TZNP_3U0_bilshe_porogu;
 extern unsigned int TZNP_3I0_r_bilshe_porogu;
-extern unsigned int sector_directional_tznp[3];
+extern unsigned int sector_directional_tznp[4];
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 

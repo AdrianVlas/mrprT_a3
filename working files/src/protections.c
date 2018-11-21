@@ -3,26 +3,26 @@
 /*****************************************************/
 //Діагностика АЦП
 /*****************************************************/
-//inline void diagnostyca_adc_execution(void)
-//{
-//  if (gnd_adc1 >0x51) _SET_BIT(set_diagnostyka, ERROR_GND_ADC1_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka, ERROR_GND_ADC1_TEST_BIT);
-//
-//  if (gnd_adc2 >0x51) _SET_BIT(set_diagnostyka, ERROR_GND_ADC2_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka, ERROR_GND_ADC2_TEST_BIT);
-//
-//  if ((vref_adc1 <0x709) || (vref_adc1 > 0x8f5)) _SET_BIT(set_diagnostyka, ERROR_VREF_ADC1_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka,ERROR_VREF_ADC1_TEST_BIT);
-//
-//  if ((vref_adc2 <0x709) || (vref_adc2 > 0x8f5)) _SET_BIT(set_diagnostyka, ERROR_VREF_ADC2_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka,ERROR_VREF_ADC2_TEST_BIT);
-//
-//  if ((vdd_adc1 <0x8F9) || (vdd_adc1 > 0xE13)) _SET_BIT(set_diagnostyka, ERROR_VDD_ADC1_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka, ERROR_VDD_ADC1_TEST_BIT);
-//
-//  if ((vdd_adc2 <0x8F9) || (vdd_adc2 > 0xE13)) _SET_BIT(set_diagnostyka, ERROR_VDD_ADC2_TEST_BIT);
-//  else _SET_BIT(clear_diagnostyka, ERROR_VDD_ADC2_TEST_BIT);
-//}
+inline void diagnostyca_adc_execution(void)
+{
+  if (gnd_adc1 >0x51) _SET_BIT(set_diagnostyka, ERROR_GND_ADC1_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka, ERROR_GND_ADC1_TEST_BIT);
+
+  if (gnd_adc2 >0x51) _SET_BIT(set_diagnostyka, ERROR_GND_ADC2_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka, ERROR_GND_ADC2_TEST_BIT);
+
+  if ((vref_adc1 <0x709) || (vref_adc1 > 0x8f5)) _SET_BIT(set_diagnostyka, ERROR_VREF_ADC1_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka,ERROR_VREF_ADC1_TEST_BIT);
+
+  if ((vref_adc2 <0x709) || (vref_adc2 > 0x8f5)) _SET_BIT(set_diagnostyka, ERROR_VREF_ADC2_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka,ERROR_VREF_ADC2_TEST_BIT);
+
+  if ((vdd_adc1 <0x8F9) || (vdd_adc1 > 0xE13)) _SET_BIT(set_diagnostyka, ERROR_VDD_ADC1_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka, ERROR_VDD_ADC1_TEST_BIT);
+
+  if ((vdd_adc2 <0x8F9) || (vdd_adc2 > 0xE13)) _SET_BIT(set_diagnostyka, ERROR_VDD_ADC2_TEST_BIT);
+  else _SET_BIT(clear_diagnostyka, ERROR_VDD_ADC2_TEST_BIT);
+}
 /*****************************************************/
 
 /*****************************************************/
@@ -179,245 +179,281 @@ inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[])
 /*****************************************************/
 //Направленість МТЗ з визначенням секторів
 /*****************************************************/
-inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_group_stp) 
+inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_group_stp, unsigned int voltage) 
 {
+  const uint32_t ctr_msz_sel_I[4] = {CTR_MTZ_1_SEL_I, CTR_MTZ_2_SEL_I, CTR_MTZ_3_SEL_I, CTR_MTZ_4_SEL_I};
   for (unsigned int mtz = 0; mtz < 4; mtz++)
   {
-    int a_cos_fi, a_sin_fi;
-    switch (mtz)
+    unsigned int current = (current_settings_prt.control_mtz >> ctr_msz_sel_I[mtz]) & 0x1;
+    if (voltage != current)
     {
-    case 0:
-      {
-        a_cos_fi = current_settings_prt.setpoint_mtz_1_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_mtz_1_angle_sin[number_group_stp];
-        
-        break;
-      }
-    case 1:
-      {
-        a_cos_fi = current_settings_prt.setpoint_mtz_2_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_mtz_2_angle_sin[number_group_stp];
-        
-        break;
-      }
-    case 2:
-      {
-        a_cos_fi = current_settings_prt.setpoint_mtz_3_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_mtz_3_angle_sin[number_group_stp];
-        
-        break;
-      }
-    case 3:
-      {
-        a_cos_fi = current_settings_prt.setpoint_mtz_4_angle_cos[number_group_stp];
-        a_sin_fi = current_settings_prt.setpoint_mtz_4_angle_sin[number_group_stp];
-        
-        break;
-      }
-    default:
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(54);
-      }
+      //Струм і напруга не співпадають, а тому про направленість не може бути задіяна
+      sector_directional_mtz[mtz][0] = sector_directional_mtz[mtz][1] = sector_directional_mtz[mtz][2] = 0;
+      
+      continue;
     }
-    a_sin_fi = -a_sin_fi; //З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
-
-    //Робимо доповорот на встановлений кут
-    /*
-    За розрахунком описаним при розрахунку діючих значень наші ортогональні є у ворматі (15 біт + знак) = 16-розряжне число
-    */
-    int amp_cos_U_fi;
-    int amp_sin_U_fi;
-  
-    for (unsigned int i = 0; i < 3; i++)
+    else
     {
-      unsigned int index_I, index_U;
-      unsigned int index_I_ort, index_U_ort;
-      switch (i)
+      int a_cos_fi, a_sin_fi;
+      switch (mtz)
       {
       case 0:
         {
-          index_I = IM_IA_H;
-          index_U = IM_UBC;
-
-          index_I_ort = FULL_ORT_Ia;
-          index_U_ort = FULL_ORT_Ubc;
-
+          a_cos_fi = current_settings_prt.setpoint_mtz_1_angle_cos[number_group_stp];
+          a_sin_fi = current_settings_prt.setpoint_mtz_1_angle_sin[number_group_stp];
+        
           break;
         }
       case 1:
         {
-          index_I = IM_IB_H;
-          index_U = IM_UCA;
-
-          index_I_ort = FULL_ORT_Ib;
-          index_U_ort = FULL_ORT_Uca;
-
+          a_cos_fi = current_settings_prt.setpoint_mtz_2_angle_cos[number_group_stp];
+          a_sin_fi = current_settings_prt.setpoint_mtz_2_angle_sin[number_group_stp];
+          
           break;
         }
       case 2:
         {
-          index_I = IM_IC_H;
-          index_U = IM_UAB;
-
-          index_I_ort = FULL_ORT_Ic;
-          index_U_ort = FULL_ORT_Uab;
-
+          a_cos_fi = current_settings_prt.setpoint_mtz_3_angle_cos[number_group_stp];
+          a_sin_fi = current_settings_prt.setpoint_mtz_3_angle_sin[number_group_stp];
+        
+          break;
+        }
+      case 3:
+        {
+          a_cos_fi = current_settings_prt.setpoint_mtz_4_angle_cos[number_group_stp];
+          a_sin_fi = current_settings_prt.setpoint_mtz_4_angle_sin[number_group_stp];
+        
           break;
         }
       default:
         {
           //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(60);
+          total_error_sw_fixed(54);
         }
       }
+      a_sin_fi = -a_sin_fi; //З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
 
-      unsigned int porig_Uxy;
-      if (Uxy_bilshe_porogu[i] == 0) porig_Uxy = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE*KOEF_POVERNENNJA_SECTOR_BLK/100;
-      else porig_Uxy = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-      unsigned int Uxy_bilshe_porogu_tmp = Uxy_bilshe_porogu[i] = (measurement[index_U] >= porig_Uxy);
-      
-      unsigned int porig_Ix;
-      if (Ix_bilshe_porogu[i] == 0) porig_Ix = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
-      else porig_Ix = PORIG_CHUTLYVOSTI_CURRENT;
-      unsigned int Ix_bilshe_porogu_tmp = Ix_bilshe_porogu[i]  = (measurement[index_I] >= porig_Ix );
-
-      if (
-          (Uxy_bilshe_porogu_tmp != 0) &&
-          (Ix_bilshe_porogu_tmp  != 0)
-         )
+      //Робимо доповорот на встановлений кут
+      /*
+      За розрахунком описаним при розрахунку діючих значень наші ортогональні є у ворматі (15 біт + знак) = 16-розряжне число
+      */
+      int amp_cos_U_fi;
+      int amp_sin_U_fi;
+  
+      for (unsigned int i = 0; i < 3; i++)
       {
+        unsigned int index_I, index_U;
+        unsigned int index_I_ort, index_U_ort;
+        switch (i)
+        {
+        case 0:
+          {
+            if (current)
+            {
+              index_I = IM_IA_L;
+              index_I_ort = FULL_ORT_Ia_L;
+            }
+            else
+            {
+              index_I = IM_IA_H;
+              index_I_ort = FULL_ORT_Ia_H;
+            }
+
+            index_U = IM_UBC;
+            index_U_ort = FULL_ORT_Ubc;
+
+            break;
+          }
+        case 1:
+          {
+            if (current)
+            {
+              index_I = IM_IB_L;
+              index_I_ort = FULL_ORT_Ib_L;
+            }
+            else
+            {
+              index_I = IM_IB_H;
+              index_I_ort = FULL_ORT_Ib_H;
+            }
+
+            index_U = IM_UCA;
+            index_U_ort = FULL_ORT_Uca;
+
+            break;
+          }
+        case 2:
+          {
+            if (current)
+            {
+              index_I = IM_IC_L;
+              index_I_ort = FULL_ORT_Ic_L;
+            }
+            else
+            {
+              index_I = IM_IC_H;
+              index_I_ort = FULL_ORT_Ic_H;
+            }
+
+            index_U = IM_UAB;
+            index_U_ort = FULL_ORT_Uab;
+
+            break;
+          }
+        default:
+          {
+            //Теоретично цього ніколи не мало б бути
+            total_error_sw_fixed(60);
+          }
+        }
+
+        unsigned int porig_Uxy;
+        if (Uxy_bilshe_porogu[i] == 0) porig_Uxy = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE*KOEF_POVERNENNJA_SECTOR_BLK/100;
+        else porig_Uxy = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
+        unsigned int Uxy_bilshe_porogu_tmp = Uxy_bilshe_porogu[i] = (measurement[index_U] >= porig_Uxy);
+      
+        unsigned int porig_Ix;
+        if (Ix_bilshe_porogu[i] == 0) porig_Ix = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
+        else porig_Ix = PORIG_CHUTLYVOSTI_CURRENT;
+        unsigned int Ix_bilshe_porogu_tmp = Ix_bilshe_porogu[i]  = (measurement[index_I] >= porig_Ix );
+
+        if (
+            (Uxy_bilshe_porogu_tmp != 0) &&
+            (Ix_bilshe_porogu_tmp  != 0)
+           )
+        {
 #define SIN_I   ortogonal_local_calc[2*index_I_ort    ]
 #define COS_I   ortogonal_local_calc[2*index_I_ort + 1]
 #define SIN_U   ortogonal_local_calc[2*index_U_ort    ]
 #define COS_U   ortogonal_local_calc[2*index_U_ort + 1]
 
-        amp_cos_U_fi = (COS_U*a_cos_fi - SIN_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
-        amp_sin_U_fi = (SIN_U*a_cos_fi + COS_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
+          amp_cos_U_fi = (COS_U*a_cos_fi - SIN_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
+          amp_sin_U_fi = (SIN_U*a_cos_fi + COS_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
 
-        //Вираховуємо COS і SIN кута різниці між (U[i]+fi) і I[i]
-        int cos_fi, sin_fi;
-        /*
-        З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
-        випливає, що максимальне значення ортогональних для струму може бути 0x6E51, для лінійної напруги 
-        0x120FC, то добуток їх має дати 0x7C87B7BC  - 31 бітне число (плюс знак біту)
-        Тобто ми акладаємося у тип int.
-        */
-        cos_fi = amp_cos_U_fi*COS_I + amp_sin_U_fi*SIN_I;
-        sin_fi = -(amp_sin_U_fi*COS_I - amp_cos_U_fi*SIN_I);//З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
+          //Вираховуємо COS і SIN кута різниці між (U[i]+fi) і I[i]
+          int cos_fi, sin_fi;
+          /*
+          З наведених теоретичних роззрахунків у функції обрахунку діючих значень (calc_measurement())
+          випливає, що максимальне значення ортогональних для струму може бути 0x6E51, для лінійної напруги 
+          0x120FC, то добуток їх має дати 0x7C87B7BC  - 31 бітне число (плюс знак біту)
+          Тобто ми акладаємося у тип int.
+          */
+          cos_fi = amp_cos_U_fi*COS_I + amp_sin_U_fi*SIN_I;
+          sin_fi = -(amp_sin_U_fi*COS_I - amp_cos_U_fi*SIN_I);//З розділу: "Неймовірно, але факт", тобто що я не можу пояснити
 
 #undef SIN_I
 #undef COS_I
 #undef SIN_U
 #undef COS_U
 
-        /*
-        З вище наведених розрахункыв виходить, що COS і SIN різниці струму і напруги може бути 31-бітне число
-        Векторні координати границь секторів задано 7-бінтими числами + знак
-        Тоді щоб не отримати переповнення треба гарантувати, що розрядність різниці векторів
-        COS і SIN буде = 31 - (7 + 1) = 23
-        7 - це розрядність координат векторів границь секторів
-        1 - це врахування що ми використовіємо формулу (ab+cd)
-        */
-        unsigned int order_cos, order_sin, max_order, shift = 0;
-        order_cos = get_order(cos_fi);
-        order_sin = get_order(sin_fi);
-        if (order_cos > order_sin) max_order = order_cos; else max_order = order_sin;
-        if (max_order > 23) shift = max_order - 23;
+          /*
+          З вище наведених розрахункыв виходить, що COS і SIN різниці струму і напруги може бути 31-бітне число
+          Векторні координати границь секторів задано 7-бінтими числами + знак
+          Тоді щоб не отримати переповнення треба гарантувати, що розрядність різниці векторів
+          COS і SIN буде = 31 - (7 + 1) = 23
+          7 - це розрядність координат векторів границь секторів
+          1 - це врахування що ми використовіємо формулу (ab+cd)
+          */
+          unsigned int order_cos, order_sin, max_order, shift = 0;
+          order_cos = get_order(cos_fi);
+          order_sin = get_order(sin_fi);
+          if (order_cos > order_sin) max_order = order_cos; else max_order = order_sin;
+          if (max_order > 23) shift = max_order - 23;
   
-        /*
-        Сам зсув я роблю після визначення квадранта - це хоч і втрата на розмірі програмного коду,
-        але мало б підвищити точність визначення квадранту.
-        Хоч може тут я перемудровую?..
-        */
+          /*
+          Сам зсув я роблю після визначення квадранта - це хоч і втрата на розмірі програмного коду,
+          але мало б підвищити точність визначення квадранту.
+          Хоч може тут я перемудровую?..
+          */
 
-        //Визначення сектору
-        int sin_fi1_minus_fi2;
-        int *sector;
-        if ((sin_fi >= 0) && (cos_fi >= 0))
-        {
-          //1-ий квадрант
-          cos_fi = cos_fi >> shift;
-          sin_fi = sin_fi >> shift;
+          //Визначення сектору
+          int sin_fi1_minus_fi2;
+          int *sector;
+          if ((sin_fi >= 0) && (cos_fi >= 0))
+          {
+            //1-ий квадрант
+            cos_fi = cos_fi >> shift;
+            sin_fi = sin_fi >> shift;
           
-          if (sector_directional_mtz[mtz][i] != 1)
-            sector = sector_1_mtz_tznp;
-          else
-            sector = sector_2_mtz_tznp;
+            if (sector_directional_mtz[mtz][i] != 1)
+              sector = sector_1_mtz_tznp;
+            else
+              sector = sector_2_mtz_tznp;
           
 #define COS_SECTOR sector[0]    
 #define SIN_SECTOR sector[1]    
 
-          sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-          sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 <= 0) ?  1 : 0;
+            sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
+            sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 <= 0) ?  1 : 0;
     
 #undef COS_SECTOR    
 #undef SIN_SECTOR   
-        }
-        else if ((sin_fi >= 0) && (cos_fi < 0))
-        {
-          //2-ий квадрант
-          cos_fi = cos_fi >> shift;
-          sin_fi = sin_fi >> shift;
+          }
+          else if ((sin_fi >= 0) && (cos_fi < 0))
+          {
+            //2-ий квадрант
+            cos_fi = cos_fi >> shift;
+            sin_fi = sin_fi >> shift;
 
-          if (sector_directional_mtz[mtz][i] != 2)
-            sector = sector_1_mtz_tznp;
-          else
-            sector = sector_2_mtz_tznp;
+            if (sector_directional_mtz[mtz][i] != 2)
+              sector = sector_1_mtz_tznp;
+            else
+              sector = sector_2_mtz_tznp;
 
 #define COS_SECTOR sector[2]    
 #define SIN_SECTOR sector[3]    
 
-          sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-          sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 >= 0) ?  2 : 0;
+            sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
+            sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 >= 0) ?  2 : 0;
     
 #undef COS_SECTOR    
 #undef SIN_SECTOR    
-        }
-        else if ((sin_fi < 0) && (cos_fi < 0))
-        {
-          //3-ий квадрант
-          cos_fi = cos_fi >> shift;
-          sin_fi = sin_fi >> shift;
+          }
+          else if ((sin_fi < 0) && (cos_fi < 0))
+          {
+            //3-ий квадрант
+            cos_fi = cos_fi >> shift;
+            sin_fi = sin_fi >> shift;
 
-          if (sector_directional_mtz[mtz][i] != 2)
-            sector = sector_1_mtz_tznp;
-          else
-            sector = sector_2_mtz_tznp;
+            if (sector_directional_mtz[mtz][i] != 2)
+              sector = sector_1_mtz_tznp;
+            else
+              sector = sector_2_mtz_tznp;
 
 #define COS_SECTOR sector[4]    
 #define SIN_SECTOR sector[5]    
 
-          sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-          sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 <= 0) ?  2 : 0;
+            sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
+            sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 <= 0) ?  2 : 0;
     
 #undef COS_SECTOR    
 #undef SIN_SECTOR    
-        }
-        else
-        {
-          //4-ий квадрант
-          cos_fi = cos_fi >> shift;
-          sin_fi = sin_fi >> shift;
-
-          if (sector_directional_mtz[mtz][i] != 1)
-            sector = sector_1_mtz_tznp;
+          }
           else
-            sector = sector_2_mtz_tznp;
+          {
+            //4-ий квадрант
+            cos_fi = cos_fi >> shift;
+            sin_fi = sin_fi >> shift;
+
+            if (sector_directional_mtz[mtz][i] != 1)
+              sector = sector_1_mtz_tznp;
+            else
+              sector = sector_2_mtz_tznp;
 
 #define COS_SECTOR sector[6]    
 #define SIN_SECTOR sector[7]    
 
-          sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
-          sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 >= 0) ?  1 : 0;
+            sin_fi1_minus_fi2 = sin_fi*COS_SECTOR - cos_fi*SIN_SECTOR;
+            sector_directional_mtz[mtz][i] = (sin_fi1_minus_fi2 >= 0) ?  1 : 0;
     
 #undef COS_SECTOR    
 #undef SIN_SECTOR    
+          }
         }
-      }
-      else
-      {
-        sector_directional_mtz[mtz][i] = 0;
+        else
+        {
+          sector_directional_mtz[mtz][i] = 0;
+        }
       }
     }
   }
@@ -427,9 +463,9 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
 /*****************************************************/
 //Направленість ТЗНП з визначенням секторів
 /*****************************************************/
-inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_group_stp) 
+inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_group_stp, unsigned int voltage) 
 {
-  for (unsigned int tznp = 0; tznp < 3; tznp++)
+  for (unsigned int tznp = 0; tznp < 4; tznp++)
   {
     int a_cos_fi, a_sin_fi;
     switch (tznp)
@@ -452,6 +488,13 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
       {
         a_cos_fi = current_settings_prt.setpoint_tznp_3_angle_cos[number_group_stp];
         a_sin_fi = current_settings_prt.setpoint_tznp_3_angle_sin[number_group_stp];
+        
+        break;
+      }
+    case 3:
+      {
+        a_cos_fi = current_settings_prt.setpoint_tznp_4_angle_cos[number_group_stp];
+        a_sin_fi = current_settings_prt.setpoint_tznp_4_angle_sin[number_group_stp];
         
         break;
       }
@@ -488,10 +531,10 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
       sin(phi + Pi) = -sin(phi)
       Тому COS_U змінюємо знак
       */
-#define SIN_I           ( ortogonal_local_calc[2*FULL_ORT_3I0_r    ])
-#define COS_I           ( ortogonal_local_calc[2*FULL_ORT_3I0_r + 1])
-#define SIN_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0      ])
-#define COS_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0   + 1])
+#define SIN_I           ((voltage) ? ortogonal_local_calc[2*FULL_ORT_3I0_r_L    ] : ortogonal_local_calc[2*FULL_ORT_3I0_r_H    ])
+#define COS_I           ((voltage) ? ortogonal_local_calc[2*FULL_ORT_3I0_r_L + 1] : ortogonal_local_calc[2*FULL_ORT_3I0_r_H + 1])
+#define SIN_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0_r      ])
+#define COS_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0_r   + 1])
 
       int cos_I_fi = (COS_I*a_cos_fi - SIN_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
       int sin_I_fi = (SIN_I*a_cos_fi + COS_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
@@ -627,7 +670,7 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
 /*****************************************************/
 //Визначенням миттєвої потужності
 /*****************************************************/
-inline void calc_power(int ortogonal_local_calc[]) 
+inline void calc_power(int ortogonal_local_calc[], unsigned int voltage) 
 {
   /*
   Розраховуємо дійсну і уявну частину потужності у компдексній площині
@@ -636,18 +679,18 @@ inline void calc_power(int ortogonal_local_calc[])
   S = UaIa* + UbIb* + UcIc*
   */
   
-#define IA_SIN          ortogonal_local_calc[2*FULL_ORT_Ia + 1]
-#define IA_COS          ortogonal_local_calc[2*FULL_ORT_Ia + 0]
+#define IA_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ia_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ia_H + 1])
+#define IA_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ia_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ia_H + 0])
 #define UA_SIN          ortogonal_local_calc[2*FULL_ORT_Ua + 1]
 #define UA_COS          ortogonal_local_calc[2*FULL_ORT_Ua + 0]
   
-#define IB_SIN          ortogonal_local_calc[2*FULL_ORT_Ib + 1]
-#define IB_COS          ortogonal_local_calc[2*FULL_ORT_Ib + 0]
+#define IB_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ib_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 1])
+#define IB_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ib_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 0])
 #define UB_SIN          ortogonal_local_calc[2*FULL_ORT_Ub + 1]
 #define UB_COS          ortogonal_local_calc[2*FULL_ORT_Ub + 0]
 
-#define IC_SIN          ortogonal_local_calc[2*FULL_ORT_Ic + 1]
-#define IC_COS          ortogonal_local_calc[2*FULL_ORT_Ic + 0]
+#define IC_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ic_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 1])
+#define IC_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ic_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 0])
 #define UC_SIN          ortogonal_local_calc[2*FULL_ORT_Uc + 1]
 #define UC_COS          ortogonal_local_calc[2*FULL_ORT_Uc + 0]
   
@@ -1098,22 +1141,34 @@ inline void calc_measurement(unsigned int number_group_stp)
   velychyna_zvorotnoi_poslidovnosti(ortogonal_calc);
   /***/
 
-  /***/
-  //Фазочутливий елемент для МТЗ (всіх ступенів)
-  /***/
-  directional_mtz(ortogonal_calc, number_group_stp);
-  /***/
+  unsigned int voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  if ((current_settings_prt.configuration & (1<<MTZ_BIT_CONFIGURATION)) != 0)
+  {
+    /***/
+    //Фазочутливий елемент для МТЗ (всіх ступенів)
+    /***/
+    directional_mtz(ortogonal_calc, number_group_stp, voltage);
+    /***/
+  }
+  else
+  {
+    sector_directional_mtz[0][0] = sector_directional_mtz[0][1] = sector_directional_mtz[0][2] = 
+    sector_directional_mtz[1][0] = sector_directional_mtz[1][1] = sector_directional_mtz[1][2] = 
+    sector_directional_mtz[2][0] = sector_directional_mtz[2][1] = sector_directional_mtz[2][2] = 
+    sector_directional_mtz[3][0] = sector_directional_mtz[3][1] = sector_directional_mtz[3][2] = 0;
+  }
 
-  if (
-//      ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0) &&
-      ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0)
-     )   
+  if ((current_settings_prt.configuration & (1<<TZNP_BIT_CONFIGURATION)) != 0)
   {
     /***/
     //Фазочутливий елемент для ТЗНП (всіх ступенів)
     /***/
-    directional_tznp(ortogonal_calc, number_group_stp);
+    directional_tznp(ortogonal_calc, number_group_stp, voltage);
     /***/
+  }
+  else
+  {
+    sector_directional_tznp[0] = sector_directional_tznp[1] = sector_directional_tznp[2] = sector_directional_tznp[3] = 0;
   }
   
   if(++number_inputs_for_fix_one_period >= 20)
@@ -1121,7 +1176,7 @@ inline void calc_measurement(unsigned int number_group_stp)
     /***/
     //Розрахунок миттєвих потужностей (раз на 20мс)
     /***/
-    calc_power(ortogonal_calc);
+    calc_power(ortogonal_calc, voltage);
     /***/
     
     number_inputs_for_fix_one_period = 0;
@@ -7154,8 +7209,8 @@ inline void main_protection(void)
 #endif
     
       
-//  //Діагностика справності раз на період
-//  diagnostyca_adc_execution();
+  //Діагностика справності раз на період
+  diagnostyca_adc_execution();
   
   //Копіюємо вимірювання для низькопріоритетних і високопріоритетних завдань
   unsigned int bank_measurement_high_tmp = (bank_measurement_high ^ 0x1) & 0x1;
