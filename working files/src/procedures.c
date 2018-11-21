@@ -238,8 +238,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_KZ_ZV)
        || 
        (
-        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_KZ_ZV) &&
-        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_KZ_ZV) 
+        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_GROUP1_KZ_ZV) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_GROUP4_KZ_ZV) 
        )  
        ||
        (
