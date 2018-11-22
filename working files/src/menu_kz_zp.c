@@ -134,16 +134,16 @@ void make_ekran_control_kz_zp(void)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_KZ_ZV][MAX_COL_LCD] = 
   {
     {
-      "    ббо         "
+      "      ббо       "
     },
     {
-      "    бго         "
+      "      бго       "
     },
     {
-      "    ббо         "
+      "      ббо       "
     },
     {
-      "    ббо         "
+      "      ббо       "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
