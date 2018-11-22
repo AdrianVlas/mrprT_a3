@@ -91,8 +91,6 @@ extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
 extern unsigned int index_data_sin_and_cos_array;
 extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 extern int ortogonal[2*NUMBER_ANALOG_CANALES][2];
-extern unsigned long long sum_sqr_data_3I0_irq;
-extern unsigned long long sum_sqr_data_3I0[2];
 //extern unsigned int semaphore_measure_values;
 extern unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;

@@ -235,8 +235,6 @@ int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal/* = 0*/;
-unsigned long long sum_sqr_data_3I0_irq/* = 0*/;
-unsigned long long sum_sqr_data_3I0[2]/* = {0, 0}*/;
 //unsigned int semaphore_measure_values = 0;
 unsigned int semaphore_measure_values_low/* = 0*/;
 

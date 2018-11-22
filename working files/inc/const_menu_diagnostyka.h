@@ -161,13 +161,13 @@ ERROR_BDV_DZ_CTLR,
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 14 - 64))               \
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 15 - 64))               \
   | (1 << (ERROR_INTERNAL_FLASH_BIT - 64))                      \
+  | (1 << (ERROR_BA_1_FIX - 64))                                \
+  | (1 << (ERROR_BA_1_CTLR - 64))                               \
+  | (1 << (ERROR_BDVV5_1_FIX - 64))                             \
 )
 
 #define MASKA_AVAR_ERROR_3        (unsigned int)(               \
-    (1 << (ERROR_BA_1_FIX - 96))                                \
-  | (1 << (ERROR_BA_1_CTLR - 96))                               \
-  | (1 << (ERROR_BDVV5_1_FIX - 96))                             \
-  | (1 << (ERROR_BDVV5_1_CTLR - 96))                            \
+    (1 << (ERROR_BDVV5_1_CTLR - 96))                            \
   | (1 << (ERROR_BDVV5_2_FIX - 96))                             \
   | (1 << (ERROR_BDVV5_2_CTLR - 96))                            \
   | (1 << (ERROR_BDV_DZ_FIX - 96))                              \
