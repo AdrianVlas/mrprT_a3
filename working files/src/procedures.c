@@ -258,8 +258,8 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
        (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP)
        || 
        (
-        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_GP) &&
-        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_GP) 
+        (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP) 
        )  
        ||
        (
