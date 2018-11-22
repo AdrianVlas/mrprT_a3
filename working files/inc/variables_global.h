@@ -252,7 +252,7 @@ unsigned int measurement_low[_NUMBER_IM]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 const unsigned int index_converter[NUMBER_ANALOG_CANALES]  = {FULL_ORT_Ia_H, FULL_ORT_Ib_H , FULL_ORT_Ic_H, FULL_ORT_Ia_L, FULL_ORT_Ib_L , FULL_ORT_Ic_L, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc};
 int ortogonal_calc[2*FULL_ORT_MAX];
 int ortogonal_calc_low[2*FULL_ORT_MAX];
-int phi_angle[FULL_ORT_MAX]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/;
+int phi_angle[FULL_ORT_MAX];
 int base_index_for_angle = -1;
 
 int P_plus[2]/* = {0, 0}*/;

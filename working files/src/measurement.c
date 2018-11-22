@@ -1503,51 +1503,6 @@ void calc_angle(void)
         index_m = IM_UCA;
         break;
       }
-    case FULL_ORT_3U0_r:
-      {
-        index_m = IM_3U0_r;
-        break;
-      }
-    case FULL_ORT_Ia_H:
-      {
-        index_m = IM_IA_H;
-        break;
-      }
-    case FULL_ORT_Ib_H:
-      {
-        index_m = IM_IB_H;
-        break;
-      }
-    case FULL_ORT_Ic_H:
-      {
-        index_m = IM_IC_H;
-        break;
-      }
-    case FULL_ORT_3I0_r_H:
-      {
-        index_m = IM_3I0_r_H;
-        break;
-      }
-    case FULL_ORT_Ia_L:
-      {
-        index_m = IM_IA_L;
-        break;
-      }
-    case FULL_ORT_Ib_L:
-      {
-        index_m = IM_IB_L;
-        break;
-      }
-    case FULL_ORT_Ic_L:
-      {
-        index_m = IM_IC_L;
-        break;
-      }
-    case FULL_ORT_3I0_r_L:
-      {
-        index_m = IM_3I0_r_L;
-        break;
-      }
     default:
       {
         //Теоретично цього ніколи не мало б бути
@@ -1630,6 +1585,18 @@ void calc_angle(void)
               index_m = IM_3U0_r;
               break;
             }
+          case FULL_ORT_U2:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
+              index_m = IM_U2;
+              break;
+            }
+          case FULL_ORT_U1:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
+              index_m = IM_U1;
+              break;
+            }
           case FULL_ORT_Ia_H:
             {
               porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
@@ -1654,6 +1621,18 @@ void calc_angle(void)
               index_m = IM_3I0_r_H;
               break;
             }
+          case FULL_ORT_I2_H:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+              index_m = IM_I2_H;
+              break;
+            }
+          case FULL_ORT_I1_H:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+              index_m = IM_I1_H;
+              break;
+            }
           case FULL_ORT_Ia_L:
             {
               porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
@@ -1676,6 +1655,18 @@ void calc_angle(void)
             {
               porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
               index_m = IM_3I0_r_L;
+              break;
+            }
+          case FULL_ORT_I2_L:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+              index_m = IM_I2_L;
+              break;
+            }
+          case FULL_ORT_I1_L:
+            {
+              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+              index_m = IM_I1_L;
               break;
             }
           default:
