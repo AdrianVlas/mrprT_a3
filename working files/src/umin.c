@@ -36,7 +36,7 @@ void umin1_handler1(unsigned int *p_active_functions, unsigned int number_group_
                                          (measurement[IM_IB_H] <= setpoint3) &&
                                          (measurement[IM_IC_H] <= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & (1<<INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN1) != 0)                                                            << 2;
@@ -154,7 +154,7 @@ void umin2_handler1(unsigned int *p_active_functions, unsigned int number_group_
                                          (measurement[IM_IB_H] <= setpoint3) &&
                                          (measurement[IM_IC_H] <= setpoint3);
   //М
-  unsigned int tmp_value = ((current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0) << 0;
+  unsigned int tmp_value = ((current_settings_prt.control_transformator & (1<<INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0) << 0;
 //  tmp_value |= ((current_settings_prt.control_Umin & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE) != 0)                                 << 1;
 //  _INVERTOR(tmp_value, 1, tmp_value, 1);
   tmp_value |= ((current_settings_prt.control_Umin & CTR_UMIN2) != 0)                                                            << 2;
@@ -317,7 +317,7 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_
     _CLEAR_BIT(p_active_functions, RANG_PO_IBLK_UMIN1);										 
 
 										 //М
-  lV = (current_settings_prt.control_transformator & CTR_TRANSFORMATOR_PHASE_LINE) == 0;
+  lV = (current_settings_prt.control_transformator & (1<<INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE)) == 0;
   u32_bit_holder = (lV) << (UMIN_MCTR_TRANSFORMATOR_PHASE_LINE_BIT);
   lV = (current_settings_prt.control_Umin & CTR_UMIN1) != 0 ;
   u32_bit_holder |= ( lV ) << (UMIN_MCTR_UMIN1_BIT);

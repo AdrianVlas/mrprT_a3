@@ -1269,6 +1269,7 @@ inline void clocking_global_timers(void)
 #include "ozt.c "
 #include "G3U0.c"
 #include "umin.c"
+//#include "umax.c"
 
 
 /*****************************************************/
@@ -6541,7 +6542,7 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
 }
 /*****************************************************/
 
-
+char ch_type_voltage = 0;
 /*****************************************************/
 //Функція захистів з якої здійснюються всі інші операції
 /*****************************************************/
@@ -6581,7 +6582,7 @@ inline void main_protection(void)
       
       information_about_restart_counter  &= (unsigned int)(~(1 << RS485_RECUEST));
     }
-    
+    ch_type_voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
     //Помічаємо що ми виконали очистку по ВСІХ інтерфейсах
     reset_trigger_function_from_interface = 0;
   }
