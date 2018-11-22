@@ -1,0 +1,42 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="3">
+            <File firstVisibleLine="7127" xOffset="0" scrollWidth="3210" startPos="333614" endPos="333625" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\protections.c">
+                <Mark line="172" />
+                <Mark line="1270" />
+                <Mark line="7221" />
+                <Mark line="7417" />
+                <Mark line="7441" />
+                <Mark line="7495" />
+                <Fold line="775" />
+                <Fold line="1139" />
+                <Fold line="1245" />
+                <Fold line="2379" />
+                <Fold line="2726" />
+                <Fold line="2990" />
+                <Fold line="4631" />
+            </File>
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1210" startPos="0" endPos="0" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\main.c" />
+            <File firstVisibleLine="38" xOffset="0" scrollWidth="1590" startPos="1585" endPos="1585" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\const_global_timers.h" />
+            <File firstVisibleLine="19" xOffset="0" scrollWidth="1060" startPos="1406" endPos="1406" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\tmp.c" />
+            <File firstVisibleLine="25" xOffset="0" scrollWidth="1060" startPos="2339" endPos="2339" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\ozt.c" />
+        </mainView>
+        <subView activeIndex="1">
+            <File firstVisibleLine="3294" xOffset="0" scrollWidth="2230" startPos="140071" endPos="140071" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\protections.c">
+                <Mark line="172" />
+                <Mark line="1270" />
+                <Mark line="7221" />
+                <Mark line="7417" />
+                <Mark line="7441" />
+                <Mark line="7495" />
+            </File>
+            <File firstVisibleLine="180" xOffset="0" scrollWidth="1360" startPos="15516" endPos="15529" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\type_definition.h" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1340" startPos="133" endPos="133" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\macroses.h" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1060" startPos="1024" endPos="1024" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\tmp.c" />
+            <File firstVisibleLine="180" xOffset="0" scrollWidth="930" startPos="7023" endPos="7023" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\a.00.c.d\const_global.h" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="490" startPos="534" endPos="554" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\const_koef_povernennja.h" />
+            <File firstVisibleLine="241" xOffset="0" scrollWidth="460" startPos="9873" endPos="9873" selMode="0" lang="C++" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\inc\const_measurement.h" />
+            <File firstVisibleLine="24" xOffset="0" scrollWidth="1736" startPos="1814" endPos="1462" selMode="0" lang="C" encoding="-1" filename="G:\emb_pj\mrzs_T\mrprT_a\working files\src\G3U0.c" />
+        </subView>
+    </Session>
+</NotepadPlus>
