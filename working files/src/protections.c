@@ -1266,6 +1266,11 @@ inline void clocking_global_timers(void)
   }
 }
 /*****************************************************/
+#include "ozt.c "
+#include "G3U0.c"
+#include "umin.c"
+//#include "umax.c"
+
 
 /*****************************************************/
 //Опрацювання Ориділювальних функцій - має запускатися після відкрпацювання блоків всіх захистів
@@ -6537,7 +6542,6 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
 }
 /*****************************************************/
 
-
 /*****************************************************/
 //Функція захистів з якої здійснюються всі інші операції
 /*****************************************************/
@@ -6577,7 +6581,6 @@ inline void main_protection(void)
       
       information_about_restart_counter  &= (unsigned int)(~(1 << RS485_RECUEST));
     }
-    
     //Помічаємо що ми виконали очистку по ВСІХ інтерфейсах
     reset_trigger_function_from_interface = 0;
   }
@@ -7059,6 +7062,12 @@ inline void main_protection(void)
   /**************************/
 
   /**************************/
+  //Вибір типу напруги підведеної до приладу
+  /**************************/
+  ch_type_voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  /**************************/
+  
+  /**************************/
   //Вибір групи уставок
   /**************************/
   for (size_t i = 0; i < NUMBER_GROUP_USTAVOK; i++)
@@ -7428,13 +7437,17 @@ inline void main_protection(void)
       /**************************/
       //ЗНМИН1
       /**************************/
-      umin1_handler(active_functions, number_group_stp);
+      //umin1_handler(active_functions, number_group_stp);
+      umin1_handler2(active_functions, number_group_stp);
+	  
       /**************************/
       
       /**************************/
       //ЗНМИН2
       /**************************/
-      umin2_handler(active_functions, number_group_stp);
+      //umin2_handler(active_functions, number_group_stp);
+      umin2_handler1(active_functions, number_group_stp);
+	  
       /**************************/
     } 
     else 
@@ -8658,22 +8671,22 @@ void setpoints_selecting(unsigned int *p_active_functions, unsigned int act_inp_
 /*****************************************************/
 //ОЗТ
 /*****************************************************/
-void ozt_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  UNUSED(p_active_functions);
-  UNUSED(number_group_stp);
-}
+//void ozt_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+//{
+//  UNUSED(p_active_functions);
+//  UNUSED(number_group_stp);
+//}
 /*****************************************************/
 
 
 /*****************************************************/
 //Захист 3U0
 /*****************************************************/
-void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
-{
-  UNUSED(p_active_functions);
-  UNUSED(number_group_stp);
-}
+//void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
+//{
+//  UNUSED(p_active_functions);
+//  UNUSED(number_group_stp);
+//}
 /*****************************************************/
 
 /*****************************************************/
