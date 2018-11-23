@@ -397,14 +397,14 @@ int getAISmallModbusRegister(int adrReg)
 //        return ((unsigned int)phi_angle[FULL_ORT_3I0]) &0xFFFF;
 #endif
       }
-    case 67://OFFSET_ANGLE_3I0_r
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 399;
-#else
-        return ((unsigned int)phi_angle[FULL_ORT_3I0_r]) &0xFFFF;
-#endif
-      }
+//    case 67://OFFSET_ANGLE_3I0_r
+//      {
+//#ifdef TESTZBIRKA_VERSII_PZ
+//        return 399;
+//#else
+//        return ((unsigned int)phi_angle[FULL_ORT_3I0_r]) &0xFFFF;
+//#endif
+//      }
 //    case 68://
 //    case 69://
 //    case 70://

@@ -3,8 +3,8 @@
 
 #define BIT_FOR_WATCHDOG_MEASURE_START_DATA_VAL   0
 #define WATCHDOG_MEASURE_START_DATA_VAL           (1 << BIT_FOR_WATCHDOG_MEASURE_START_DATA_VAL)
-//#define BIT_FOR_WATCHDOG_MEASURE_START_TEST_VAL   1
-//#define WATCHDOG_MEASURE_START_TEST_VAL           (1 << BIT_FOR_WATCHDOG_MEASURE_START_TEST_VAL)
+#define BIT_FOR_WATCHDOG_MEASURE_START_TEST_VAL   1
+#define WATCHDOG_MEASURE_START_TEST_VAL           (1 << BIT_FOR_WATCHDOG_MEASURE_START_TEST_VAL)
 #define BIT_FOR_WATCHDOG_MEASURE_STOP_DATA_VAL    2
 #define WATCHDOG_MEASURE_STOP_DATA_VAL            (1 << BIT_FOR_WATCHDOG_MEASURE_STOP_DATA_VAL)
 #define BIT_FOR_WATCHDOG_MEASURE_STOP_TEST_VAL    3
@@ -24,8 +24,8 @@
 #define UNITED_BITS_WATCHDOG (unsigned int)(\
      WATCHDOG_MEASURE_START_DATA_VAL                      \
    | WATCHDOG_MEASURE_STOP_DATA_VAL                       \
-   /*| WATCHDOG_MEASURE_START_TEST_VAL */                     \
-   /*| WATCHDOG_MEASURE_STOP_TEST_VAL  */                     \
+   | WATCHDOG_MEASURE_START_TEST_VAL                      \
+   | WATCHDOG_MEASURE_STOP_TEST_VAL                       \
    | WATCHDOG_PROTECTION                                  \
    | WATCHDOG_KYYBOARD                                    \
    | WATCHDOG_DATAFLASH                                   \

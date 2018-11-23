@@ -7051,7 +7051,7 @@ inline void main_protection(void)
   /**************************/
   //Вибір типу напруги підведеної до приладу
   /**************************/
-  ch_type_voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+  ch_type_voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
   /**************************/
   
   /**************************/
