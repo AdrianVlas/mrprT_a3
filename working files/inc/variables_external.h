@@ -237,6 +237,7 @@ extern unsigned char temp_register_rtc[2];
 extern unsigned int changed_settings; 
 extern unsigned char crc_settings;
 extern __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
+extern uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 extern int * type_mtz_arr[NUMBER_LEVEL_MTZ];
 extern unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 extern unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];

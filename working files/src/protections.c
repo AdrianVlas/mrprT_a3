@@ -872,24 +872,6 @@ inline void calc_measurement(unsigned int number_group_stp)
   //Знімаємо семафор заборони обновлення значень з вимірювальної системи
 //  semaphore_measure_values = 0;
   
-  /*******************************************************/
-  //Перевіряємо, чи відбувалися зміни юстування
-  /*******************************************************/
-  if (changed_ustuvannja == CHANGED_ETAP_ENDED_EXTRA_ETAP) /*Це є умова, що нові дані підготовлені для передачі їх у роботу системою захистів(і при цьому зараз дані не змінюються)*/
-  {
-    //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
-    for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++) 
-    {
-      phi_ustuvannja_meas[i] = phi_ustuvannja[i];
-      phi_ustuvannja_sin_cos_meas[2*i    ] = phi_ustuvannja_sin_cos[2*i    ];
-      phi_ustuvannja_sin_cos_meas[2*i + 1] = phi_ustuvannja_sin_cos[2*i + 1];
-    }
-      
-    //Помічаємо, що зміни прийняті системою захистів
-    changed_ustuvannja = CHANGED_ETAP_NONE;
-  }
-  /*****************************************************/
-
   /***
   Довертаємо кути і копіюємо ортогональні для низькопріоритетних задач
   ***/
@@ -7049,12 +7031,6 @@ inline void main_protection(void)
   /**************************/
 
   /**************************/
-  //Вибір типу напруги підведеної до приладу
-  /**************************/
-  ch_type_voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
-  /**************************/
-  
-  /**************************/
   //Вибір групи уставок
   /**************************/
   for (size_t i = 0; i < NUMBER_GROUP_USTAVOK; i++)
@@ -8239,11 +8215,31 @@ void TIM2_IRQHandler(void)
     {
       //Копіюємо таблицю настройок у копію цієї таблиці але з якою працює (читає і змінює) тільки система захистів
       current_settings_prt = current_settings;
+      ch_type_voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
       
-      //Помічаємо, що зміни прийняті системою захистів
-      changed_settings = CHANGED_ETAP_NONE;
+      //Помічаємо, що зміни прийняті системою захистів, але ще треба прийняти вимірювальною системою
+      changed_settings = CHANGED_ETAP_ENDED_EXTRA_ETAP;
     }
     /***********************************************************/
+
+    /*******************************************************/
+    //Перевіряємо, чи відбувалися зміни юстування
+    /*******************************************************/
+    if (changed_ustuvannja == CHANGED_ETAP_ENDED_EXTRA_ETAP) /*Це є умова, що нові дані підготовлені для передачі їх у роботу системою захистів(і при цьому зараз дані не змінюються)*/
+    {
+      //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
+      for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++) 
+      {
+        phi_ustuvannja_meas[i] = phi_ustuvannja[i];
+        phi_ustuvannja_sin_cos_meas[2*i    ] = phi_ustuvannja_sin_cos[2*i    ];
+        phi_ustuvannja_sin_cos_meas[2*i + 1] = phi_ustuvannja_sin_cos[2*i + 1];
+      }
+      
+      //Помічаємо, що зміни прийняті системою захистів
+      changed_ustuvannja = CHANGED_ETAP_NONE;
+    }
+    /*****************************************************/
+
 
     /***********************************************************/
     //Перевіряємо необхідність очистки аналогового і дискретного реєстраторів

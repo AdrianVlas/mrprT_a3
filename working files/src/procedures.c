@@ -3113,7 +3113,13 @@ void control_settings(void)
     i++;
   }
   
-  if ((difference == 0) && (crc_settings == crc_settings_tmp))
+  if (
+      (difference == 0) && 
+      (crc_settings == crc_settings_tmp) &&
+      (ch_type_voltage == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1)) &&
+      (ctr_transformator_I_VH_meas == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1)) &&
+      (ctr_transformator_I_VL_meas == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1))
+     )
   {
     //Контроль достовірності таблиці настройок пройшов успішно
     
@@ -3211,7 +3217,10 @@ void control_ustuvannja(void)
     i++;
   }
   
-  if ((difference == 0) && (crc_ustuvannja == crc_ustuvannja_tmp))
+  if (
+      (difference == 0) && 
+      (crc_ustuvannja == crc_ustuvannja_tmp)
+     )
   {
     //Контроль достовірності юстування пройшов успішно
     

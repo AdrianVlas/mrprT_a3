@@ -581,6 +581,20 @@ void SPI_ADC_IRQHandler(void)
     }
     /*****************************************************/
 
+    /*******************************************************/
+    //Перевіряємо, чи відбувалися зміни налаштувань
+    /*******************************************************/
+    if (changed_settings == CHANGED_ETAP_ENDED_EXTRA_ETAP) /*Це є умова, що нові дані підготовлені для передачі їх у роботу системою захистів(і при цьому зараз дані не змінюються)*/
+    {
+      //Копіюємо налаштування, які потрібні вимірювальній системі
+      ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
+      ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      
+      //Помічаємо, що зміни прийняті системою захистів
+      changed_settings = CHANGED_ETAP_NONE;
+    }
+    /*****************************************************/
+
     /*
     Формуємо значення оцифровуваних каналів
     */
