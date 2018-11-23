@@ -806,6 +806,8 @@ void SPI_ADC_IRQHandler(void)
 
     gnd_adc  = gnd_adc2; 
     vref_adc = vref_adc2; 
+    
+    int32_t multiplier = ((ctr_transformator_I_VH_meas == 0) ? (1) : (-1));
 
     /*****/
     //Формуємо значення Ia_H
@@ -843,7 +845,7 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ia_H] = _y;
+      ADCs_data[I_Ia_H] = multiplier*_y;
       
       ADCs_data_raw[I_Ia_H].tick = _x2;
       ADCs_data_raw[I_Ia_H].value = _y2;
@@ -886,7 +888,7 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ib_H] = _y;
+      ADCs_data[I_Ib_H] = multiplier*_y;
       
       ADCs_data_raw[I_Ib_H].tick = _x2;
       ADCs_data_raw[I_Ib_H].value = _y2;
@@ -929,12 +931,14 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ic_H] = _y;
+      ADCs_data[I_Ic_H] = multiplier*_y;
       
       ADCs_data_raw[I_Ic_H].tick = _x2;
       ADCs_data_raw[I_Ic_H].value = _y2;
     }
     /*****/
+    
+    multiplier = ((ctr_transformator_I_VL_meas == 0) ? (1) : (-1));
 
     /*****/
     //Формуємо значення Ia_L
@@ -972,7 +976,7 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ia_L] = _y;
+      ADCs_data[I_Ia_L] = multiplier*_y;
       
       ADCs_data_raw[I_Ia_L].tick = _x2;
       ADCs_data_raw[I_Ia_L].value = _y2;
@@ -1015,7 +1019,7 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ib_L] = _y;
+      ADCs_data[I_Ib_L] = multiplier*_y;
       
       ADCs_data_raw[I_Ib_L].tick = _x2;
       ADCs_data_raw[I_Ib_L].value = _y2;
@@ -1058,7 +1062,7 @@ void SPI_ADC_IRQHandler(void)
       }
       _y = ((long long)_y1) + ((long long)(_y2 - _y1))*((long long)_dx)/((long long)_DX);
 
-      ADCs_data[I_Ic_L] = _y;
+      ADCs_data[I_Ic_L] = multiplier*_y;
       
       ADCs_data_raw[I_Ic_L].tick = _x2;
       ADCs_data_raw[I_Ic_L].value = _y2;
