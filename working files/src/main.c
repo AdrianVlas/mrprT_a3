@@ -192,14 +192,14 @@ inline void periodical_operations(void)
   Щоб за один оберт виконувалася тільки одна перевірка, тобто щоб в одному оберті
   не було надто довга затримка на фонову перевірку, хоч і важливу.
   */
-  if (periodical_tasks_CALC_ENERGY_DATA != 0)
+  if (periodical_tasks_CALC_POWER_DATA != 0)
   {
     //Стоїть у черзі активна задача розразунку потужності і енергій
       
-    calc_power_and_energy();
+    calc_power_total();
 
     //Скидаємо активну задачу розрахунку потужності і енергій
-    periodical_tasks_CALC_ENERGY_DATA = false;
+    periodical_tasks_CALC_POWER_DATA = false;
   }
   else if (periodical_tasks_CALCULATION_ANGLE != 0)
   {
@@ -443,6 +443,40 @@ int main(void)
   {
     //Випадок, якщо настройки успішно зчитані
           
+    /*******************************************************/
+    //Активовуємо величини для вимірювальної системи і системи захистів
+    /*******************************************************/
+    if (changed_ustuvannja == CHANGED_ETAP_ENDED) /*Це є умова, що нові дані підготовлені для передачі їх у роботу вимірювальною системою (і при цьому зараз дані не змінюються)*/
+    {
+      for(unsigned int k = 0; k < NUMBER_ANALOG_CANALES; k++) 
+      {
+        //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
+        ustuvannja_meas[k] = ustuvannja[k];
+
+        //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
+        phi_ustuvannja_meas[k] = phi_ustuvannja[k];
+        phi_ustuvannja_sin_cos_meas[2*k    ] = phi_ustuvannja_sin_cos[2*k    ];
+        phi_ustuvannja_sin_cos_meas[2*k + 1] = phi_ustuvannja_sin_cos[2*k + 1];
+      }
+      
+      //Помічаємо, що зміни прийняті всіма системами
+      changed_ustuvannja = CHANGED_ETAP_NONE;
+    }
+
+    if (changed_settings == CHANGED_ETAP_ENDED)  /*Це є умова, що нові дані підготовлені для передачі їх у роботу системою захистів (і при цьому зараз дані не змінюються)*/
+    {
+      //Копіюємо таблицю настройок у копію цієї таблиці але з якою працює (читає і змінює) тільки система захистів
+      current_settings_prt = current_settings;
+      ch_type_voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+
+      ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
+      ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      
+      //Помічаємо, що зміни прийняті всіма системами
+      changed_settings = CHANGED_ETAP_NONE;
+    }
+    /*******************************************************/
+  
     //Дозволяєм роботу таймера вимірювальної системи
     TIM_Cmd(TIM5, ENABLE);
     // Дозволяєм роботу таймера системи захистів
@@ -519,6 +553,40 @@ int main(void)
     }
     /*****/
           
+    /*******************************************************/
+    //Активовуємо величини для вимірювальної системи і системи захистів
+    /*******************************************************/
+    if (changed_ustuvannja == CHANGED_ETAP_ENDED) /*Це є умова, що нові дані підготовлені для передачі їх у роботу вимірювальною системою (і при цьому зараз дані не змінюються)*/
+    {
+      for(unsigned int k = 0; k < NUMBER_ANALOG_CANALES; k++) 
+      {
+        //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
+        ustuvannja_meas[k] = ustuvannja[k];
+
+        //Копіюємо масив юстування у копію цього масиву але з яким працює (читає і змінює) тільки вимірювальна захистема
+        phi_ustuvannja_meas[k] = phi_ustuvannja[k];
+        phi_ustuvannja_sin_cos_meas[2*k    ] = phi_ustuvannja_sin_cos[2*k    ];
+        phi_ustuvannja_sin_cos_meas[2*k + 1] = phi_ustuvannja_sin_cos[2*k + 1];
+      }
+      
+      //Помічаємо, що зміни прийняті всіма системами
+      changed_ustuvannja = CHANGED_ETAP_NONE;
+    }
+
+    if (changed_settings == CHANGED_ETAP_ENDED) /*Це є умова, що нові дані підготовлені для передачі їх у роботу системою захистів (і при цьому зараз дані не змінюються)*/
+    {
+      //Копіюємо таблицю настройок у копію цієї таблиці але з якою працює (читає і змінює) тільки система захистів
+      current_settings_prt = current_settings;
+      ch_type_voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+
+      ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
+      ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      
+      //Помічаємо, що зміни прийняті всіма системами
+      changed_settings = CHANGED_ETAP_NONE;
+    }
+    /*******************************************************/
+    
     //Дозволяєм роботу таймера вимірювальної системи
     TIM_Cmd(TIM5, ENABLE);
     //Дозволяєм роботу таймера системи захистів

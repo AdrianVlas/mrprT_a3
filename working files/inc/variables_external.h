@@ -3,7 +3,7 @@
 
 extern unsigned int semaphore_adc_irq;
 extern unsigned int adc_DATA_VAL_read;
-//extern unsigned int adc_TEST_VAL_read;
+extern unsigned int adc_TEST_VAL_read;
 extern unsigned int status_adc_read_work;
 extern const unsigned int input_adc[NUMBER_INPUTs_ADCs][2];
 extern EXTENDED_OUTPUT_DATA output_adc[NUMBER_INPUTs_ADCs];
@@ -32,12 +32,43 @@ extern unsigned int tick_c, tick_c_work;
 extern float frequency_min, frequency_max;
 extern unsigned int command_restart_monitoring_frequency;
 
-extern unsigned int vref_adc_averange_sum[NUMBER_ANALOG_CANALES];
-extern uint32_t vref_adc_averange_sum_1s[NUMBER_ANALOG_CANALES];
-extern uint32_t vref_adc_moment_value_1s[NUMBER_ANALOG_CANALES][MAIN_FREQUENCY];
-extern uint32_t vref_adc[NUMBER_ANALOG_CANALES];
+extern const unsigned int index_GND_ADC1[NUMBER_GND_ADC1];
+extern unsigned int gnd_adc1_moment_value[NUMBER_GND_ADC1][NUMBER_POINT];
+extern unsigned int gnd_adc1_averange_sum[NUMBER_GND_ADC1];
+extern unsigned int gnd_adc1_averange[NUMBER_GND_ADC1];
+extern unsigned int gnd_adc1;
 
-extern unsigned int index_array_of_one_value_fourier;
+extern const unsigned int index_GND_ADC2[NUMBER_GND_ADC2];
+extern unsigned int gnd_adc2_moment_value[NUMBER_GND_ADC2][NUMBER_POINT];
+extern unsigned int gnd_adc2_averange_sum[NUMBER_GND_ADC2];
+extern unsigned int gnd_adc2_averange[NUMBER_GND_ADC2];
+extern unsigned int gnd_adc2;
+
+extern const unsigned int index_VREF_ADC1[NUMBER_VREF_ADC1];
+extern unsigned int vref_adc1_moment_value[NUMBER_VREF_ADC1][NUMBER_POINT];
+extern unsigned int vref_adc1_averange_sum[NUMBER_VREF_ADC1];
+extern unsigned int vref_adc1_averange[NUMBER_VREF_ADC1];
+extern unsigned int vref_adc1;
+
+extern const unsigned int index_VREF_ADC2[NUMBER_VREF_ADC2];
+extern unsigned int vref_adc2_moment_value[NUMBER_VREF_ADC2][NUMBER_POINT];
+extern unsigned int vref_adc2_averange_sum[NUMBER_VREF_ADC2];
+extern unsigned int vref_adc2_averange[NUMBER_VREF_ADC2];
+extern unsigned int vref_adc2;
+
+extern const unsigned int index_VDD_ADC1[NUMBER_VDD_ADC1];
+extern unsigned int vdd_adc1_moment_value[NUMBER_VDD_ADC1][NUMBER_POINT];
+extern unsigned int vdd_adc1_averange_sum[NUMBER_VDD_ADC1];
+extern unsigned int vdd_adc1_averange[NUMBER_VDD_ADC1];
+extern unsigned int vdd_adc1;
+
+extern const unsigned int index_VDD_ADC2[NUMBER_VDD_ADC2];
+extern unsigned int vdd_adc2_moment_value[NUMBER_VDD_ADC2][NUMBER_POINT];
+extern unsigned int vdd_adc2_averange_sum[NUMBER_VDD_ADC2];
+extern unsigned int vdd_adc2_averange[NUMBER_VDD_ADC2];
+extern unsigned int vdd_adc2;
+
+extern unsigned int index_array_of_one_value;
 
 extern EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 extern int ADCs_data[NUMBER_ANALOG_CANALES];
@@ -60,8 +91,6 @@ extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
 extern unsigned int index_data_sin_and_cos_array;
 extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 extern int ortogonal[2*NUMBER_ANALOG_CANALES][2];
-extern unsigned long long sum_sqr_data_3I0_irq;
-extern unsigned long long sum_sqr_data_3I0[2];
 //extern unsigned int semaphore_measure_values;
 extern unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;
@@ -75,10 +104,7 @@ extern unsigned int measurement_high[2][_NUMBER_IM], bank_measurement_high;
 extern unsigned int measurement_middle[_NUMBER_IM]; 
 extern unsigned int measurement_low[_NUMBER_IM]; 
 
-extern const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES];
-//extern const unsigned int index_converter_I04_p[NUMBER_ANALOG_CANALES];
-//extern const unsigned int index_converter_Ib_l[NUMBER_ANALOG_CANALES];
-//extern const unsigned int index_converter_I04_l[NUMBER_ANALOG_CANALES];
+extern const unsigned int index_converter[NUMBER_ANALOG_CANALES];
 extern int ortogonal_calc[2*FULL_ORT_MAX];
 extern int ortogonal_calc_low[2*FULL_ORT_MAX];
 extern int phi_angle[FULL_ORT_MAX];
@@ -111,7 +137,7 @@ extern unsigned int temp_states_for_mtz;
 //ргмо
 extern unsigned int TZNP_3U0_bilshe_porogu;
 extern unsigned int TZNP_3I0_r_bilshe_porogu;
-extern unsigned int sector_directional_tznp[3];
+extern unsigned int sector_directional_tznp[4];
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
@@ -142,10 +168,10 @@ extern unsigned int fix_active_buttons, fix_active_buttons_ctrl;
 extern unsigned int mutex_interface;
 extern unsigned int activation_function_from_interface[N_SMALL];
 extern unsigned int reset_trigger_function_from_interface;
-extern unsigned int diagnostyka_before[3];
-extern volatile unsigned int diagnostyka[3];
-extern unsigned int set_diagnostyka[3];
-extern unsigned int clear_diagnostyka[3];
+extern unsigned int diagnostyka_before[N_DIAGN];
+extern volatile unsigned int diagnostyka[N_DIAGN];
+extern unsigned int set_diagnostyka[N_DIAGN];
+extern unsigned int clear_diagnostyka[N_DIAGN];
 
 extern uint32_t board_register;
 
@@ -188,7 +214,7 @@ extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR;
 extern unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK;
 extern unsigned int periodical_tasks_TEST_FLASH_MEMORY;
 extern unsigned int periodical_tasks_CALCULATION_ANGLE;
-extern unsigned int periodical_tasks_CALC_ENERGY_DATA;
+extern unsigned int periodical_tasks_CALC_POWER_DATA;
 
 extern const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA];
 
@@ -211,6 +237,7 @@ extern unsigned char temp_register_rtc[2];
 extern unsigned int changed_settings; 
 extern unsigned char crc_settings;
 extern __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
+extern uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 extern int * type_mtz_arr[NUMBER_LEVEL_MTZ];
 extern unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 extern unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];

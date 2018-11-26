@@ -3,9 +3,9 @@
 
 #define EKRAN_DIAGNOSTYKA                    (EKRAN_POINT_TIME_RANGUVANNJA + 1)
 
-#define MAX_ROW_FOR_DIAGNOSTYKA              (8*(4 + 4 + 4))  /*2 слова типу unsigned int + ще одне слово але з трьох байт. щоб розмір одного запису реєстратора програмних подій не був більшим 32 байти. А коли треба - то змінимо*/  
+#define MAX_ROW_FOR_DIAGNOSTYKA              (8*(4 + 4 + 4 + 1))  /*3 слова типу unsigned int + ще одне слово але з одного байту*/
 
-//#define USED_BITS_IN_LAST_INDEX  0x00ffffff  
+#define USED_BITS_IN_LAST_INDEX  0x000000ff  
 
 enum _error_id 
 {
@@ -54,7 +54,19 @@ RTC_OSCILLATOR_FAIL_BIT,
 RTC_UPDATING_HALTED_BIT,
 RTC_WORK_FIELD_NOT_SET_BIT,
 
-ERROR_VREF_ADC_TEST_BIT,
+ERROR_GND_ADC1_TEST_BIT,
+ERROR_VREF_ADC1_TEST_BIT,
+ERROR_VDD_ADC1_TEST_BIT,
+ERROR_GND_ADC1_TEST_COARSE_BIT,
+ERROR_VREF_ADC1_TEST_COARSE_BIT,
+ERROR_VDD_ADC1_TEST_COARSE_BIT,
+
+ERROR_GND_ADC2_TEST_BIT,
+ERROR_VREF_ADC2_TEST_BIT,
+ERROR_VDD_ADC2_TEST_BIT,
+ERROR_GND_ADC2_TEST_COARSE_BIT,
+ERROR_VREF_ADC2_TEST_COARSE_BIT,
+ERROR_VDD_ADC2_TEST_COARSE_BIT,
 
 ERROR_SPI_ADC_BIT,
 
@@ -87,11 +99,7 @@ ERROR_INTERNAL_FLASH_BIT,
 
 ERROR_SELECT_GRUPY_USRAVOK,
 
-LOSE_ENERGY_DATA,
-
-TEST_OVD1,
-TEST_OVD2,
-TEST_OVD3,
+LOSE_POWER_DATA,
 
 ERROR_BA_1_FIX,
 ERROR_BA_1_CTLR,
@@ -120,7 +128,18 @@ ERROR_BDV_DZ_CTLR,
 )
 
 #define MASKA_AVAR_ERROR_1        (unsigned int)(               \
-    (1 << (ERROR_VREF_ADC_TEST_BIT - 32))                       \
+    (1 << (ERROR_GND_ADC1_TEST_BIT - 32))                       \
+  | (1 << (ERROR_VREF_ADC1_TEST_BIT - 32))                      \
+  | (1 << (ERROR_VDD_ADC1_TEST_BIT - 32))                       \
+  | (1 << (ERROR_GND_ADC1_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_VREF_ADC1_TEST_COARSE_BIT - 32))               \
+  | (1 << (ERROR_VDD_ADC1_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_GND_ADC2_TEST_BIT - 32))                       \
+  | (1 << (ERROR_VREF_ADC2_TEST_BIT - 32))                      \
+  | (1 << (ERROR_VDD_ADC2_TEST_BIT - 32))                       \
+  | (1 << (ERROR_GND_ADC2_TEST_COARSE_BIT - 32))                \
+  | (1 << (ERROR_VREF_ADC2_TEST_COARSE_BIT - 32))               \
+  | (1 << (ERROR_VDD_ADC2_TEST_COARSE_BIT - 32))                \
   | (1 << (ERROR_SPI_ADC_BIT - 32))                             \
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  0 - 32))               \
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  1 - 32))               \
@@ -129,27 +148,30 @@ ERROR_BDV_DZ_CTLR,
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  4 - 32))               \
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  5 - 32))               \
   | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  6 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  7 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  8 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  9 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 10 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 11 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 12 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 13 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 14 - 32))               \
-  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 15 - 32))               \
 )
 
 #define MASKA_AVAR_ERROR_2        (unsigned int)(               \
-    (1 << (ERROR_INTERNAL_FLASH_BIT - 64))                      \
+    (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  7 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  8 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT +  9 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 10 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 11 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 12 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 13 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 14 - 64))               \
+  | (1 << (ERROR_DIGITAL_OUTPUT_1_BIT + 15 - 64))               \
+  | (1 << (ERROR_INTERNAL_FLASH_BIT - 64))                      \
   | (1 << (ERROR_BA_1_FIX - 64))                                \
   | (1 << (ERROR_BA_1_CTLR - 64))                               \
   | (1 << (ERROR_BDVV5_1_FIX - 64))                             \
-  | (1 << (ERROR_BDVV5_1_CTLR - 64))                            \
-  | (1 << (ERROR_BDVV5_2_FIX - 64))                             \
-  | (1 << (ERROR_BDVV5_2_CTLR - 64))                            \
-  | (1 << (ERROR_BDV_DZ_FIX - 64))                              \
-  | (1 << (ERROR_BDV_DZ_CTLR - 64))                             \
+)
+
+#define MASKA_AVAR_ERROR_3        (unsigned int)(               \
+    (1 << (ERROR_BDVV5_1_CTLR - 96))                            \
+  | (1 << (ERROR_BDVV5_2_FIX - 96))                             \
+  | (1 << (ERROR_BDVV5_2_CTLR - 96))                            \
+  | (1 << (ERROR_BDV_DZ_FIX - 96))                              \
+  | (1 << (ERROR_BDV_DZ_CTLR - 96))                             \
 )
 
 # define NAME_DIAGN_RU  \
@@ -196,7 +218,18 @@ ERROR_BDV_DZ_CTLR,
   "Отказ Осцилятора",   \
   " Ост.обновл.RTC ",   \
   " Не уст.поля RTC",   \
-  " Тест VREF АЦП  ",   \
+  " Тест GND АЦП1  ",   \
+  " Тест VREF АЦП1 ",   \
+  " Тест VDD АЦП1  ",   \
+  "Тест GND АЦП1 гр",   \
+  "Тест VREF АЦП1гр",   \
+  "Тест VDD АЦП1 гр",   \
+  " Тест GND АЦП2  ",   \
+  " Тест VREF АЦП2 ",   \
+  " Тест VDD АЦП2  ",   \
+  "Тест GND АЦП2 гр",   \
+  "Тест VREF АЦП2гр",   \
+  "Тест VDD АЦП2 гр",   \
   " Ош. SPI АЦП    ",   \
   "Переп.буф.ц.осц.",   \
   " Ош.вых.реле ?.?",   \
@@ -234,10 +267,7 @@ ERROR_BDV_DZ_CTLR,
   " Ош.внешней SRAM",   \
   " Ош.внутр.FLASH ",   \
   " Ош.выб.гр.уст. ",   \
-  " Пот.д.энергии  ",   \
-  " Тест ОВД1      ",   \
-  " Тест ОВД2      ",   \
-  " Тест ОВД3      ",   \
+  " Пот.д.мощности ",   \
   " БА1 ф.         ",   \
   " БА1 к.         ",   \
   " БДВВ5_1 ф.     ",   \
@@ -246,9 +276,9 @@ ERROR_BDV_DZ_CTLR,
   " БДВВ5_2 к.     ",   \
   " БДВ-ДЗ ф.      ",   \
   " БДВ-ДЗ к.      ",   \
-  " Ошибка 93      ",   \
-  " Ошибка 94      ",   \
-  " Ошибка 95      "
+  " Ошибка 101     ",   \
+  " Ошибка 102     ",   \
+  " Ошибка 103     "
 
 # define NAME_DIAGN_UA  \
   " Пом.I2C        ",   \
@@ -294,7 +324,18 @@ ERROR_BDV_DZ_CTLR,
   " Відм.Осцилятора",   \
   " Зуп.обновл.RTC ",   \
   " Не вст.поля RTC",   \
-  " Тест VREF АЦП  ",   \
+  " Тест GND АЦП1  ",   \
+  " Тест VREF АЦП1 ",   \
+  " Тест VDD АЦП1  ",   \
+  "Тест GND АЦП1 гр",   \
+  "Тест VREF АЦП1гр",   \
+  "Тест VDD АЦП1 гр",   \
+  " Тест GND АЦП2  ",   \
+  " Тест VREF АЦП2 ",   \
+  " Тест VDD АЦП2  ",   \
+  "Тест GND АЦП2 гр",   \
+  "Тест VREF АЦП2гр",   \
+  "Тест VDD АЦП2 гр",   \
   " Пом.SPI АЦП    ",   \
   "Переп.буф.ц.осц.",   \
   " Пом.вих.реле?.?",   \
@@ -332,10 +373,7 @@ ERROR_BDV_DZ_CTLR,
   " Пом.зовн.SRAM  ",   \
   " Пом.внутр.FLASH",   \
   " Пом.виб.гр.уст.",   \
-  " Втр.д.енергії  ",   \
-  " Тест ОВД1      ",   \
-  " Тест ОВД2      ",   \
-  " Тест ОВД3      ",   \
+  " Втр.д.потужн.  ",   \
   " БА1 ф.         ",   \
   " БА1 к.         ",   \
   " БДВВ5_1 ф.     ",   \
@@ -344,9 +382,9 @@ ERROR_BDV_DZ_CTLR,
   " БДВВ5_2 к.     ",   \
   " БДВ-ДЗ ф.      ",   \
   " БДВ-ДЗ к.      ",   \
-  " Помилка 93     ",   \
-  " Помилка 94     ",   \
-  " Помилка 95     "
+  " Помилка 101    ",   \
+  " Помилка 102    ",   \
+  " Помилка 103    "
 
 # define NAME_DIAGN_EN  \
   " I2C Err.       ",   \
@@ -392,7 +430,18 @@ ERROR_BDV_DZ_CTLR,
   " RTC:Osc.fail   ",   \
   " RTC:Halt update",   \
   "RTC:No def.sett.",   \
-  " ADC:VREF fail  ",   \
+  " ADC1:GND fail  ",   \
+  " ADC1:VREF fail ",   \
+  " ADC1:VDD fail  ",   \
+  "ADC1:GND Test R.",   \
+  "ADC1:VREF Test R",   \
+  "ADC1:VDD Test R.",   \
+  " ADC2:GND fail  ",   \
+  " ADC2:VREF fail ",   \
+  " ADC2:VDD fail  ",   \
+  "ADC2:GND Test R.",   \
+  "ADC2:VREF Test R",   \
+  "ADC2:VDD Test R.",   \
   " ADC SPI Err.   ",   \
   "Переп.буф.ц.осц.",   \
   " DO?.? Ctrl.Err.",   \
@@ -430,10 +479,7 @@ ERROR_BDV_DZ_CTLR,
   " Ext.SRAM Err.  ",   \
   " Int.FLASH Err. ",   \
   " Ош.выб.гр.уст. ",   \
-  " Пот.д.энергии  ",   \
-  " Test ОВД1      ",   \
-  " Test ОВД2      ",   \
-  " Test ОВД3      ",   \
+  " Пот.д.мощности ",   \
   " BA1 f.         ",   \
   " BA1 ctrl.      ",   \
   " BDVV5_1 f.     ",   \
@@ -442,9 +488,9 @@ ERROR_BDV_DZ_CTLR,
   " BDVV5_2 ctrl.  ",   \
   " BDV-DZ f.      ",   \
   " BDV-DZ ctrl.   ",   \
-  " Error 93       ",   \
-  " Error 94       ",   \
-  " Error 95       "
+  " Error 101      ",   \
+  " Error 102      ",   \
+  " Error 103      "
 
 # define NAME_DIAGN_KZ  \
   " Ош.I2C         ",   \
@@ -490,7 +536,18 @@ ERROR_BDV_DZ_CTLR,
   "Отказ Осцилятора",   \
   " Ост.обновл.RTC ",   \
   " Не уст.поля RTC",   \
-  " Тест VREF АЦП  ",   \
+  " Тест GND АЦП1  ",   \
+  " Тест VREF АЦП1 ",   \
+  " Тест VDD АЦП1  ",   \
+  " Тест GND АЦП1гр",   \
+  "Тест VREF АЦП1гр",   \
+  "Тест VDD АЦП1 гр",   \
+  " Тест GND АЦП2  ",   \
+  " Тест VREF АЦП2 ",   \
+  " Тест VDD АЦП2  ",   \
+  " Тест GND АЦП2гр",   \
+  "Тест VREF АЦП2гр",   \
+  "Тест VDD АЦП2 гр",   \
   " Ош.SPI АЦП     ",   \
   "Переп.буф.ц.осц.",   \
   " Ош.вых.реле ?.?",   \
@@ -528,10 +585,7 @@ ERROR_BDV_DZ_CTLR,
   " Ош.внешней SRAM",   \
   " Ош.внутр.FLASH ",   \
   " Ош.выб.гр.уст. ",   \
-  " Пот.д.энергии  ",   \
-  " Тест ОВД1      ",   \
-  " Тест ОВД2      ",   \
-  " Тест ОВД3      ",   \
+  " Пот.д.мощности ",   \
   " БА1 ф.         ",   \
   " БА1 к.         ",   \
   " БДВВ5_1 ф.     ",   \
@@ -540,8 +594,8 @@ ERROR_BDV_DZ_CTLR,
   " БДВВ5_2 к.     ",   \
   " БДВ-ДЗ ф.      ",   \
   " БДВ-ДЗ к.      ",   \
-  " Ошибка 93      ",   \
-  " Ошибка 94      ",   \
-  " Ошибка 95      "
+  " Ошибка 101     ",   \
+  " Ошибка 102     ",   \
+  " Ошибка 103     "
     
 #endif

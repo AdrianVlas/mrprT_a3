@@ -4,7 +4,7 @@
 //Âèì³ðþâàëüíà ñèñòåìà
 unsigned int semaphore_adc_irq/* = false*/;
 unsigned int adc_DATA_VAL_read/* = false*/;
-//unsigned int adc_TEST_VAL_read = false;
+unsigned int adc_TEST_VAL_read = false;
 unsigned int status_adc_read_work/* = 0*/;
 const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
                                                      {1,0x8370},
@@ -23,6 +23,22 @@ const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
                                                      {1,0xb770},
                                                      {1,0xbb70},
                                                      {1,0xbf70},
+                                                     {2,0x8370},
+                                                     {2,0x8770},
+                                                     {2,0x8b70},
+                                                     {2,0x8f70},
+                                                     {2,0x9370},
+                                                     {2,0x9770},
+                                                     {2,0x9b70},
+                                                     {2,0x9f70},
+                                                     {2,0xa370},
+                                                     {2,0xa770},
+                                                     {2,0xab70},
+                                                     {2,0xaf70},
+                                                     {2,0xb370},
+                                                     {2,0xb770},
+                                                     {2,0xbb70},
+                                                     {2,0xbf70}
                                                     };
 EXTENDED_OUTPUT_DATA output_adc[NUMBER_INPUTs_ADCs];
 ROZSHYRENA_VYBORKA rozshyrena_vyborka;
@@ -52,32 +68,43 @@ unsigned int tick_c, tick_c_work;
 float frequency_min = 50, frequency_max = 50;
 unsigned int command_restart_monitoring_frequency/* = 0*/;
 
-unsigned int vref_adc_averange_sum[NUMBER_ANALOG_CANALES];
-uint32_t vref_adc_averange_sum_1s[NUMBER_ANALOG_CANALES] = 
-{
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY,
-  VREF_NORMAL_VALUE*MAIN_FREQUENCY
-};
-uint32_t vref_adc_moment_value_1s[NUMBER_ANALOG_CANALES][MAIN_FREQUENCY];
-uint32_t vref_adc[NUMBER_ANALOG_CANALES] = 
-                                          {
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE,
-                                            VREF_NORMAL_VALUE
-                                          };
+const unsigned int index_GND_ADC1[NUMBER_GND_ADC1] = {C_GND_ADC1_1, C_GND_ADC1_2, C_GND_ADC1_3, C_GND_ADC1_4, C_GND_ADC1_5, C_GND_ADC1_6, C_GND_ADC1_7, C_GND_ADC1_8};
+unsigned int gnd_adc1_moment_value[NUMBER_GND_ADC1][NUMBER_POINT];
+unsigned int gnd_adc1_averange_sum[NUMBER_GND_ADC1];
+unsigned int gnd_adc1_averange[NUMBER_GND_ADC1];
+unsigned int gnd_adc1;
 
-unsigned int index_array_of_one_value_fourier/* = 0*/;
+const unsigned int index_GND_ADC2[NUMBER_GND_ADC2] = {C_GND_ADC2_1, C_GND_ADC2_2};
+unsigned int gnd_adc2_moment_value[NUMBER_GND_ADC2][NUMBER_POINT];
+unsigned int gnd_adc2_averange_sum[NUMBER_GND_ADC2];
+unsigned int gnd_adc2_averange[NUMBER_GND_ADC2];
+unsigned int gnd_adc2;
+
+const unsigned int index_VREF_ADC1[NUMBER_VREF_ADC1] = {C_VREF_ADC1_1};
+unsigned int vref_adc1_moment_value[NUMBER_VREF_ADC1][NUMBER_POINT];
+unsigned int vref_adc1_averange_sum[NUMBER_VREF_ADC1];
+unsigned int vref_adc1_averange[NUMBER_VREF_ADC1];
+unsigned int vref_adc1 = VREF_NORMAL_VALUE;
+
+const unsigned int index_VREF_ADC2[NUMBER_VREF_ADC2] = {C_VREF_ADC2_1};
+unsigned int vref_adc2_moment_value[NUMBER_VREF_ADC2][NUMBER_POINT];
+unsigned int vref_adc2_averange_sum[NUMBER_VREF_ADC2];
+unsigned int vref_adc2_averange[NUMBER_VREF_ADC2];
+unsigned int vref_adc2 = VREF_NORMAL_VALUE;
+
+const unsigned int index_VDD_ADC1[NUMBER_VDD_ADC1] = {C_VDD_ADC1_1};
+unsigned int vdd_adc1_moment_value[NUMBER_VDD_ADC1][NUMBER_POINT];
+unsigned int vdd_adc1_averange_sum[NUMBER_VDD_ADC1];
+unsigned int vdd_adc1_averange[NUMBER_VDD_ADC1];
+unsigned int vdd_adc1 = VDD_NORMAL_VALUE;
+
+const unsigned int index_VDD_ADC2[NUMBER_VDD_ADC2] = {C_VDD_ADC2_1};
+unsigned int vdd_adc2_moment_value[NUMBER_VDD_ADC2][NUMBER_POINT];
+unsigned int vdd_adc2_averange_sum[NUMBER_VDD_ADC2];
+unsigned int vdd_adc2_averange[NUMBER_VDD_ADC2];
+unsigned int vdd_adc2 = VDD_NORMAL_VALUE;
+
+unsigned int index_array_of_one_value/* = 0*/;
 
 EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 int ADCs_data[NUMBER_ANALOG_CANALES];
@@ -208,8 +235,6 @@ int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
 int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
 int ortogonal[2*NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal/* = 0*/;
-unsigned long long sum_sqr_data_3I0_irq/* = 0*/;
-unsigned long long sum_sqr_data_3I0[2]/* = {0, 0}*/;
 //unsigned int semaphore_measure_values = 0;
 unsigned int semaphore_measure_values_low/* = 0*/;
 
@@ -222,13 +247,10 @@ unsigned int measurement_high[2][_NUMBER_IM]/* = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 unsigned int measurement_middle[_NUMBER_IM]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/; 
 unsigned int measurement_low[_NUMBER_IM]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/; 
 
-const unsigned int index_converter_Ib_p[NUMBER_ANALOG_CANALES]  = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_Ib , FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
-//const unsigned int index_converter_I04_p[NUMBER_ANALOG_CANALES] = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_I04, FULL_ORT_Ic, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc , FULL_ORT_3U0};
-//const unsigned int index_converter_Ib_l[NUMBER_ANALOG_CANALES]  = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_Ib, FULL_ORT_Ic, FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca, FULL_ORT_3U0};
-//const unsigned int index_converter_I04_l[NUMBER_ANALOG_CANALES] = {FULL_ORT_3I0, FULL_ORT_Ia, FULL_ORT_I04, FULL_ORT_Ic, FULL_ORT_Uab, FULL_ORT_Ubc, FULL_ORT_Uca, FULL_ORT_3U0};
+const unsigned int index_converter[NUMBER_ANALOG_CANALES]  = {FULL_ORT_Ia_H, FULL_ORT_Ib_H , FULL_ORT_Ic_H, FULL_ORT_Ia_L, FULL_ORT_Ib_L , FULL_ORT_Ic_L, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc};
 int ortogonal_calc[2*FULL_ORT_MAX];
 int ortogonal_calc_low[2*FULL_ORT_MAX];
-int phi_angle[FULL_ORT_MAX]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/;
+int phi_angle[FULL_ORT_MAX];
 int base_index_for_angle = -1;
 
 int P_plus[2]/* = {0, 0}*/;
@@ -326,7 +348,7 @@ unsigned int temp_states_for_mtz/* = 0*/;
 //ÒÇÍÏ
 unsigned int TZNP_3U0_bilshe_porogu/* = 0*/;
 unsigned int TZNP_3I0_r_bilshe_porogu/* = 0*/;
-unsigned int sector_directional_tznp[3]/* = {0, 0, 0}*/;
+unsigned int sector_directional_tznp[4];
 
 unsigned int i1_bilshe_porogu/* = 0*/, i2_bilshe_porogu/* = 0*/;
 
@@ -357,10 +379,10 @@ unsigned int fix_active_buttons/* = 0*/, fix_active_buttons_ctrl;
 unsigned int mutex_interface/* = false*/;
 unsigned int activation_function_from_interface[N_SMALL]/* = {0, 0}*/;
 unsigned int reset_trigger_function_from_interface/* = 0*/;
-unsigned int diagnostyka_before[3]/* = {0, 0, 0}*/;
-volatile unsigned int diagnostyka[3]/* = {0, 0, 0}*/;
-unsigned int set_diagnostyka[3]/* = {0, 0, 0}*/;
-unsigned int clear_diagnostyka[3]/* = {0, 0, 0}*/;
+unsigned int diagnostyka_before[N_DIAGN];
+volatile unsigned int diagnostyka[N_DIAGN];
+unsigned int set_diagnostyka[N_DIAGN];
+unsigned int clear_diagnostyka[N_DIAGN];
 
 uint32_t board_register;
 
@@ -425,7 +447,7 @@ unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR/* = false*/;
 unsigned int periodical_tasks_TEST_INFO_REJESTRATOR_PR_ERR_LOCK/* = false*/;
 unsigned int periodical_tasks_TEST_FLASH_MEMORY/* = false*/;
 unsigned int periodical_tasks_CALCULATION_ANGLE/* = false*/;
-unsigned int periodical_tasks_CALC_ENERGY_DATA/* = false*/;
+unsigned int periodical_tasks_CALC_POWER_DATA/* = false*/;
 
 const unsigned char odynyci_vymirjuvannja[MAX_NAMBER_LANGUAGE][NUMBER_ODYNYCI_VYMIRJUVANNJA] =
 {
@@ -513,6 +535,7 @@ unsigned char temp_register_rtc[2];
 unsigned int changed_settings = CHANGED_ETAP_NONE; 
 unsigned char crc_settings;
 __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
+uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];
 int * type_mtz_arr[NUMBER_LEVEL_MTZ];

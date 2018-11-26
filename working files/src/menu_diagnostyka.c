@@ -38,7 +38,8 @@ void make_ekran_diagnostyka(unsigned int volatile *diagnostyka_tmp)
   if (
       (*(diagnostyka_tmp + 0) == 0) &&
       (*(diagnostyka_tmp + 1) == 0) &&
-      (*(diagnostyka_tmp + 2) == 0) 
+      (*(diagnostyka_tmp + 2) == 0) &&
+      (*(diagnostyka_tmp + 3) == 0) 
      )
   {
     //Це означає, що ніякої помилки не зафіксовано

@@ -520,15 +520,20 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
 
       char idetyficator[NUMBER_ANALOG_CANALES][16] =
       {
-        "3I0             ",
-        "Ia              ",
-        "Ib              ",
-        "Ic              ",
+        "Ia(x)           ",
+        "Ib(x)           ",
+        "Ic(x)           ",
+        "Ia(x)           ",
+        "Ib(x)           ",
+        "Ic(x)           ",
         "Ua              ",
         "Ub              ",
-        "Uc              ",
-        "3U0             "
+        "Uc              "
       };
+      
+      int index_language = index_language_in_array(current_settings.language);
+      for (size_t i = I_Ia_H; i <= I_Ic_H; i++) idetyficator[i][3] = (index_language == INDEX_LANGUAGE_EN) ? 'H' : 'В';
+      for (size_t i = I_Ia_L; i <= I_Ic_L; i++) idetyficator[i][3] = (index_language == INDEX_LANGUAGE_EN) ? 'L' : 'Н';
 //      const char idetyficator_current[2][16] =
 //      {
 //        "Ib              ",
@@ -593,14 +598,15 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           //Фаза каналу - 2 ASCII символів
           char phase[NUMBER_ANALOG_CANALES][2] =
           {
-            "I0",
             "A ",
             "B ",
             "C ",
             "A ",
             "B ",
             "C ",
-            "U0"
+            "A ",
+            "B ",
+            "C "
           };
 
 //          {
@@ -660,7 +666,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           //Одиниці вимірювання - 2 ASCII символів
           const char label_meas[2][2] = {"mA","mV"};
           unsigned int index;
-          if (subObj <= I_Ic)index = 0;
+          if (subObj <= I_Ic_L)index = 0;
           else index = 1;
 
           return label_meas[index][0] | (label_meas[index][1]<<8);
@@ -668,8 +674,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
         case 19://Коэффициент канала offsetRegister
         {
           //Коефіцієнт каналу
-          if      (subObj == I_3I0) return (1000*MNOGNYK_3I0) >> (VAGA_DILENNJA_3I0 + 8);
-          else if (subObj <= I_Ic ) return (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
+          if (subObj <= I_Ic_L ) return (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
           else return (1000*MNOGNYK_U)   >> (VAGA_DILENNJA_U   + 4);
         }//case 19
         case 20://Добавочное смещение offsetRegister
@@ -687,22 +692,16 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
         case 24://Первичный коэф. трансф. offsetRegister
         {
           //Первинний коефіцієнт трансформації
-          if (subObj == I_3I0)
+          if (subObj <= I_Ic_L )
             {
-              return  1/*header_ar_tmp->T0*/;
-            }
-          else if (subObj <= I_Ic )
-            {
-              if (
-                (subObj != I_Ib_I04 )// || (I_Ib_I04 == 0)
-              )
-                {
-                  return   header_ar_tmp->TCurrent;
-                }
+              if (subObj <= I_Ic_H )
+              {
+                return header_ar_tmp->TCurrent;
+              }
               else
-                {
-                  return 1/*header_ar_tmp->TCurrent04*/;
-                }
+              {
+                return header_ar_tmp->TCurrent;
+              }
             }
           else
             {

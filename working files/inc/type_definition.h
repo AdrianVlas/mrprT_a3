@@ -543,7 +543,8 @@ typedef struct _ctrl_info
 
 typedef enum _index_I_U
 {
-  INDEX_I = 0,
+  INDEX_I_H = 0,
+  INDEX_I_L,
   INDEX_U,
   
   _NUMBER_FOR_I_U

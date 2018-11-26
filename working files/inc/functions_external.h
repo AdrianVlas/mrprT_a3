@@ -97,6 +97,8 @@ extern unsigned int check_data_setpoint(unsigned int, unsigned int, unsigned int
 extern void make_ekran_setpoint_P_3U0(unsigned int);
 extern void make_ekran_timeout_P_3U0(unsigned int);
 extern void make_ekran_control_P_3U0(void);
+extern void make_ekran_timeout_gp(unsigned int);
+extern void make_ekran_control_gp(void);
 extern void make_ekran_setpoint_tznp(unsigned int);
 extern void make_ekran_timeout_tznp(unsigned int);
 extern void make_ekran_control_tznp(void);
@@ -246,7 +248,7 @@ extern void command_start_saving_record_dr_into_dataflash(void);
 extern void routine_for_queue_dr(void);
 extern void digital_registrator(unsigned int*);
 extern void analog_registrator(unsigned int*);
-//extern void diagnostyca_adc_execution(void);
+extern void diagnostyca_adc_execution(void);
 
 extern void Usb_routines(void);
 extern void USART_RS485_Configure(void);
@@ -262,6 +264,7 @@ extern void error_start_i2c(void);
 
 extern void find_new_ADC_canal_to_read(unsigned int, unsigned int*);
 extern void control_reading_ADCs(void);
+extern void operate_test_ADCs(void);
 extern void Fourier(void);
 extern void fapch(void);
 extern void calc_measurement(unsigned int);
@@ -271,13 +274,13 @@ extern unsigned int sqrt_64(unsigned long long);
 extern unsigned int get_order(int);
 
 extern void calc_angle(void);
-extern void calc_power(int*);
-extern void calc_power_and_energy(void);
+extern void calc_power(int*, unsigned int);
+extern void calc_power_total(void);
 
-extern void velychyna_zvorotnoi_poslidovnosti(int*, const __index_I_U);
+extern void velychyna_zvorotnoi_poslidovnosti(int*);
 
-extern void directional_mtz(int*, unsigned int);
-extern void directional_tznp(int*, unsigned int);
+extern void directional_mtz(int*, unsigned int, unsigned int);
+extern void directional_tznp(int*, unsigned int, unsigned int);
 
 extern void main_routines_for_spi1(void);
 extern void main_function_for_dataflash_resp(int);

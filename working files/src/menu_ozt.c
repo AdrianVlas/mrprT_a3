@@ -13,8 +13,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " ВыравниваниеH  ",
       " Нач. дифф. ток ",
       " Прир. дифф.тока",
-      " Торможение 1   ",
-      " Торможение 2   ",
+      "  Торможение 1  ",
+      "  Торможение 2  ",
       " Распред. торм. ",
       " Нач. торможение",
       " Огранич.   торм",
@@ -28,8 +28,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " ВирiвнюванняH  ",
       " Поч. диф. струм",
       " Прир. диф.струм",
-      " Гальмування 1  ",
-      " Гальмування 2  ",
+      "  Гальмування 1 ",
+      "  Гальмування 2 ",
       " Розподiл. гальм",
       " Поч.гальмування",
       " Обмеж.   гальм.",
@@ -43,8 +43,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " ViravниваниеH  ",
       " Nach. дифф. ток",
       " Prir. дифф.тока",
-      " Tormожение 1   ",
-      " Tormожение 2   ",
+      "  Tormожение 1  ",
+      "  Tormожение 2  ",
       " Rasprед. торм. ",
       " Nach.торможение",
       " Ogr.   торм.   ",
@@ -58,8 +58,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " ВыравниваниеH  ",
       " Нач. дифф. ток ",
       " Прир. дифф.тока",
-      " Торможение 1   ",
-      " Торможение 2   ",
+      "  Торможение 1  ",
+      "  Торможение 2  ",
       " Распред. торм. ",
       " Нач. торможение",
       " Огранич.   торм",
@@ -653,24 +653,17 @@ void make_ekran_control_ozt(void)
         {
           int value = point->type_con_ozt;
 
-          const unsigned char information[MAX_NAMBER_LANGUAGE][3][MAX_COL_LCD] = 
+          const unsigned char information[3][MAX_COL_LCD] = 
           {
-            {"    0           ", "    1           ", "    11          "},
-            {"    0           ", "    1           ", "    11          "},
-            {"    0           ", "    1           ", "    11          "},
-            {"    0           ", "    1           ", "    11          "}
+            "       0        ",
+            "       1        ",
+            "       11       "
           };
-          const unsigned int cursor_x[MAX_NAMBER_LANGUAGE][3] = 
-          {
-            {3, 3, 3},
-            {3, 3, 3},
-            {3, 3, 3},
-            {3, 3, 3}
-          };
+          const unsigned int cursor_x[3] = {6, 6, 6};
           
-          for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_language][value][j];
+          for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[value][j];
           if (index_of_ekran_tmp == current_ekran.index_position) 
-                                    current_ekran.position_cursor_x = cursor_x[index_language][value];
+                                    current_ekran.position_cursor_x = cursor_x[value];
         }//if (index_ctr == INDEX_ML_CTROZT_TYPE_CON)   
         else
         {
