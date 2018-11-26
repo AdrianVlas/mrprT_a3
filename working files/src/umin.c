@@ -1,3 +1,4 @@
+extern char ch_type_voltage; 
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //                  
@@ -306,10 +307,17 @@ wrp.lVl = 0;
   unsigned int pick_up_Iblk = wrp.bool_vars.previous_state_po_iblk_umin1 ?
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp] * KOEF_POVERNENNJA_GENERAL_DOWN / 100 :
           current_settings_prt.setpoint_Umin1_Iblk[number_group_stp];
-//  CTR_EXTRA_SETTINGS_1_CTRL_VH_VL
-wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_Iblk) &&
+   ch_type_voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
+//  CTR_EXTRA_SETTINGS_1_CTRL_VH_VL //0-VH 1 - VL 
+	if(ch_type_voltage != 0){
+wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_L] <= pick_up_Iblk) &&
+                                         (measurement[IM_IB_L] <= pick_up_Iblk) &&
+                                         (measurement[IM_IC_L] <= pick_up_Iblk);
+	}else{
+	wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_H] <= pick_up_Iblk) &&
                                          (measurement[IM_IB_H] <= pick_up_Iblk) &&
                                          (measurement[IM_IC_H] <= pick_up_Iblk);
+	}										 
   //ПО Iблк. Umin1
   if (wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust)
     _SET_BIT(p_active_functions, RANG_PO_IBLK_UMIN1);

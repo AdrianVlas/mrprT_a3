@@ -2883,12 +2883,22 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3I0_vpered*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    if (measurement[IM_3I0_r_H] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 3;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	if(){
+		if (measurement[IM_3I0_r_H] >= setpoint)
+		{
+		  logic_TZNP_0 |=  1 << 3;
+		  _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	}
+	else{
+		if (measurement[IM_3I0_r_H] >= setpoint)
+		{
+		  logic_TZNP_0 |=  1 << 3;
+		  _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	}
     /***/
     
     /***
