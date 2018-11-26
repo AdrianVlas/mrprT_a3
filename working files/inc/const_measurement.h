@@ -215,15 +215,29 @@ Koef_1 = 74.831881801009052122160116719483 (4790/64 = 74.84375)
 #define NUMBER_VDD_ADC1         1
 #define NUMBER_VDD_ADC2         1
 
-#define I_Ia_H          0
-#define I_Ib_H          1
-#define I_Ic_H          2
-#define I_Ia_L          3
-#define I_Ib_L          4
-#define I_Ic_L          5
-#define I_Ua            6
-#define I_Ub            7
-#define I_Uc            8
+enum _index_chanal_meas
+{
+  I_Ia_H = 0,
+  I_Ib_H,
+  I_Ic_H,
+  I_Ia_L,
+  I_Ib_L,
+  I_Ic_L,
+  I_Ua,
+  I_Ub,
+  I_Uc,
+  
+  NUMBER_ANALOG_CANALES,
+  
+  I_Ia_P_H = NUMBER_ANALOG_CANALES,
+  I_Ib_P_H,
+  I_Ic_P_H,
+  I_Ia_P_L,
+  I_Ib_P_L,
+  I_Ic_P_L,
+  
+  NUMBER_ANALOG_CANALES_WITH_CALC,
+};
 
 enum _index_meas
 {

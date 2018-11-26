@@ -927,13 +927,9 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   //Розраховуємо діюче значення через перетворення Фур'є
   /***/
-  for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+  for(int i = 0; i < NUMBER_ANALOG_CANALES; i++)
   {
-#if (I_Ia_H != 0)
     if ((i >= I_Ia_H) && (i <= I_Ic_L))
-#else
-    if (i <= I_Ic_L)
-#endif
     {
       unsigned int index_m, index_ort;
       switch (i)

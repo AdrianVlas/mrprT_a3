@@ -23,8 +23,6 @@
 #define DELTA_TIME_FOR_TIMERS           1
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
-#define NUMBER_ANALOG_CANALES           9
-
 #define NUMBER_INPUTS                   16
 #define NUMBER_OUTPUTS                  16
 
