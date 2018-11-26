@@ -1405,10 +1405,10 @@ void main_manu_function(void)
     case EKRAN_CHOOSE_TIMEOUT_GROUP3_GP:
     case EKRAN_CHOOSE_TIMEOUT_GROUP4_GP:
     case EKRAN_CHOOSE_SETTINGS_TP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_TP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP3_TP:
-    case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP:
+    case EKRAN_CHOOSE_TIMEOUT_GROUP1_TP:
+    case EKRAN_CHOOSE_TIMEOUT_GROUP2_TP:
+    case EKRAN_CHOOSE_TIMEOUT_GROUP3_TP:
+    case EKRAN_CHOOSE_TIMEOUT_GROUP4_TP:
     case EKRAN_CHOOSE_SETTINGS_UP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UP:
     case EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP2_UP:
@@ -1666,11 +1666,6 @@ void main_manu_function(void)
                      )
                      ||  
                      (
-                      (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
-                      (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                     )
-                     ||  
-                     (
                       (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UP) &&
                       (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_UP)
                      )
@@ -1694,8 +1689,15 @@ void main_manu_function(void)
               make_ekran_chose_setpoint();
             }
             else if (
-                     (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
-                     (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                     (
+                      (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
+                      (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                     )   
+                     ||  
+                     (
+                      (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_TP) &&
+                      (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_TP)
+                     )
                     )
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TIMEOUT) current_ekran.index_position = 0;
@@ -2318,7 +2320,6 @@ void main_manu_function(void)
                 current_ekran.edition = 0;
               }
 
-
               else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_GP)
               {
                 //Натисну кнопка Enter у вікні вибору група1-...-групаN-настройки GP
@@ -2334,7 +2335,7 @@ void main_manu_function(void)
                 else if (current_ekran.index_position == INDEX_ML_CONTROL_WITH_GROUPS)
                 {
                   //Запам'ятовуємо поперердній екран
-                  //Переходимо на меню відображення управлінської інформації для 3U0
+                  //Переходимо на меню відображення управлінської інформації для GP
                   current_ekran.current_level = EKRAN_CONTROL_GP;
                 } 
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
@@ -2353,6 +2354,45 @@ void main_manu_function(void)
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення витримок для GP
                   current_ekran.current_level = EKRAN_TIMEOUT_GP_GROUP1 + (current_ekran.current_level - EKRAN_CHOOSE_TIMEOUT_GROUP1_GP);
+                }
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+              }
+
+              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_TP)
+              {
+                //Натисну кнопка Enter у вікні вибору група1-...-групаN-настройки TP
+                if(
+                   (current_ekran.index_position >= INDEX_ML_GROUP1) &&
+                   (current_ekran.index_position <= INDEX_ML_GROUP4)
+                  )  
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення атбраної групи уставок для TP
+                  current_ekran.current_level = EKRAN_CHOOSE_TIMEOUT_GROUP1_TP + (current_ekran.index_position - INDEX_ML_GROUP1);
+                }
+                else if (current_ekran.index_position == INDEX_ML_CONTROL_WITH_GROUPS)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення управлінської інформації для TP
+                  current_ekran.current_level = EKRAN_CONTROL_TP;
+                } 
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+                current_ekran.cursor_on = 1;
+                current_ekran.cursor_blinking_on = 0;
+              }
+              else if (
+                       (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_TP) &&
+                       (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_TP)
+                      )
+              {
+                //Натисну кнопка Enter у вікні вибору уставок-витримок TP
+                if(current_ekran.index_position == INDEX_ML_WITH_TIMEOUT_TIMEOUT)
+                {
+                  //Запам'ятовуємо поперердній екран
+                  //Переходимо на меню відображення витримок для TP
+                  current_ekran.current_level = EKRAN_TIMEOUT_TP_GROUP1 + (current_ekran.current_level - EKRAN_CHOOSE_TIMEOUT_GROUP1_TP);
                 }
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
@@ -3746,11 +3786,6 @@ void main_manu_function(void)
                        )
                        ||  
                        (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                       )
-                       ||  
-                       (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UP) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_UP)
                        )
@@ -3776,8 +3811,15 @@ void main_manu_function(void)
                 make_ekran_chose_setpoint();
               }
               else if (
-                       (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
-                       (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                       )   
+                       ||  
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_TP) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_TP)
+                       )
                       )
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TIMEOUT - 1;
@@ -4414,11 +4456,6 @@ void main_manu_function(void)
                        )
                        ||  
                        (
-                        (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_TP) &&
-                        (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_TP)
-                       )
-                       ||  
-                       (
                         (current_ekran.current_level >= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP1_UP) &&
                         (current_ekran.current_level <= EKRAN_CHOOSE_SETPOINT_TIMEOUT_GROUP4_UP)
                        )
@@ -4444,8 +4481,15 @@ void main_manu_function(void)
                 make_ekran_chose_setpoint();
               }
               else if (
-                       (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
-                       (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_GP) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_GP)
+                       )   
+                       ||  
+                       (
+                        (current_ekran.current_level >= EKRAN_CHOOSE_TIMEOUT_GROUP1_TP) &&
+                        (current_ekran.current_level <= EKRAN_CHOOSE_TIMEOUT_GROUP4_TP)
+                       )
                       )
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_PROTECTION_WITH_TIMEOUT) current_ekran.index_position = 0;
@@ -4933,6 +4977,12 @@ void main_manu_function(void)
     case EKRAN_TIMEOUT_GP_GROUP4:
     case EKRAN_CONTROL_GP:
 
+    case EKRAN_TIMEOUT_TP_GROUP1:
+    case EKRAN_TIMEOUT_TP_GROUP2:
+    case EKRAN_TIMEOUT_TP_GROUP3:
+    case EKRAN_TIMEOUT_TP_GROUP4:
+    case EKRAN_CONTROL_TP:
+
     case EKRAN_SETPOINT_KZ_ZV_GROUP1:
     case EKRAN_SETPOINT_KZ_ZV_GROUP2:
     case EKRAN_SETPOINT_KZ_ZV_GROUP3:
@@ -5177,7 +5227,7 @@ void main_manu_function(void)
               if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_GP) current_ekran.index_position = 0;
               position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
-              //Формуємо екран витримок 3U0
+              //Формуємо екран витримок GP
               int group = (current_ekran.current_level - EKRAN_TIMEOUT_GP_GROUP1);
               make_ekran_timeout_gp(group);
             }
@@ -5188,6 +5238,27 @@ void main_manu_function(void)
 
               //Формуємо екран управлінської інформації для GP
               make_ekran_control_gp();
+            }
+
+            else if(
+                    (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                    (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                   )  
+            {
+              if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_TP) current_ekran.index_position = 0;
+              position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
+
+              //Формуємо екран витримок TP
+              int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+              make_ekran_timeout_tp(group);
+            }
+            else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+            {
+              if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_TP) current_ekran.index_position = 0;
+              position_in_current_level_menu[EKRAN_CONTROL_TP] = current_ekran.index_position;
+
+              //Формуємо екран управлінської інформації для TP
+              make_ekran_control_tp();
             }
 
             else if(
@@ -6143,6 +6214,25 @@ void main_manu_function(void)
                   edition_settings.control_P_3U0 = current_settings.control_P_3U0;
                 }
 //-------------#include "ekran/ekran_3u0_enter.ci"-------------------------
+              //Натиснута кнопка ENTER
+                else if(
+                        (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                        (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                       )   
+                {
+                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                  
+                  if (current_ekran.index_position == INDEX_ML_TMO_TP)
+                  {
+                    edition_settings.timeout_TP[group] = current_settings.timeout_TP[group];
+                    current_ekran.position_cursor_x = COL_TMO_TP_BEGIN;
+                  }
+                }
+                else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+                {
+                  edition_settings.control_TP = current_settings.control_TP;
+                }
+
               //Натиснута кнопка ENTER
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
@@ -7212,6 +7302,27 @@ void main_manu_function(void)
                     found_changes = 1;
                 }
 //--------------#include "ekran/ekran_3u0_1.ci"--------------------------
+                //Перевіряємо чи якісь зміни відбулися
+                else if(
+                        (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                        (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                       )   
+                {
+                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                  
+                  if (current_ekran.index_position == INDEX_ML_TMO_TP)
+                  {
+                    if (edition_settings.timeout_TP[group] != current_settings.timeout_TP[group]) found_changes = 1;
+                  }
+                }
+                else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+                {
+                  if (
+                      (edition_settings.control_TP != current_settings.control_TP)
+                     )   
+                    found_changes = 1;
+                }
+
                 //Перевіряємо чи якісь зміни відбулися
                 else if(
                         (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
@@ -9117,6 +9228,56 @@ void main_manu_function(void)
                   }
                 }
 //--------------#include "ekran/ekran_3u0_2.ci"--------------------
+                //Перевіряємо достовірність даних
+                else if(
+                        (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1)&&
+                        (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                       )   
+                {
+                
+                  int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                  
+                  if (current_ekran.index_position == INDEX_ML_TMO_TP)
+                  {
+                    if (check_data_setpoint(edition_settings.timeout_TP[group], TIMEOUT_TP_MIN, TIMEOUT_TP_MAX) == 1)
+                    {
+                      if (edition_settings.timeout_TP[group] != current_settings.timeout_TP[group])
+                      {
+                        //Помічаємо, що поле структури зараз буде змінене
+                        changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                        current_settings.timeout_TP[group] = edition_settings.timeout_TP[group];
+                        //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                        fix_change_settings(0, 1);
+                      }
+                      //Виходимо з режиму редагування
+                      current_ekran.edition = 0;
+                    }
+                  } 
+                
+                }
+                
+                else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+                {
+                  if (
+                      ((edition_settings.control_TP  & ((unsigned int)(~CTR_TP_MASKA))) == 0) 
+                     )   
+                  {
+                    if (
+                        (edition_settings.control_TP != current_settings.control_TP) 
+                       )   
+                    {
+                      //Помічаємо, що поле структури зараз буде змінене
+                      changed_settings = CHANGED_ETAP_EXECUTION;
+                        
+                      current_settings.control_TP = edition_settings.control_TP;
+                      //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
+                      fix_change_settings(0, 1);
+                    }
+                    //Виходимо з режиму редагування
+                    current_ekran.edition = 0;
+                  }
+                }
                 
                 //Перевіряємо достовірність даних
                 else if(
@@ -11690,6 +11851,37 @@ void main_manu_function(void)
 //------------------#include "ekran/ekran_3u0_up.ci"---------------------
               //Натиснута кнопка UP
               else if(
+                      (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                      (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                     )   
+              {
+                int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+
+                if(current_ekran.edition == 0)
+                {
+                  if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TIMEOUT_TP - 1;
+                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
+                }
+                else
+                {
+                  //Редагування числа
+                  if (current_ekran.index_position == INDEX_ML_TMO_TP)
+                    edition_settings.timeout_TP[group] = edit_setpoint(1, edition_settings.timeout_TP[group], 1,
+                                                                        COL_TMO_TP_COMMA, COL_TMO_TP_END, 10);
+                }
+                //Формуємо екран витримок TP
+                make_ekran_timeout_tp(group);
+              }
+              else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+              {
+                if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_TP - 1;
+                position_in_current_level_menu[EKRAN_CONTROL_TP] = current_ekran.index_position;
+                //Формуємо екран управлінської інформації для TP
+                make_ekran_control_tp();
+              }
+
+              //Натиснута кнопка UP
+              else if(
                       (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
                       (current_ekran.current_level <= EKRAN_TIMEOUT_GP_GROUP4)
                      )   
@@ -13036,6 +13228,37 @@ void main_manu_function(void)
                 make_ekran_control_P_3U0();
               }
 //------------------#include "ekran/ekran_3u0_down.ci"--------------------
+              //Натиснута кнопка DOWN
+              else if(
+                      (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                      (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                     )   
+              {
+                int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                
+                if(current_ekran.edition == 0)
+                {
+                  if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_TP) current_ekran.index_position = 0;
+                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
+                }
+                else
+                {
+                  //Редагування числа
+                  if (current_ekran.index_position == INDEX_ML_TMO_TP)
+                    edition_settings.timeout_TP[group] = edit_setpoint(0, edition_settings.timeout_TP[group], 1,
+                                                            COL_TMO_TP_COMMA, COL_TMO_TP_END, 10);
+                }
+                //Формуємо екран витримок TP
+                make_ekran_timeout_tp(group);
+              }
+              else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+              {
+                if(++current_ekran.index_position >= MAX_ROW_FOR_CONTROL_TP) current_ekran.index_position = 0;
+                position_in_current_level_menu[EKRAN_CONTROL_TP] = current_ekran.index_position;
+                //Формуємо екран управлінської інформації для TP
+                make_ekran_control_tp();
+              }
+
               //Натиснута кнопка DOWN
               else if(
                       (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
@@ -14641,6 +14864,39 @@ void main_manu_function(void)
               //Натиснута кнопка RIGHT
               //Перевіряємо, чи ми не вийшли за межі виділені для значення даної уставки, або позицію коми
               else if(
+                      (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                      (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                     )  
+              {
+                if(current_ekran.index_position == INDEX_ML_TMO_TP)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_TP_COMMA )current_ekran.position_cursor_x++;
+                  if ((current_ekran.position_cursor_x < COL_TMO_TP_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_TP_END))
+                    current_ekran.position_cursor_x = COL_TMO_TP_BEGIN;
+                }
+                
+                //Формуємо екран витримок TP
+                int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                make_ekran_timeout_tp(group);
+              }
+              else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+              {
+                  unsigned int maska = 0;
+
+                  //Виділяємо, який біт треба міняти
+                  if      (current_ekran.index_position == INDEX_ML_CTR_TP_STATE ) maska = MASKA_FOR_BIT(INDEX_ML_CTR_TP_STATE);
+                
+                  //Міняємо на протилежний відповідний біт для вибраної позиції
+                  edition_settings.control_TP ^= maska;
+
+                //Формуємо екран управлінської інформації для TP
+                 make_ekran_control_tp();
+              }
+
+              //Натиснута кнопка RIGHT
+              //Перевіряємо, чи ми не вийшли за межі виділені для значення даної уставки, або позицію коми
+              else if(
                       (current_ekran.current_level >= EKRAN_TIMEOUT_GP_GROUP1) &&
                       (current_ekran.current_level <= EKRAN_TIMEOUT_GP_GROUP4)
                      )  
@@ -14684,7 +14940,6 @@ void main_manu_function(void)
                 //Формуємо екран управлінської інформації для GP
                  make_ekran_control_gp();
               }
-
 
               //Натиснута кнопка RIGHT
               //Перевіряємо, чи ми не вийшли за межі виділені для значення даної уставки, або позицію коми
@@ -16401,6 +16656,39 @@ void main_manu_function(void)
                  make_ekran_control_P_3U0();
               }
 //----------------#include "ekran/ekran_3u0_left.ci"----------------------
+              //Натиснута кнопка LEFT
+              //Перевіряємо, чи ми не вийшли за межі виділені для значення даної уставки, або позицію коми
+              else if(
+                      (current_ekran.current_level >= EKRAN_TIMEOUT_TP_GROUP1) &&
+                      (current_ekran.current_level <= EKRAN_TIMEOUT_TP_GROUP4)
+                     )   
+              {
+                if(current_ekran.index_position == INDEX_ML_TMO_TP)
+                {
+                  if (current_ekran.position_cursor_x == COL_TMO_TP_COMMA )current_ekran.position_cursor_x--;
+                  if ((current_ekran.position_cursor_x < COL_TMO_TP_BEGIN) ||
+                      (current_ekran.position_cursor_x > COL_TMO_TP_END))
+                    current_ekran.position_cursor_x = COL_TMO_TP_END;
+                }
+                
+                //Формуємо екран витримок TP
+                int group = (current_ekran.current_level - EKRAN_TIMEOUT_TP_GROUP1);
+                make_ekran_timeout_tp(group);
+              }
+              else if(current_ekran.current_level == EKRAN_CONTROL_TP)
+              {
+                  unsigned int maska = 0;
+
+                  //Виділяємо, який біт треба міняти
+                  if      (current_ekran.index_position == INDEX_ML_CTR_TP_STATE  ) maska = MASKA_FOR_BIT(INDEX_ML_CTR_TP_STATE);
+                
+                  //Міняємо на протилежний відповідний біт для вибраної позиції
+                  edition_settings.control_TP ^= maska;
+
+                //Формуємо екран управлінської інформації для TP
+                 make_ekran_control_tp();
+              }
+
               //Натиснута кнопка LEFT
               //Перевіряємо, чи ми не вийшли за межі виділені для значення даної уставки, або позицію коми
               else if(
