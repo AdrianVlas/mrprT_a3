@@ -3113,12 +3113,18 @@ void control_settings(void)
     i++;
   }
   
+  int32_t type_con_ozt_tmp;
+  double koef_VH_tmp, koef_VL_tmp;
+  KOEF_VH_VL(type_con_ozt_tmp, koef_VH_tmp, koef_VL_tmp);
   if (
       (difference == 0) && 
       (crc_settings == crc_settings_tmp) &&
       (ch_type_voltage == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1)) &&
       (ctr_transformator_I_VH_meas == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1)) &&
-      (ctr_transformator_I_VL_meas == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1))
+      (ctr_transformator_I_VL_meas == ((current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1)) &&
+      (type_con_ozt_meas == type_con_ozt_tmp) &&
+      (koef_VH_meas == koef_VH_tmp) &&
+      (koef_VL_meas == koef_VL_tmp)
      )
   {
     //Контроль достовірності таблиці настройок пройшов успішно

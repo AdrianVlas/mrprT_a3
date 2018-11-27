@@ -541,6 +541,31 @@
   array_ar[index++] = data;                                                             \
 }
 
+#define KOEF_VH_VL(type_con_ozt_tmp, koef_VH_tmp, koef_VL_tmp)                                                          \
+{                                                                                                                       \
+  type_con_ozt_tmp = current_settings_prt.type_con_ozt;                                                                 \
+  switch (type_con_ozt_meas)                                                                                            \
+  {                                                                                                                     \
+  case TYPE_CON_OZT_0:                                                                                                  \
+    {                                                                                                                   \
+      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BB[0];                                        \
+      koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BH[0];                                        \
+      break;                                                                                                            \
+    }                                                                                                                   \
+  case TYPE_CON_OZT_1:                                                                                                  \
+  case TYPE_CON_OZT_11:                                                                                                 \
+    {                                                                                                                   \
+      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BB[0];                                        \
+      koef_VL_tmp = (double)I_NOM/(1.7320508075688772935274463415059*(double)current_settings_prt.pickup_ozt_BH[0]);    \
+      break;                                                                                                            \
+    }                                                                                                                   \
+  default:                                                                                                              \
+    {                                                                                                                   \
+      total_error_sw_fixed(1000);                                                                                       \
+    }                                                                                                                   \
+  }                                                                                                                     \
+}
+
 #endif 
 
 
