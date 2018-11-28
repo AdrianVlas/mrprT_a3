@@ -1331,8 +1331,15 @@ void min_settings(__SETTINGS *target_label)
     target_label->ranguvannja_analog_registrator[j]  = 0x0;
     target_label->ranguvannja_digital_registrator[j] = 0x0;
 
-    target_label->ranguvannja_off_cb[j] = 0x0;
-    target_label->ranguvannja_on_cb[j] = 0x0;
+  }
+  
+  for(unsigned int i = 0; i < NUMBER_ON_OFF; i++)
+  {
+    for (unsigned int j = 0; j < N_BIG; j++ ) 
+    {
+      target_label->ranguvannja_off_cb[i][j] = 0x0;
+      target_label->ranguvannja_on_cb[i][j] = 0x0;
+    }
   }
   
   target_label->number_iteration_el = NUMBER_ITERATION_EL_MAX;

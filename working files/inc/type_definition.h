@@ -54,8 +54,8 @@ typedef struct
   unsigned int ranguvannja_digital_registrator[N_BIG];    //Ранжування дискретного реєстратора
   
   //Блок ввімкнення-вимкнення вимикача
-  unsigned int ranguvannja_off_cb[N_BIG];                 //Ранжування блоку вимкнення силового вимикача
-  unsigned int ranguvannja_on_cb[N_BIG];                  //Ранжування блоку ввімкнення силового вимикача
+  unsigned int ranguvannja_off_cb[NUMBER_ON_OFF][N_BIG];  //Ранжування блоку вимкнення силового вимикача
+  unsigned int ranguvannja_on_cb[NUMBER_ON_OFF][N_BIG];   //Ранжування блоку ввімкнення силового вимикача
   
   //Тип дискретних виходів
   unsigned int type_of_output;                        //Тип дискретних виходів

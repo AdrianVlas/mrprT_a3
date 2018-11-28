@@ -2562,7 +2562,7 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
       //М
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENA) != 0) << 10; //МТЗ2 Ускоренная
       //ДВ
-      tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 18; //Положение ВВ
+      tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_H) != 0) << 18; //Положение ВВ
       //M
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENNJA) != 0) << 11; //Ускорение МТЗ2 вкл.
     }
@@ -3428,7 +3428,7 @@ void umax2_handler(unsigned int *p_active_functions, unsigned int number_group_s
 /*****************************************************/
 void ready_tu(unsigned int *p_active_functions)
 {
-  unsigned int tmp_value = (_CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV) == 0)                  << 0;
+  unsigned int tmp_value = ((_CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV_H) == 0) && (_CHECK_SET_BIT(p_active_functions, RANG_PRYVID_VV_L) == 0)) << 0;
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV) != 0)                    << 1;
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) != 0)      << 2;
   tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_AVAR_DEFECT) == 0)                            << 3;
@@ -3945,7 +3945,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
       //Таймер досягнув свого максимального значення
       global_timers[INDEX_TIMER_VIDKL_VV] = -1;
       //Відмічаємо у масиві функцій, які зараз активуються, що блок БО має бути деативованим
-      _CLEAR_BIT(p_active_functions, RANG_WORK_BO);
+      _CLEAR_BIT(p_active_functions, RANG_WORK_BO_H);
     }
     //Незавершена робота блоку БО означає, що таймер блокування БВ має бути запущений і знаходитися у свому початковому значенні,
     //щоб як тільки блок БО відпрацює, щоб блокування включення почалося на весь час з моменту закінчення роботи блоку БО
@@ -3973,7 +3973,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
     {
       global_timers[INDEX_TIMER_VKL_VV] = -1;
       //Відмічаємо у масиві функцій, які зараз активуються, що блок БB має бути деативованим
-      _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
+      _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
     }
     else
     {
@@ -3983,7 +3983,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
         //Таймер досягнув свого максимального значення
         global_timers[INDEX_TIMER_VKL_VV] = -1;
         //Відмічаємо у масиві функцій, які зараз активуються, що блок БB має бути деативованим
-        _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
+        _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
       }
     }
   }
@@ -3998,26 +3998,26 @@ inline void on_off_handler(unsigned int *p_active_functions)
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[8]) != 0)
+      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
+      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
+      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
+      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
+      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
+      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
+      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
+      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
+      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
      )
   {
     //Є умова активації блку вимкнення
-    _SET_BIT(p_active_functions, RANG_WORK_BO);
+    _SET_BIT(p_active_functions, RANG_WORK_BO_H);
 
     //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БО) таймери: блоку БО, блокуванння БВ.
     global_timers[INDEX_TIMER_VIDKL_VV  ] = 0;
     global_timers[INDEX_TIMER_BLK_VKL_VV] = 0;
     
     //Скидаємо активацію блоку ввімкнення
-    _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
+    _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
     //Скидаємо таймер блку вимкнення
     global_timers[INDEX_TIMER_VKL_VV] = -1;  
 
@@ -4027,8 +4027,8 @@ inline void on_off_handler(unsigned int *p_active_functions)
     */
     //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
     for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
-    _CLEAR_BIT(maska, RANG_OTKL_VV);
-    _CLEAR_BIT(maska, RANG_WORK_BO);
+    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    _CLEAR_BIT(maska, RANG_WORK_BO_H);
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -4290,26 +4290,26 @@ inline void on_off_handler(unsigned int *p_active_functions)
   if (
       (global_timers[INDEX_TIMER_VIDKL_VV  ] < 0) && 
       (global_timers[INDEX_TIMER_BLK_VKL_VV] < 0) &&
-      (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_VKL_VV) == 0)
+      (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_VKL_VV_H) == 0)
      )
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
 
     if (
-        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0]) != 0) ||
-        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[1]) != 0) ||
-        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[2]) != 0) ||
-        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[3]) != 0) ||
-        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[4]) != 0) ||
-        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[7]) != 0) ||
-        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[8]) != 0)
+        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
+        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
+        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
+        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
+        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
+        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
+        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
+        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
+        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
-      _SET_BIT(p_active_functions, RANG_WORK_BV);
+      _SET_BIT(p_active_functions, RANG_WORK_BV_H);
 
       //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БВ) таймер роботи БВ
       global_timers[INDEX_TIMER_VKL_VV] = 0;
@@ -4319,7 +4319,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
   {
     //На даний момент існує одна або більше умов блокування БВ
     global_timers[INDEX_TIMER_VKL_VV] = -1;
-    _CLEAR_BIT(p_active_functions, RANG_WORK_BV);
+    _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
   }
   /*********************/
 
@@ -4339,9 +4339,9 @@ void control_VV(unsigned int *p_active_functions)
   unsigned int logic_control_VV_0 = 0;
 
   //"Контроль Вкл."
-  logic_control_VV_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_CTRL_VKL ) != 0) << 0;
+  logic_control_VV_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_CTRL_VKL_H ) != 0) << 0;
   //"Контроль Откл."
-  logic_control_VV_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_CTRL_OTKL) != 0) << 1;
+  logic_control_VV_0 |= (_CHECK_SET_BIT(p_active_functions, RANG_CTRL_OTKL_H) != 0) << 1;
   
   _XOR_INVERTOR(logic_control_VV_0, 0, logic_control_VV_0, 1, logic_control_VV_0, 2);
 
@@ -4353,9 +4353,9 @@ void control_VV(unsigned int *p_active_functions)
   _AND2(logic_control_VV_0, 3, logic_control_VV_0, 4, logic_control_VV_0, 5);
   
   if (_GET_OUTPUT_STATE(logic_control_VV_0, 5))
-    _SET_BIT(p_active_functions, RANG_PRYVID_VV);
+    _SET_BIT(p_active_functions, RANG_PRYVID_VV_H);
   else
-    _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV);
+    _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_H);
 }
 /*****************************************************/
 
@@ -5396,7 +5396,8 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
       //Перевіряємо чи стоїть умова почати моніторити мінімальну напругу
       if (
           (blocking_continue_monitoring_min_U == 0) ||
-          (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV) != 0)  
+          ((ch_type_voltage == 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV_H) != 0)) ||
+          ((ch_type_voltage != 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV_L) != 0))
          )
       {
         if(
@@ -5667,7 +5668,10 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           //Перевіряємо, чи стоїть умова припинити моніторинг мінімальної напруги після вимкнення вимикача
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) != 0)
           {
-            if (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO) != 0)
+            if (
+                ((ch_type_voltage == 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO_H) != 0)) ||
+                ((ch_type_voltage != 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO_L) != 0))
+               )   
             {
               blocking_continue_monitoring_min_U = 0xff;
               end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE, carrent_active_functions);
@@ -5900,7 +5904,10 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
       }
       
       //Перевіряємо чи стоїть умова відновити моніторинг мінімальної напруги
-      if (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV) != 0)
+      if (
+          ((ch_type_voltage == 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV_H) != 0)) ||
+          ((ch_type_voltage != 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BV_L) != 0))
+         )   
       {
         //Знімаємо блокування моніторингу мінімальної напруги
         blocking_continue_monitoring_min_U = 0;
@@ -5934,7 +5941,10 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
       //Перевіряємо, чи стоїть умова припинити моніторинг мінімальної напруги після вимкнення вимикача
       if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE)) != 0)
       {
-        if (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO) != 0)
+        if (
+            ((ch_type_voltage == 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO_H) != 0)) ||
+            ((ch_type_voltage != 0) && (_CHECK_SET_BIT(carrent_active_functions, RANG_WORK_BO_L) != 0))
+           )   
         {
           blocking_continue_monitoring_min_U = 0xff;
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MIN_VOLTAGE, carrent_active_functions);
@@ -6551,7 +6561,6 @@ inline void main_protection(void)
   }
   /**************************/
 
-  unsigned int blocking_commands_from_DI = 0;
   unsigned int active_inputs_grupa_ustavok = 0;
   /**************************/
   //Опрацьовуємо ФК, дискретні входи і верхній рівень
@@ -6673,8 +6682,8 @@ inline void main_protection(void)
         _SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_LEDS);
         _SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_RELES);
       }
-      if ((pressed_buttons_united & (1 << (BIT_KEY_I - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV);
-      if ((pressed_buttons_united & (1 << (BIT_KEY_O - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV);
+      if ((pressed_buttons_united & (1 << (BIT_KEY_I - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV_H);
+      if ((pressed_buttons_united & (1 << (BIT_KEY_O - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV_H);
     }
     
     //Активація з інтерфейсу
@@ -6694,47 +6703,15 @@ inline void main_protection(void)
     temp_value_for_activated_function[2] |= temp_value_for_activated_function_button_interface[2];
 
     //Активація з Д.Входу
-    unsigned int vvimk_VV_vid_DV = false;
-    unsigned int vymk_VV_vid_DV = false;
     if (active_inputs != 0)
     {
       for (unsigned int i = 0; i < NUMBER_INPUTS; i++)
       {
         if ((active_inputs & (1 << i)) != 0)
         {
-          if (
-              (_CHECK_SET_BIT((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_VKL_VV )) ||
-              (_CHECK_SET_BIT((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_OTKL_VV))
-             )   
-          {
-            unsigned int ranguvannja_inputs_tmp[N_SMALL] = {
-                                                            current_settings_prt.ranguvannja_inputs[N_SMALL*i  ],
-                                                            current_settings_prt.ranguvannja_inputs[N_SMALL*i+1],
-                                                            current_settings_prt.ranguvannja_inputs[N_SMALL*i+2]
-                                                           };
-
-            if (_CHECK_SET_BIT((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_VKL_VV ))
-            {
-              vvimk_VV_vid_DV = true;
-              _CLEAR_BIT(ranguvannja_inputs_tmp, RANG_SMALL_VKL_VV);
-            }
-
-            if (_CHECK_SET_BIT((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_OTKL_VV ))
-            {
-              vymk_VV_vid_DV = true;
-              _CLEAR_BIT(ranguvannja_inputs_tmp, RANG_SMALL_OTKL_VV);
-            }
-
-            temp_value_for_activated_function[0] |= ranguvannja_inputs_tmp[0];
-            temp_value_for_activated_function[1] |= ranguvannja_inputs_tmp[1];
-            temp_value_for_activated_function[2] |= ranguvannja_inputs_tmp[2];
-          }
-          else
-          {
-            temp_value_for_activated_function[0] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i  ];
-            temp_value_for_activated_function[1] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i+1];
-            temp_value_for_activated_function[2] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i+2];
-          }
+          temp_value_for_activated_function[0] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i  ];
+          temp_value_for_activated_function[1] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i+1];
+          temp_value_for_activated_function[2] |= current_settings_prt.ranguvannja_inputs[N_SMALL*i+2];
         }
       }
     }
@@ -6836,13 +6813,9 @@ inline void main_protection(void)
     
       
     //Загальні функції (без ОФ-ій і функцій, які можуть блокуватися у місцевому управлінні)
-    active_functions[RANG_BLOCK_VKL_VV                      >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_VKL_VV                     ) != 0) << (RANG_BLOCK_VKL_VV                      & 0x1f);
     active_functions[RANG_RESET_LEDS                        >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_LEDS                       ) != 0) << (RANG_RESET_LEDS                        & 0x1f);
     active_functions[RANG_RESET_RELES                       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_RELES                      ) != 0) << (RANG_RESET_RELES                       & 0x1f);
     active_functions[RANG_MISCEVE_DYSTANCIJNE               >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_MISCEVE_DYSTANCIJNE              ) != 0) << (RANG_MISCEVE_DYSTANCIJNE               & 0x1f);
-    active_functions[RANG_STATE_VV                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_STATE_VV                         ) != 0) << (RANG_STATE_VV                          & 0x1f);
-    active_functions[RANG_CTRL_VKL                          >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_VKL                         ) != 0) << (RANG_CTRL_VKL                          & 0x1f);
-    active_functions[RANG_CTRL_OTKL                         >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_OTKL                        ) != 0) << (RANG_CTRL_OTKL                         & 0x1f);
     active_functions[RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_BLOCK_READY_TU_VID_ZAHYSTIV) != 0) << (RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV & 0x1f);
     active_functions[RANG_OTKL_VID_ZOVN_ZAHYSTIV            >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV     ) != 0) << (RANG_OTKL_VID_ZOVN_ZAHYSTIV            & 0x1f);
 
@@ -6851,36 +6824,19 @@ inline void main_protection(void)
     active_inputs_grupa_ustavok |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_3_GRUPA_USTAVOK    ) != 0) << (RANG_SMALL_3_GRUPA_USTAVOK - RANG_SMALL_1_GRUPA_USTAVOK);
     active_inputs_grupa_ustavok |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_4_GRUPA_USTAVOK    ) != 0) << (RANG_SMALL_4_GRUPA_USTAVOK - RANG_SMALL_1_GRUPA_USTAVOK);
       
-    //Загальні функції (які блокувються у місцевому управлінні)
-    //Ввімкнення ВВ
-    active_functions[RANG_VKL_VV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV) != 0) << (RANG_VKL_VV & 0x1f);
-    if (vvimk_VV_vid_DV)
-    {
-      if (
-          (_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE )) &&
-          (current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE)
-         ) 
-      {
-        //Умова блокування командви "Ввімкнення ВВ" від ДВх.
-        blocking_commands_from_DI |= CTR_EXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
-      }
-      else _SET_BIT(active_functions, RANG_VKL_VV);
-    }
-
-    //Вимкнення ВВ
-    active_functions[RANG_OTKL_VV >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV) != 0) << (RANG_OTKL_VV & 0x1f);
-    if (vymk_VV_vid_DV)
-    {
-      if (
-          (_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE )) &&
-          (current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE)
-         ) 
-      {
-        //Умова блокування командви "Вимкнення ВВ" від ДВх.
-        blocking_commands_from_DI |= CTR_EXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
-      }
-      else _SET_BIT(active_functions, RANG_OTKL_VV);
-    }
+    active_functions[RANG_BLOCK_VKL_VV_H >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_VKL_VV_H) != 0) << (RANG_BLOCK_VKL_VV_H & 0x1f);
+    active_functions[RANG_STATE_VV_H     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_STATE_VV_H    ) != 0) << (RANG_STATE_VV_H     & 0x1f);
+    active_functions[RANG_VKL_VV_H       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV_H      ) != 0) << (RANG_VKL_VV_H       & 0x1f);
+    active_functions[RANG_CTRL_VKL_H     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_VKL_H    ) != 0) << (RANG_CTRL_VKL_H     & 0x1f);
+    active_functions[RANG_OTKL_VV_H      >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV_H     ) != 0) << (RANG_OTKL_VV_H      & 0x1f);
+    active_functions[RANG_CTRL_OTKL_H    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_OTKL_H   ) != 0) << (RANG_CTRL_OTKL_H    & 0x1f);
+      
+    active_functions[RANG_BLOCK_VKL_VV_L >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_VKL_VV_L) != 0) << (RANG_BLOCK_VKL_VV_L & 0x1f);
+    active_functions[RANG_STATE_VV_L     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_STATE_VV_L    ) != 0) << (RANG_STATE_VV_L     & 0x1f);
+    active_functions[RANG_VKL_VV_L       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV_L      ) != 0) << (RANG_VKL_VV_L       & 0x1f);
+    active_functions[RANG_CTRL_VKL_L     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_VKL_L    ) != 0) << (RANG_CTRL_VKL_L     & 0x1f);
+    active_functions[RANG_OTKL_VV_L      >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV_L     ) != 0) << (RANG_OTKL_VV_L      & 0x1f);
+    active_functions[RANG_CTRL_OTKL_L    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_OTKL_L   ) != 0) << (RANG_CTRL_OTKL_L    & 0x1f);
 
     //ОЗТ
     active_functions[RANG_BLOCK_OZT1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT1    ) != 0) << (RANG_BLOCK_OZT1     & 0x1f);
@@ -6958,14 +6914,20 @@ inline void main_protection(void)
     //Сигнал "Сблос реле"
     _SET_BIT(temp_maska_filter_function, RANG_RESET_RELES);
 
-    //Сигнал "Включить ВВ"
-    _SET_BIT(temp_maska_filter_function, RANG_VKL_VV);
-    
-    //Сигнал "Отключить ВВ"
-    _SET_BIT(temp_maska_filter_function, RANG_OTKL_VV);
-
     //Сигнал "Скидання блокування готовності до ТУ"
     _SET_BIT(temp_maska_filter_function, RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV);
+
+    //Сигнал "Включить ВВ(В)"
+    _SET_BIT(temp_maska_filter_function, RANG_VKL_VV_H);
+    
+    //Сигнал "Отключить ВВ(В)"
+    _SET_BIT(temp_maska_filter_function, RANG_OTKL_VV_H);
+
+    //Сигнал "Включить ВВ(Н)"
+    _SET_BIT(temp_maska_filter_function, RANG_VKL_VV_L);
+    
+    //Сигнал "Отключить ВВ(Н)"
+    _SET_BIT(temp_maska_filter_function, RANG_OTKL_VV_L);
   
     for (unsigned int i = 0; i < N_BIG; i++)
     {
@@ -6996,19 +6958,19 @@ inline void main_protection(void)
   Світлова індикація стану вимикача
   **************************/
   {
-    uint32_t state_vv_dv = false;
+    uint32_t state_vv_H_dv = false;
     for (size_t i = 0; i < NUMBER_INPUTS; i++)
     {
-      if (_CHECK_SET_BIT ((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_STATE_VV) != 0)
+      if (_CHECK_SET_BIT ((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_STATE_VV_H) != 0)
       {
-        state_vv_dv = true;
+        state_vv_H_dv = true;
         break;
       }
     }
     
-    if (state_vv_dv)
+    if (state_vv_H_dv)
     {
-      if (_CHECK_SET_BIT(active_functions, RANG_STATE_VV) !=0) 
+      if (_CHECK_SET_BIT(active_functions, RANG_STATE_VV_H) !=0) 
       {
         state_leds_ctrl &=  (uint32_t)(~((1 << LED_COLOR_GREEN_BIT) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)));
         state_leds_ctrl |=  (uint32_t)(  (1 << LED_COLOR_RED_BIT  ) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I) );
@@ -7914,9 +7876,12 @@ inline void main_protection(void)
         else
         {
           //Вихід командний, тому перевіряємо чи не йде спроба активувати реле, на яке заведено БВ, причому блок БВ з пеквних причин блокований (неактивний)
-          if (_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV) ==0)
+          if (
+              (_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV_H) == 0) &&
+              (_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV_L) == 0)
+             )   
           {
-            //На дане реле не заводиться сигнал БВ (блок включення)
+            //На дане реле не заводиться сигнали БВ (блоки включення)
           
             //Відмічаємо, що даний вихід - ЗАМКНУТИЙ
             state_outputs |= (1 << i);
@@ -7925,11 +7890,18 @@ inline void main_protection(void)
           {
             //На дане реле заводиться сигнал БВ (блок включення)
           
-            //Відмічаємо, що даний вихід - ЗАМКНУТИЙ тільки тоді, коли функція БВ активна зараз
-            if (_CHECK_SET_BIT(active_functions, RANG_WORK_BV) !=0)
-              state_outputs |= (1 << i);
-            else
+            //Відмічаємо, що даний вихід - ЗАМКНУТИЙ тільки тоді, коли відповідна функція БВ активна зараз
+            if (
+                ((_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV_H) != 0) && (_CHECK_SET_BIT(active_functions, RANG_WORK_BV_H) == 0)) ||
+                ((_CHECK_SET_BIT((current_settings_prt.ranguvannja_outputs + N_BIG*i), RANG_WORK_BV_L) != 0) && (_CHECK_SET_BIT(active_functions, RANG_WORK_BV_L) == 0))
+               )
+            {
               state_outputs &= ~(1 << i);
+            }
+            else
+            {
+              state_outputs |= (1 << i);
+            }
           }
         }
       }

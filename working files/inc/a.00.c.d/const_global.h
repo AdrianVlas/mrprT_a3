@@ -31,6 +31,7 @@
 #define NUMBER_UP                       8
 
 #define NUMBER_PRVV                     2
+#define NUMBER_ON_OFF                   2
 
 //#define NUMBER_DEFINED_ELEMENTS         6
 #define NUMBER_DEFINED_FUNCTIONS        8
@@ -74,21 +75,28 @@ TOTAL_NUMBER_PROTECTION
 /*****************************************/
 enum _rang_small 
 {
-RANG_SMALL_BLOCK_VKL_VV = 0,
-RANG_SMALL_RESET_LEDS,
+RANG_SMALL_RESET_LEDS = 0,
 RANG_SMALL_RESET_RELES,
 RANG_SMALL_MISCEVE_DYSTANCIJNE,
-RANG_SMALL_STATE_VV,
 RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV,
-RANG_SMALL_VKL_VV,
-RANG_SMALL_CTRL_VKL,
-RANG_SMALL_OTKL_VV,
-RANG_SMALL_CTRL_OTKL,
 RANG_SMALL_1_GRUPA_USTAVOK,
 RANG_SMALL_2_GRUPA_USTAVOK,
 RANG_SMALL_3_GRUPA_USTAVOK,
 RANG_SMALL_4_GRUPA_USTAVOK,
 RANG_SMALL_RESET_BLOCK_READY_TU_VID_ZAHYSTIV,
+
+RANG_SMALL_BLOCK_VKL_VV_H,
+RANG_SMALL_STATE_VV_H,
+RANG_SMALL_VKL_VV_H,
+RANG_SMALL_CTRL_VKL_H,
+RANG_SMALL_OTKL_VV_H,
+RANG_SMALL_CTRL_OTKL_H,
+RANG_SMALL_BLOCK_VKL_VV_L,
+RANG_SMALL_STATE_VV_L,
+RANG_SMALL_VKL_VV_L,
+RANG_SMALL_CTRL_VKL_L,
+RANG_SMALL_OTKL_VV_L,
+RANG_SMALL_CTRL_OTKL_L,
 
 RANG_SMALL_BLOCK_OZT1,
 RANG_SMALL_BLOCK_OZT2,
@@ -153,7 +161,7 @@ RANG_SMALL_DT4_SET,
 RANG_SMALL_DT4_RESET,
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     15
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     21
 #define NUMBER_OZT_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL       1
@@ -191,24 +199,15 @@ RANG_SMALL_DT4_RESET,
 /*****************************************/
 enum _rang_output_led_df_reg 
 {
-RANG_BLOCK_VKL_VV = 0,
-RANG_RESET_LEDS,
+RANG_RESET_LEDS = 0,
 RANG_RESET_RELES,
 RANG_MISCEVE_DYSTANCIJNE,
-RANG_STATE_VV,
 RANG_OTKL_VID_ZOVN_ZAHYSTIV,
-RANG_VKL_VV,
-RANG_CTRL_VKL,
-RANG_OTKL_VV,
-RANG_CTRL_OTKL,
-RANG_PRYVID_VV,
 RANG_DEFECT,
 RANG_AVAR_DEFECT,
 RANG_WORK_A_REJESTRATOR,
 RANG_WORK_D_REJESTRATOR,
 RANG_VIDKL_VID_ZAKHYSTIV,
-RANG_WORK_BO,
-RANG_WORK_BV,
 RANG_1_GRUPA_USTAVOK,
 RANG_2_GRUPA_USTAVOK,
 RANG_3_GRUPA_USTAVOK,
@@ -218,6 +217,25 @@ RANG_BLK_GRUP_USTAVOK_VID_ZACHYSTIV,
 RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV,
 RANG_READY_TU,
 RANG_SETTINGS_CHANGED,
+
+RANG_BLOCK_VKL_VV_H,
+RANG_STATE_VV_H,
+RANG_VKL_VV_H,
+RANG_CTRL_VKL_H,
+RANG_OTKL_VV_H,
+RANG_CTRL_OTKL_H,
+RANG_PRYVID_VV_H,
+RANG_WORK_BO_H,
+RANG_WORK_BV_H,
+RANG_BLOCK_VKL_VV_L,
+RANG_STATE_VV_L,
+RANG_VKL_VV_L,
+RANG_CTRL_VKL_L,
+RANG_OTKL_VV_L,
+RANG_CTRL_OTKL_L,
+RANG_PRYVID_VV_L,
+RANG_WORK_BO_L,
+RANG_WORK_BV_L,
 
 RANG_BLOCK_OZT1,
 RANG_PO_OZT1,
@@ -354,6 +372,8 @@ RANG_PO_UMAX2,
 RANG_UMAX2,
 
 RANG_BLOCK_KZ_ZV,
+RANG_SECTOR_KZ_V,
+RANG_SECTOR_KZ_Z,
 RANG_KZ_V,
 RANG_KZ_Z,
 
@@ -448,7 +468,7 @@ RANG_D_NOT16,
 RANG_ERROR_CONF_EL
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG     27
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG     36
 #define NUMBER_OZT_SIGNAL_FOR_RANG         12
 #define NUMBER_MTZ_SIGNAL_FOR_RANG         39
 #define NUMBER_P_3U0_SIGNAL_FOR_RANG       3
@@ -457,7 +477,7 @@ RANG_ERROR_CONF_EL
 #define NUMBER_ZOP_SIGNAL_FOR_RANG         6
 #define NUMBER_UMIN_SIGNAL_FOR_RANG        12
 #define NUMBER_UMAX_SIGNAL_FOR_RANG        6
-#define NUMBER_KZ_ZV_SIGNAL_FOR_RANG       3
+#define NUMBER_KZ_ZV_SIGNAL_FOR_RANG       5
 #define NUMBER_GP_SIGNAL_FOR_RANG          10
 #define NUMBER_TP_SIGNAL_FOR_RANG          4
 #define NUMBER_UP_SIGNAL_FOR_RANG          (3*NUMBER_UP)
@@ -531,16 +551,16 @@ enum _mtz_abc_direction_const {
     (1 << (RANG_SMALL_DF1_IN - 32))                           \
   | (1 << (RANG_SMALL_DF2_IN - 32))                           \
   | (1 << (RANG_SMALL_DF3_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF4_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF5_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF6_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF7_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF8_IN - 32))                           \
-  | (1 << (RANG_SMALL_DT1_SET - 32))                          \
 )
 
 #define MASKA_BUTTON_MODE_0_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DT1_RESET - 64))                        \
+    (1 << (RANG_SMALL_DF4_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF5_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF6_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF7_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF8_IN - 64))                           \
+  | (1 << (RANG_SMALL_DT1_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT1_RESET - 64))                        \
   | (1 << (RANG_SMALL_DT2_SET - 64))                          \
   | (1 << (RANG_SMALL_DT2_RESET - 64))                        \
   | (1 << (RANG_SMALL_DT3_SET - 64))                          \
@@ -554,12 +574,13 @@ enum _mtz_abc_direction_const {
 //Макски сигналів, які можна зранжувати на функціональні кнопки у Режимі Ключ
 /*****************************************/
 #define MASKA_BUTTON_MODE_1_SIGNALS_0 (unsigned int)(         \
-    (1 << (RANG_SMALL_BLOCK_VKL_VV - 0))                      \
-  | (1 << (RANG_SMALL_MISCEVE_DYSTANCIJNE - 0))               \
+    (1 << (RANG_SMALL_MISCEVE_DYSTANCIJNE - 0))               \
   | (1 << (RANG_SMALL_1_GRUPA_USTAVOK - 0))                   \
   | (1 << (RANG_SMALL_2_GRUPA_USTAVOK - 0))                   \
   | (1 << (RANG_SMALL_3_GRUPA_USTAVOK - 0))                   \
   | (1 << (RANG_SMALL_4_GRUPA_USTAVOK - 0))                   \
+  | (1 << (RANG_SMALL_BLOCK_VKL_VV_H - 0))                      \
+  | (1 << (RANG_SMALL_BLOCK_VKL_VV_L - 0))                      \
   | (1 << (RANG_SMALL_BLOCK_OZT1 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_OZT2 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_A_OZT2 - 0))                      \
@@ -571,14 +592,14 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_SMALL_BLOCK_MTZ3 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_MTZ4 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_P_3U0 - 0))                       \
-  | (1 << (RANG_SMALL_BLOCK_TZNP1 - 0))                       \
-  | (1 << (RANG_SMALL_BLOCK_TZNP2 - 0))                       \
-  | (1 << (RANG_SMALL_BLOCK_TZNP3 - 0))                       \
-  | (1 << (RANG_SMALL_BLOCK_TZNP4 - 0))                       \
 )
 
 #define MASKA_BUTTON_MODE_1_SIGNALS_1 (unsigned int)(         \
-    (1 << (RANG_SMALL_BLOCK_ZOP1 - 32))                       \
+    (1 << (RANG_SMALL_BLOCK_TZNP1 - 32))                      \
+  | (1 << (RANG_SMALL_BLOCK_TZNP2 - 32))                      \
+  | (1 << (RANG_SMALL_BLOCK_TZNP3 - 32))                      \
+  | (1 << (RANG_SMALL_BLOCK_TZNP4 - 32))                      \
+  | (1 << (RANG_SMALL_BLOCK_ZOP1 - 32))                       \
   | (1 << (RANG_SMALL_BLOCK_ZOP2 - 32))                       \
   | (1 << (RANG_SMALL_BLOCK_UMIN1 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_UMIN2 - 32))                      \
@@ -598,16 +619,16 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_SMALL_DF1_IN - 32))                           \
   | (1 << (RANG_SMALL_DF2_IN - 32))                           \
   | (1 << (RANG_SMALL_DF3_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF4_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF5_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF6_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF7_IN - 32))                           \
-  | (1 << (RANG_SMALL_DF8_IN - 32))                           \
-  | (1 << (RANG_SMALL_DT1_SET - 32))                          \
 )
 
 #define MASKA_BUTTON_MODE_1_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DT1_RESET - 64))                        \
+    (1 << (RANG_SMALL_DF4_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF5_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF6_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF7_IN - 64))                           \
+  | (1 << (RANG_SMALL_DF8_IN - 64))                           \
+  | (1 << (RANG_SMALL_DT1_SET - 64))                          \
+  | (1 << (RANG_SMALL_DT1_RESET - 64))                        \
   | (1 << (RANG_SMALL_DT2_SET - 64))                          \
   | (1 << (RANG_SMALL_DT2_RESET - 64))                        \
   | (1 << (RANG_SMALL_DT3_SET - 64))                          \
@@ -622,24 +643,30 @@ enum _mtz_abc_direction_const {
 /*****************************************/
 
 #define MASKA_FOR_INPUT_SIGNALS_0        (unsigned int)(        \
-    (1 << (RANG_BLOCK_VKL_VV - 0))                              \
-  | (1 << (RANG_RESET_LEDS - 0))                                \
+    (1 << (RANG_RESET_LEDS - 0))                                \
   | (1 << (RANG_RESET_RELES - 0))                               \
   | (1 << (RANG_MISCEVE_DYSTANCIJNE - 0))                       \
-  | (1 << (RANG_STATE_VV - 0))                                  \
   | (1 << (RANG_OTKL_VID_ZOVN_ZAHYSTIV - 0))                    \
-  | (1 << (RANG_VKL_VV - 0))                                    \
-  | (1 << (RANG_CTRL_VKL - 0))                                  \
-  | (1 << (RANG_OTKL_VV - 0))                                   \
-  | (1 << (RANG_CTRL_OTKL - 0))                                 \
   | (1 << (RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV - 0))         \
-  | (1 << (RANG_BLOCK_OZT1 - 0))                                \
-  | (1 << (RANG_BLOCK_OZT2 - 0))                                \
-  | (1 << (RANG_BLOCK_A_OZT2 - 0))                              \
+  | (1 << (RANG_BLOCK_VKL_VV_H - 0))                            \
+  | (1 << (RANG_STATE_VV_H - 0))                                \
+  | (1 << (RANG_VKL_VV_H - 0))                                  \
+  | (1 << (RANG_CTRL_VKL_H - 0))                                \
+  | (1 << (RANG_OTKL_VV_H - 0))                                 \
+  | (1 << (RANG_CTRL_OTKL_H - 0))                               \
+  | (1 << (RANG_BLOCK_VKL_VV_L - 0))                            \
+  | (1 << (RANG_STATE_VV_L - 0))                                \
+  | (1 << (RANG_VKL_VV_L - 0))                                  \
+  | (1 << (RANG_CTRL_VKL_L - 0))                                \
+  | (1 << (RANG_OTKL_VV_L - 0))                                 \
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_1        (unsigned int)(        \
-    (1 << (RANG_BLOCK_2G_OZT2 - 32))                            \
+    (1 << (RANG_CTRL_OTKL_L - 32))                              \
+  | (1 << (RANG_BLOCK_OZT1 - 32))                               \
+  | (1 << (RANG_BLOCK_OZT2 - 32))                               \
+  | (1 << (RANG_BLOCK_A_OZT2 - 32))                             \
+  | (1 << (RANG_BLOCK_2G_OZT2 - 32))                            \
   | (1 << (RANG_BLOCK_5G_OZT2 - 32))                            \
   | (1 << (RANG_BLOCK_MTZ1 - 32))                               \
   | (1 << (RANG_BLOCK_MTZ2 - 32))                               \
@@ -651,18 +678,18 @@ enum _mtz_abc_direction_const {
 #define MASKA_FOR_INPUT_SIGNALS_2        (unsigned int)(      \
     (1 << (RANG_BLOCK_P_3U0 - 64))                            \
   | (1 << (RANG_BLOCK_TZNP1 - 64))                            \
-  | (1 << (RANG_BLOCK_TZNP2 - 64))                            \
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_3        (unsigned int)(       \
-    (1 << (RANG_BLOCK_TZNP3 - 96))                             \
+    (1 << (RANG_BLOCK_TZNP2 - 96))                             \
+  | (1 << (RANG_BLOCK_TZNP3 - 96))                             \
   | (1 << (RANG_BLOCK_TZNP4 - 96))                             \
-  | (1 << (RANG_PUSK_UROV1_VID_DV - 96))                       \
-  | (1 << (RANG_PUSK_UROV2_VID_DV - 96))                       \
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_4        (unsigned int)(      \
-    (1 << (RANG_BLOCK_ZOP1 - 128))                            \
+    (1 << (RANG_PUSK_UROV1_VID_DV - 128))                     \
+  | (1 << (RANG_PUSK_UROV2_VID_DV - 128))                     \
+  | (1 << (RANG_BLOCK_ZOP1 - 128))                            \
   | (1 << (RANG_BLOCK_ZOP2 - 128))                            \
   | (1 << (RANG_BLOCK_UMIN1 - 128))                           \
   | (1 << (RANG_START_UMIN1 - 128))                           \
@@ -670,13 +697,13 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_START_UMIN2 - 128))                           \
   | (1 << (RANG_BLOCK_UMAX1 - 128))                           \
   | (1 << (RANG_BLOCK_UMAX2 - 128))                           \
-  | (1 << (RANG_BLOCK_KZ_ZV - 128))                           \
-  | (1 << (RANG_BLOCK_GP - 128))                              \
-  | (1 << (RANG_IN_GP1 - 128))                                \
 )
     
 #define MASKA_FOR_INPUT_SIGNALS_5        (unsigned int)(      \
-    (1 << (RANG_IN_GP2 - 160))                                \
+    (1 << (RANG_BLOCK_KZ_ZV - 160))                           \
+  | (1 << (RANG_BLOCK_GP - 160))                              \
+  | (1 << (RANG_IN_GP1 - 160))                                \
+  | (1 << (RANG_IN_GP2 - 160))                                \
   | (1 << (RANG_IN_GP_RPN - 160))                             \
   | (1 << (RANG_BLOCK_TP - 160))                              \
   | (1 << (RANG_IN_TP - 160))                                 \
@@ -684,14 +711,14 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_BLOCK_UP1 + 3*1 - 160))                       \
   | (1 << (RANG_BLOCK_UP1 + 3*2 - 160))                       \
   | (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*4 - 160))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*5 - 160))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*6 - 160))                       \
-  | (1 << (RANG_BLOCK_UP1 + 3*7 - 160))                       \
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_6        (unsigned int)(      \
-    (1 << (RANG_DF1_IN - 192))                                \
+    (1 << (RANG_BLOCK_UP1 + 3*4 - 192))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*5 - 192))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*6 - 192))                       \
+  | (1 << (RANG_BLOCK_UP1 + 3*7 - 192))                       \
+  | (1 << (RANG_DF1_IN - 192))                                \
   | (1 << (RANG_DF2_IN - 192))                                \
   | (1 << (RANG_DF3_IN - 192))                                \
   | (1 << (RANG_DF4_IN - 192))                                \
@@ -701,31 +728,32 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_DF8_IN - 192))                                \
   | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
-  | (1 << (RANG_DT2_SET - 192))                               \
-  | (1 << (RANG_DT2_RESET - 192))                             \
-  | (1 << (RANG_DT3_SET - 192))                               \
-  | (1 << (RANG_DT3_RESET - 192))                             \
-  | (1 << (RANG_DT4_SET - 192))                               \
-  | (1 << (RANG_DT4_RESET - 192))                             \
 )
 
-#define MASKA_FOR_INPUT_SIGNALS_7                  0
+#define MASKA_FOR_INPUT_SIGNALS_7        (unsigned int)(      \
+    (1 << (RANG_DT2_SET - 224))                               \
+  | (1 << (RANG_DT2_RESET - 224))                             \
+  | (1 << (RANG_DT3_SET - 224))                               \
+  | (1 << (RANG_DT3_RESET - 224))                             \
+  | (1 << (RANG_DT4_SET - 224))                               \
+  | (1 << (RANG_DT4_RESET - 224))                             \
+)
+
 #define MASKA_FOR_INPUT_SIGNALS_8                  0
 /*****************************************/
 
 /*****************************************/
 //Макски всіх сигналів ОЗТ
 /*****************************************/
-#define MASKA_OZT_SIGNALS_0        (unsigned int)(      \
-    (1 << (RANG_BLOCK_OZT1 - 0))                        \
-  | (1 << (RANG_PO_OZT1 - 0))                           \
-  | (1 << (RANG_OZT1 - 0))                              \
-  | (1 << (RANG_BLOCK_OZT2 - 0))                        \
-  | (1 << (RANG_BLOCK_A_OZT2 - 0))                      \
-)
+#define MASKA_OZT_SIGNALS_0                  0
 
 #define MASKA_OZT_SIGNALS_1        (unsigned int)(      \
-    (1 << (RANG_BLOCK_2G_OZT2 - 32))                    \
+    (1 << (RANG_BLOCK_OZT1 - 32))                       \
+  | (1 << (RANG_PO_OZT1 - 32))                          \
+  | (1 << (RANG_OZT1 - 32))                             \
+  | (1 << (RANG_BLOCK_OZT2 - 32))                       \
+  | (1 << (RANG_BLOCK_A_OZT2 - 32))                     \
+  | (1 << (RANG_BLOCK_2G_OZT2 - 32))                    \
   | (1 << (RANG_BLOCK_5G_OZT2 - 32))                    \
   | (1 << (RANG_BLOCK_MTZ1 - 32))                       \
   | (1 << (RANG_BLOCK_MTZ2 - 32))                       \
@@ -767,19 +795,19 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_SECTOR_VPERED_MTZN2 - 32))                   \
    | (1 << (RANG_SECTOR_NAZAD_MTZN2 - 32))                    \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
-   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 32))                        \
-   | (1 << (RANG_PO_U_MTZPN2 - 32))                           \
-   | (1 << (RANG_PO_MTZPN2 - 32))                             \
-   | (1 << (RANG_MTZ2 - 32))                                  \
-   | (1 << (RANG_SECTOR_VPERED_MTZN3 - 32))                   \
-   | (1 << (RANG_SECTOR_NAZAD_MTZN3 - 32))                    \
-   | (1 << (RANG_PO_MTZ3 - 32))                               \
-   | (1 << (RANG_PO_MTZN3_VPERED - 32))                       \
 )
 
 #define MASKA_MTZ_SIGNALS_2        (unsigned int)(            \
-     (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+   | (1 << (RANG_PO_U_MTZPN2 - 64))                           \
+   | (1 << (RANG_PO_MTZPN2 - 64))                             \
+   | (1 << (RANG_MTZ2 - 64))                                  \
+   | (1 << (RANG_SECTOR_VPERED_MTZN3 - 64))                   \
+   | (1 << (RANG_SECTOR_NAZAD_MTZN3 - 64))                    \
+   | (1 << (RANG_PO_MTZ3 - 64))                               \
+   | (1 << (RANG_PO_MTZN3_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
    | (1 << (RANG_PO_U_MTZPN3 - 64))                           \
    | (1 << (RANG_PO_MTZPN3 - 64))                             \
    | (1 << (RANG_MTZ3 - 64))                                  \
@@ -836,19 +864,19 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
    | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
-   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 64))                       \
-   | (1 << (RANG_PO_TZNP1_NAZAD - 64))                        \
-   | (1 << (RANG_TZNP1 - 64))                                 \
-   | (1 << (RANG_BLOCK_TZNP2 - 64))                           \
-   | (1 << (RANG_SECTOR_TZNP2_VPERED - 64))                   \
-   | (1 << (RANG_SECTOR_TZNP2_NAZAD - 64))                    \
-   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 64))                   \
-   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 64))                    \
 )
      
 #define MASKA_TZNP_SIGNALS_3       (unsigned int)(            \
-     (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
+     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
+   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
+   | (1 << (RANG_TZNP1 - 96))                                 \
+   | (1 << (RANG_BLOCK_TZNP2 - 96))                           \
+   | (1 << (RANG_SECTOR_TZNP2_VPERED - 96))                   \
+   | (1 << (RANG_SECTOR_TZNP2_NAZAD - 96))                    \
+   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 96))                   \
+   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 96))                    \
+   | (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP2_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP2_NAZAD - 96))                        \
@@ -871,11 +899,13 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
-   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
-   | (1 << (RANG_TZNP4 - 96))                                 \
 )
 
-#define MASKA_TZNP_SIGNALS_4                 0
+#define MASKA_TZNP_SIGNALS_4       (unsigned int)(            \
+     (1 << (RANG_PO_TZNP4_NAZAD - 128))                        \
+   | (1 << (RANG_TZNP4 - 128))                                 \
+)
+
 #define MASKA_TZNP_SIGNALS_5                 0
 #define MASKA_TZNP_SIGNALS_6                 0
 #define MASKA_TZNP_SIGNALS_7                 0
@@ -888,19 +918,17 @@ enum _mtz_abc_direction_const {
 #define MASKA_UROV_SIGNALS_0                 0
 #define MASKA_UROV_SIGNALS_1                 0
 #define MASKA_UROV_SIGNALS_2                 0
-
-#define MASKA_UROV_SIGNALS_3       (unsigned int)(            \
-     (1 << (RANG_PUSK_UROV1_VID_DV - 96))                     \
-   | (1 << (RANG_PO_UROV1 - 96))                              \
-   | (1 << (RANG_UROV1_1 - 96))                               \
-   | (1 << (RANG_UROV1_2 - 96))                               \
-   | (1 << (RANG_PUSK_UROV2_VID_DV - 96))                     \
-   | (1 << (RANG_PO_UROV2 - 96))                              \
-   | (1 << (RANG_UROV2_1 - 96))                               \
-)
+#define MASKA_UROV_SIGNALS_3                 0
 
 #define MASKA_UROV_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_UROV2_2 - 128))                              \
+     (1 << (RANG_PUSK_UROV1_VID_DV - 128))                    \
+   | (1 << (RANG_PO_UROV1 - 128))                             \
+   | (1 << (RANG_UROV1_1 - 128))                              \
+   | (1 << (RANG_UROV1_2 - 128))                              \
+   | (1 << (RANG_PUSK_UROV2_VID_DV - 128))                    \
+   | (1 << (RANG_PO_UROV2 - 128))                             \
+   | (1 << (RANG_UROV2_1 - 128))                              \
+   | (1 << (RANG_UROV2_2 - 128))                              \
 )
 
 #define MASKA_UROV_SIGNALS_5                 0
@@ -970,15 +998,17 @@ enum _mtz_abc_direction_const {
 #define MASKA_UMAX_SIGNALS_3                 0
      
 #define MASKA_UMAX_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_BLOCK_UMAX1 - 128))                           \
+     (1 << (RANG_BLOCK_UMAX1 - 128))                          \
    | (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
    | (1 << (RANG_BLOCK_UMAX2 - 128))                          \
-   | (1 << (RANG_PO_UMAX2 - 128))                             \
-   | (1 << (RANG_UMAX2 - 128))                                \
 )
 
-#define MASKA_UMAX_SIGNALS_5                 0
+#define MASKA_UMAX_SIGNALS_5       (unsigned int)(            \
+     (1 << (RANG_PO_UMAX2 - 160))                             \
+   | (1 << (RANG_UMAX2 - 160))                                \
+)
+
 #define MASKA_UMAX_SIGNALS_6                 0
 #define MASKA_UMAX_SIGNALS_7                 0
 #define MASKA_UMAX_SIGNALS_8                 0
@@ -991,14 +1021,16 @@ enum _mtz_abc_direction_const {
 #define MASKA_KZ_ZV_SIGNALS_1               0
 #define MASKA_KZ_ZV_SIGNALS_2               0
 #define MASKA_KZ_ZV_SIGNALS_3               0
+#define MASKA_KZ_ZV_SIGNALS_4               0
      
-#define MASKA_KZ_ZV_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_BLOCK_KZ_ZV - 128))                           \
-   | (1 << (RANG_KZ_V - 128))                                  \
-   | (1 << (RANG_KZ_Z - 128))                                  \
+#define MASKA_KZ_ZV_SIGNALS_5       (unsigned int)(            \
+     (1 << (RANG_BLOCK_KZ_ZV - 160))                           \
+   | (1 << (RANG_SECTOR_KZ_V - 160))                           \
+   | (1 << (RANG_SECTOR_KZ_Z - 160))                           \
+   | (1 << (RANG_KZ_V - 160))                                  \
+   | (1 << (RANG_KZ_Z - 160))                                  \
 )
 
-#define MASKA_KZ_ZV_SIGNALS_5               0
 #define MASKA_KZ_ZV_SIGNALS_6               0
 #define MASKA_KZ_ZV_SIGNALS_7               0
 #define MASKA_KZ_ZV_SIGNALS_8               0
@@ -1011,16 +1043,14 @@ enum _mtz_abc_direction_const {
 #define MASKA_GP_SIGNALS_1               0
 #define MASKA_GP_SIGNALS_2               0
 #define MASKA_GP_SIGNALS_3               0
-     
-#define MASKA_GP_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_BLOCK_GP - 128))                           \
-   | (1 << (RANG_IN_GP1 - 128))                             \
-   | (1 << (RANG_PO_GP1 - 128))                             \
-   | (1 << (RANG_GP1 - 128))                                \
-)
+#define MASKA_GP_SIGNALS_4               0
      
 #define MASKA_GP_SIGNALS_5       (unsigned int)(            \
-     (1 << (RANG_IN_GP2 - 160))                             \
+     (1 << (RANG_BLOCK_GP - 160))                           \
+   | (1 << (RANG_IN_GP1 - 160))                             \
+   | (1 << (RANG_PO_GP1 - 160))                             \
+   | (1 << (RANG_GP1 - 160))                                \
+   | (1 << (RANG_IN_GP2 - 160))                             \
    | (1 << (RANG_PO_GP2 - 160))                             \
    | (1 << (RANG_GP2 - 160))                                \
    | (1 << (RANG_IN_GP_RPN - 160))                          \
@@ -1075,21 +1105,21 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_UP1 + 3*2 - 160))                          \
    | (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                    \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                       \
-   | (1 << (RANG_UP1 + 3*3 - 160))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*4 - 160))                    \
-   | (1 << (RANG_PO_UP1 + 3*4 - 160))                       \
-   | (1 << (RANG_UP1 + 3*4 - 160))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*5 - 160))                    \
-   | (1 << (RANG_PO_UP1 + 3*5 - 160))                       \
-   | (1 << (RANG_UP1 + 3*5 - 160))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*6 - 160))                    \
-   | (1 << (RANG_PO_UP1 + 3*6 - 160))                       \
-   | (1 << (RANG_UP1 + 3*6 - 160))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*7 - 160))                    \
 )
 
 #define MASKA_UP_SIGNALS_6       (unsigned int)(            \
-     (1 << (RANG_PO_UP1 + 3*7 - 192))                       \
+     (1 << (RANG_UP1 + 3*3 - 192))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*4 - 192))                    \
+   | (1 << (RANG_PO_UP1 + 3*4 - 192))                       \
+   | (1 << (RANG_UP1 + 3*4 - 192))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*5 - 192))                    \
+   | (1 << (RANG_PO_UP1 + 3*5 - 192))                       \
+   | (1 << (RANG_UP1 + 3*5 - 192))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*6 - 192))                    \
+   | (1 << (RANG_PO_UP1 + 3*6 - 192))                       \
+   | (1 << (RANG_UP1 + 3*6 - 192))                          \
+   | (1 << (RANG_BLOCK_UP1 + 3*7 - 192))                    \
+   | (1 << (RANG_PO_UP1 + 3*7 - 192))                       \
    | (1 << (RANG_UP1 + 3*7 - 192))                          \
 )
 
@@ -1127,21 +1157,21 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
   | (1 << (RANG_DT1_OUT - 192))                               \
-  | (1 << (RANG_DT2_SET - 192))                               \
-  | (1 << (RANG_DT2_RESET - 192))                             \
-  | (1 << (RANG_DT2_OUT - 192))                               \
-  | (1 << (RANG_DT3_SET - 192))                               \
-  | (1 << (RANG_DT3_RESET - 192))                             \
-  | (1 << (RANG_DT3_OUT - 192))                               \
-  | (1 << (RANG_DT4_SET - 192))                               \
-  | (1 << (RANG_DT4_RESET - 192))                             \
-  | (1 << (RANG_DT4_OUT - 192))                               \
-  | (1 << (RANG_D_AND1 - 192))                                \
-  | (1 << (RANG_D_AND2 - 192))                                \
 )
 
 #define MASKA_EL_SIGNALS_7        (unsigned int)(             \
-    (1 << (RANG_D_AND3 - 224))                                \
+    (1 << (RANG_DT2_SET - 224))                               \
+  | (1 << (RANG_DT2_RESET - 224))                             \
+  | (1 << (RANG_DT2_OUT - 224))                               \
+  | (1 << (RANG_DT3_SET - 224))                               \
+  | (1 << (RANG_DT3_RESET - 224))                             \
+  | (1 << (RANG_DT3_OUT - 224))                               \
+  | (1 << (RANG_DT4_SET - 224))                               \
+  | (1 << (RANG_DT4_RESET - 224))                             \
+  | (1 << (RANG_DT4_OUT - 224))                               \
+  | (1 << (RANG_D_AND1 - 224))                                \
+  | (1 << (RANG_D_AND2 - 224))                                \
+  | (1 << (RANG_D_AND3 - 224))                                \
   | (1 << (RANG_D_AND4 - 224))                                \
   | (1 << (RANG_D_AND5 - 224))                                \
   | (1 << (RANG_D_AND6 - 224))                                \
@@ -1162,22 +1192,22 @@ enum _mtz_abc_direction_const {
   | (1 << (RANG_D_XOR5 - 224))                                \
   | (1 << (RANG_D_XOR6 - 224))                                \
   | (1 << (RANG_D_XOR7 - 224))                                \
-  | (1 << (RANG_D_XOR8 - 224))                                \
-  | (1 << (RANG_D_NOT1 - 224))                                \
-  | (1 << (RANG_D_NOT2 - 224))                                \
-  | (1 << (RANG_D_NOT3 - 224))                                \
-  | (1 << (RANG_D_NOT4 - 224))                                \
-  | (1 << (RANG_D_NOT5 - 224))                                \
-  | (1 << (RANG_D_NOT6 - 224))                                \
-  | (1 << (RANG_D_NOT7 - 224))                                \
-  | (1 << (RANG_D_NOT8 - 224))                                \
-  | (1 << (RANG_D_NOT9 - 224))                                \
-  | (1 << (RANG_D_NOT10 - 224))                               \
 )
 
 
 #define MASKA_EL_SIGNALS_8        (unsigned int)(             \
-    (1 << (RANG_D_NOT11 - 256))                               \
+    (1 << (RANG_D_XOR8 - 256))                                \
+  | (1 << (RANG_D_NOT1 - 256))                                \
+  | (1 << (RANG_D_NOT2 - 256))                                \
+  | (1 << (RANG_D_NOT3 - 256))                                \
+  | (1 << (RANG_D_NOT4 - 256))                                \
+  | (1 << (RANG_D_NOT5 - 256))                                \
+  | (1 << (RANG_D_NOT6 - 256))                                \
+  | (1 << (RANG_D_NOT7 - 256))                                \
+  | (1 << (RANG_D_NOT8 - 256))                                \
+  | (1 << (RANG_D_NOT9 - 256))                                \
+  | (1 << (RANG_D_NOT10 - 256))                               \
+  | (1 << (RANG_D_NOT11 - 256))                               \
   | (1 << (RANG_D_NOT12 - 256))                               \
   | (1 << (RANG_D_NOT13 - 256))                               \
   | (1 << (RANG_D_NOT14 - 256))                               \
@@ -1200,12 +1230,14 @@ enum _mtz_abc_direction_const {
 
 #define MASKA_TRIGGER_SIGNALES_6               (unsigned int)(\
      (1 << (RANG_DT1_OUT - 192))                              \
-   | (1 << (RANG_DT2_OUT - 192))                              \
-   | (1 << (RANG_DT3_OUT - 192))                              \
-   | (1 << (RANG_DT4_OUT - 192))                              \
 )
 
-#define MASKA_TRIGGER_SIGNALES_7                  0
+#define MASKA_TRIGGER_SIGNALES_7               (unsigned int)(\
+     (1 << (RANG_DT2_OUT - 224))                              \
+   | (1 << (RANG_DT3_OUT - 224))                              \
+   | (1 << (RANG_DT4_OUT - 224))                              \
+)
+
 #define MASKA_TRIGGER_SIGNALES_8                  0
 /*****************************************/
 
@@ -1213,14 +1245,16 @@ enum _mtz_abc_direction_const {
 //Макска для блокування зміни груп уставок
 /*****************************************/
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_0 (unsigned int)(\
-     (1 << (RANG_WORK_BO - 0))                                \
-   | (1 << (RANG_WORK_BV - 0))                                \
-   | (1 << (RANG_PO_OZT1 - 0))                                \
-   | (1 << (RANG_OZT1 - 0))                                   \
+     (1 << (RANG_WORK_BO_H - 0))                              \
+   | (1 << (RANG_WORK_BV_H - 0))                              \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_1 (unsigned int)(\
-     (1 << (RANG_PO_OZT2 - 32))                               \
+     (1 << (RANG_WORK_BO_L - 32))                             \
+   | (1 << (RANG_WORK_BV_L - 32))                             \
+   | (1 << (RANG_PO_OZT1 - 32))                               \
+   | (1 << (RANG_OZT1 - 32))                                  \
+   | (1 << (RANG_PO_OZT2 - 32))                               \
    | (1 << (RANG_OZT2 - 32))                                  \
    | (1 << (RANG_PO_MTZ1 - 32))                               \
    | (1 << (RANG_PO_MTZN1_VPERED - 32))                       \
@@ -1228,16 +1262,16 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_MTZPN1 - 32))                             \
    | (1 << (RANG_MTZ1 - 32))                                  \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
-   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 32))                        \
-   | (1 << (RANG_PO_MTZPN2 - 32))                             \
-   | (1 << (RANG_MTZ2 - 32))                                  \
-   | (1 << (RANG_PO_MTZ3 - 32))                               \
-   | (1 << (RANG_PO_MTZN3_VPERED - 32))                       \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_2 (unsigned int)(\
-     (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+   | (1 << (RANG_PO_MTZPN2 - 64))                             \
+   | (1 << (RANG_MTZ2 - 64))                                  \
+   | (1 << (RANG_PO_MTZ3 - 64))                               \
+   | (1 << (RANG_PO_MTZN3_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
    | (1 << (RANG_PO_MTZPN3 - 64))                             \
    | (1 << (RANG_MTZ3 - 64))                                  \
    | (1 << (RANG_PO_MTZ4 - 64))                               \
@@ -1250,16 +1284,16 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
    | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
-   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 64))                       \
-   | (1 << (RANG_PO_TZNP1_NAZAD - 64))                        \
-   | (1 << (RANG_TZNP1 - 64))                                 \
-   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 64))                   \
-   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 64))                    \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_3 (unsigned int)(\
-     (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
+     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
+   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
+   | (1 << (RANG_TZNP1 - 96))                                 \
+   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 96))                   \
+   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 96))                    \
+   | (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP2_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP2_NAZAD - 96))                        \
@@ -1276,17 +1310,17 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
-   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
-   | (1 << (RANG_TZNP4 - 96))                                 \
-   | (1 << (RANG_PO_UROV1 - 96))                              \
-   | (1 << (RANG_UROV1_1 - 96))                               \
-   | (1 << (RANG_UROV1_2 - 96))                               \
-   | (1 << (RANG_PO_UROV2 - 96))                              \
-   | (1 << (RANG_UROV2_1 - 96))                               \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_4 (unsigned int)(\
-     (1 << (RANG_UROV2_2 - 128))                              \
+     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
+   | (1 << (RANG_TZNP4 - 128))                                \
+   | (1 << (RANG_PO_UROV1 - 128))                             \
+   | (1 << (RANG_UROV1_1 - 128))                              \
+   | (1 << (RANG_UROV1_2 - 128))                              \
+   | (1 << (RANG_PO_UROV2 - 128))                             \
+   | (1 << (RANG_UROV2_1 - 128))                              \
+   | (1 << (RANG_UROV2_2 - 128))                              \
    | (1 << (RANG_PO_ZOP1 - 128))                              \
    | (1 << (RANG_ZOP1 - 128))                                 \
    | (1 << (RANG_PO_ZOP2 - 128))                              \
@@ -1297,13 +1331,13 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_UMIN2 - 128))                                \
    | (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
-   | (1 << (RANG_PO_UMAX2 - 128))                             \
-   | (1 << (RANG_PO_GP1 - 128))                               \
-   | (1 << (RANG_GP1 - 128))                                  \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_5 (unsigned int)(\
-     (1 << (RANG_PO_GP2 - 160))                               \
+     (1 << (RANG_PO_UMAX2 - 160))                             \
+   | (1 << (RANG_PO_GP1 - 160))                               \
+   | (1 << (RANG_GP1 - 160))                                  \
+   | (1 << (RANG_PO_GP2 - 160))                               \
    | (1 << (RANG_PO_GP_RPN - 160))                            \
    | (1 << (RANG_GP_RPN - 160))                               \
    | (1 << (RANG_PO_TP - 160))                                \
@@ -1315,17 +1349,17 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_UP1 + 3*2 - 160))                         \
    | (1 << (RANG_UP1 + 3*2 - 160))                            \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                         \
-   | (1 << (RANG_UP1 + 3*3 - 160))                            \
-   | (1 << (RANG_PO_UP1 + 3*4 - 160))                         \
-   | (1 << (RANG_UP1 + 3*4 - 160))                            \
-   | (1 << (RANG_PO_UP1 + 3*5 - 160))                         \
-   | (1 << (RANG_UP1 + 3*5 - 160))                            \
-   | (1 << (RANG_PO_UP1 + 3*6 - 160))                         \
-   | (1 << (RANG_UP1 + 3*6 - 160))                            \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_6 (unsigned int)(\
-     (1 << (RANG_PO_UP1 + 3*7 - 192))                         \
+     (1 << (RANG_UP1 + 3*3 - 192))                            \
+   | (1 << (RANG_PO_UP1 + 3*4 - 192))                         \
+   | (1 << (RANG_UP1 + 3*4 - 192))                            \
+   | (1 << (RANG_PO_UP1 + 3*5 - 192))                         \
+   | (1 << (RANG_UP1 + 3*5 - 192))                            \
+   | (1 << (RANG_PO_UP1 + 3*6 - 192))                         \
+   | (1 << (RANG_UP1 + 3*6 - 192))                            \
+   | (1 << (RANG_PO_UP1 + 3*7 - 192))                         \
    | (1 << (RANG_UP1 + 3*7 - 192))                            \
 )
 
@@ -1338,11 +1372,12 @@ enum _mtz_abc_direction_const {
 /*****************************************/
 
 #define MASKA_INFO_SIGNALES_0  (unsigned int)(                \
-     (1 << (RANG_STATE_VV - 0))                               \
-   | (1 << (RANG_DEFECT - 0))                                 \
+     (1 << (RANG_DEFECT - 0))                                 \
    | (1 << (RANG_AVAR_DEFECT - 0))                            \
    | (1 << (RANG_WORK_A_REJESTRATOR - 0))                     \
    | (1 << (RANG_WORK_D_REJESTRATOR - 0))                     \
+   | (1 << (RANG_STATE_VV_H - 0))                             \
+   | (1 << (RANG_STATE_VV_L - 0))                             \
    | (1 << (RANG_SETTINGS_CHANGED - 0))                       \
 )     
 
@@ -1364,17 +1399,21 @@ enum _mtz_abc_direction_const {
 /*****************************************/
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_0 (unsigned int)(\
      (1 << (RANG_OTKL_VID_ZOVN_ZAHYSTIV - 0))                  \
-   | (1 << (RANG_VKL_VV - 0))                                  \
-   | (1 << (RANG_OTKL_VV - 0))                                 \
    | (1 << (RANG_VIDKL_VID_ZAKHYSTIV - 0))                     \
-   | (1 << (RANG_WORK_BO - 0))                                 \
-   | (1 << (RANG_WORK_BV - 0))                                 \
-   | (1 << (RANG_PO_OZT1 - 0))                                 \
-   | (1 << (RANG_OZT1 - 0))                                    \
+   | (1 << (RANG_VKL_VV_H - 0))                                \
+   | (1 << (RANG_OTKL_VV_H - 0))                               \
+   | (1 << (RANG_WORK_BO_H - 0))                               \
+   | (1 << (RANG_WORK_BV_H - 0))                               \
+   | (1 << (RANG_VKL_VV_L - 0))                                \
+   | (1 << (RANG_OTKL_VV_L - 0))                               \
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_1 (unsigned int)(\
-     (1 << (RANG_PO_OZT2 - 32))                                \
+     (1 << (RANG_WORK_BO_L - 32))                              \
+   | (1 << (RANG_WORK_BV_L - 32))                              \
+   | (1 << (RANG_PO_OZT1 - 32))                                \
+   | (1 << (RANG_OZT1 - 32))                                   \
+   | (1 << (RANG_PO_OZT2 - 32))                                \
    | (1 << (RANG_OZT2 - 32))                                   \
    | (1 << (RANG_PO_MTZ1 - 32))                                \
    | (1 << (RANG_PO_MTZN1_VPERED - 32))                        \
@@ -1382,50 +1421,52 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_MTZPN1 - 32))                              \
    | (1 << (RANG_MTZ1 - 32))                                   \
    | (1 << (RANG_PO_MTZ2 - 32))                                \
-   | (1 << (RANG_PO_MTZN2_VPERED - 32))                        \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 32))                         \
-   | (1 << (RANG_PO_MTZPN2 - 32))                              \
-   | (1 << (RANG_MTZ2 - 32))                                   \
-   | (1 << (RANG_PO_MTZ3 - 32))                                \
-   | (1 << (RANG_PO_MTZN3_VPERED - 32))                        \
 )            
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_2 (unsigned int)(\
-     (1 << (RANG_PO_MTZN3_NAZAD - 64))                         \
+     (1 << (RANG_PO_MTZN2_VPERED - 64))                        \
+   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                         \
+   | (1 << (RANG_PO_MTZPN2 - 64))                              \
+   | (1 << (RANG_MTZ2 - 64))                                   \
+   | (1 << (RANG_PO_MTZ3 - 64))                                \
+   | (1 << (RANG_PO_MTZN3_VPERED - 64))                        \
+   | (1 << (RANG_PO_MTZN3_NAZAD - 64))                         \
    | (1 << (RANG_PO_MTZPN3 - 64))                              \
    | (1 << (RANG_MTZ3 - 64))                                   \
    | (1 << (RANG_PO_MTZ4 - 64))                                \
    | (1 << (RANG_PO_MTZN4_VPERED - 64))                        \
    | (1 << (RANG_PO_MTZN4_NAZAD - 64))                         \
-   | (1 << (RANG_TZNP1 - 64))                                  \
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_3 (unsigned int)(\
-     (1 << (RANG_TZNP2 - 96))                                  \
+     (1 << (RANG_TZNP1 - 96))                                  \
+   | (1 << (RANG_TZNP2 - 96))                                  \
    | (1 << (RANG_TZNP3 - 96))                                  \
-   | (1 << (RANG_TZNP4 - 96))                                  \
-   | (1 << (RANG_PUSK_UROV1_VID_DV - 96))                      \
-   | (1 << (RANG_PO_UROV1 - 96))                               \
-   | (1 << (RANG_UROV1_1 - 96))                                \
-   | (1 << (RANG_UROV1_2 - 96))                                \
-   | (1 << (RANG_PUSK_UROV2_VID_DV - 96))                      \
-   | (1 << (RANG_PO_UROV2 - 96))                               \
-   | (1 << (RANG_UROV2_1 - 96))                                \
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_4 (unsigned int)(\
-     (1 << (RANG_UROV2_2 - 128))                               \
+     (1 << (RANG_TZNP4 - 128))                                 \
+   | (1 << (RANG_PUSK_UROV1_VID_DV - 128))                     \
+   | (1 << (RANG_PO_UROV1 - 128))                              \
+   | (1 << (RANG_UROV1_1 - 128))                               \
+   | (1 << (RANG_UROV1_2 - 128))                               \
+   | (1 << (RANG_PUSK_UROV2_VID_DV - 128))                     \
+   | (1 << (RANG_PO_UROV2 - 128))                              \
+   | (1 << (RANG_UROV2_1 - 128))                               \
+   | (1 << (RANG_UROV2_2 - 128))                               \
    | (1 << (RANG_PO_ZOP1 - 128))                               \
    | (1 << (RANG_ZOP1 - 128))                                  \
    | (1 << (RANG_PO_ZOP2 - 128))                               \
    | (1 << (RANG_ZOP2 - 128))                                  \
    | (1 << (RANG_PO_UMAX1 - 128))                              \
    | (1 << (RANG_UMAX1 - 128))                                 \
-   | (1 << (RANG_PO_UMAX2 - 128))                              \
-   | (1 << (RANG_UMAX2 - 128))                                 \
 )  
 
-#define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_5        0
+#define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_5 (unsigned int)(\
+     (1 << (RANG_PO_UMAX2 - 160))                              \
+   | (1 << (RANG_UMAX2 - 160))                                 \
+)  
+
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_6        0
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_7        0
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_8        0
@@ -1443,16 +1484,16 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_MTZPN1 - 32))                             \
    | (1 << (RANG_MTZ1 - 32))                                  \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
-   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 32))                        \
-   | (1 << (RANG_PO_MTZPN2 - 32))                             \
-   | (1 << (RANG_MTZ2 - 32))                                  \
-   | (1 << (RANG_PO_MTZ3 - 32))                               \
-   | (1 << (RANG_PO_MTZN3_VPERED - 32))                       \
 )
 
 #define MASKA_MONITOTYNG_PHASE_SIGNALES_2 (unsigned int)(     \
-     (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+   | (1 << (RANG_PO_MTZPN2 - 64))                             \
+   | (1 << (RANG_MTZ2 - 64))                                  \
+   | (1 << (RANG_PO_MTZ3 - 64))                               \
+   | (1 << (RANG_PO_MTZN3_VPERED - 64))                       \
+   | (1 << (RANG_PO_MTZN3_NAZAD - 64))                        \
    | (1 << (RANG_PO_MTZPN3 - 64))                             \
    | (1 << (RANG_MTZ3 - 64))                                  \
    | (1 << (RANG_PO_MTZ4 - 64))                               \
@@ -1479,15 +1520,15 @@ enum _mtz_abc_direction_const {
 #define MASKA_MONITOTYNG_3I0_SIGNALES_2        (unsigned int)(\
      (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
    | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 64))                       \
-   | (1 << (RANG_PO_TZNP1_NAZAD - 64))                        \
-   | (1 << (RANG_TZNP1 - 64))                                 \
-   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 64))                   \
-   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 64))                    \
 )            
 
 #define MASKA_MONITOTYNG_3I0_SIGNALES_3        (unsigned int)(\
-     (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
+     (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
+   | (1 << (RANG_TZNP1 - 96))                                 \
+   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 96))                   \
+   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 96))                    \
+   | (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP2_NAZAD - 96))                        \
    | (1 << (RANG_TZNP2 - 96))                                 \
    | (1 << (RANG_PO_3I0_TZNP3_VPERED - 96))                   \
@@ -1498,11 +1539,13 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3I0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3I0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
-   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
-   | (1 << (RANG_TZNP4 - 96))                                 \
 )            
 
-#define MASKA_MONITOTYNG_3I0_SIGNALES_4        0
+#define MASKA_MONITOTYNG_3I0_SIGNALES_4        (unsigned int)(\
+     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
+   | (1 << (RANG_TZNP4 - 128))                                \
+)            
+
 #define MASKA_MONITOTYNG_3I0_SIGNALES_5        0
 #define MASKA_MONITOTYNG_3I0_SIGNALES_6        0
 #define MASKA_MONITOTYNG_3I0_SIGNALES_7        0
@@ -1519,14 +1562,14 @@ enum _mtz_abc_direction_const {
      (1 << (RANG_PO_P_3U0 - 64))                              \
    | (1 << (RANG_P_3U0 - 64))                                 \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
-   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 64))                       \
-   | (1 << (RANG_PO_TZNP1_NAZAD - 64))                        \
-   | (1 << (RANG_TZNP1 - 64))                                 \
 )            
 
 #define MASKA_MONITOTYNG_3U0_SIGNALES_3        (unsigned int)(\
-     (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
+     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
+   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
+   | (1 << (RANG_TZNP1 - 96))                                 \
+   | (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP2_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP2_NAZAD - 96))                        \
@@ -1539,11 +1582,13 @@ enum _mtz_abc_direction_const {
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
-   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
-   | (1 << (RANG_TZNP4 - 96))                                 \
 )            
 
-#define MASKA_MONITOTYNG_3U0_SIGNALES_4        0
+#define MASKA_MONITOTYNG_3U0_SIGNALES_4        (unsigned int)(\
+     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
+   | (1 << (RANG_TZNP4 - 128))                                \
+)            
+
 #define MASKA_MONITOTYNG_3U0_SIGNALES_5        0
 #define MASKA_MONITOTYNG_3U0_SIGNALES_6        0
 #define MASKA_MONITOTYNG_3U0_SIGNALES_7        0
@@ -1582,11 +1627,13 @@ enum _mtz_abc_direction_const {
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_4 (unsigned int)(      \
      (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
-   | (1 << (RANG_PO_UMAX2 - 128))                             \
-   | (1 << (RANG_UMAX2 - 128))                                \
 )
 
-#define MASKA_MONITOTYNG_UMAX_SIGNALES_5        0
+#define MASKA_MONITOTYNG_UMAX_SIGNALES_5 (unsigned int)(      \
+     (1 << (RANG_PO_UMAX2 - 160))                             \
+   | (1 << (RANG_UMAX2 - 160))                                \
+)
+
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_6        0
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_7        0
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_8        0
