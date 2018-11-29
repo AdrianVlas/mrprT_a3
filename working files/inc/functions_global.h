@@ -280,6 +280,7 @@ void velychyna_zvorotnoi_poslidovnosti(int*);
 
 void directional_mtz(int*, unsigned int, unsigned int);
 void directional_tznp(int*, unsigned int, unsigned int);
+void directional_kz_zv(void);
 
 void main_routines_for_spi1(void);
 void main_function_for_dataflash_resp(int);

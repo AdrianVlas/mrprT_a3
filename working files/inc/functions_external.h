@@ -283,6 +283,7 @@ extern void velychyna_zvorotnoi_poslidovnosti(int*);
 
 extern void directional_mtz(int*, unsigned int, unsigned int);
 extern void directional_tznp(int*, unsigned int, unsigned int);
+extern void directional_kz_zv(void);
 
 extern void main_routines_for_spi1(void);
 extern void main_function_for_dataflash_resp(int);

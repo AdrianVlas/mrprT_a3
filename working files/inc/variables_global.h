@@ -359,6 +359,9 @@ unsigned int sector_directional_tznp[4];
 
 unsigned int i1_bilshe_porogu/* = 0*/, i2_bilshe_porogu/* = 0*/;
 
+//Зовнішнє/внутрішнє пошкодження
+enum _sector_kz_zv_const sector_kz_zv = SECTOR_KZ_NEVYZN;
+
 uint32_t TIM_PRT_write_tick;
 
 //Світлоіндикатори

@@ -141,6 +141,10 @@ extern unsigned int sector_directional_tznp[4];
 
 extern unsigned int i1_bilshe_porogu, i2_bilshe_porogu;
 
+//Зовнішнє/внутрішнє пошкодження
+extern enum _sector_kz_zv_const sector_kz_zv;
+
+
 extern uint32_t TIM_PRT_write_tick;
 
 //Світлоіндикатори

@@ -668,6 +668,15 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
 /*****************************************************/
 
 /*****************************************************/
+//Направленість МТЗ з визначенням секторів
+/*****************************************************/
+inline void directional_kz_zv(void) 
+{
+  sector_kz_zv = SECTOR_KZ_NEVYZN;
+}
+/*****************************************************/
+
+/*****************************************************/
 //Визначенням миттєвої потужності
 /*****************************************************/
 inline void calc_power(int ortogonal_local_calc[], unsigned int voltage) 
@@ -1083,6 +1092,19 @@ inline void calc_measurement(unsigned int number_group_stp)
   else
   {
     sector_directional_tznp[0] = sector_directional_tznp[1] = sector_directional_tznp[2] = sector_directional_tznp[3] = 0;
+  }
+  
+  if ((current_settings_prt.configuration & (1<<KZ_ZV_BIT_CONFIGURATION)) != 0)
+  {
+    /***/
+    //Фазочутливий елемент для "Зовнішнього/Внутрішнього Пошкодження"
+    /***/
+    directional_kz_zv();
+    /***/
+  }
+  else
+  {
+    sector_kz_zv = SECTOR_KZ_NEVYZN;
   }
   
   if(++number_inputs_for_fix_one_period >= 20)
