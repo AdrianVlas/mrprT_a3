@@ -321,11 +321,11 @@ typedef struct
   unsigned int timeout_idle_new_settings;
 
   //Вимикач
-  int timeout_swch_on;                          //Витримка T вкл.
-  int timeout_swch_off;                         //Витримка T відкл.
-  int timeout_swch_udl_blk_on;                  //Витримка T "удлинение сигнала блокировки включения"
-  int timeout_pryvoda_VV;                       //Витримка T "Привіода ВВ"
-  unsigned int control_switch;                  //Поле для управління вимикачем
+  int timeout_swch_on[NUMBER_ON_OFF];                          //Витримка T вкл.
+  int timeout_swch_off[NUMBER_ON_OFF];                         //Витримка T відкл.
+  int timeout_swch_udl_blk_on[NUMBER_ON_OFF];                  //Витримка T "удлинение сигнала блокировки включения"
+  int timeout_pryvoda_VV[NUMBER_ON_OFF];                       //Витримка T "Привіода ВВ"
+  unsigned int control_switch[NUMBER_ON_OFF];                  //Поле для управління вимикачем
   
   //Аналоговий реєстратор
   unsigned int prefault_number_periods; //Час доаварійного масиву (кількість періодів промислової частоти)

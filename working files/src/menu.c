@@ -1420,7 +1420,8 @@ void main_manu_function(void)
     case EKRAN_LIST_INPUTS_FOR_RANGUVANNJA:
     case EKRAN_LIST_OUTPUTS_FOR_RANGUVANNJA:
     case EKRAN_LIST_LEDS_FOR_RANGUVANNJA:
-    case EKRAN_CHOOSE_SETTINGS_SWITCHER:
+    case EKRAN_CHOOSE_SETTINGS_SWITCHER_HV:
+    case EKRAN_CHOOSE_SETTINGS_SWITCHER_LV:
     case EKRAN_CHOOSE_RANG_SWITCH:
     case EKRAN_CHOOSE_SETTINGS_UVV:
     case EKRAN_CHOSE_COMMUNICATION_PARAMETERS:
@@ -1714,11 +1715,14 @@ void main_manu_function(void)
               //Формуємо екран уставки-настройки
               make_ekran_chose_setpoint_control_transformator();
             }
-            else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
+            else if (
+                     (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_HV) &&
+                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_HV + NUMBER_ON_OFF))
+                    )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
               
-              position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
+              position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
               //Формуємо екран уставки-витримки-настройки-ранжування вимикача
               make_ekran_chose_settings_switcher();
@@ -2805,40 +2809,46 @@ void main_manu_function(void)
                 current_ekran.cursor_on = 1;
                 current_ekran.cursor_blinking_on = 0;
               }
-              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
+              else if (
+                     (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_HV) &&
+                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_HV + NUMBER_ON_OFF))
+                      )   
               {
                 //Натисну кнопка Enter у вікні вибору настройок виключателя
                 if (current_ekran.index_position == INDEX_ML_TIMEOUT_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення витримок для вимикача
-                  current_ekran.current_level = EKRAN_TIMEOUT_SWITCH;
+                  current_ekran.current_level = EKRAN_TIMEOUT_SWITCH_HV + (current_ekran.current_level - EKRAN_CHOOSE_SETTINGS_SWITCHER_HV);
                 } 
                 else if (current_ekran.index_position == INDEX_ML_CONTROL_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення управлінської інформації для вимикача
-                  current_ekran.current_level = EKRAN_CONTROL_SWITCH;
+                  current_ekran.current_level = EKRAN_CONTROL_SWITCH_HV + (current_ekran.current_level - EKRAN_CHOOSE_SETTINGS_SWITCHER_HV);
                 } 
                 else if (current_ekran.index_position == INDEX_ML_RANG_SWITCHER)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення ранжування управління вимикачем
-                  current_ekran.current_level = EKRAN_CHOOSE_RANG_SWITCH;
+                  current_ekran.current_level = EKRAN_CHOOSE_RANG_SWITCH_HV + (current_ekran.current_level - EKRAN_CHOOSE_SETTINGS_SWITCHER_HV);
                 } 
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
                 current_ekran.cursor_on = 1;
                 current_ekran.cursor_blinking_on = 0;
               }
-              else if (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH)
+              else if (
+                       (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH_HV) ||
+                       (current_ekran.current_level == EKRAN_CHOOSE_RANG_SWITCH_LV)
+                      )   
               {
                 //Натисну кнопка Enter у вікні вибору Бвимк./БВвімк.
                 if(current_ekran.index_position == INDEX_ML_RANG_OFF_CB)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення ранжування ББвимк.
-                  current_ekran.current_level = EKRAN_RANGUVANNJA_OFF_CB_H;
+                  current_ekran.current_level = EKRAN_RANGUVANNJA_OFF_CB_H + (current_ekran.current_level - EKRAN_CHOOSE_RANG_SWITCH_HV);
                   //Для того, щоб при першому входженні завжди список починався із першої ранжованої функції обнуляємо цю позицію
                   position_in_current_level_menu[current_ekran.current_level] = 0;
                 }
@@ -2846,7 +2856,7 @@ void main_manu_function(void)
                 {
                   //Запам'ятовуємо поперердній екран
                   //Переходимо на меню відображення ранжування ББввімк.
-                  current_ekran.current_level = EKRAN_RANGUVANNJA_ON_CB_H;
+                  current_ekran.current_level = EKRAN_RANGUVANNJA_ON_CB_HV + (current_ekran.current_level - EKRAN_CHOOSE_RANG_SWITCH_HV);
                   //Для того, щоб при першому входженні завжди список починався із першої ранжованої функції обнуляємо цю позицію
                   position_in_current_level_menu[current_ekran.current_level] = 0;
                 } 
@@ -2888,12 +2898,12 @@ void main_manu_function(void)
                   //Переходимо на меню відображення списку дискретних світодіодів
                   current_ekran.current_level = EKRAN_LIST_LEDS_FOR_RANGUVANNJA;
                 }
-                else if(current_ekran.index_position == INDEX_OF_SWITCHER)
-                {
-                  //Запам'ятовуємо поперердній екран
-                  //Переходимо на меню відображення вибору настройок виключателя
-                  current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_SWITCHER;
-                }
+//                else if(current_ekran.index_position == INDEX_OF_SWITCHER)
+//                {
+//                  //Запам'ятовуємо поперердній екран
+//                  //Переходимо на меню відображення вибору настройок виключателя
+//                  current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_SWITCHER;
+//                }
                 else if(current_ekran.index_position == INDEX_OF_TRANSFORMATOR)
                 {
                   //Запам'ятовуємо поперердній екран
@@ -3838,11 +3848,14 @@ void main_manu_function(void)
                 //Формуємо екран уставки-настройки
                 make_ekran_chose_setpoint_control_transformator();
               }
-              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
+              else if (
+                       (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_HV) &&
+                       (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_HV + NUMBER_ON_OFF))
+                      )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER - 1;
               
-                position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
                 //Формуємо екран уставки-витримки-настройки-ранжування вимикача
                 make_ekran_chose_settings_switcher();
@@ -4509,11 +4522,14 @@ void main_manu_function(void)
                 //Формуємо екран уставки-настройки
                 make_ekran_chose_setpoint_control_transformator();
               }
-              else if (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER)
+              else if (
+                       (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_HV) &&
+                       (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_HV + NUMBER_ON_OFF))
+                      )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
               
-                position_in_current_level_menu[EKRAN_CHOOSE_SETTINGS_SWITCHER] = current_ekran.index_position;
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
 
                 //Формуємо екран уставки-витримки-настройки-ранжування вимикача
                 make_ekran_chose_settings_switcher();
@@ -5076,8 +5092,10 @@ void main_manu_function(void)
     case EKRAN_CONTROL_UP:
     case EKRAN_TRANSFORMATOR_INFO_SETPOINT:
     case EKRAN_TRANSFORMATOR_INFO_CONTROL:
-    case EKRAN_TIMEOUT_SWITCH:
-    case EKRAN_CONTROL_SWITCH:
+    case EKRAN_TIMEOUT_SWITCH_HV:
+    case EKRAN_TIMEOUT_SWITCH_LV:
+    case EKRAN_CONTROL_SWITCH_HV:
+    case EKRAN_CONTROL_SWITCH_LV:
     case EKRAN_DOPUSK_DV_UVV:
     case EKRAN_TYPE_INPUT_UVV:
     case EKRAN_TYPE_INPUT_SIGNAL_UVV:
@@ -5670,19 +5688,25 @@ void main_manu_function(void)
               //Формуємо екран відображення налаштувань для меню "Трансформатор"
               make_ekran_transformator_control();
             }
-            else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+            else if(
+                    (current_ekran.current_level >= EKRAN_TIMEOUT_SWITCH_HV) &&
+                    (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                   )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_SWITCH) current_ekran.index_position = 0;
-              position_in_current_level_menu[EKRAN_TIMEOUT_SWITCH] = current_ekran.index_position;
+              position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
               //Формуємо екран витримок виключателя
-              make_ekran_timeout_switch();
+              make_ekran_timeout_switch(current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV);
             }
-            else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+            else if (
+                     (current_ekran.current_level >= EKRAN_CONTROL_SWITCH_HV) &&
+                     (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                    )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_SWITCH) current_ekran.index_position = 0;
-              position_in_current_level_menu[EKRAN_CONTROL_SWITCH] = current_ekran.index_position;
+              position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
               //Формуємо екран управлінської інформації для вимикача
-              make_ekran_control_switch();
+              make_ekran_control_switch(current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV);
             }
             else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
             {
@@ -6797,32 +6821,40 @@ void main_manu_function(void)
                 {
                   edition_settings.control_transformator = current_settings.control_transformator;
                 }
-                else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
+                  uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV;
                   if (current_ekran.index_position == INDEX_ML_TMOON)
                   {
-                    edition_settings.timeout_swch_on = current_settings.timeout_swch_on;
+                    edition_settings.timeout_swch_on[on_off] = current_settings.timeout_swch_on[on_off];
                     current_ekran.position_cursor_x = COL_TMO_SWCH_ON_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOOFF)
                   {
-                    edition_settings.timeout_swch_off = current_settings.timeout_swch_off;
+                    edition_settings.timeout_swch_off[on_off] = current_settings.timeout_swch_off[on_off];
                     current_ekran.position_cursor_x = COL_TMO_SWCH_OFF_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOUDL_BLK_ON)
                   {
-                    edition_settings.timeout_swch_udl_blk_on = current_settings.timeout_swch_udl_blk_on;
+                    edition_settings.timeout_swch_udl_blk_on[on_off] = current_settings.timeout_swch_udl_blk_on[on_off];
                     current_ekran.position_cursor_x = COL_TMO_SWCH_UDL_BLK_ON_BEGIN;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOPRYVODA_VV)
                   {
-                    edition_settings.timeout_pryvoda_VV = current_settings.timeout_pryvoda_VV;
+                    edition_settings.timeout_pryvoda_VV[on_off] = current_settings.timeout_pryvoda_VV[on_off];
                     current_ekran.position_cursor_x = COL_TMO_PRYVODA_VV_BEGIN;
                   }
                 }
-                else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                        (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
-                  edition_settings.control_switch = current_settings.control_switch;
+                  uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV;
+                  edition_settings.control_switch[on_off] = current_settings.control_switch[on_off];
                 }
                 else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
                 {
@@ -7804,28 +7836,36 @@ void main_manu_function(void)
                 {
                   if (edition_settings.control_transformator != current_settings.control_transformator) found_changes = 1;
                 }
-                else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
+                  uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV;
                   if (current_ekran.index_position == INDEX_ML_TMOON)
                   {
-                    if (edition_settings.timeout_swch_on != current_settings.timeout_swch_on) found_changes = 1;
+                    if (edition_settings.timeout_swch_on[on_off] != current_settings.timeout_swch_on[on_off]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOOFF)
                   {
-                    if (edition_settings.timeout_swch_off != current_settings.timeout_swch_off) found_changes = 1;
+                    if (edition_settings.timeout_swch_off[on_off] != current_settings.timeout_swch_off[on_off]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOUDL_BLK_ON)
                   {
-                    if (edition_settings.timeout_swch_udl_blk_on != current_settings.timeout_swch_udl_blk_on) found_changes = 1;
+                    if (edition_settings.timeout_swch_udl_blk_on[on_off] != current_settings.timeout_swch_udl_blk_on[on_off]) found_changes = 1;
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOPRYVODA_VV)
                   {
-                    if (edition_settings.timeout_pryvoda_VV != current_settings.timeout_pryvoda_VV) found_changes = 1;
+                    if (edition_settings.timeout_pryvoda_VV[on_off] != current_settings.timeout_pryvoda_VV[on_off]) found_changes = 1;
                   }
                 }
-                else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
-                  if (edition_settings.control_switch != current_settings.control_switch) found_changes = 1;
+                  uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV;
+                  if (edition_settings.control_switch[on_off] != current_settings.control_switch[on_off]) found_changes = 1;
                 }
                 else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
                 {
@@ -10809,18 +10849,22 @@ void main_manu_function(void)
                     current_ekran.edition = 0;
                   }
                 }
-                else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                        (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
+                  uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV;
                   if (current_ekran.index_position == INDEX_ML_TMOON)
                   {
-                    if (check_data_setpoint(edition_settings.timeout_swch_on, TIMEOUT_SWCH_ON_MIN, TIMEOUT_SWCH_ON_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.timeout_swch_on[on_off], TIMEOUT_SWCH_ON_MIN, TIMEOUT_SWCH_ON_MAX) == 1)
                     {
-                      if (edition_settings.timeout_swch_on != current_settings.timeout_swch_on)
+                      if (edition_settings.timeout_swch_on[on_off] != current_settings.timeout_swch_on[on_off])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.timeout_swch_on = edition_settings.timeout_swch_on;
+                        current_settings.timeout_swch_on[on_off] = edition_settings.timeout_swch_on[on_off];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10830,14 +10874,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOOFF)
                   {
-                    if (check_data_setpoint(edition_settings.timeout_swch_off, TIMEOUT_SWCH_OFF_MIN, TIMEOUT_SWCH_OFF_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.timeout_swch_off[on_off], TIMEOUT_SWCH_OFF_MIN, TIMEOUT_SWCH_OFF_MAX) == 1)
                     {
-                      if (edition_settings.timeout_swch_off != current_settings.timeout_swch_off)
+                      if (edition_settings.timeout_swch_off[on_off] != current_settings.timeout_swch_off[on_off])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.timeout_swch_off = edition_settings.timeout_swch_off;
+                        current_settings.timeout_swch_off[on_off] = edition_settings.timeout_swch_off[on_off];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10847,14 +10891,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOUDL_BLK_ON)
                   {
-                    if (check_data_setpoint(edition_settings.timeout_swch_udl_blk_on, TIMEOUT_SWCH_UDL_BLK_ON_MIN, TIMEOUT_SWCH_UDL_BLK_ON_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.timeout_swch_udl_blk_on[on_off], TIMEOUT_SWCH_UDL_BLK_ON_MIN, TIMEOUT_SWCH_UDL_BLK_ON_MAX) == 1)
                     {
-                      if (edition_settings.timeout_swch_udl_blk_on != current_settings.timeout_swch_udl_blk_on)
+                      if (edition_settings.timeout_swch_udl_blk_on[on_off] != current_settings.timeout_swch_udl_blk_on[on_off])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.timeout_swch_udl_blk_on = edition_settings.timeout_swch_udl_blk_on;
+                        current_settings.timeout_swch_udl_blk_on[on_off] = edition_settings.timeout_swch_udl_blk_on[on_off];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10864,14 +10908,14 @@ void main_manu_function(void)
                   }
                   else if (current_ekran.index_position == INDEX_ML_TMOPRYVODA_VV)
                   {
-                    if (check_data_setpoint(edition_settings.timeout_pryvoda_VV, TIMEOUT_PRYVODA_VV_MIN, TIMEOUT_PRYVODA_VV_MAX) == 1)
+                    if (check_data_setpoint(edition_settings.timeout_pryvoda_VV[on_off], TIMEOUT_PRYVODA_VV_MIN, TIMEOUT_PRYVODA_VV_MAX) == 1)
                     {
-                      if (edition_settings.timeout_pryvoda_VV != current_settings.timeout_pryvoda_VV)
+                      if (edition_settings.timeout_pryvoda_VV[on_off] != current_settings.timeout_pryvoda_VV[on_off])
                       {
                         //Помічаємо, що поле структури зараз буде змінене
                         changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                        current_settings.timeout_pryvoda_VV = edition_settings.timeout_pryvoda_VV;
+                        current_settings.timeout_pryvoda_VV[on_off] = edition_settings.timeout_pryvoda_VV[on_off];
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         fix_change_settings(0, 1);
                       }
@@ -10880,16 +10924,20 @@ void main_manu_function(void)
                     }
                   }
                 }
-                else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+                else if(
+                        (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                       )   
                 {
-                  if ((edition_settings.control_switch & ((unsigned int)(~CTR_SWITCH_MASKA))) == 0)
+                  uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH;
+                  if ((edition_settings.control_switch[on_off] & ((unsigned int)(~CTR_SWITCH_MASKA))) == 0)
                   {
-                    if (edition_settings.control_switch != current_settings.control_switch)
+                    if (edition_settings.control_switch[on_off] != current_settings.control_switch[on_off])
                     {
                       //Помічаємо, що поле структури зараз буде змінене
                       changed_settings = CHANGED_ETAP_EXECUTION;
                         
-                      current_settings.control_switch = edition_settings.control_switch;
+                      current_settings.control_switch[on_off] = edition_settings.control_switch[on_off];
                       //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                       fix_change_settings(0, 1);
                     }
@@ -12597,34 +12645,41 @@ void main_manu_function(void)
                 //Формуємо екран відображення налаштувань меню "Трансформатор"
                 make_ekran_transformator_control();
               }
-              else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
+                uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV;
                 if(current_ekran.edition == 0)
                 {
                   if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_TIMEOUT_SWITCH - 1;
-                  position_in_current_level_menu[EKRAN_TIMEOUT_SWITCH] = current_ekran.index_position;
+                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else
                 {
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_TMOON)
-                    edition_settings.timeout_swch_on = edit_setpoint(1, edition_settings.timeout_swch_on, 1, COL_TMO_SWCH_ON_COMMA, COL_TMO_SWCH_ON_END, 10);
+                    edition_settings.timeout_swch_on[on_off] = edit_setpoint(1, edition_settings.timeout_swch_on[on_off], 1, COL_TMO_SWCH_ON_COMMA, COL_TMO_SWCH_ON_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOOFF)
-                    edition_settings.timeout_swch_off = edit_setpoint(1, edition_settings.timeout_swch_off, 1, COL_TMO_SWCH_OFF_COMMA, COL_TMO_SWCH_OFF_END, 10);
+                    edition_settings.timeout_swch_off[on_off] = edit_setpoint(1, edition_settings.timeout_swch_off[on_off], 1, COL_TMO_SWCH_OFF_COMMA, COL_TMO_SWCH_OFF_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOUDL_BLK_ON)
-                    edition_settings.timeout_swch_udl_blk_on = edit_setpoint(1, edition_settings.timeout_swch_udl_blk_on, 1, COL_TMO_SWCH_UDL_BLK_ON_COMMA, COL_TMO_SWCH_UDL_BLK_ON_END, 10);
+                    edition_settings.timeout_swch_udl_blk_on[on_off] = edit_setpoint(1, edition_settings.timeout_swch_udl_blk_on[on_off], 1, COL_TMO_SWCH_UDL_BLK_ON_COMMA, COL_TMO_SWCH_UDL_BLK_ON_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOPRYVODA_VV)
-                    edition_settings.timeout_pryvoda_VV = edit_setpoint(1, edition_settings.timeout_pryvoda_VV, 1, COL_TMO_PRYVODA_VV_COMMA, COL_TMO_PRYVODA_VV_END, 10);
+                    edition_settings.timeout_pryvoda_VV[on_off] = edit_setpoint(1, edition_settings.timeout_pryvoda_VV[on_off], 1, COL_TMO_PRYVODA_VV_COMMA, COL_TMO_PRYVODA_VV_END, 10);
                 }
                 //Формуємо екран витримок виключателя
-                make_ekran_timeout_switch();
+                make_ekran_timeout_switch(on_off);
               }
-              else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+              else if(
+                      (current_ekran.current_level >= EKRAN_CONTROL_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_SWITCH - 1;
-                position_in_current_level_menu[EKRAN_CONTROL_SWITCH] = current_ekran.index_position;
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 //Формуємо екран управлінської інформації для вимикача
-                make_ekran_control_switch();
+                make_ekran_control_switch(current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV);
               }
               else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
               {
@@ -13984,34 +14039,41 @@ void main_manu_function(void)
                 //Формуємо екран відображення налаштувань меню "Трансформатор"
                 make_ekran_transformator_control();
               }
-              else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
+                uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV;
                 if(current_ekran.edition == 0)
                 {
                   if(++current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_SWITCH) current_ekran.index_position = 0;
-                  position_in_current_level_menu[EKRAN_TIMEOUT_SWITCH] = current_ekran.index_position;
+                  position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 }
                 else
                 {
                   //Редагування числа
                   if (current_ekran.index_position == INDEX_ML_TMOON)
-                    edition_settings.timeout_swch_on = edit_setpoint(0, edition_settings.timeout_swch_on, 1, COL_TMO_SWCH_ON_COMMA, COL_TMO_SWCH_ON_END, 10);
+                    edition_settings.timeout_swch_on[on_off] = edit_setpoint(0, edition_settings.timeout_swch_on[on_off], 1, COL_TMO_SWCH_ON_COMMA, COL_TMO_SWCH_ON_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOOFF)
-                    edition_settings.timeout_swch_off = edit_setpoint(0, edition_settings.timeout_swch_off, 1, COL_TMO_SWCH_OFF_COMMA, COL_TMO_SWCH_OFF_END, 10);
+                    edition_settings.timeout_swch_off[on_off] = edit_setpoint(0, edition_settings.timeout_swch_off[on_off], 1, COL_TMO_SWCH_OFF_COMMA, COL_TMO_SWCH_OFF_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOUDL_BLK_ON)
-                    edition_settings.timeout_swch_udl_blk_on = edit_setpoint(0, edition_settings.timeout_swch_udl_blk_on, 1, COL_TMO_SWCH_UDL_BLK_ON_COMMA, COL_TMO_SWCH_UDL_BLK_ON_END, 10);
+                    edition_settings.timeout_swch_udl_blk_on[on_off] = edit_setpoint(0, edition_settings.timeout_swch_udl_blk_on[on_off], 1, COL_TMO_SWCH_UDL_BLK_ON_COMMA, COL_TMO_SWCH_UDL_BLK_ON_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_TMOPRYVODA_VV)
-                    edition_settings.timeout_pryvoda_VV = edit_setpoint(0, edition_settings.timeout_pryvoda_VV, 1, COL_TMO_PRYVODA_VV_COMMA, COL_TMO_PRYVODA_VV_END, 10);
+                    edition_settings.timeout_pryvoda_VV[on_off] = edit_setpoint(0, edition_settings.timeout_pryvoda_VV[on_off], 1, COL_TMO_PRYVODA_VV_COMMA, COL_TMO_PRYVODA_VV_END, 10);
                 }
                 //Формуємо екран витримок виключателя
-                make_ekran_timeout_switch();
+                make_ekran_timeout_switch(on_off);
               }
-              else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CONTROL_SWITCH) current_ekran.index_position = 0;
-                position_in_current_level_menu[EKRAN_CONTROL_SWITCH] = current_ekran.index_position;
+                position_in_current_level_menu[current_ekran.current_level] = current_ekran.index_position;
                 //Формуємо екран управлінської інформації для вимикача
-                make_ekran_control_switch();
+                make_ekran_control_switch(current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV);
               }
               else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
               {
@@ -15847,7 +15909,10 @@ void main_manu_function(void)
                 //Формуємо екран відображення налаштувань меню "Трансформатор"
                 make_ekran_transformator_control();
               }
-              else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 if(current_ekran.index_position == INDEX_ML_TMOON)
                 {
@@ -15878,9 +15943,12 @@ void main_manu_function(void)
                     current_ekran.position_cursor_x = COL_TMO_PRYVODA_VV_BEGIN;
                 }
                 //Формуємо екран витримок виключателя
-                make_ekran_timeout_switch();
+                make_ekran_timeout_switch(current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV);
               }
-              else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 unsigned int maska = 0;
           
@@ -15888,11 +15956,13 @@ void main_manu_function(void)
                 if      (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
                 else if (current_ekran.index_position == INDEX_ML_CTRRESURS_VV) maska = CTR_RESURS_VV;
                 
+                uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV;
+                
                 //Міняємо на протилежний відповідний біт для вибраної позиції
-                edition_settings.control_switch ^= maska;
+                edition_settings.control_switch[on_off] ^= maska;
 
                 //Формуємо екран управлінської інформації длявимикача
-                 make_ekran_control_switch();
+                 make_ekran_control_switch(on_off);
               }
               else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
               {
@@ -17658,7 +17728,10 @@ void main_manu_function(void)
                 //Формуємо екран відображення налаштувань меню "Трансформатор"
                 make_ekran_transformator_control();
               }
-              else if(current_ekran.current_level == EKRAN_TIMEOUT_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 if(current_ekran.index_position == INDEX_ML_TMOON)
                 {
@@ -17689,9 +17762,12 @@ void main_manu_function(void)
                     current_ekran.position_cursor_x = COL_TMO_PRYVODA_VV_END;
                 }
                 //Формуємо екран витримок виключателя
-                make_ekran_timeout_switch();
+                make_ekran_timeout_switch(current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_HV);
               }
-              else if(current_ekran.current_level == EKRAN_CONTROL_SWITCH)
+              else if(
+                      (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_HV) &&
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_HV + NUMBER_ON_OFF))
+                     )   
               {
                 unsigned int maska = 0;
           
@@ -17699,11 +17775,13 @@ void main_manu_function(void)
                 if      (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
                 else if (current_ekran.index_position == INDEX_ML_CTRRESURS_VV) maska = CTR_RESURS_VV;
                 
+                uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_HV;
+                
                 //Міняємо на протилежний відповідний біт для вибраної позиції
-                edition_settings.control_switch ^= maska;
+                edition_settings.control_switch[on_off] ^= maska;
 
                 //Формуємо екран управлінської інформації для вимикача
-                 make_ekran_control_switch();
+                 make_ekran_control_switch(on_off);
               }
               else if(current_ekran.current_level == EKRAN_DOPUSK_DV_UVV)
               {
@@ -18006,10 +18084,10 @@ void main_manu_function(void)
     case EKRAN_RANGUVANNJA_LED_17:
     case EKRAN_RANGUVANNJA_ANALOG_REGISTRATOR:
     case EKRAN_RANGUVANNJA_DIGITAL_REGISTRATOR:
-    case EKRAN_RANGUVANNJA_OFF_CB_H:
-    case EKRAN_RANGUVANNJA_ON_CB_H:
-    case EKRAN_RANGUVANNJA_OFF_CB_L:
-    case EKRAN_RANGUVANNJA_ON_CB_L:
+    case EKRAN_RANGUVANNJA_OFF_CB_HV:
+    case EKRAN_RANGUVANNJA_OFF_CB_LV:
+    case EKRAN_RANGUVANNJA_ON_CB_HV:
+    case EKRAN_RANGUVANNJA_ON_CB_LV:
     case EKRAN_RANGUVANNJA_DF1_PLUS:
     case EKRAN_RANGUVANNJA_DF1_MINUS:
     case EKRAN_RANGUVANNJA_DF1_BLK:
