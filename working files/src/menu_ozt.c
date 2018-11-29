@@ -9,64 +9,64 @@ void make_ekran_setpoint_ozt(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_OZT][MAX_COL_LCD] = 
   {
     {
-      " ВыравниваниеВ  ",
-      " ВыравниваниеH  ",
-      " Нач. дифф. ток ",
-      " Прир. дифф.тока",
+//      " ВыравниваниеВ  ",
+//      " ВыравниваниеH  ",
+      "  Нач.дифф.ток  ",
+      " Прир.дифф.тока ",
       "  Торможение 1  ",
       "  Торможение 2  ",
-      " Распред. торм. ",
-      " Нач. торможение",
-      " Огранич.   торм",
-      " Разбаланс  апер",
-      " Разбаланс 2гарм",
-      " Разбаланс 5гарм",
-      " Коэф возв. ОЗТ "
+      " Распред.торм.  ",
+      " Нач.торможение ",
+      " Огранич.торм.  ",
+      " Разбаланс апер.",
+      "Разбаланс 2гарм.",
+      "Разбаланс 5гарм.",
+      " Коэф возв.ОЗТ  "
     },
     {
-      " ВирiвнюванняВ  ",
-      " ВирiвнюванняH  ",
-      " Поч. диф. струм",
-      " Прир. диф.струм",
+//      " ВирiвнюванняВ  ",
+//      " ВирiвнюванняH  ",
+      " Поч.диф.струм  ",
+      " Прир.диф.струму",
       "  Гальмування 1 ",
       "  Гальмування 2 ",
-      " Розподiл. гальм",
+      " Розподiл.гальм.",
       " Поч.гальмування",
-      " Обмеж.   гальм.",
-      " Розбаланс  апер",
-      " Розбаланс 2гарм",
-      " Розбаланс 5гарм",
-      " Коэф повер. ОЗТ"
+      "  Обмеж.гальм.  ",
+      " Розбаланс апер.",
+      "Розбаланс 2гарм.",
+      "Розбаланс 5гарм.",
+      " Коэф повер.ОЗТ "
     },
     {
-      " ViravниваниеВ  ",
-      " ViravниваниеH  ",
-      " Nach. дифф. ток",
-      " Prir. дифф.тока",
-      "  Tormожение 1  ",
-      "  Tormожение 2  ",
-      " Rasprед. торм. ",
-      " Nach.торможение",
-      " Ogr.   торм.   ",
-      " Razбаланс апер.",
-      " Razбаланс 2гарм",
-      " Razбаланс 5гарм",
-      " Кoef возв. ОZT "
-    },
-    {
-      " ВыравниваниеВ  ",
-      " ВыравниваниеH  ",
-      " Нач. дифф. ток ",
-      " Прир. дифф.тока",
+//      " ViravниваниеВ  ",
+//      " ViravниваниеH  ",
+      "  Нач.дифф.ток  ",
+      " Прир.дифф.тока ",
       "  Торможение 1  ",
       "  Торможение 2  ",
-      " Распред. торм. ",
-      " Нач. торможение",
-      " Огранич.   торм",
-      " Разбаланс  апер",
-      " Разбаланс 2гарм",
-      " Разбаланс 5гарм",
-      " Коэф возв. ОЗТ "
+      " Распред.торм.  ",
+      " Нач.торможение ",
+      " Огранич.торм.  ",
+      " Разбаланс апер.",
+      "Разбаланс 2гарм.",
+      "Разбаланс 5гарм.",
+      " Коэф возв.ОЗТ  "
+    },
+    {
+//      " ВыравниваниеВ  ",
+//      " ВыравниваниеH  ",
+      "  Нач.дифф.ток  ",
+      " Прир.дифф.тока ",
+      "  Торможение 1  ",
+      "  Торможение 2  ",
+      " Распред.торм.  ",
+      " Нач.торможение ",
+      " Огранич.торм.  ",
+      " Разбаланс апер.",
+      "Разбаланс 2гарм.",
+      "Разбаланс 5гарм.",
+      " Коэф возв.ОЗТ  "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -88,6 +88,7 @@ void make_ekran_setpoint_ozt(unsigned int group)
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
+/*
         if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
@@ -100,7 +101,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
           if (view == true) value = current_settings.pickup_ozt_BH[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.pickup_ozt_BH[group];
         }
-        else if (index_of_ekran_tmp == INDEX_ML_D_OZT_ID0)
+*/
+        if (index_of_ekran_tmp == INDEX_ML_D_OZT_ID0)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
           if (view == true) value = current_settings.pickup_ozt_Id0[group]; //у змінну value поміщаємо значення уставки
@@ -174,6 +176,7 @@ void make_ekran_setpoint_ozt(unsigned int group)
         //У парному номері рядку виводимо значення уставки
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
+/*
           if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
           {
             if (
@@ -196,7 +199,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BH_COMMA, view, 0);
           }
-          else if (index_of_ekran_tmp == INDEX_ML_D_OZT_ID0)
+*/
+          if (index_of_ekran_tmp == INDEX_ML_D_OZT_ID0)
           {
             if (
                 ((j < COL_SETPOINT_D_OZT_ID0_BEGIN) ||  (j > COL_SETPOINT_D_OZT_ID0_END ))  &&
@@ -334,6 +338,7 @@ void make_ekran_setpoint_ozt(unsigned int group)
   if (current_ekran.edition == 0)
   {
     int last_position_cursor_x = MAX_COL_LCD;
+/*
     if (current_ekran.index_position == INDEX_ML_D_OZT_BB)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BB_BEGIN;
@@ -344,7 +349,8 @@ void make_ekran_setpoint_ozt(unsigned int group)
       current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BH_BEGIN;
       last_position_cursor_x = COL_SETPOINT_D_OZT_BH_END;
     }
-    else if (current_ekran.index_position == INDEX_ML_D_OZT_ID0)
+*/
+    if (current_ekran.index_position == INDEX_ML_D_OZT_ID0)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_ID0_BEGIN;
       last_position_cursor_x = COL_SETPOINT_D_OZT_ID0_END;
@@ -428,22 +434,22 @@ void make_ekran_timeout_ozt(unsigned int group)
     {
       "  Выдержка ОЗТ1 ",
       "  Выдержка ОЗТ2 ",
-      " Блокировка апер"
+      "Блокировка апер."
     },
     {
       "  Витримка ОЗТ1 ",
       "  Витримка ОЗТ2 ",
-      " Блокування апер"
-    },
-    {
-      "  Vidержка ОЗТ1 ",
-      "  Vidержка ОЗТ2 ",
-      " Блокировка апер"
+      "Блокування апер."
     },
     {
       "  Выдержка ОЗТ1 ",
       "  Выдержка ОЗТ2 ",
-      " Блокировка апер"
+      "Блокировка апер."
+    },
+    {
+      "  Выдержка ОЗТ1 ",
+      "  Выдержка ОЗТ2 ",
+      "Блокировка апер."
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -588,29 +594,19 @@ void make_ekran_control_ozt(void)
       " Торможение ОЗТ1",
       " 2 ступень ОЗТ  ",
       " Торможение ОЗТ2",
-      "  Блок. апериод ",
-      " Блок. 2-й гарм ",
-      " Блок. 5-й гарм "
+      "  Блок.апериод. ",
+      " Блок.2-й гарм. ",
+      " Блок.5-й гарм. "
     },
     {
       " Група з'єднання",
       " 1 ступiнь ОЗТ  ",
-      " Гальмуван. ОЗТ1",
+      "Гальмування ОЗТ1",
       " 2 ступiнь ОЗТ  ",
-      " Гальмуван. ОЗТ2",
-      "  Блок. аперiод ",
-      " Блок. 2-й гарм ",
-      " Блок. 5-й гарм "
-    },
-    {
-      " Gruppa соединен",
-      " 1 ступень ОЗТ  ",
-      " Tormожение ОЗТ1",
-      " 2 ступень ОЗТ  ",
-      " Tormожение ОЗТ2",
-      "  Blok. апериод ",
-      " Blok. 2-й гарм ",
-      " Blok. 5-й гарм "
+      "Гальмування ОЗТ2",
+      "  Блок.аперiод. ",
+      " Блок.2-ї гарм. ",
+      " Блок.5-ї гарм. "
     },
     {
       " Группа соединен",
@@ -618,9 +614,19 @@ void make_ekran_control_ozt(void)
       " Торможение ОЗТ1",
       " 2 ступень ОЗТ  ",
       " Торможение ОЗТ2",
-      "  Блок. апериод ",
-      " Блок. 2-й гарм ",
-      " Блок. 5-й гарм "
+      "  Блок.апериод. ",
+      " Блок.2-й гарм. ",
+      " Блок.5-й гарм. "
+    },
+    {
+      " Группа соединен",
+      " 1 ступень ОЗТ  ",
+      " Торможение ОЗТ1",
+      " 2 ступень ОЗТ  ",
+      " Торможение ОЗТ2",
+      "  Блок.апериод. ",
+      " Блок.2-й гарм. ",
+      " Блок.5-й гарм. "
     }
   };
 
