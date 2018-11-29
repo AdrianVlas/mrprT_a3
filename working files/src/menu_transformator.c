@@ -184,17 +184,17 @@ void make_ekran_transformator()
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string_tmp[index_of_ekran_tmp][j];
 
-        if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
+        if (index_of_ekran_tmp == INDEX_ML_D_VYR_HV)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
-          if (view == true) value = current_settings.pickup_ozt_BB[0]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.pickup_ozt_BB[0];
+          if (view == true) value = current_settings.pickup_vyr_HV; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_vyr_HV;
         }
-        else if (index_of_ekran_tmp == INDEX_ML_D_OZT_BH)
+        else if (index_of_ekran_tmp == INDEX_ML_D_VYR_LV)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
-          if (view == true) value = current_settings.pickup_ozt_BH[0]; //у змінну value поміщаємо значення уставки
-          else value = edition_settings.pickup_ozt_BH[0];
+          if (view == true) value = current_settings.pickup_vyr_LV; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_vyr_LV;
         }
         
         else if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT_HV)
@@ -225,27 +225,27 @@ void make_ekran_transformator()
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
 
-          if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
+          if (index_of_ekran_tmp == INDEX_ML_D_VYR_HV)
           {
             if (
-                ((j < COL_SETPOINT_D_OZT_BB_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BB_END ))  &&
-                (j != (COL_SETPOINT_D_OZT_BB_END + 2))  
+                ((j < COL_SETPOINT_D_VYR_HV_BEGIN) ||  (j > COL_SETPOINT_D_VYR_HV_END ))  &&
+                (j != (COL_SETPOINT_D_VYR_HV_END + 2))  
                )working_ekran[i][j] = ' ';
-            else if (j == COL_SETPOINT_D_OZT_BB_COMMA )working_ekran[i][j] = ',';
-            else if (j == (COL_SETPOINT_D_OZT_BB_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
+            else if (j == COL_SETPOINT_D_VYR_HV_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_D_VYR_HV_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
             else
-              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BB_COMMA, view, 0);
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_VYR_HV_COMMA, view, 0);
           }
-          else if (index_of_ekran_tmp == INDEX_ML_D_OZT_BH)
+          else if (index_of_ekran_tmp == INDEX_ML_D_VYR_LV)
           {
             if (
-                ((j < COL_SETPOINT_D_OZT_BH_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BH_END ))  &&
-                (j != (COL_SETPOINT_D_OZT_BH_END + 2))  
+                ((j < COL_SETPOINT_D_VYR_LV_BEGIN) ||  (j > COL_SETPOINT_D_VYR_LV_END ))  &&
+                (j != (COL_SETPOINT_D_VYR_LV_END + 2))  
                )working_ekran[i][j] = ' ';
-            else if (j == COL_SETPOINT_D_OZT_BH_COMMA )working_ekran[i][j] = ',';
-            else if (j == (COL_SETPOINT_D_OZT_BH_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
+            else if (j == COL_SETPOINT_D_VYR_LV_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_D_VYR_LV_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
             else
-              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BH_COMMA, view, 0);
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_VYR_LV_COMMA, view, 0);
           }
 
           else if (index_of_ekran_tmp == INDEX_ML_TT_HV)
@@ -283,15 +283,15 @@ void make_ekran_transformator()
   {
     int last_position_cursor_x = MAX_COL_LCD;
 
-    if (current_ekran.index_position == INDEX_ML_D_OZT_BB)
+    if (current_ekran.index_position == INDEX_ML_D_VYR_HV)
     {
-      current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BB_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_D_OZT_BB_END;
+      current_ekran.position_cursor_x = COL_SETPOINT_D_VYR_HV_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_D_VYR_HV_END;
     }
-    else if (current_ekran.index_position == INDEX_ML_D_OZT_BH)
+    else if (current_ekran.index_position == INDEX_ML_D_VYR_LV)
     {
-      current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BH_BEGIN;
-      last_position_cursor_x = COL_SETPOINT_D_OZT_BH_END;
+      current_ekran.position_cursor_x = COL_SETPOINT_D_VYR_LV_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_D_VYR_LV_END;
     }
 
     else if (current_ekran.index_position == INDEX_ML_TT_HV)

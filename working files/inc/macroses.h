@@ -548,15 +548,15 @@
   {                                                                                                                     \
   case TYPE_CON_OZT_0:                                                                                                  \
     {                                                                                                                   \
-      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BB[0];                                        \
-      koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BH[0];                                        \
+      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_HV;                                           \
+      koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_LV;                                           \
       break;                                                                                                            \
     }                                                                                                                   \
   case TYPE_CON_OZT_1:                                                                                                  \
   case TYPE_CON_OZT_11:                                                                                                 \
     {                                                                                                                   \
-      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_ozt_BB[0];                                        \
-      koef_VL_tmp = (double)I_NOM/(1.7320508075688772935274463415059*(double)current_settings_prt.pickup_ozt_BH[0]);    \
+      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_HV;                                           \
+      koef_VL_tmp = (double)I_NOM/(1.7320508075688772935274463415059*(double)current_settings_prt.pickup_vyr_LV);       \
       break;                                                                                                            \
     }                                                                                                                   \
   default:                                                                                                              \
