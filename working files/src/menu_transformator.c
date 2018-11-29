@@ -96,22 +96,30 @@ void make_ekran_transformator()
     {
       " К-т.тр.ТТ(ВН)  ",
       " К-т.тр.ТТ(НН)  ",
-      "   К-т.тр.ТН    "
+      "   К-т.тр.ТН    ",
+      " ВыравниваниеВ  ",
+      " ВыравниваниеH  "
     },
     {
       " К-т.тр.ТС(ВН)  ",
       " К-т.тр.ТС(НН)  ",
-      "   К-т.тр.ТН    "
+      "   К-т.тр.ТН    ",
+      " ВирiвнюванняВ  ",
+      " ВирiвнюванняH  ",
     },
     {
       "  CT Ratio(HV)  ",
       "  CT Ratio(LV)  ",
-      "    VT Ratio    "
+      "    VT Ratio    ",
+      " ВыравниваниеВ  ",
+      " ВыравниваниеH  "
     },
     {
       " К-т.тр.ТТ(ВН)  ",
       " К-т.тр.ТТ(НН)  ",
-      "   К-т.тр.ТН    "
+      "   К-т.тр.ТН    ",
+      " ВыравниваниеВ  ",
+      " ВыравниваниеH  "
     }
   };
   unsigned char name_string_tmp[MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT][MAX_COL_LCD];
@@ -175,8 +183,21 @@ void make_ekran_transformator()
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string_tmp[index_of_ekran_tmp][j];
+
+        if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
+        {
+          vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
+          if (view == true) value = current_settings.pickup_ozt_BB[0]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_ozt_BB[0];
+        }
+        else if (index_of_ekran_tmp == INDEX_ML_D_OZT_BH)
+        {
+          vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
+          if (view == true) value = current_settings.pickup_ozt_BH[0]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_ozt_BH[0];
+        }
         
-        if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT_HV)
+        else if ((index_of_ekran_tmp/* + shift[index_of_ekran_tmp]*/) == INDEX_ML_TT_HV)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для коефіцієнта трансформації TT
           if (view == true) value = current_settings.TCurrent_HV; //у змінну value поміщаємо значення коефіцієнта трансформації TT
@@ -203,7 +224,31 @@ void make_ekran_transformator()
         //У парному номері рядку виводимо значення уставки
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
-          if (index_of_ekran_tmp == INDEX_ML_TT_HV)
+
+          if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
+          {
+            if (
+                ((j < COL_SETPOINT_D_OZT_BB_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BB_END ))  &&
+                (j != (COL_SETPOINT_D_OZT_BB_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_D_OZT_BB_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_D_OZT_BB_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BB_COMMA, view, 0);
+          }
+          else if (index_of_ekran_tmp == INDEX_ML_D_OZT_BH)
+          {
+            if (
+                ((j < COL_SETPOINT_D_OZT_BH_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BH_END ))  &&
+                (j != (COL_SETPOINT_D_OZT_BH_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_D_OZT_BH_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_D_OZT_BH_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BH_COMMA, view, 0);
+          }
+
+          else if (index_of_ekran_tmp == INDEX_ML_TT_HV)
           {
             if ((j < COL_TT_HV_BEGIN) ||  (j > COL_TT_HV_END ))working_ekran[i][j] = ' ';
             else
@@ -237,7 +282,19 @@ void make_ekran_transformator()
   if (current_ekran.edition == 0)
   {
     int last_position_cursor_x = MAX_COL_LCD;
-    if (current_ekran.index_position == INDEX_ML_TT_HV)
+
+    if (current_ekran.index_position == INDEX_ML_D_OZT_BB)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BB_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_D_OZT_BB_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_D_OZT_BH)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_D_OZT_BH_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_D_OZT_BH_END;
+    }
+
+    else if (current_ekran.index_position == INDEX_ML_TT_HV)
     {
       current_ekran.position_cursor_x = COL_TT_HV_BEGIN;
       last_position_cursor_x = COL_TT_HV_END;

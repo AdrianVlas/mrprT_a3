@@ -10,6 +10,8 @@ enum _index_ml_stp_transformator
   INDEX_ML_TT_HV = 0,
   INDEX_ML_TT_LV,
   INDEX_ML_TN,
+  INDEX_ML_D_OZT_BB,
+  INDEX_ML_D_OZT_BH,
   
   MAX_ROW_FOR_TRANSFORMATOR_INFO_SETPOINT
 };
@@ -22,6 +24,14 @@ enum _index_ml_stp_transformator
 
 #define COL_TN_BEGIN                        6
 #define COL_TN_END                          9
+
+#define COL_SETPOINT_D_OZT_BB_BEGIN                4
+#define COL_SETPOINT_D_OZT_BB_COMMA                6
+#define COL_SETPOINT_D_OZT_BB_END                  8
+
+#define COL_SETPOINT_D_OZT_BH_BEGIN                4
+#define COL_SETPOINT_D_OZT_BH_COMMA                6
+#define COL_SETPOINT_D_OZT_BH_END                  8
 
 enum _index_ml_ctrl_transformator
 {
