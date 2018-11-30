@@ -654,7 +654,7 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
 //  count_bit = 1;
     case 368:
       (*uprMaska)   = INDEX_ML_CTRPRYVOD_VV;
-      (*editControl) = &edition_settings.control_switch;
+      (*editControl) = &edition_settings.control_switch[0];
       break;
 
 //  count_bit = 1;
@@ -672,7 +672,7 @@ int uprFunc000(int inOffset, uint32_t *uprMaska, int validData, uint32_t **editC
       break;
     case 374://Ресурс ВВ
       (*uprMaska)   = INDEX_ML_CTRRESURS_VV;
-      (*editControl) = &edition_settings.control_switch;
+      (*editControl) = &edition_settings.control_switch[0];
       break;
     case 375://Разрешение блокировки готовности к ТУ от защит
       (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_READY_TU;

@@ -525,7 +525,7 @@ void make_ekran_current(unsigned int pervynna_vtorynna)
         {
 //          if (index < IM_3I0_r) koef_mul = 1/*current_settings.T0*/;
 //          else if (index == IM_I04) koef_mul = 1/*current_settings.TCurrent04*/;
-          /*else*/  koef_mul = current_settings.TCurrent_HV;
+          /*else*/  koef_mul = current_settings.TCurrent_H;
         }
         convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], koef_mul, 1, name_string[index_of_ekran], 7);
       }
@@ -1132,7 +1132,7 @@ void make_ekran_power(unsigned int pervynna_vtorynna)
         if (pervynna_vtorynna == 0) 
           convert_and_insert_char_for_measurement(3, (unsigned int)temp_value, 1, 1, name_string[index_of_ekran], start_position);
         else
-          convert_and_insert_char_for_measurement(3, (unsigned int)temp_value, current_settings.TVoltage*current_settings.TCurrent_HV, 1, name_string[index_of_ekran], start_position);
+          convert_and_insert_char_for_measurement(3, (unsigned int)temp_value, current_settings.TVoltage*current_settings.TCurrent_H, 1, name_string[index_of_ekran], start_position);
       }
       else
       {

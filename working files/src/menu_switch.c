@@ -1,29 +1,45 @@
 #include "header.h"
 
+const uint8_t ind_value[MAX_NAMBER_LANGUAGE][NUMBER_ON_OFF] =
+{
+  {'В', 'Н'},
+  {'В', 'Н'},
+  {'H', 'V'},
+  {'В', 'Н'}
+};
+
 /*****************************************************/
 //Формуємо екран відображення вибору ранжування БВвімк./БВимк.
 /*****************************************************/
-void make_ekran_choose_CBOn_CBOff(void)
+void make_ekran_choose_CBOn_CBOff(uint32_t on_off)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_RANG_SWITCH][MAX_COL_LCD] = 
   {
     {
-      " БО             ",
-      " БВ             "
+      " БО(x)          ",
+      " БВ(x)          "
     },
     {
-      " БВимк.         ",
-      " БВвімк.        "
+      " БВимк.(x)      ",
+      " БВвімк.(x)     "
     },
     {
-      " Off CB         ",
-      " On CB          "
+      " Off CB(x)      ",
+      " On CB(x)       "
     },
     {
-      " БО             ",
-      " БВ             "
+      " БО(x)          ",
+      " БВ(x)          "
     }
   };
+  const uint8_t ind_index[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_RANG_SWITCH] = 
+  {
+    {4, 4},
+    {8, 9},
+    {8, 7},
+    {4, 4}
+  };
+  
   int index_language = index_language_in_array(current_settings.language);
   
   unsigned int position_temp = current_ekran.index_position;
@@ -36,7 +52,10 @@ void make_ekran_choose_CBOn_CBOff(void)
   {
     //Наступні рядки треба перевірити, чи їх требе відображати у текучій коффігурації
     if (index_of_ekran < MAX_ROW_FOR_LIST_OF_REGISTRATORS)
+    {
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran][j];
+      working_ekran[i][ind_index[index_language][index_of_ekran]] = ind_value[index_language][on_off];
+    }
     else
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
 
@@ -59,35 +78,43 @@ void make_ekran_choose_CBOn_CBOff(void)
 /*****************************************************/
 //Формуємо екран відображення витримок Виключателя
 /*****************************************************/
-void make_ekran_timeout_switch()
+void make_ekran_timeout_switch(uint32_t on_off)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_SWITCH][MAX_COL_LCD] = 
   {
     {
-      "     T вкл.     ",
-      "    T откл.     ",
-      " T удл.блк.вкл. ",
-      "  T Привода ВВ  "
+      "   T вкл.(x)    ",
+      "   T откл.(x)   ",
+      "T удл.бл.вкл.(x)",
+      " T Привода ВВ(x)"
     },
     {
-      "    T ввімк.    ",
-      "    T вимк.     ",
-      "T под.блк.ввімк.",
-      "  T Привода ВВ  "
+      "  T ввімк.(x)   ",
+      "   T вимк.(x)   ",
+      "T п.бл.ввімк.(x)",
+      " T Привода ВВ(x)"
     },
     {
-      "      On T      ",
-      "     Off T      ",
-      "ON Blc.Lengthen.",
-      "CB Actuator Time"
+      "    On T(x)     ",
+      "    Off T(x)    ",
+      "  ON Blc.L.(x)  ",
+      " CB Act.Time(x) "
     },
     {
-      "     T вкл.     ",
-      "    T откл.     ",
-      " T удл.блк.вкл. ",
-      "  T Привода ВВ  "
+      "   T вкл.(x)    ",
+      "   T откл.(x)   ",
+      "T удл.бл.вкл.(x)",
+      " T Привода ВВ(x)"
     }
   };
+  const uint8_t ind_index[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_SWITCH] = 
+  {
+    {10, 11, 14, 14},
+    {11, 11, 14, 14},
+    { 9, 10, 12, 13},
+    {10, 11, 14, 14}
+  };
+    
   int index_language = index_language_in_array(current_settings.language);
   
   unsigned int position_temp = current_ekran.index_position;
@@ -108,29 +135,31 @@ void make_ekran_timeout_switch()
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
+        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = ind_value[index_language][on_off];
+        
         if (index_of_ekran_tmp == INDEX_ML_TMOON)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки T вкл.
-          if (view == true) value = current_settings.timeout_swch_on; //у змінну value поміщаємо значення витримки T вкл.
-          else value = edition_settings.timeout_swch_on;
+          if (view == true) value = current_settings.timeout_swch_on[on_off]; //у змінну value поміщаємо значення витримки T вкл.
+          else value = edition_settings.timeout_swch_on[on_off];
         }
         else if (index_of_ekran_tmp == INDEX_ML_TMOOFF)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки T відкл.
-          if (view == true) value = current_settings.timeout_swch_off; //у змінну value поміщаємо значення витримки T відкл.
-          else value = edition_settings.timeout_swch_off;
+          if (view == true) value = current_settings.timeout_swch_off[on_off]; //у змінну value поміщаємо значення витримки T відкл.
+          else value = edition_settings.timeout_swch_off[on_off];
         }
         else  if (index_of_ekran_tmp == INDEX_ML_TMOUDL_BLK_ON)
         {
           vaga = 10000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки T "удлинение сигнала блокировки включения"
-          if (view == true) value = current_settings.timeout_swch_udl_blk_on; //у змінну value поміщаємо значення итримки T "удлинение сигнала блокировки включения"
-          else value = edition_settings.timeout_swch_udl_blk_on;
+          if (view == true) value = current_settings.timeout_swch_udl_blk_on[on_off]; //у змінну value поміщаємо значення итримки T "удлинение сигнала блокировки включения"
+          else value = edition_settings.timeout_swch_udl_blk_on[on_off];
         }
         else  if (index_of_ekran_tmp == INDEX_ML_TMOPRYVODA_VV)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду для витримки T "Привода ВВ"
-          if (view == true) value = current_settings.timeout_pryvoda_VV; //у змінну value поміщаємо значення итримки T "Привода ВВ"
-          else value = edition_settings.timeout_pryvoda_VV;
+          if (view == true) value = current_settings.timeout_pryvoda_VV[on_off]; //у змінну value поміщаємо значення итримки T "Привода ВВ"
+          else value = edition_settings.timeout_pryvoda_VV[on_off];
         }
         first_symbol = 0; //помічаємо, що ще ніодин значущий символ не виведений
       }
@@ -241,27 +270,35 @@ void make_ekran_timeout_switch()
 /*****************************************************/
 //Формуємо екран відображення значення управлінської інформації для вимикача
 /*****************************************************/
-void make_ekran_control_switch()
+void make_ekran_control_switch(uint32_t on_off)
 {
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_SWITCH][MAX_COL_LCD] = 
   {
     {
-      "  Контроль ВВ   ",
-      "   Ресурс ВВ    "
+      " Контроль ВВ(x) ",
+      "  Ресурс ВВ(x)  "
     },
     {
-      "  Контроль ВВ   ",
-      "   Ресурс ВВ    "
+      " Контроль ВВ(x) ",
+      "  Ресурс ВВ(x)  "
     },
     {
-      "   CB Control   ",
-      "   Ресурс ВВ    "
+      " CB Control(x)  ",
+      "  Ресурс ВВ(x)  "
     },
     {
-      "  Контроль ВВ   ",
-      "   Ресурс ВВ    "
+      " Контроль ВВ(x) ",
+      "  Ресурс ВВ(x)  "
     }
   };
+  const uint8_t ind_index[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_SWITCH] = 
+  {
+    {13, 12},
+    {13, 12},
+    {12, 12},
+    {13, 12}
+  };
+  
   int index_language = index_language_in_array(current_settings.language);
   
   unsigned int position_temp = current_ekran.index_position;
@@ -280,6 +317,7 @@ void make_ekran_control_switch()
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
+        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = ind_value[index_language][on_off];
       }
       else
       {
@@ -303,8 +341,8 @@ void make_ekran_control_switch()
 
         unsigned int temp_data;
           
-        if(current_ekran.edition == 0) temp_data = current_settings.control_switch;
-        else temp_data = edition_settings.control_switch;
+        if(current_ekran.edition == 0) temp_data = current_settings.control_switch[on_off];
+        else temp_data = edition_settings.control_switch[on_off];
           
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = information[index_language][(temp_data >> index_ctr) & 0x1][j];
         if (position_temp == index_of_ekran_tmp) current_ekran.position_cursor_x = cursor_x[index_language][(temp_data >> index_ctr) & 0x1];

@@ -3962,7 +3962,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
   if (global_timers[INDEX_TIMER_VIDKL_VV_H] >= 0)
   {
     //Таймер БО зараз активний і як мінімум тільки зараз завершить свою роботу
-    if (global_timers[INDEX_TIMER_VIDKL_VV_H] >= current_settings_prt.timeout_swch_off)
+    if (global_timers[INDEX_TIMER_VIDKL_VV_H] >= current_settings_prt.timeout_swch_off[0])
     {
       //Таймер досягнув свого максимального значення
       global_timers[INDEX_TIMER_VIDKL_VV_H] = -1;
@@ -3978,7 +3978,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
   if (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >= 0)
   {
     //Таймер блокування включення БВ зараз активний і як мінімум тільки зараз завершить свою роботу
-    if (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >= current_settings_prt.timeout_swch_udl_blk_on)
+    if (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >= current_settings_prt.timeout_swch_udl_blk_on[0])
     {
       //Таймер досягнув свого максимального значення
       global_timers[INDEX_TIMER_BLK_VKL_VV_H] = -1;
@@ -4000,7 +4000,7 @@ inline void on_off_handler(unsigned int *p_active_functions)
     else
     {
       //Перевіряємо, чи таймер включення не досягнув свого масимального значення
-      if (global_timers[INDEX_TIMER_VKL_VV_H] >= current_settings_prt.timeout_swch_on)
+      if (global_timers[INDEX_TIMER_VKL_VV_H] >= current_settings_prt.timeout_swch_on[0])
       {
         //Таймер досягнув свого максимального значення
         global_timers[INDEX_TIMER_VKL_VV_H] = -1;
@@ -4367,10 +4367,10 @@ void control_VV(unsigned int *p_active_functions)
   
   _XOR_INVERTOR(logic_control_VV_0, 0, logic_control_VV_0, 1, logic_control_VV_0, 2);
 
-  _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV, logic_control_VV_0, 2, logic_control_VV_0, 3);
+  _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], logic_control_VV_0, 2, logic_control_VV_0, 3);
 
   //М:"Контроль ВВ"
-  logic_control_VV_0 |= ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) << 4;
+  logic_control_VV_0 |= ((current_settings_prt.control_switch[0] & CTR_PRYVOD_VV) != 0) << 4;
   
   _AND2(logic_control_VV_0, 3, logic_control_VV_0, 4, logic_control_VV_0, 5);
   
@@ -4424,11 +4424,21 @@ inline unsigned int stop_regisrator(unsigned int* carrent_active_functions, unsi
           if (global_timers[i] >= 0) 
           {
             if (
-                (i != INDEX_TIMER_PRYVOD_VV_H) ||
-                (  
-                 ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) &&
-                 (global_timers[i] < current_settings_prt.timeout_pryvoda_VV) 
-                )   
+                (
+                 (i != INDEX_TIMER_PRYVOD_VV_H) ||
+                 (  
+                  ((current_settings_prt.control_switch[0] & CTR_PRYVOD_VV) != 0) &&
+                  (global_timers[i] < current_settings_prt.timeout_pryvoda_VV[0]) 
+                 )
+                )
+                &&
+                (
+                 (i != INDEX_TIMER_PRYVOD_VV_L) ||
+                 (  
+                  ((current_settings_prt.control_switch[1] & CTR_PRYVOD_VV) != 0) &&
+                  (global_timers[i] < current_settings_prt.timeout_pryvoda_VV[1]) 
+                 )
+                )
                )
             global_timers_work = 1;
           }
@@ -6307,7 +6317,7 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           else label_to_time_array = time;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
           //Коефіцієнт трансформації TT
-          header_ar.TCurrent = current_settings_prt.TCurrent_HV;
+          header_ar.TCurrent = current_settings_prt.TCurrent_H;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
           //Додаткові налаштування при яких було запущено аналоговий реєстратор
@@ -7702,7 +7712,7 @@ inline void main_protection(void)
     /**************************/
     //Включення-Відключення
     /**************************/
-    if ((current_settings_prt.configuration & (1 << ON_OFF_BIT_CONFIGURATION)) != 0)
+    if ((current_settings_prt.configuration & (1 << OFF_ON_BIT_CONFIGURATION)) != 0)
     {
       on_off_handler(active_functions);
     }
