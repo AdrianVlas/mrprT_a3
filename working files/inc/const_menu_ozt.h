@@ -11,27 +11,28 @@
 #define EKRAN_TIMEOUT_OZT_GROUP4    (EKRAN_TIMEOUT_OZT_GROUP3  + 1)
 #define EKRAN_CONTROL_OZT           (EKRAN_TIMEOUT_UP_GROUP4 + 1)
 
-#define MAX_ROW_FOR_SETPOINT_OZT        13
+#define MAX_ROW_FOR_SETPOINT_OZT        11
 #define MAX_ROW_FOR_TIMEOUT_OZT         3
 
-#define INDEX_ML_D_OZT_BB                0
-#define INDEX_ML_D_OZT_BH                1
-#define INDEX_ML_D_OZT_ID0               2
-#define INDEX_ML_D_OZT_delta             3
+//#define INDEX_ML_D_OZT_BB                0
+//#define INDEX_ML_D_OZT_BH                1
+#define INDEX_ML_D_OZT_ID0               0
+#define INDEX_ML_D_OZT_delta             1
 
-#define INDEX_ML_T_OZT_T1                4
-#define INDEX_ML_T_OZT_T2                5
-#define INDEX_ML_T_OZT_TK                6
-#define INDEX_ML_T_OZT_IT0               7
-#define INDEX_ML_T_OZT_ITG1              8
+#define INDEX_ML_T_OZT_T1                2
+#define INDEX_ML_T_OZT_T2                3
+#define INDEX_ML_T_OZT_TK                4
+#define INDEX_ML_T_OZT_IT0               5
+#define INDEX_ML_T_OZT_ITG1              6
 
-#define INDEX_ML_A_OZT_AK                9
+#define INDEX_ML_A_OZT_AK                7
 
-#define INDEX_ML_N_OZT_N2G              10
-#define INDEX_ML_N_OZT_N5G              11
+#define INDEX_ML_N_OZT_N2G               8
+#define INDEX_ML_N_OZT_N5G               9
 
-#define INDEX_ML_K_OZT_KP              12
+#define INDEX_ML_K_OZT_KP               10
 
+/*
 #define COL_SETPOINT_D_OZT_BB_BEGIN                4
 #define COL_SETPOINT_D_OZT_BB_COMMA                6
 #define COL_SETPOINT_D_OZT_BB_END                  8
@@ -39,6 +40,7 @@
 #define COL_SETPOINT_D_OZT_BH_BEGIN                4
 #define COL_SETPOINT_D_OZT_BH_COMMA                6
 #define COL_SETPOINT_D_OZT_BH_END                  8
+*/
 
 #define COL_SETPOINT_D_OZT_ID0_BEGIN               4
 #define COL_SETPOINT_D_OZT_ID0_COMMA               6

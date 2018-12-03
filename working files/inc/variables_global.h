@@ -271,21 +271,28 @@ int sector_2_mtz_tznp[8];
 //Конвертація "короткої" таблиці ранжування у "довгу"
 const uint32_t small_big_rang[NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL] =
 {
-RANG_BLOCK_VKL_VV,
 RANG_RESET_LEDS,
 RANG_RESET_RELES,
 RANG_MISCEVE_DYSTANCIJNE,
-RANG_STATE_VV,
 RANG_OTKL_VID_ZOVN_ZAHYSTIV,
-RANG_VKL_VV,
-RANG_CTRL_VKL,
-RANG_OTKL_VV,
-RANG_CTRL_OTKL,
 RANG_1_GRUPA_USTAVOK,
 RANG_2_GRUPA_USTAVOK,
 RANG_3_GRUPA_USTAVOK,
 RANG_4_GRUPA_USTAVOK,
 RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV,
+
+RANG_BLOCK_VKL_VV_H,
+RANG_STATE_VV_H,
+RANG_VKL_VV_H,
+RANG_CTRL_VKL_H,
+RANG_OTKL_VV_H,
+RANG_CTRL_OTKL_H,
+RANG_BLOCK_VKL_VV_L,
+RANG_STATE_VV_L,
+RANG_VKL_VV_L,
+RANG_CTRL_VKL_L,
+RANG_OTKL_VV_L,
+RANG_CTRL_OTKL_L,
 
 RANG_BLOCK_MTZ1,
 RANG_BLOCK_MTZ2,
@@ -351,6 +358,9 @@ unsigned int TZNP_3I0_r_bilshe_porogu/* = 0*/;
 unsigned int sector_directional_tznp[4];
 
 unsigned int i1_bilshe_porogu/* = 0*/, i2_bilshe_porogu/* = 0*/;
+
+//Зовнішнє/внутрішнє пошкодження
+enum _sector_kz_zv_const sector_kz_zv = SECTOR_KZ_NEVYZN;
 
 uint32_t TIM_PRT_write_tick;
 
@@ -536,6 +546,8 @@ unsigned int changed_settings = CHANGED_ETAP_NONE;
 unsigned char crc_settings;
 __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
 uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
+int32_t type_con_ozt_meas;
+double koef_VH_meas, koef_VL_meas;
 unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];
 int * type_mtz_arr[NUMBER_LEVEL_MTZ];

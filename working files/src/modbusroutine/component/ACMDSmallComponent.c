@@ -975,43 +975,43 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //  count_bit = 3;
 #define  IMUNITET_BITACMD528 528
   case IMUNITET_BITACMD528:
-    (*outMaska) = RANG_VKL_VV;
-    (*dvMaska) = RANG_SMALL_VKL_VV;
+    (*outMaska) = RANG_VKL_VV_H;
+    (*dvMaska) = RANG_SMALL_VKL_VV_H;
     break;
 #define  IMUNITET_BITACMD529 529
   case IMUNITET_BITACMD529:
-    (*outMaska) = RANG_OTKL_VV;
-    (*dvMaska) = RANG_SMALL_OTKL_VV;
+    (*outMaska) = RANG_OTKL_VV_H;
+    (*dvMaska) = RANG_SMALL_OTKL_VV_H;
     break;
   case 530:
-    (*outMaska) = RANG_BLOCK_VKL_VV;
-    (*dvMaska) = RANG_SMALL_BLOCK_VKL_VV;
+    (*outMaska) = RANG_BLOCK_VKL_VV_H;
+    (*dvMaska) = RANG_SMALL_BLOCK_VKL_VV_H;
     break;
 
 //  count_bit = 15;
   case 532:
-    (*outMaska) = RANG_WORK_BO;
+    (*outMaska) = RANG_WORK_BO_H;
 //        (*dvMaska) =
     break;
   case 533:
-    (*outMaska) = RANG_WORK_BV;
+    (*outMaska) = RANG_WORK_BV_H;
 //        (*dvMaska) =
     break;
   case 534:
-    (*outMaska) = RANG_STATE_VV;
-    (*dvMaska) = RANG_SMALL_STATE_VV;
+    (*outMaska) = RANG_STATE_VV_H;
+    (*dvMaska) = RANG_SMALL_STATE_VV_H;
     break;
   case 535:
-    (*outMaska) = RANG_PRYVID_VV;
+    (*outMaska) = RANG_PRYVID_VV_H;
 //        (*dvMaska) =
     break;
   case 536:
-    (*outMaska) = RANG_CTRL_VKL;
-    (*dvMaska) = RANG_SMALL_CTRL_VKL;
+    (*outMaska) = RANG_CTRL_VKL_H;
+    (*dvMaska) = RANG_SMALL_CTRL_VKL_H;
     break;
   case 537:
-    (*outMaska) = RANG_CTRL_OTKL;
-    (*dvMaska) = RANG_SMALL_CTRL_OTKL;
+    (*outMaska) = RANG_CTRL_OTKL_H;
+    (*dvMaska) = RANG_SMALL_CTRL_OTKL_H;
     break;
 //  case 538:
 //    (*outMaska) = RANG_PEREVYSHCHENNJA_Inom_VYMK;
@@ -1715,7 +1715,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
     if(actControl&&dataBit)
     {
       mutex_interface = true;
-      _SET_BIT(activation_function_from_interface, RANG_SMALL_VKL_VV); //Вкл.  виключателя
+      _SET_BIT(activation_function_from_interface, RANG_SMALL_VKL_VV_H); //Вкл.  виключателя
       mutex_interface = false;
     }//if(action)
     return 0;
@@ -1725,7 +1725,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
     if(actControl&&dataBit)
     {
       mutex_interface = true;
-      _SET_BIT(activation_function_from_interface, RANG_SMALL_OTKL_VV); //Викл. виключателя
+      _SET_BIT(activation_function_from_interface, RANG_SMALL_OTKL_VV_H); //Викл. виключателя
       mutex_interface = false;
     }//if(action)
     return 0;

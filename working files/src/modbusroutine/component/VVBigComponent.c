@@ -47,9 +47,9 @@ int getVVBigModbusRegister(int adrReg)
 
   int offset = adrReg-BEGIN_ADR_REGISTER;
 //поиск активного бита
-  unsigned int *ranguvannja_vv = &current_settings_interfaces.ranguvannja_on_cb[0]; //Ранжування прямих
+  unsigned int *ranguvannja_vv = &current_settings_interfaces.ranguvannja_on_cb[0][0]; //Ранжування прямих
   if((offset/REGISTERS_VV)==1)
-       ranguvannja_vv = &current_settings_interfaces.ranguvannja_off_cb[0]; //Ранжування інверсних 
+       ranguvannja_vv = &current_settings_interfaces.ranguvannja_off_cb[0][0]; //Ранжування інверсних 
 
   int bit = getSequenceN_BIGIndexActiveBit(offset%REGISTERS_VV, ranguvannja_vv);//индекс активного бита
   if(bit!=-1)
@@ -115,9 +115,9 @@ extern int upravlSchematic;//флаг Rang
     {
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
-      unsigned int *ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0]; //Ранжуванн
+      unsigned int *ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжуванн
       if((offset/REGISTERS_VV)==1)
-           ranguvannja_vv = &edition_settings.ranguvannja_off_cb[0]; //Ранжування 
+           ranguvannja_vv = &edition_settings.ranguvannja_off_cb[0][0]; //Ранжування 
 
       if((offset/REGISTERS_VV)!=idxObjOld) {
        idxObjOld = offset/REGISTERS_VV;
@@ -136,9 +136,9 @@ extern int upravlSchematic;//флаг Rang
       if(adr==0) continue;
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
-      unsigned int *ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0]; //Ранжуванн
+      unsigned int *ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжуванн
       if((offset/REGISTERS_VV)==1)
-           ranguvannja_vv = &edition_settings.ranguvannja_off_cb[0]; //Ранжування 
+           ranguvannja_vv = &edition_settings.ranguvannja_off_cb[0][0]; //Ранжування 
 
       int bit = encoderN_BIGACMD(adr-getACMDSmallBeginAdr()); //кодировщик адреса modbus в индекс бита для реле
       if(bit!=-1) {

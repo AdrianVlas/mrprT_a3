@@ -99,6 +99,8 @@ void make_ekran_timeout_P_3U0(unsigned int);
 void make_ekran_control_P_3U0(void);
 void make_ekran_timeout_gp(unsigned int);
 void make_ekran_control_gp(void);
+void make_ekran_timeout_tp(unsigned int);
+void make_ekran_control_tp(void);
 void make_ekran_setpoint_tznp(unsigned int);
 void make_ekran_timeout_tznp(unsigned int);
 void make_ekran_control_tznp(void);
@@ -278,6 +280,7 @@ void velychyna_zvorotnoi_poslidovnosti(int*);
 
 void directional_mtz(int*, unsigned int, unsigned int);
 void directional_tznp(int*, unsigned int, unsigned int);
+void directional_kz_zv(void);
 
 void main_routines_for_spi1(void);
 void main_function_for_dataflash_resp(int);

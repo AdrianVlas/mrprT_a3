@@ -1112,38 +1112,74 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
     }
     max_row_ranguvannja = MAX_ROW_RANGUVANNJA_DIGITAL_REGISTRATOR;
   }
-  else if(type_ekran == INDEX_VIEWING_OFF_CB)
+  else if(type_ekran == INDEX_VIEWING_OFF_CB_H)
   {
     if(current_ekran.edition == 0)
     {
       for (unsigned int i = 0; i < N_BIG; i++)
       {
-        state_viewing_input[i] = current_settings.ranguvannja_off_cb[i];
+        state_viewing_input[i] = current_settings.ranguvannja_off_cb[0][i];
       }
     }
     else
     {
       for (unsigned int i = 0; i < N_BIG; i++)
       {
-        state_viewing_input[i] = edition_settings.ranguvannja_off_cb[i];
+        state_viewing_input[i] = edition_settings.ranguvannja_off_cb[0][i];
       }
     }
     max_row_ranguvannja = MAX_ROW_RANGUVANNJA_OFF_CB;
   }
-  else if(type_ekran == INDEX_VIEWING_ON_CB)
+  else if(type_ekran == INDEX_VIEWING_ON_CB_H)
   {
     if(current_ekran.edition == 0)
     {
       for (unsigned int i = 0; i < N_BIG; i++)
       {
-        state_viewing_input[i] = current_settings.ranguvannja_on_cb[i];
+        state_viewing_input[i] = current_settings.ranguvannja_on_cb[0][i];
       }
     }
     else
     {
       for (unsigned int i = 0; i < N_BIG; i++)
       {
-        state_viewing_input[i] = edition_settings.ranguvannja_on_cb[i];
+        state_viewing_input[i] = edition_settings.ranguvannja_on_cb[0][i];
+      }
+    }
+    max_row_ranguvannja = MAX_ROW_RANGUVANNJA_ON_CB;
+  }
+  else if(type_ekran == INDEX_VIEWING_OFF_CB_L)
+  {
+    if(current_ekran.edition == 0)
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = current_settings.ranguvannja_off_cb[1][i];
+      }
+    }
+    else
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = edition_settings.ranguvannja_off_cb[1][i];
+      }
+    }
+    max_row_ranguvannja = MAX_ROW_RANGUVANNJA_OFF_CB;
+  }
+  else if(type_ekran == INDEX_VIEWING_ON_CB_L)
+  {
+    if(current_ekran.edition == 0)
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = current_settings.ranguvannja_on_cb[1][i];
+      }
+    }
+    else
+    {
+      for (unsigned int i = 0; i < N_BIG; i++)
+      {
+        state_viewing_input[i] = edition_settings.ranguvannja_on_cb[1][i];
       }
     }
     max_row_ranguvannja = MAX_ROW_RANGUVANNJA_ON_CB;
@@ -1333,10 +1369,12 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
     //Фільтруємо сигнали, яких у даній конфігурації неприсутні
     /*************************************************************/
     if(
-       (type_ekran == INDEX_VIEWING_A_REG ) ||
-       (type_ekran == INDEX_VIEWING_D_REG ) ||
-       (type_ekran == INDEX_VIEWING_OFF_CB) ||
-       (type_ekran == INDEX_VIEWING_ON_CB)
+       (type_ekran == INDEX_VIEWING_A_REG   ) ||
+       (type_ekran == INDEX_VIEWING_D_REG   ) ||
+       (type_ekran == INDEX_VIEWING_OFF_CB_H) ||
+       (type_ekran == INDEX_VIEWING_ON_CB_H ) ||
+       (type_ekran == INDEX_VIEWING_OFF_CB_L) ||
+       (type_ekran == INDEX_VIEWING_ON_CB_L )
       )
     {
       /*************************************************************/
@@ -1348,10 +1386,14 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
         index_deleted_function = RANG_WORK_A_REJESTRATOR;
       else if (type_ekran == INDEX_VIEWING_D_REG)
         index_deleted_function = RANG_WORK_D_REJESTRATOR;
-      else if (type_ekran == INDEX_VIEWING_OFF_CB)
-        index_deleted_function = RANG_WORK_BO;
+      else if (type_ekran == INDEX_VIEWING_OFF_CB_H)
+        index_deleted_function = RANG_WORK_BO_H;
+      else if (type_ekran == INDEX_VIEWING_ON_CB_H)
+        index_deleted_function = RANG_WORK_BV_H;
+      else if (type_ekran == INDEX_VIEWING_OFF_CB_L)
+        index_deleted_function = RANG_WORK_BO_L;
       else
-        index_deleted_function = RANG_WORK_BV;
+        index_deleted_function = RANG_WORK_BV_L;
       
       /*************************************************************/
       //Відкидаємо ім'я даної функції і зміщаємо біти
