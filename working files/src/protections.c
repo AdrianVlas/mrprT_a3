@@ -7721,15 +7721,15 @@ inline void main_protection(void)
       //Очищуємо сигнали, які не можуть бути у даній конфігурації
       const unsigned int maska_on_off_signals[N_BIG] = 
       {
-        MASKA_ON_OFF_SIGNALS_0,
-        MASKA_ON_OFF_SIGNALS_1,
-        MASKA_ON_OFF_SIGNALS_2, 
-        MASKA_ON_OFF_SIGNALS_3, 
-        MASKA_ON_OFF_SIGNALS_4, 
-        MASKA_ON_OFF_SIGNALS_5,
-        MASKA_ON_OFF_SIGNALS_6, 
-        MASKA_ON_OFF_SIGNALS_7, 
-        MASKA_ON_OFF_SIGNALS_8
+        MASKA_OFF_ON_SIGNALS_0,
+        MASKA_OFF_ON_SIGNALS_1,
+        MASKA_OFF_ON_SIGNALS_2, 
+        MASKA_OFF_ON_SIGNALS_3, 
+        MASKA_OFF_ON_SIGNALS_4, 
+        MASKA_OFF_ON_SIGNALS_5,
+        MASKA_OFF_ON_SIGNALS_6, 
+        MASKA_OFF_ON_SIGNALS_7, 
+        MASKA_OFF_ON_SIGNALS_8
       };
       for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_on_off_signals[i]);
 

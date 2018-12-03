@@ -10,6 +10,43 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
   /************************/
   //Спершу перевіряємо чи не знаходимося зараз ми у такому вікні, яке забороняє змінювати текучу конфігурацію
   /************************/
+  //Перевірка Блоку Ввімкнення/Вимкнення
+  if ((new_configuration & (1 << OFF_ON_BIT_CONFIGURATION)) == 0)
+  {
+    if(
+       (current_ekran.current_level == EKRAN_CHOOSE_LIST_OFF_ON)
+       || 
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER_H)
+       || 
+       (current_ekran.current_level == EKRAN_CHOOSE_SETTINGS_SWITCHER_L)
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_TIMEOUT_SWITCH_H) &&
+        (current_ekran.current_level <= EKRAN_TIMEOUT_SWITCH_L)
+       )
+       ||
+       (
+        (current_ekran.current_level >= EKRAN_CONTROL_SWITCH_H) &&
+        (current_ekran.current_level <= EKRAN_CONTROL_SWITCH_L)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_CHOOSE_RANG_SWITCH_H) &&
+        (current_ekran.current_level <= EKRAN_CHOOSE_RANG_SWITCH_L)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_RANGUVANNJA_OFF_CB_H) &&
+        (current_ekran.current_level <= EKRAN_RANGUVANNJA_OFF_CB_L)
+       )
+       ||  
+       (
+        (current_ekran.current_level >= EKRAN_RANGUVANNJA_ON_CB_H) &&
+        (current_ekran.current_level <= EKRAN_RANGUVANNJA_ON_CB_L)
+       )
+      )
+      error_window |= (1 << OFF_ON_BIT_CONFIGURATION );
+  }
   //Перевірка ОЗТ
   if ((new_configuration & ( 1<< OZT_BIT_CONFIGURATION )) == 0)
   {
@@ -314,25 +351,15 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     
     unsigned int maska[N_SMALL] = {0, 0, 0}, maska_1[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
   
-    //Перевіряємо, чи ОЗТ зараз знято з конфігурації
-    if ((target_label->configuration & (1<<OZT_BIT_CONFIGURATION)) == 0)
+    //Перевіряємо, чи Блоки Ввімкнення/Вимкнення зараз знято з конфігурації
+    if ((target_label->configuration & (1<<OFF_ON_BIT_CONFIGURATION)) == 0)
     {
-      //Виводим ступені ОЗТ
-      target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
+      //Виводим налаштування Блоків Ввімкнення/Вимкнення
+      for (size_t j = 0; j < NUMBER_OFF_ON; j++) target_label->control_switch[j] &= (unsigned int)(~CTR_PRYVOD_VV);
    
-      //Виводим ступені ОЗТ з УРОВ
-      for (size_t j = 0; j < NUMBER_PRVV; j++)
-      {
-        target_label->control_urov[j] &= (unsigned int)(~(
-                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
-                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
-                                                         )
-                                                       );
-      }
-      
-      //Формуємо маски функцій ОЗТ
+      //Формуємо маски функцій Блоків Ввімкнення/Вимкнення
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
-      for (int i = 0; i < NUMBER_OZT_SIGNAL_FOR_RANG_SMALL; i++)
+      for (int i = 0; i < NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL; i++)
         _SET_BIT(
                  maska, 
                  (
@@ -342,7 +369,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 );
 
       for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
-      for (int i = 0; i < NUMBER_OZT_SIGNAL_FOR_RANG; i++)
+      for (int i = 0; i < NUMBER_OFF_ON_SIGNAL_FOR_RANG; i++)
         _SET_BIT(
                  maska_1, 
                  (
@@ -370,7 +397,96 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
+        {
+          target_label->ranguvannja_off_cb[j][i] &= maska_inv;
+          target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
+        }
+        
+        for (int j = 0; j < NUMBER_DEFINED_FUNCTIONS; j++)
+        {
+          target_label->ranguvannja_df_source_plus[N_BIG*j+i]  &= maska_inv;
+          target_label->ranguvannja_df_source_minus[N_BIG*j+i] &= maska_inv;
+          target_label->ranguvannja_df_source_blk[N_BIG*j+i]   &= maska_inv;
+        }
+        
+        for (int j = 0; j < NUMBER_DEFINED_TRIGGERS; j++)
+        {
+          target_label->ranguvannja_set_dt_source_plus[N_BIG*j+i]    &= maska_inv;
+          target_label->ranguvannja_set_dt_source_minus[N_BIG*j+i]   &= maska_inv;
+          target_label->ranguvannja_reset_dt_source_plus[N_BIG*j+i]  &= maska_inv;
+          target_label->ranguvannja_reset_dt_source_minus[N_BIG*j+i] &= maska_inv;
+        }
+        
+        for(unsigned int j = 0; j < NUMBER_DEFINED_AND; j++) target_label->ranguvannja_d_and[N_BIG*j+i] &= maska_inv;
+        
+        for(unsigned int j = 0; j < NUMBER_DEFINED_OR; j++) target_label->ranguvannja_d_or[N_BIG*j+i] &= maska_inv;
+        
+        for(unsigned int j = 0; j < NUMBER_DEFINED_XOR; j++) target_label->ranguvannja_d_xor[N_BIG*j+i] &= maska_inv;
+        
+        for(unsigned int j = 0; j < NUMBER_DEFINED_NOT; j++) target_label->ranguvannja_d_not[N_BIG*j+i] &= maska_inv; 
+      }
+    }
+  
+    //Перевіряємо, чи ОЗТ зараз знято з конфігурації
+    if ((target_label->configuration & (1<<OZT_BIT_CONFIGURATION)) == 0)
+    {
+      //Виводим ступені ОЗТ
+      target_label->control_ozt &= (unsigned int)(~(CTR_OZT_1 | CTR_OZT_2));
+   
+      //Виводим ступені ОЗТ з УРОВ
+      for (size_t j = 0; j < NUMBER_PRVV; j++)
+      {
+        target_label->control_urov[j] &= (unsigned int)(~(
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1) | 
+                                                          MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2) 
+                                                         )
+                                                       );
+      }
+      
+      //Формуємо маски функцій ОЗТ
+      for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
+      for (int i = 0; i < NUMBER_OZT_SIGNAL_FOR_RANG_SMALL; i++)
+        _SET_BIT(
+                 maska, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL  + 
+                  i
+                 )
+                );
+
+      for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
+      for (int i = 0; i < NUMBER_OZT_SIGNAL_FOR_RANG; i++)
+        _SET_BIT(
+                 maska_1, 
+                 (
+                  NUMBER_GENERAL_SIGNAL_FOR_RANG + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG  +
+                  i
+                 )
+                );
+      
+      //Знімаємо всі функції для ранжування малих масивів
+      for (unsigned int i = 0; i < N_SMALL; i++ )
+      {
+        uint32_t maska_inv = ~maska[i];
+        for (int j = 0; j < NUMBER_DEFINED_BUTTONS; j++) target_label->ranguvannja_buttons[N_SMALL*j + i] &= maska_inv;
+        for (int j = 0; j < NUMBER_INPUTS; j++) target_label->ranguvannja_inputs[N_SMALL*j + i] &= maska_inv;
+      } 
+        
+      //Знімаємо всі функції для ранжування великих масивів
+      for (unsigned int i = 0; i < N_BIG; i++ )
+      {
+        uint32_t maska_inv = ~maska_1[i];
+        for (int j = 0; j < NUMBER_OUTPUTS; j++)  target_label->ranguvannja_outputs[N_BIG*j+i] &= maska_inv;
+        
+        for (int j = 0; j < NUMBER_LEDS; j++)  target_label->ranguvannja_leds[N_BIG*j+i] &= maska_inv;
+        
+        target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
+        target_label->ranguvannja_digital_registrator[i] &= maska_inv;
+        
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -426,6 +542,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL  +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL     +
                   i
                  )
@@ -437,6 +554,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG  +
                   NUMBER_OZT_SIGNAL_FOR_RANG     +
                   i
                  )
@@ -462,7 +580,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -515,6 +633,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL  +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL     +
                   i
@@ -527,6 +646,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG  +
                   NUMBER_OZT_SIGNAL_FOR_RANG     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG     +
                   i
@@ -553,7 +673,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -610,6 +730,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL  +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL   +
@@ -623,6 +744,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG  +
                   NUMBER_OZT_SIGNAL_FOR_RANG     +
                   NUMBER_MTZ_SIGNAL_FOR_RANG     +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG   +
@@ -650,7 +772,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -694,6 +816,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -708,6 +831,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -736,7 +860,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -791,6 +915,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -806,6 +931,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -835,7 +961,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -890,6 +1016,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -906,6 +1033,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -936,7 +1064,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -991,6 +1119,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1008,6 +1137,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1040,7 +1170,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -1084,6 +1214,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1102,6 +1233,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1135,7 +1267,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -1191,6 +1323,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1210,6 +1343,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1244,7 +1378,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -1278,16 +1412,6 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
     //Перевіряємо, чи "Тепловий захист" зараз знято з конфігурації
     if ((target_label->configuration & (1<<TP_BIT_CONFIGURATION)) == 0)
     {
-//      //Виводим ступені "Тепловий захист"
-//      target_label->control_Umax &= (unsigned int)(~(CTR_UMAX1 | CTR_UMAX2));
-//
-//      //Виводим ступені "Тепловий захист" з УРОВ
-//      target_label->control_urov &= (unsigned int)(
-//                                                   ~(
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1) |
-//                                                     MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)
-//                                                    )
-//                                                  );
    
       //Формуємо маски функцій "Тепловий захист"
       for (unsigned int i = 0; i < N_SMALL; i++ ) maska[i] = 0;
@@ -1296,6 +1420,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1316,6 +1441,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1351,7 +1477,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -1401,6 +1527,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1422,6 +1549,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1458,7 +1586,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-        for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+        for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
           target_label->ranguvannja_off_cb[j][i] &= maska_inv;
           target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
@@ -1504,6 +1632,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     +
                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      +
@@ -1525,6 +1654,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                  maska_1, 
                  (
                   NUMBER_GENERAL_SIGNAL_FOR_RANG    + 
+                  NUMBER_OFF_ON_SIGNAL_FOR_RANG     +
                   NUMBER_OZT_SIGNAL_FOR_RANG        +
                   NUMBER_MTZ_SIGNAL_FOR_RANG        +
                   NUMBER_P_3U0_SIGNAL_FOR_RANG      +
@@ -1599,7 +1729,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
       target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
       target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
-      for (size_t j = 0; j < NUMBER_ON_OFF; j++)
+      for (size_t j = 0; j < NUMBER_OFF_ON; j++)
       {
         target_label->ranguvannja_off_cb[j][i] &= maska_inv;
         target_label->ranguvannja_on_cb[j][i]  &= maska_inv;

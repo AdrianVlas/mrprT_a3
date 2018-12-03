@@ -54,8 +54,8 @@ typedef struct
   unsigned int ranguvannja_digital_registrator[N_BIG];    //Ранжування дискретного реєстратора
   
   //Блок ввімкнення-вимкнення вимикача
-  unsigned int ranguvannja_off_cb[NUMBER_ON_OFF][N_BIG];  //Ранжування блоку вимкнення силового вимикача
-  unsigned int ranguvannja_on_cb[NUMBER_ON_OFF][N_BIG];   //Ранжування блоку ввімкнення силового вимикача
+  unsigned int ranguvannja_off_cb[NUMBER_OFF_ON][N_BIG];  //Ранжування блоку вимкнення силового вимикача
+  unsigned int ranguvannja_on_cb[NUMBER_OFF_ON][N_BIG];   //Ранжування блоку ввімкнення силового вимикача
   
   //Тип дискретних виходів
   unsigned int type_of_output;                        //Тип дискретних виходів
@@ -321,11 +321,11 @@ typedef struct
   unsigned int timeout_idle_new_settings;
 
   //Вимикач
-  int timeout_swch_on[NUMBER_ON_OFF];                          //Витримка T вкл.
-  int timeout_swch_off[NUMBER_ON_OFF];                         //Витримка T відкл.
-  int timeout_swch_udl_blk_on[NUMBER_ON_OFF];                  //Витримка T "удлинение сигнала блокировки включения"
-  int timeout_pryvoda_VV[NUMBER_ON_OFF];                       //Витримка T "Привіода ВВ"
-  unsigned int control_switch[NUMBER_ON_OFF];                  //Поле для управління вимикачем
+  int timeout_swch_on[NUMBER_OFF_ON];                          //Витримка T вкл.
+  int timeout_swch_off[NUMBER_OFF_ON];                         //Витримка T відкл.
+  int timeout_swch_udl_blk_on[NUMBER_OFF_ON];                  //Витримка T "удлинение сигнала блокировки включения"
+  int timeout_pryvoda_VV[NUMBER_OFF_ON];                       //Витримка T "Привіода ВВ"
+  unsigned int control_switch[NUMBER_OFF_ON];                  //Поле для управління вимикачем
   
   //Аналоговий реєстратор
   unsigned int prefault_number_periods; //Час доаварійного масиву (кількість періодів промислової частоти)
@@ -564,6 +564,7 @@ typedef enum _id_list
   ID_NOT,
   ID_TF,
   ID_PRVV,
+  ID_OFF_ON,
     
   MAX_NUMBER_IN_ID_LIST
 } __id_list;

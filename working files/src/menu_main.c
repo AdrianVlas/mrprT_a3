@@ -123,7 +123,7 @@ void make_ekran_main(void)
   {
     if ((current_settings.configuration & (1 << zachyst)) == 0)
     {
-      unsigned int i = INDEX_ML1_OZT + zachyst - additional_current;
+      unsigned int i = INDEX_ML1_Off_On + zachyst - additional_current;
     
       if ((i+1) <= position_temp) position_temp--;
       do

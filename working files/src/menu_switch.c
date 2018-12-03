@@ -1,13 +1,5 @@
 #include "header.h"
 
-const uint8_t ind_value[MAX_NAMBER_LANGUAGE][NUMBER_ON_OFF] =
-{
-  {'В', 'Н'},
-  {'В', 'Н'},
-  {'H', 'V'},
-  {'В', 'Н'}
-};
-
 /*****************************************************/
 //Формуємо екран відображення вибору ранжування БВвімк./БВимк.
 /*****************************************************/
@@ -54,7 +46,7 @@ void make_ekran_choose_CBOn_CBOff(uint32_t on_off)
     if (index_of_ekran < MAX_ROW_FOR_LIST_OF_REGISTRATORS)
     {
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran][j];
-      working_ekran[i][ind_index[index_language][index_of_ekran]] = ind_value[index_language][on_off];
+      working_ekran[i][ind_index[index_language][index_of_ekran]] = OFF_ON_value[index_language][on_off];
     }
     else
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
@@ -135,7 +127,7 @@ void make_ekran_timeout_switch(uint32_t on_off)
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
-        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = ind_value[index_language][on_off];
+        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = OFF_ON_value[index_language][on_off];
         
         if (index_of_ekran_tmp == INDEX_ML_TMOON)
         {
@@ -275,28 +267,24 @@ void make_ekran_control_switch(uint32_t on_off)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_SWITCH][MAX_COL_LCD] = 
   {
     {
-      " Контроль ВВ(x) ",
-      "  Ресурс ВВ(x)  "
+      " Контроль ВВ(x) "
     },
     {
-      " Контроль ВВ(x) ",
-      "  Ресурс ВВ(x)  "
+      " Контроль ВВ(x) "
     },
     {
-      " CB Control(x)  ",
-      "  Ресурс ВВ(x)  "
+      " CB Control(x)  "
     },
     {
-      " Контроль ВВ(x) ",
-      "  Ресурс ВВ(x)  "
+      " Контроль ВВ(x) "
     }
   };
   const uint8_t ind_index[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_SWITCH] = 
   {
-    {13, 12},
-    {13, 12},
-    {12, 12},
-    {13, 12}
+    {13},
+    {13},
+    {12},
+    {13}
   };
   
   int index_language = index_language_in_array(current_settings.language);
@@ -317,7 +305,7 @@ void make_ekran_control_switch(uint32_t on_off)
       {
         //У непарному номері рядку виводимо заголовок
         for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
-        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = ind_value[index_language][on_off];
+        working_ekran[i][ind_index[index_language][index_of_ekran_tmp]] = OFF_ON_value[index_language][on_off];
       }
       else
       {

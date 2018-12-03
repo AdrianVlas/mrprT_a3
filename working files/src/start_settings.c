@@ -1333,7 +1333,7 @@ void min_settings(__SETTINGS *target_label)
 
   }
   
-  for(unsigned int i = 0; i < NUMBER_ON_OFF; i++)
+  for(unsigned int i = 0; i < NUMBER_OFF_ON; i++)
   {
     for (unsigned int j = 0; j < N_BIG; j++ ) 
     {

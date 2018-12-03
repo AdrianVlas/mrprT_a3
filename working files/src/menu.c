@@ -671,6 +671,7 @@ void main_manu_function(void)
                 current_ekran.cursor_blinking_on = 0;
               }
               else if(
+                      (current_ekran.index_position == INDEX_ML1_Off_On    ) || 
                       (current_ekran.index_position == INDEX_ML1_OZT       ) || 
                       (current_ekran.index_position == INDEX_ML1_MTZ       ) || 
                       (current_ekran.index_position == INDEX_ML1_P_3U0     ) || 
@@ -679,14 +680,14 @@ void main_manu_function(void)
                       (current_ekran.index_position == INDEX_ML1_ZOP       ) ||
                       (current_ekran.index_position == INDEX_ML1_UMIN      ) ||
                       (current_ekran.index_position == INDEX_ML1_UMAX      ) || 
-                      (current_ekran.index_position == INDEX_ML1_KZ_ZV    ) || 
+                      (current_ekran.index_position == INDEX_ML1_KZ_ZV     ) || 
                       (current_ekran.index_position == INDEX_ML1_GP        ) || 
                       (current_ekran.index_position == INDEX_ML1_TP        ) || 
                       (current_ekran.index_position == INDEX_ML1_UP        )
                      )
               {
-                //Переходимо на меню ОЗТ
-                if(current_ekran.index_position == INDEX_ML1_OZT) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_OZT;
+                //Переходимо на меню Вимкнення/Ввімкнення
+                if(current_ekran.index_position == INDEX_ML1_Off_On) current_ekran.current_level = EKRAN_CHOOSE_LIST_OFF_ON;
                 //Переходимо на меню МТЗ
                 else if(current_ekran.index_position == INDEX_ML1_MTZ) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_MTZ;
                 //Переходимо на меню 3U0
@@ -1468,6 +1469,7 @@ void main_manu_function(void)
     case EKRAN_LIST_TF_FOR_RANGUVANNJA:
     case EKRAN_LIST_BUTTONS_FOR_RANGUVANNJA:
     case EKRAN_CHOOSE_LIST_PRVV:
+    case EKRAN_CHOOSE_LIST_OFF_ON:
     case EKRAN_INFO:
     case EKRAN_DATE_TIME_PZ:
     case EKRAN_POINT_TIME_SETTINGS:
@@ -1724,7 +1726,7 @@ void main_manu_function(void)
             }
             else if (
                      (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_H) &&
-                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_ON_OFF))
+                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_OFF_ON))
                     )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
@@ -1736,7 +1738,7 @@ void main_manu_function(void)
             }
             else if (
                      (current_ekran.current_level >= EKRAN_CHOOSE_RANG_SWITCH_H) &&
-                     (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_ON_OFF))
+                     (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_OFF_ON))
                     )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_RANG_SWITCH) current_ekran.index_position = 0;
@@ -1957,6 +1959,14 @@ void main_manu_function(void)
             
               //Формуємо екран заголовків ПРВВ
               make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
+            }
+            else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_OFF_ON)
+            {
+              if(current_ekran.index_position >= NUMBER_OFF_ON) current_ekran.index_position = 0;
+              position_in_current_level_menu[EKRAN_CHOOSE_LIST_OFF_ON] = current_ekran.index_position;
+            
+              //Формуємо екран заголовків Блоків Ввімкнення/Вимкнення
+              make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_OFF_ON);
             }
             else if (current_ekran.current_level == EKRAN_INFO)
             {
@@ -2821,7 +2831,7 @@ void main_manu_function(void)
               }
               else if (
                      (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_H) &&
-                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_ON_OFF))
+                     (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_OFF_ON))
                       )   
               {
                 //Натисну кнопка Enter у вікні вибору настройок виключателя
@@ -2908,12 +2918,6 @@ void main_manu_function(void)
                   //Переходимо на меню відображення списку дискретних світодіодів
                   current_ekran.current_level = EKRAN_LIST_LEDS_FOR_RANGUVANNJA;
                 }
-//                else if(current_ekran.index_position == INDEX_OF_SWITCHER)
-//                {
-//                  //Запам'ятовуємо поперердній екран
-//                  //Переходимо на меню відображення вибору настройок виключателя
-//                  current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_SWITCHER;
-//                }
                 else if(current_ekran.index_position == INDEX_OF_TRANSFORMATOR)
                 {
                   //Запам'ятовуємо поперердній екран
@@ -3353,6 +3357,15 @@ void main_manu_function(void)
                 //Запам'ятовуємо поперердній екран
                 //Переходимо на меню відображення списку ПРВВ
                 current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_UROV1 + current_ekran.index_position;
+
+                current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
+                current_ekran.edition = 0;
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_OFF_ON)
+              {
+                //Запам'ятовуємо поперердній екран
+                //Переходимо на меню відображення списку Блоків Ввімкнення/Вимкнення
+                current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_SWITCHER_H + current_ekran.index_position;
 
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 0;
@@ -3860,7 +3873,7 @@ void main_manu_function(void)
               }
               else if (
                        (current_ekran.current_level >= EKRAN_CHOOSE_SETTINGS_SWITCHER_H) &&
-                       (current_ekran.current_level < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_ON_OFF))
+                       (current_ekran.current_level < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_OFF_ON))
                       )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER - 1;
@@ -3872,7 +3885,7 @@ void main_manu_function(void)
               }
               else if (
                        (current_ekran.current_level >= EKRAN_CHOOSE_RANG_SWITCH_H) &&
-                       (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_ON_OFF))
+                       (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_OFF_ON))
                       )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_RANG_SWITCH - 1;
@@ -4086,6 +4099,14 @@ void main_manu_function(void)
             
                 //Формуємо екран заголовків ПРВВ
                 make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_OFF_ON)
+              {
+                if(--current_ekran.index_position < 0) current_ekran.index_position = NUMBER_OFF_ON - 1;
+                position_in_current_level_menu[EKRAN_CHOOSE_LIST_OFF_ON] = current_ekran.index_position;
+            
+                //Формуємо екран заголовків Блоків ввімкнення/Вимкнення
+                make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_OFF_ON);
               }
               else if(current_ekran.current_level == EKRAN_INFO)
               {
@@ -4537,7 +4558,7 @@ void main_manu_function(void)
               }
               else if (
                        (current_ekran.current_level >=  EKRAN_CHOOSE_SETTINGS_SWITCHER_H) &&
-                       (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_ON_OFF))
+                       (current_ekran.current_level  < (EKRAN_CHOOSE_SETTINGS_SWITCHER_H + NUMBER_OFF_ON))
                       )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CHOSE_SETTINGS_SWITCHER) current_ekran.index_position = 0;
@@ -4549,7 +4570,7 @@ void main_manu_function(void)
               }
               else if (
                        (current_ekran.current_level >= EKRAN_CHOOSE_RANG_SWITCH_H) &&
-                       (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_ON_OFF))
+                       (current_ekran.current_level < (EKRAN_CHOOSE_RANG_SWITCH_H + NUMBER_OFF_ON))
                       )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_RANG_SWITCH) current_ekran.index_position = 0;
@@ -4773,6 +4794,14 @@ void main_manu_function(void)
             
                 //Формуємо екран заголовків ПРВВ
                 make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_PRVV);
+              }
+              else if (current_ekran.current_level == EKRAN_CHOOSE_LIST_OFF_ON)
+              {
+                if(++current_ekran.index_position >= NUMBER_OFF_ON) current_ekran.index_position = 0;
+                position_in_current_level_menu[EKRAN_CHOOSE_LIST_OFF_ON] = current_ekran.index_position;
+            
+                //Формуємо екран заголовків Блоків Ввімкнення/Вимкнення
+                make_ekran_chose_of_inputs_outputs_leds_df_buttons_for_ranguvannja(ID_OFF_ON);
               }
               else if(current_ekran.current_level == EKRAN_INFO)
               {
@@ -5706,7 +5735,7 @@ void main_manu_function(void)
             }
             else if(
                     (current_ekran.current_level >= EKRAN_TIMEOUT_SWITCH_H) &&
-                    (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                    (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                    )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_TIMEOUT_SWITCH) current_ekran.index_position = 0;
@@ -5716,7 +5745,7 @@ void main_manu_function(void)
             }
             else if (
                      (current_ekran.current_level >= EKRAN_CONTROL_SWITCH_H) &&
-                     (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                     (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                     )   
             {
               if(current_ekran.index_position >= MAX_ROW_FOR_CONTROL_SWITCH) current_ekran.index_position = 0;
@@ -6839,7 +6868,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_H;
@@ -6866,7 +6895,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                        (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level  < (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_H;
@@ -7854,7 +7883,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level  < (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_H;
@@ -7877,7 +7906,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_H;
@@ -10867,7 +10896,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                        (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_H;
@@ -10942,7 +10971,7 @@ void main_manu_function(void)
                 }
                 else if(
                         (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                        (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                        )   
                 {
                   uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_H;
@@ -12663,7 +12692,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_H;
@@ -12689,7 +12718,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >= EKRAN_CONTROL_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_CONTROL_SWITCH - 1;
@@ -14057,7 +14086,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 uint32_t on_off = current_ekran.current_level - EKRAN_TIMEOUT_SWITCH_H;
@@ -14083,7 +14112,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 if(++current_ekran.index_position >= MAX_ROW_FOR_CONTROL_SWITCH) current_ekran.index_position = 0;
@@ -15927,7 +15956,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 if(current_ekran.index_position == INDEX_ML_TMOON)
@@ -15963,14 +15992,13 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 unsigned int maska = 0;
           
                 //Виділяємо, який біт треба міняти
-                if      (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
-                else if (current_ekran.index_position == INDEX_ML_CTRRESURS_VV) maska = CTR_RESURS_VV;
+                if (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
                 
                 uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_H;
                 
@@ -17746,7 +17774,7 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_TIMEOUT_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_TIMEOUT_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 if(current_ekran.index_position == INDEX_ML_TMOON)
@@ -17782,14 +17810,13 @@ void main_manu_function(void)
               }
               else if(
                       (current_ekran.current_level >=  EKRAN_CONTROL_SWITCH_H) &&
-                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_ON_OFF))
+                      (current_ekran.current_level <  (EKRAN_CONTROL_SWITCH_H + NUMBER_OFF_ON))
                      )   
               {
                 unsigned int maska = 0;
           
                 //Виділяємо, який біт треба міняти
-                if      (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
-                else if (current_ekran.index_position == INDEX_ML_CTRRESURS_VV) maska = CTR_RESURS_VV;
+                if (current_ekran.index_position == INDEX_ML_CTRPRYVOD_VV) maska = CTR_PRYVOD_VV;
                 
                 uint32_t on_off = current_ekran.current_level - EKRAN_CONTROL_SWITCH_H;
                 
@@ -18276,6 +18303,7 @@ void main_manu_function(void)
                                                                      /*el_filter,*/
                                                                      1,
                                                                      NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
+                                                                     NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
                                                                      NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
@@ -18513,6 +18541,7 @@ void main_manu_function(void)
                                                                      /*el_filter,*/
                                                                      1,
                                                                      NUMBER_GENERAL_SIGNAL_FOR_RANG,
+                                                                     NUMBER_OFF_ON_SIGNAL_FOR_RANG,
                                                                      NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                      NUMBER_MTZ_SIGNAL_FOR_RANG,
                                                                      NUMBER_P_3U0_SIGNAL_FOR_RANG,
@@ -18716,64 +18745,6 @@ void main_manu_function(void)
                       current_ekran.index_position++;
                     }
                   }
-//                  else if ((current_ekran.current_level >= EKRAN_RANGUVANNJA_OUTPUT_1) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_OUTPUT_LAST))
-//                  {
-//                    unsigned int current_number_output = current_ekran.current_level - EKRAN_RANGUVANNJA_OUTPUT_1;
-//                      
-//                    for (unsigned int i = 0; i < 2; i++)
-//                    {
-//                      unsigned int index_deleted_function;
-//                      unsigned int maska_func[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-//                      unsigned int need_filtration = 0;
-//                      //Визначаємо індекс функції, яку потенційно можливо треба буде фільтрувати із сприску
-//                      //Першою перевіряємо функцію з меншим номером, щоб за одну операцію циклу  можна було переміститися на функцію, яку можна ранжувати
-//                      if (i == 0)
-//                      {
-//                        index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BO : RANG_WORK_BV;
-//                      }
-//                      else
-//                      {
-//                        index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BV : RANG_WORK_BO;
-//                      }
-//        
-//                      //Формуємо маску  для цієї функції
-//                      _SET_BIT(maska_func, index_deleted_function);
-//        
-//                      unsigned int index = 0;
-//                      while ((need_filtration == 0) && (index < NUMBER_OUTPUTS))
-//                      {
-//                        //Пропускаємо текучий номер виходу, бо на ньому дана функція має відображатися під час редагування
-//                        if (index != current_number_output)
-//                        {
-//                          if (
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index    ] & maska_func[0]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 1] & maska_func[1]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 2] & maska_func[2]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 3] & maska_func[3]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 4] & maska_func[4]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 5] & maska_func[5]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 6] & maska_func[6]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 7] & maska_func[7]) != 0) ||
-//                              ((current_settings.ranguvannja_outputs[N_BIG*index + 8] & maska_func[8]) != 0)
-//                             )
-//                          {
-//                            need_filtration = 1;
-//                          }
-//                        }
-//                        index++;
-//                      }
-//                       
-//                      //У випадку, якщо ввстановлено є ситуація, коли треба фільтрувати функції
-//                      if (need_filtration != 0)
-//                      {
-//                        if(index_deleted_function == current_ekran.index_position)
-//                        {
-//                          found_new_index = 0;
-//                          current_ekran.index_position++;
-//                        }
-//                      }
-//                    }
-//                  }
 
                   //Перевіряємо, чи ми не вийшли за допустиму кількість функцій
                   if(current_ekran.index_position >= max_row_ranguvannja)
@@ -19938,6 +19909,7 @@ void main_manu_function(void)
                                                                        /*el_filter,*/
                                                                        0,
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
@@ -20237,6 +20209,7 @@ void main_manu_function(void)
                                                                        /*el_filter,*/
                                                                        0,
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG,
+                                                                       NUMBER_OFF_ON_SIGNAL_FOR_RANG,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG,
                                                                        NUMBER_P_3U0_SIGNAL_FOR_RANG,
@@ -20439,64 +20412,6 @@ void main_manu_function(void)
                         current_ekran.index_position--;
                       }
                     }
-//                    else if ((current_ekran.current_level >= EKRAN_RANGUVANNJA_OUTPUT_1) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_OUTPUT_LAST))
-//                    {
-//                      unsigned int current_number_output = current_ekran.current_level - EKRAN_RANGUVANNJA_OUTPUT_1;
-//                      
-//                      for (unsigned int i = 0; i < 2; i++)
-//                      {
-//                        unsigned int index_deleted_function;
-//                        unsigned int maska_func[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-//                        unsigned int need_filtration = 0;
-//                        //Визначаємо індекс функції, яку потенційно можливо треба буде фільтрувати із сприску
-//                        //Першою перевіряємо функцію з більшим номером, щоб за одну операцію циклу можна було переміститися на функцію, яку можна ранжувати
-//                        if (i == 0)
-//                        {
-//                          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BV : RANG_WORK_BO;
-//                        }
-//                        else
-//                        {
-//                          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BO : RANG_WORK_BV;
-//                        }
-//        
-//                        //Формуємо маску  для цієї функції
-//                        _SET_BIT(maska_func, index_deleted_function);
-//        
-//                        unsigned int index = 0;
-//                        while ((need_filtration == 0) && (index < NUMBER_OUTPUTS))
-//                        {
-//                          //Пропускаємо текучий номер виходу, бо на ньому дана функція має відображатися під час редагування
-//                          if (index != current_number_output)
-//                          {
-//                            if (
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index    ] & maska_func[0]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 1] & maska_func[1]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 2] & maska_func[2]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 3] & maska_func[3]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 4] & maska_func[4]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 5] & maska_func[5]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 6] & maska_func[6]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 7] & maska_func[7]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 8] & maska_func[8]) != 0)
-//                               )
-//                            {
-//                              need_filtration = 1;
-//                            }
-//                          }
-//                          index++;
-//                        }
-//                        
-//                        //У випадку, якщо ввстановлено є ситуація, коли треба фільтрувати функції
-//                        if (need_filtration != 0)
-//                        {
-//                          if(index_deleted_function == current_ekran.index_position)
-//                          {
-//                            found_new_index = 0;
-//                            current_ekran.index_position--;
-//                          }
-//                        }
-//                      }
-//                    }
                     
                     //Перевіряємо, чи ми не вийшли за допустиму кількість функцій
                     if(current_ekran.index_position < 0)
@@ -20621,6 +20536,7 @@ void main_manu_function(void)
                                                                        /*el_filter,*/
                                                                        1,
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL,
+                                                                       NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL,
                                                                        NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL,
@@ -20920,6 +20836,7 @@ void main_manu_function(void)
                                                                        /*el_filter,*/
                                                                        1,
                                                                        NUMBER_GENERAL_SIGNAL_FOR_RANG,
+                                                                       NUMBER_OFF_ON_SIGNAL_FOR_RANG,
                                                                        NUMBER_OZT_SIGNAL_FOR_RANG,
                                                                        NUMBER_MTZ_SIGNAL_FOR_RANG,
                                                                        NUMBER_P_3U0_SIGNAL_FOR_RANG,
@@ -21123,64 +21040,6 @@ void main_manu_function(void)
                         current_ekran.index_position++;
                       }
                     }
-//                    else if ((current_ekran.current_level >= EKRAN_RANGUVANNJA_OUTPUT_1) && (current_ekran.current_level <= EKRAN_RANGUVANNJA_OUTPUT_LAST))
-//                    {
-//                      unsigned int current_number_output = current_ekran.current_level - EKRAN_RANGUVANNJA_OUTPUT_1;
-//                      
-//                      for (unsigned int i = 0; i < 2; i++)
-//                      {
-//                        unsigned int index_deleted_function;
-//                        unsigned int maska_func[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-//                        unsigned int need_filtration = 0;
-//                        //Визначаємо індекс функції, яку потенційно можливо треба буде фільтрувати із сприску
-//                        //Першою перевіряємо функцію з меншим номером, щоб за одну операцію циклу  можна було переміститися на функцію, яку можна ранжувати
-//                        if (i == 0)
-//                        {
-//                          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BO : RANG_WORK_BV;
-//                        }
-//                        else
-//                        {
-//                          index_deleted_function = (RANG_WORK_BV > RANG_WORK_BO) ? RANG_WORK_BV : RANG_WORK_BO;
-//                        }
-//        
-//                        //Формуємо маску  для цієї функції
-//                        _SET_BIT(maska_func, index_deleted_function);
-//        
-//                        unsigned int index = 0;
-//                        while ((need_filtration == 0) && (index < NUMBER_OUTPUTS))
-//                        {
-//                          //Пропускаємо текучий номер виходу, бо на ньому дана функція має відображатися під час редагування
-//                          if (index != current_number_output)
-//                          {
-//                            if (
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index    ] & maska_func[0]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 1] & maska_func[1]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 2] & maska_func[2]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 3] & maska_func[3]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 4] & maska_func[4]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 5] & maska_func[5]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 6] & maska_func[6]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 7] & maska_func[7]) != 0) ||
-//                                ((current_settings.ranguvannja_outputs[N_BIG*index + 8] & maska_func[8]) != 0)
-//                               )
-//                            {
-//                              need_filtration = 1;
-//                            }
-//                          }
-//                          index++;
-//                        }
-//                        
-//                        //У випадку, якщо ввстановлено є ситуація, коли треба фільтрувати функції
-//                        if (need_filtration != 0)
-//                        {
-//                          if(index_deleted_function == current_ekran.index_position)
-//                          {
-//                            found_new_index = 0;
-//                            current_ekran.index_position++;
-//                          }
-//                        }
-//                      }
-//                    }
 
                     //Перевіряємо, чи ми не вийшли за допустиму кількість функцій
                     if(current_ekran.index_position >= max_row_ranguvannja)
