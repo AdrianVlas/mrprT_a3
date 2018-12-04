@@ -490,6 +490,7 @@ __SETTINGS *p_current_settings_prt;
 //                  
 //....................................................................................................
 //=====================================================================================================
+void Bvhs_handler(unsigned int *p_active_functions, unsigned int number_group_stp);
 void Bvhs_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
 // ----------------    -------------------------
   UNUSED(p_active_functions);
@@ -504,6 +505,7 @@ void Bvhs_handler(unsigned int *p_active_functions, unsigned int number_group_st
 //                  
 //....................................................................................................
 //=====================================================================================================
+void Bvls_handler(unsigned int *p_active_functions, unsigned int number_group_stp);
 void Bvls_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
 // ----------------    -------------------------
   UNUSED(p_active_functions);
