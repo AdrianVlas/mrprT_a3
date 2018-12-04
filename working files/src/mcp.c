@@ -32,9 +32,10 @@ Mcp_stp_state mcp_stp_state ;
 //....................................................................................................
 //=====================================================================================================
 void mcp_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
-// ----------------  inner_outer_short_circuit It`s my name	-------------------------
+// ----------------  inner_outer_short_circuit It`s my name -------------------------
 //Calc NCN for 4 stages
-
+  UNUSED(p_active_functions);
+  UNUSED(number_group_stp);
  
 }
 //
@@ -67,7 +68,7 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
      previous_state_mtz_po_incn = ((measurement[IM_IA_L] <= po_i_ncn_setpoint)   &&
                                 (measurement[IM_IB_L] <= po_i_ncn_setpoint) &&
                                 (measurement[IM_IC_L] <= po_i_ncn_setpoint));
-	}
+    }
 else{
      previous_state_mtz_po_incn = ((measurement[IM_IA_H] <= po_i_ncn_setpoint)   &&
                                 (measurement[IM_IB_H] <= po_i_ncn_setpoint) &&
@@ -142,11 +143,11 @@ else{
     tmp_value |= ((measurement[IM_IA_L] >= po_mtz_x) ||
           (measurement[IM_IB_L] >= po_mtz_x) ||
           (measurement[IM_IC_L] >= po_mtz_x)) << 4; //ПО МТЗх
-	}else{
-	    tmp_value |= ((measurement[IM_IA_H] >= po_mtz_x) ||
+    }else{
+        tmp_value |= ((measurement[IM_IA_H] >= po_mtz_x) ||
           (measurement[IM_IB_H] >= po_mtz_x) ||
           (measurement[IM_IC_H] >= po_mtz_x)) << 4; //ПО МТЗх
-	}	
+    }   
     /******ПО МТЗх***********************/
     
     //М
@@ -192,7 +193,7 @@ else{
     direction_ABC_tmp |= (measurement[IM_IB_L] >= po_mtzn_x_vpered_setpoint) << 9; //Сравниваем с уставкой тока по фазе B (вперед)
     direction_ABC_tmp |= (measurement[IM_IC_L] >= po_mtzn_x_vpered_setpoint) << 10; //Сравниваем с уставкой тока по фазе C (вперед)
     }else{
-	direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_vpered_setpoint) << 8; //Сравниваем с уставкой тока по фазе А (вперед)
+    direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_vpered_setpoint) << 8; //Сравниваем с уставкой тока по фазе А (вперед)
     direction_ABC_tmp |= (measurement[IM_IB_H] >= po_mtzn_x_vpered_setpoint) << 9; //Сравниваем с уставкой тока по фазе B (вперед)
     direction_ABC_tmp |= (measurement[IM_IC_H] >= po_mtzn_x_vpered_setpoint) << 10; //Сравниваем с уставкой тока по фазе C (вперед)
     }
@@ -205,7 +206,7 @@ else{
     direction_ABC_tmp |= (measurement[IM_IB_L] >= po_mtzn_x_nazad_setpoint) << 12; //Сравниваем с уставкой тока по фазе B (назад)
     direction_ABC_tmp |= (measurement[IM_IC_L] >= po_mtzn_x_nazad_setpoint) << 13; //Сравниваем с уставкой тока по фазе C (назад)
     }else{
-	direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_nazad_setpoint) << 11; //Сравниваем с уставкой тока по фазе А (назад)
+    direction_ABC_tmp |= (measurement[IM_IA_H] >= po_mtzn_x_nazad_setpoint) << 11; //Сравниваем с уставкой тока по фазе А (назад)
     direction_ABC_tmp |= (measurement[IM_IB_H] >= po_mtzn_x_nazad_setpoint) << 12; //Сравниваем с уставкой тока по фазе B (назад)
     direction_ABC_tmp |= (measurement[IM_IC_H] >= po_mtzn_x_nazad_setpoint) << 13; //Сравниваем с уставкой тока по фазе C (назад)
     }
@@ -268,15 +269,15 @@ else{
     po_mtzpn_x_setpoint = (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]) != 0) ?
             *(setpoint_mtz_po_napruzi[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100:
             *(setpoint_mtz_po_napruzi[mtz_level] + number_group_stp);
-	 if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){	
+     if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){   
     tmp_value |= ((measurement[IM_IA_L] >= po_mtzpn_x_setpoint)   ||
                   (measurement[IM_IB_L] >= po_mtzpn_x_setpoint) ||
                   (measurement[IM_IC_L] >= po_mtzpn_x_setpoint)) << 17; //ПО МТЗПНх
-	}else{
-				  tmp_value |= ((measurement[IM_IA_H] >= po_mtzpn_x_setpoint)   ||
+    }else{
+                  tmp_value |= ((measurement[IM_IA_H] >= po_mtzpn_x_setpoint)   ||
                   (measurement[IM_IB_H] >= po_mtzpn_x_setpoint) ||
                   (measurement[IM_IC_H] >= po_mtzpn_x_setpoint)) << 17; //ПО МТЗПНх
-	}			  
+    }             
     /******ПО МТЗПНх***********************/
     
     if (mtz_level == 1) { //только для 2-ой ступени
@@ -383,19 +384,19 @@ else{
       _AND2(tmp, 3, tmp_value, 24, tmp, 13);
       
       unsigned int i_max;
-	   if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){
-			i_max = measurement[IM_IA_L];
-		if (i_max < measurement[IM_IB_L])
-			i_max = measurement[IM_IB_L];
-		if (i_max < measurement[IM_IC_L])
-			i_max = measurement[IM_IC_L];
-		}else{
-			i_max = measurement[IM_IA_H];
-		if (i_max < measurement[IM_IB_H])
-			i_max = measurement[IM_IB_H];
-		if (i_max < measurement[IM_IC_H])
-			i_max = measurement[IM_IC_H];
-		}
+       if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){
+            i_max = measurement[IM_IA_L];
+        if (i_max < measurement[IM_IB_L])
+            i_max = measurement[IM_IB_L];
+        if (i_max < measurement[IM_IC_L])
+            i_max = measurement[IM_IC_L];
+        }else{
+            i_max = measurement[IM_IA_H];
+        if (i_max < measurement[IM_IB_H])
+            i_max = measurement[IM_IB_H];
+        if (i_max < measurement[IM_IC_H])
+            i_max = measurement[IM_IC_H];
+        }
       _TIMER_T_0_LOCK(INDEX_TIMER_MTZ2_DEPENDENT, timeout_dependent_general(i_max, current_settings_prt.setpoint_mtz_2[number_group_stp], current_settings_prt.timeout_mtz_2[number_group_stp], current_settings_prt.type_mtz2), tmp, 5, p_global_trigger_state_mtz2, 0);
       _TIMER_T_0(INDEX_TIMER_MTZ2_PR, current_settings_prt.timeout_mtz_2_pr[number_group_stp], tmp, 6, tmp, 15);
       _TIMER_T_0(INDEX_TIMER_MTZ2, current_settings_prt.timeout_mtz_2[number_group_stp], tmp, 7, tmp, 16);
@@ -437,107 +438,127 @@ register union {
       unsigned int tz_on  :1;//5
       unsigned int tz_blk :1;//6
       unsigned int tz_dv  :1;//7
-	  
+      
    } bool_vars;
   long lVl;
 }wrp;
 unsigned long u32_bit_holder = 0;
 
-	wrp.lVl = 0;
-	lV = (current_settings.control_GP & (1<< INDEX_ML_CTR_GP_STATE)) ;
-	if(lV != 0)
-		wrp.bool_vars.gz_on = 1;
+    wrp.lVl = 0;
+    lV = (current_settings.control_GP & (1<< INDEX_ML_CTR_GP_STATE)) ;
+    if(lV != 0)
+        wrp.bool_vars.gz_on = 1;
 
-	lV = _CHECK_SET_BIT(p_active_functions,RANG_BLOCK_GP);
-	if(lV != 0){
-		wrp.bool_vars.blk_gz = 1;
+    lV = _CHECK_SET_BIT(p_active_functions,RANG_BLOCK_GP);
+    if(lV != 0)
+        wrp.bool_vars.blk_gz = 1;
 
 
-	
-	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP1);
-	if(lV != 0){
-		wrp.bool_vars.gz1 = 1;	
-	
-	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP2);
-	if(lV != 0)
-		wrp.bool_vars.gz2 = 1;	
-	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP_RPN);
-	if(lV != 0)
-		wrp.bool_vars.gzrpn = 1;		
-	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_TP);
-	if(lV != 0)
-		wrp.bool_vars.tz_dv = 1;	
-	lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_TP);
-	if(lV != 0)
-		wrp.bool_vars.tz_blk = 1;	
-		
-	lV = (current_settings.control_TP & (1<< INDEX_ML_CTR_TP_STATE)) ;
-	if(lV != 0)
-		wrp.bool_vars.tz_on = 1;
-		
-	lV = wrp.lVl&7;	
-	if(lV == 0B101){
-		u32_bit_holder |= 2;
-		_TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 1, u32_bit_holder, 2);
-	}else{
-		//u32_bit_holder ~= 2;
-		_TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 2);
-	}
-	//
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 2))
+    
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP1);
+    if(lV != 0)
+        wrp.bool_vars.gz1 = 1;  
+    
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP2);
+    if(lV != 0)
+        wrp.bool_vars.gz2 = 1;  
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP_RPN);
+    if(lV != 0)
+        wrp.bool_vars.gzrpn = 1;        
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_TP);
+    if(lV != 0)
+        wrp.bool_vars.tz_dv = 1;    
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_TP);
+    if(lV != 0)
+        wrp.bool_vars.tz_blk = 1;   
+        
+    lV = (current_settings.control_TP & (1<< INDEX_ML_CTR_TP_STATE)) ;
+    if(lV != 0)
+        wrp.bool_vars.tz_on = 1;
+        
+    lV = wrp.lVl&7; 
+    if(lV == 5){//0B101
+        u32_bit_holder |= 2;
+        _TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 1, u32_bit_holder, 2);
+    }else{
+        //u32_bit_holder ~= 2;
+        _TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 2);
+    }
+    //
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 2))
     _SET_BIT(p_active_functions, RANG_PO_GP1);
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_GP1); 
-	
-	_TIMER_T_0(INDEX_TIMER_GZ1, current_settings_prt.timeout_GP1[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 3))
+    
+    _TIMER_T_0(INDEX_TIMER_GZ1, current_settings_prt.timeout_GP1[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 3))
     _SET_BIT(p_active_functions, RANG_GP1);
     else
     _CLEAR_BIT(p_active_functions, RANG_GP1); 
-	
-	lV = wrp.lVl&0B1011;	
-	if(lV == 0B1001){
-		u32_bit_holder |= 0x10;
-		_TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder,4 , u32_bit_holder,5 );
-	}else{
-		//u32_bit_holder ~= 2;
-		_TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder,5 );
-	}
-	//
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 5))
+    
+    lV = wrp.lVl&0xb;//0B1011   
+    if(lV == 9){//0B1001
+        u32_bit_holder |= 0x10;
+        _TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder,4 , u32_bit_holder,5 );
+    }else{
+        //u32_bit_holder ~= 2;
+        _TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder,5 );
+    }
+    //
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 5))
     _SET_BIT(p_active_functions, RANG_PO_GP2);
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_GP2); 
-	_TIMER_T_0(INDEX_TIMER_GZ2, current_settings_prt.timeout_GP2[number_group_stp], u32_bit_holder, 5, u32_bit_holder, 6);
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 6))
+    _TIMER_T_0(INDEX_TIMER_GZ2, current_settings_prt.timeout_GP2[number_group_stp], u32_bit_holder, 5, u32_bit_holder, 6);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 6))
     _SET_BIT(p_active_functions, RANG_GP2);
     else
     _CLEAR_BIT(p_active_functions, RANG_GP2); 
-	
-	
-	
-	lV = wrp.lVl&0B10011;	
-	if(lV == 0B10001){
-		u32_bit_holder |= ;
-		_TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 7, u32_bit_holder, 8);
-	}else{
-		//u32_bit_holder ~= 2;
-		_TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 8);
-	}
-	//
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 8))
+    
+  
+    
+    lV = wrp.lVl&0x13;//0B10011 
+    if(lV == 0x11){//0B10001
+        u32_bit_holder |= 0x80;
+        _TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 7, u32_bit_holder, 8);
+    }else{
+        //u32_bit_holder ~= 2;
+        _TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 8);
+    }
+    //
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 8))
     _SET_BIT(p_active_functions, RANG_PO_GP_RPN);
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_GP_RPN); 
-	_TIMER_T_0(INDEX_TIMER_GZ_RPN, current_settings_prt.timeout_GP_RPN[number_group_stp], u32_bit_holder, 9, u32_bit_holder, 10);
-	if (_GET_OUTPUT_STATE(u32_bit_holder, 10))
+    _TIMER_T_0(INDEX_TIMER_GZ_RPN, current_settings_prt.timeout_GP_RPN[number_group_stp], u32_bit_holder, 9, u32_bit_holder, 10);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 10))
     _SET_BIT(p_active_functions, RANG_GP_RPN);
     else
     _CLEAR_BIT(p_active_functions, RANG_GP_RPN); 
-	
-	
+  
+	//u32_bit_holder &= 0xf;
+   lV = wrp.lVl&0xe0;//b11100000 
+    if(lV == 0xa0){//0B1010 0000
+        u32_bit_holder |= 0x800;
+        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 11, u32_bit_holder, 12);
+    }else{
+        //u32_bit_holder ~= 2;
+        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 12);
+    }
+    //
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 12))
+    _SET_BIT(p_active_functions, RANG_PO_TP);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_PO_TP); 
+    
+    _TIMER_T_0(INDEX_TIMER_TZ, current_settings_prt.timeout_TP[number_group_stp], u32_bit_holder, 12, u32_bit_holder, 13);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 13))
+    _SET_BIT(p_active_functions, RANG_TP);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_TP);  
 }
 //
 //--------------------------------------------------------------------------------------------------------
 //````````````````````````````````````````````````````````````````````````````````````````````````````````
- 
+
+
