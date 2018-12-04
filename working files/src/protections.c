@@ -1256,7 +1256,8 @@ inline void clocking_global_timers(void)
 #include "ozt.c "
 #include "G3U0.c"
 #include "umin.c"
-//#include "umax.c"
+#include "kzzv.c"
+#include "mcp.c"
 
 
 /*****************************************************/
@@ -2360,7 +2361,7 @@ inline int timeout_dependent_general(unsigned int i, unsigned int setpoint_mtz_2
   return timeout_result;
 }
 /*****************************************************/
-
+#ifdef MCP_ORIGIN
 /*****************************************************/
 // МТЗ
 /*****************************************************/
@@ -2707,7 +2708,7 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
   }
 }
 /*****************************************************/
-
+#endif
 /*****************************************************/
 //ТЗНП
 /*****************************************************/
@@ -2870,12 +2871,22 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3I0_vpered*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    if (measurement[IM_3I0_r_H] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 3;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	if(ch_type_voltage){//0-VH 1 - VL 
+		if (measurement[IM_3I0_r_L] >= setpoint)
+		{
+		  logic_TZNP_0 |=  1 << 3;
+		  _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	}
+	else{
+		if (measurement[IM_3I0_r_H] >= setpoint)
+		{
+		  logic_TZNP_0 |=  1 << 3;
+		  _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_VPERED));
+	}
     /***/
     
     /***
@@ -2902,6 +2913,8 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
     /***
     ПО 3I0 НАЗАД
     ***/
+	
+
     if (_CHECK_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD)) == 0)
     {
       //Працюємо по уставці спрацювання
@@ -2912,14 +2925,23 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по уставці відпускання
       setpoint = setpoint_tznp_3I0_nazad*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    if (measurement[IM_3I0_r_H] >= setpoint)
-    {
-      logic_TZNP_0 |=  1 << 5;
-      _SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
-    }
-    else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
+	if(ch_type_voltage){//0-VH 1 - VL 
+		if (measurement[IM_3I0_r_L] >= setpoint)
+		{
+		logic_TZNP_0 |=  1 << 5;
+		_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
+	}else{
+		if (measurement[IM_3I0_r_H] >= setpoint)
+		{
+		logic_TZNP_0 |=  1 << 5;
+		_SET_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
+		}
+		else _CLEAR_BIT(p_active_functions, (shift_to_base_rang_index + RANG_PO_3I0_TZNP_NAZAD));
+	}
     /***/
-    
+
     /***
     ПО 3U0 НАЗАД
     ***/
@@ -2996,11 +3018,9 @@ inline void tznp_handler(unsigned int *p_active_functions, unsigned int number_g
 /*****************************************************/
 inline void zop_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
 {
+   //Фуксуємо у локальній змінній текучі струми зворотньої послідовності і прямоїпослідовності
   /*******************************/
-  //Фуксуємо у локальній змінній текучі струми зворотньої послідовності і прямоїпослідовності
-  /*******************************/
-  unsigned int i2_current = measurement[IM_I2_H], i1_current = measurement[IM_I1_H];
-  /*******************************/
+  unsigned int i2_current,i1_current;
   
   /*******************************/
   //1 ступінь ЗОП(КОФ)
@@ -3009,16 +3029,23 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
   {
     //1 ступінь ЗОП(КОФ) включена
     unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
-    unsigned int setpoint_i1, setpoint_i2;
-    unsigned int previous_state_po_zop1;
     
+    unsigned int previous_state_po_zop1;
+    if((current_settings_prt.control_zop & MASKA_FOR_BIT(INDEX_ML_CTRZOP_1_SEL_I)) != 0){//0-VH 1 - VL 
+	i2_current = measurement[IM_I2_L], i1_current = measurement[IM_I1_L];
+	}else{
+	i2_current = measurement[IM_I2_H], i1_current = measurement[IM_I1_H];
+	}
+	unsigned int setpoint_i1, setpoint_i2,i1_bilshe_porogu_tmp,i2_bilshe_porogu_tmp;
+	setpoint_i1 = 0;i1_bilshe_porogu_tmp = i2_bilshe_porogu_tmp = 0;
+  
     if (i1_bilshe_porogu == 0) setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
     else setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2;
-    unsigned int i1_bilshe_porogu_tmp = i1_bilshe_porogu = (i1_current >= setpoint_i1);
+     i1_bilshe_porogu_tmp = i1_bilshe_porogu = (i1_current >= setpoint_i1);
     
     if (i2_bilshe_porogu == 0) setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
     else setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2;
-    unsigned int i2_bilshe_porogu_tmp = i2_bilshe_porogu = (i2_current >= setpoint_i2);
+     i2_bilshe_porogu_tmp = i2_bilshe_porogu = (i2_current >= setpoint_i2);
     
     //Якщо ПО ЗОП(КОФ) ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
     //Якщо ПО ЗОП(КОФ) вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
@@ -3099,6 +3126,111 @@ inline void zop_handler(unsigned int *p_active_functions, unsigned int number_gr
     global_timers[INDEX_TIMER_ZOP1] = -1;
 
   }  
+/*******************************/
+  //2 ступінь ЗОП(КОФ)
+  /*******************************/
+  if ((current_settings_prt.control_zop & MASKA_FOR_BIT(INDEX_ML_CTRZOP_2_STATE)) != 0)
+  {
+    //1 ступінь ЗОП(КОФ) включена
+    unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
+    //unsigned int setpoint_i1, setpoint_i2;
+    unsigned int previous_state_po_zop2;
+	
+	if((current_settings_prt.control_zop & MASKA_FOR_BIT(INDEX_ML_CTRZOP_2_SEL_I)) != 0){//0-VH 1 - VL 
+	i2_current = measurement[IM_I2_L], i1_current = measurement[IM_I1_L];
+	}else{
+	i2_current = measurement[IM_I2_H], i1_current = measurement[IM_I1_H];
+	}
+	unsigned int setpoint_i1, setpoint_i2,i1_bilshe_porogu_tmp,i2_bilshe_porogu_tmp;
+	setpoint_i1 = 0;i1_bilshe_porogu_tmp = i2_bilshe_porogu_tmp = 0;
+  
+    if (i1_bilshe_porogu == 0) setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2;
+     i1_bilshe_porogu_tmp = i1_bilshe_porogu = (i1_current >= setpoint_i1);
+    
+    if (i2_bilshe_porogu == 0) setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2;
+     i2_bilshe_porogu_tmp = i2_bilshe_porogu = (i2_current >= setpoint_i2);
+    
+    //Якщо ПО ЗОП(КОФ) ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
+    //Якщо ПО ЗОП(КОФ) вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
+    if(( previous_state_po_zop2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_ZOP2) ) == 0 )
+    {
+      //Працюємо по утавці спрацювання
+      setpoint = current_settings_prt.setpoint_zop2[number_group_stp];
+    }
+    else
+    {
+      //Працюємо по утавці відпускання
+      setpoint = current_settings_prt.setpoint_zop2[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+    }
+    
+    //Виставляємо, або скидаємо сигнал "ПО КОФ"
+    /*
+    I2
+    -- >= K
+    I1
+    оскільки величина устаки у нас є перемножена на 1000, ,бо 0,010 відповідає 10, а 1,000 відповідає 1000,
+    то K*1000 = SETPOINT =>
+        SETPOINT
+    K = --------  =>
+         1000
+    I2    SETPOINT
+    -- >= ---------
+    I1     1000
+    
+    струми зворотньої і прямої послідовності не треба ні нащо перемножувати, бо вони є у однакових величинах (міліампери), а нас цікавить їх відношення
+    
+    (I2*1000) >= (SETPOINT*I1)
+    */
+    if (
+        (i1_bilshe_porogu_tmp != 0) &&
+        (i2_bilshe_porogu_tmp != 0) &&
+        ((i2_current*1000) >= (i1_current*setpoint))                            && 
+        (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_ZOP2) == 0)
+       )
+    {
+      //Існує умова активного пускового органу зворотньої послідовності
+      if(previous_state_po_zop2 == 0)
+      {
+        //Встановлюємо сигнал "ПО КОФ"
+        _SET_BIT(p_active_functions, RANG_PO_ZOP2);
+      
+        //Запускаємо таймер ЗОП(КОФ), якщо він ще не запущений
+        global_timers[INDEX_TIMER_ZOP2] = 0;
+      }
+    }
+    else 
+    {
+      //Не існує умови активного пускового органу зворотньої послідовності
+      if(previous_state_po_zop2 != 0)
+      {
+        //Скидаємо сигнал "ПО КОФ"
+        _CLEAR_BIT(p_active_functions, RANG_PO_ZOP2);
+        //Це є умовою також скидання сигналу "Сраб. КОФ"
+        _CLEAR_BIT(p_active_functions, RANG_ZOP2);
+        //Якщо таймер ще не скинутий? то скидаємо його
+        if ( global_timers[INDEX_TIMER_ZOP2] >=0) global_timers[INDEX_TIMER_ZOP2] = -1;
+      }
+    }
+    
+    if(global_timers[INDEX_TIMER_ZOP2] >= current_settings_prt.timeout_zop2[number_group_stp])
+    {
+      //Якщо витримана Витримка ЗОП(КОФ) то встановлюємо сигнал "Сраб. КОФ"
+      _SET_BIT(p_active_functions, RANG_ZOP2);
+
+      //Скидаємо таймер ЗОП(КОФ)
+      global_timers[INDEX_TIMER_ZOP2] = -1;
+    }
+  }
+  else
+  {
+    //Треба скинути всі таймери і сигнали, які за 2 ступінь ЗОП(КОФ) відповідають
+    _CLEAR_BIT(p_active_functions, RANG_PO_ZOP2);
+    _CLEAR_BIT(p_active_functions, RANG_ZOP2);
+    global_timers[INDEX_TIMER_ZOP2] = -1;
+
+  } 
 }
 /*****************************************************/
 
@@ -3474,25 +3606,19 @@ void ready_tu(unsigned int *p_active_functions)
     _CLEAR_BIT(p_active_functions, RANG_READY_TU);
 }
 /*****************************************************/
-
 /*****************************************************/
 // УРОВ
 /*****************************************************/
 inline void urov_handler(unsigned int *p_active_functions, unsigned int number_group_stp)
 {
-  /*******************************/
-  //Визначаємо максимальний фазовий струм для УРОВ
-  /*******************************/
-  unsigned int max_faze_current = measurement[IM_IA_H];
-  if (max_faze_current < measurement[IM_IB_H]) max_faze_current = measurement[IM_IB_H];
-  if (max_faze_current < measurement[IM_IC_H]) max_faze_current = measurement[IM_IC_H];
+
   /*******************************/
   
   /*******************************/
-  uint32_t state_UROV = (( current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE)) != 0);
+  uint32_t state_UROV1 = (( current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE)) != 0);
   uint32_t start_from_UP = false;
   if (
-      (state_UROV != 0) &&
+      (state_UROV1 != 0) &&
       ((current_settings_prt.control_urov[0] & ((MASKA_FOR_BIT(NUMBER_UP) - 1) << INDEX_ML_CTRUROV_STARTED_FROM_UP1)) != 0)
      )   
   {
@@ -3510,7 +3636,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
   }
   
   if(
-     (state_UROV != 0) &&
+     (state_UROV1 != 0) &&
      (
       (start_from_UP == true) ||
       (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_UROV1_VID_DV) != 0) ||
@@ -3537,11 +3663,11 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     //Є умова запуску УРОВ
     
     unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
-    unsigned int previous_state_po_urov;
+    unsigned int previous_state_po_urov1;
     
     //Якщо ПО УРОВ ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
     //Якщо ПО УРОВ вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
-    if(( previous_state_po_urov = _CHECK_SET_BIT(p_active_functions, RANG_PO_UROV1) ) ==0 )
+    if(( previous_state_po_urov1 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UROV1) ) ==0 )
     {
       //Працюємо по утавці спрацювання
       setpoint = current_settings_prt.setpoint_urov[0][number_group_stp];
@@ -3551,12 +3677,25 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
       //Працюємо по утавці відпускання
       setpoint = current_settings_prt.setpoint_urov[0][number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
     }
-    
+  /*******************************/
+  //Визначаємо максимальний фазовий струм для УРОВ
+  /*******************************/
+  unsigned int max_faze_current = measurement[IM_IA_H];
+  if(((current_settings_prt.control_urov[0] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_SEL_I)  ) != 0)){
+  max_faze_current = measurement[IM_IA_L];
+  if (max_faze_current < measurement[IM_IB_L]) max_faze_current = measurement[IM_IB_L];
+  if (max_faze_current < measurement[IM_IC_L]) max_faze_current = measurement[IM_IC_L];
+  }
+  else{
+   max_faze_current = measurement[IM_IA_H];
+  if (max_faze_current < measurement[IM_IB_H]) max_faze_current = measurement[IM_IB_H];
+  if (max_faze_current < measurement[IM_IC_H]) max_faze_current = measurement[IM_IC_H];
+  }
     //Виставляємо, або скидаємо сигнал "ПО УРОВ"
     if (max_faze_current >= setpoint)
     {
       //Максимальний фазний стум перевищує свою уставку
-      if(previous_state_po_urov == 0)
+      if(previous_state_po_urov1 == 0)
       {
         //Встановлюємо сигнал "ПО УРОВ"
         _SET_BIT(p_active_functions, RANG_PO_UROV1);
@@ -3569,7 +3708,7 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     else 
     {
       //Максимальний фазний стум нижче уставки
-      if(previous_state_po_urov != 0)
+      if(previous_state_po_urov1 != 0)
       {
         //Скидаємо сигнал "ПО УРОВ"
         _CLEAR_BIT(p_active_functions, RANG_PO_UROV1);
@@ -3610,8 +3749,150 @@ inline void urov_handler(unsigned int *p_active_functions, unsigned int number_g
     _CLEAR_BIT(p_active_functions, RANG_UROV1_2);
     global_timers[INDEX_TIMER_UROV1_1] = -1;
     global_timers[INDEX_TIMER_UROV1_2] = -1;
+  }
+  //////////////////////////////==========================================================////////////////////////////////
+
+  /*******************************/
+  
+  /*******************************/
+  uint32_t state_UROV2 = (( current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STATE)) != 0);
+  //uint32_t start_from_UP = false;
+  if (
+      (state_UROV2 != 0) &&
+      ((current_settings_prt.control_urov[1] & ((MASKA_FOR_BIT(NUMBER_UP) - 1) << INDEX_ML_CTRUROV_STARTED_FROM_UP1)) != 0)
+     )   
+  {
+    //Налаштовано запуск ПРЗЗ від УЗ
+    for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)
+    {
+      if ( 
+          ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UP1 + n_UP)) != 0) && 
+          (_CHECK_SET_BIT(p_active_functions, (RANG_UP1 + 3*n_UP)      ) != 0)
+         )
+      {
+        start_from_UP = true;
+      }
+    }
+  }
+  
+  if(
+     (state_UROV2 != 0) &&
+     (
+      (start_from_UP == true) ||
+      (_CHECK_SET_BIT(p_active_functions, RANG_PUSK_UROV1_VID_DV) != 0) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_OZT1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_OZT2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_OZT2  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ2  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ3)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ3  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_MTZ4)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_MTZ4  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_P_3U0)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_P_3U0 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP2 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP3)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP3 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_TZNP4)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_TZNP4 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP1)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP1  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_ZOP2)   ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_ZOP2  ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMIN2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMIN2 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX1)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX1 ) != 0)) ||
+      ( ((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_STARTED_FROM_UMAX2)  ) != 0) && (_CHECK_SET_BIT(p_active_functions, RANG_UMAX2 ) != 0))
+     )     
+    )
+  {
+    //Є умова запуску УРОВ
+    
+    unsigned int setpoint; //уставка - з якою зрівнюється вимірювальна величина
+    unsigned int previous_state_po_urov2;
+    
+    //Якщо ПО УРОВ ще не активне, то треба працювати по устаці спацювання - уставці, яка вводиться як основна з системи меню чи верхнього рівня
+    //Якщо ПО УРОВ вже спрацювало, то треба працювати по уставці відпускання - береться процент від основної утанки по коефіцієнту повернення
+    if(( previous_state_po_urov2 = _CHECK_SET_BIT(p_active_functions, RANG_PO_UROV2) ) ==0 )
+    {
+      //Працюємо по утавці спрацювання
+      setpoint = current_settings_prt.setpoint_urov[1][number_group_stp];
+    }
+    else
+    {
+      //Працюємо по утавці відпускання
+      setpoint = current_settings_prt.setpoint_urov[1][number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+    }
+	unsigned int max_faze_current = measurement[IM_IA_L];
+  /*******************************/
+  //Визначаємо максимальний фазовий струм для УРОВ
+  /*******************************/
+  if(((current_settings_prt.control_urov[1] & MASKA_FOR_BIT(INDEX_ML_CTRUROV_SEL_I)  ) != 0)){
+   max_faze_current = measurement[IM_IA_L];
+  if (max_faze_current < measurement[IM_IB_L]) max_faze_current = measurement[IM_IB_L];
+  if (max_faze_current < measurement[IM_IC_L]) max_faze_current = measurement[IM_IC_L];
+  }
+  else{
+   max_faze_current = measurement[IM_IA_H];
+  if (max_faze_current < measurement[IM_IB_H]) max_faze_current = measurement[IM_IB_H];
+  if (max_faze_current < measurement[IM_IC_H]) max_faze_current = measurement[IM_IC_H];
+  }
+    //Виставляємо, або скидаємо сигнал "ПО УРОВ"
+    if (max_faze_current >= setpoint)
+    {
+      //Максимальний фазний стум перевищує свою уставку
+      if(previous_state_po_urov2 == 0)
+      {
+        //Встановлюємо сигнал "ПО УРОВ"
+        _SET_BIT(p_active_functions, RANG_PO_UROV2);
+      
+        //Запускаємо таймери УРОВ1 і УРОВ2, якщо вони ще не запущені
+        global_timers[INDEX_TIMER_UROV2_1] = 0;
+        global_timers[INDEX_TIMER_UROV2_2] = 0;
+      }
+    }
+    else 
+    {
+      //Максимальний фазний стум нижче уставки
+      if(previous_state_po_urov2 != 0)
+      {
+        //Скидаємо сигнал "ПО УРОВ"
+        _CLEAR_BIT(p_active_functions, RANG_PO_UROV2);
+        //Це є умовою також скидання сигналів "Сраб. УРОВ1" і "Сраб. УРОВ2"
+        _CLEAR_BIT(p_active_functions, RANG_UROV2_1);
+        _CLEAR_BIT(p_active_functions, RANG_UROV2_2);
+        //Якщо таймери ще не скинуті, то скидаємо їх
+        if ( global_timers[INDEX_TIMER_UROV2_1] >=0) global_timers[INDEX_TIMER_UROV2_1] = -1;
+        if ( global_timers[INDEX_TIMER_UROV2_2] >=0) global_timers[INDEX_TIMER_UROV2_2] = -1;
+      }
+    }
+    
+    //Перевіряємо чи таймер УРОВ2 досягнув значення своєї витримки
+    if(global_timers[INDEX_TIMER_UROV2_1] >= current_settings_prt.timeout_urov_1[1][number_group_stp])
+    {
+      //Якщо витримана Витримка УРОВ1 то встановлюємо сигнал "Сраб. УРОВ1"
+      _SET_BIT(p_active_functions, RANG_UROV2_1);
+
+      //Скидаємо таймер УРОВ2
+      global_timers[INDEX_TIMER_UROV2_1] = -1;
+    }
+
+    //Перевіряємо чи таймер УРОВ2 досягнув значення своєї витримки
+    if(global_timers[INDEX_TIMER_UROV2_2] >= current_settings_prt.timeout_urov_2[1][number_group_stp])
+    {
+      //Якщо витримана Витримка УРОВ2 то встановлюємо сигнал "Сраб. УРОВ2"
+      _SET_BIT(p_active_functions, RANG_UROV2_2);
+
+      //Скидаємо таймер УРОВ2
+      global_timers[INDEX_TIMER_UROV2_2] = -1;
+    }
+  }
+  else
+  {
+    //Треба скинути всі таймери і сигнали, які за УРОВ відповідають
+    _CLEAR_BIT(p_active_functions, RANG_PO_UROV2);
+    _CLEAR_BIT(p_active_functions, RANG_UROV2_1);
+    _CLEAR_BIT(p_active_functions, RANG_UROV2_2);
+    global_timers[INDEX_TIMER_UROV2_1] = -1;
+    global_timers[INDEX_TIMER_UROV2_2] = -1;
   }  
-}
+}  
+
+
   /*******************************/
 /*****************************************************/
 
