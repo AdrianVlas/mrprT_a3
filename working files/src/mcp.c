@@ -285,7 +285,7 @@ else{
       //М
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENA) != 0) << 10; //МТЗ2 Ускоренная
       //ДВ
-      tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV) != 0) << 18; //Положение ВВ
+      tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_L) != 0) << 18; //Положение ВВ
       //M
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENNJA) != 0) << 11; //Ускорение МТЗ2 вкл.
     }
@@ -446,16 +446,18 @@ unsigned long u32_bit_holder = 0;
 	wrp.lVl = 0;
 	lV = (current_settings.control_GP & (1<< INDEX_ML_CTR_GP_STATE)) ;
 	if(lV != 0)
-		wrp.bool_vars.gz_on = 1;	
-	
+		wrp.bool_vars.gz_on = 1;
+
 	lV = _CHECK_SET_BIT(p_active_functions,RANG_BLOCK_GP);
-	if(lV != 0)
-		wrp.bool_vars.blk_gz = 1;	
-		
+	if(lV != 0){
+		wrp.bool_vars.blk_gz = 1;
+
+
+	
 	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP1);
-	if(lV != 0)
+	if(lV != 0){
 		wrp.bool_vars.gz1 = 1;	
-		
+	
 	lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP2);
 	if(lV != 0)
 		wrp.bool_vars.gz2 = 1;	
@@ -473,7 +475,67 @@ unsigned long u32_bit_holder = 0;
 	if(lV != 0)
 		wrp.bool_vars.tz_on = 1;
 		
-	u32_bit_holder = 0;
+	lV = wrp.lVl&7;	
+	if(lV == 0B101){
+		u32_bit_holder |= 2;
+		_TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 1, u32_bit_holder, 2);
+	}else{
+		//u32_bit_holder ~= 2;
+		_TIMER_0_T(INDEX_TIMER_GZ1_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 2);
+	}
+	//
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 2))
+    _SET_BIT(p_active_functions, RANG_PO_GP1);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_PO_GP1); 
+	
+	_TIMER_T_0(INDEX_TIMER_GZ1, current_settings_prt.timeout_GP1[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 3))
+    _SET_BIT(p_active_functions, RANG_GP1);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_GP1); 
+	
+	lV = wrp.lVl&0B1011;	
+	if(lV == 0B1001){
+		u32_bit_holder |= 0x10;
+		_TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder,4 , u32_bit_holder,5 );
+	}else{
+		//u32_bit_holder ~= 2;
+		_TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder,5 );
+	}
+	//
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 5))
+    _SET_BIT(p_active_functions, RANG_PO_GP2);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_PO_GP2); 
+	_TIMER_T_0(INDEX_TIMER_GZ2, current_settings_prt.timeout_GP2[number_group_stp], u32_bit_holder, 5, u32_bit_holder, 6);
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 6))
+    _SET_BIT(p_active_functions, RANG_GP2);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_GP2); 
+	
+	
+	
+	lV = wrp.lVl&0B10011;	
+	if(lV == 0B10001){
+		u32_bit_holder |= ;
+		_TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 7, u32_bit_holder, 8);
+	}else{
+		//u32_bit_holder ~= 2;
+		_TIMER_0_T(INDEX_TIMER_GZ_RPN_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 8);
+	}
+	//
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 8))
+    _SET_BIT(p_active_functions, RANG_PO_GP_RPN);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_PO_GP_RPN); 
+	_TIMER_T_0(INDEX_TIMER_GZ_RPN, current_settings_prt.timeout_GP_RPN[number_group_stp], u32_bit_holder, 9, u32_bit_holder, 10);
+	if (_GET_OUTPUT_STATE(u32_bit_holder, 10))
+    _SET_BIT(p_active_functions, RANG_GP_RPN);
+    else
+    _CLEAR_BIT(p_active_functions, RANG_GP_RPN); 
+	
+	
 }
 //
 //--------------------------------------------------------------------------------------------------------
