@@ -1333,13 +1333,19 @@ void min_settings(__SETTINGS *target_label)
 
   }
   
-  for(unsigned int i = 0; i < NUMBER_ON_OFF; i++)
+  for(unsigned int i = 0; i < NUMBER_OFF_ON; i++)
   {
     for (unsigned int j = 0; j < N_BIG; j++ ) 
     {
       target_label->ranguvannja_off_cb[i][j] = 0x0;
       target_label->ranguvannja_on_cb[i][j] = 0x0;
     }
+  
+    target_label->timeout_swch_on[i] = TIMEOUT_SWCH_ON_MIN;
+    target_label->timeout_swch_off[i] = TIMEOUT_SWCH_OFF_MIN;
+    target_label->timeout_swch_udl_blk_on[i] = TIMEOUT_SWCH_UDL_BLK_ON_MIN;
+    target_label->timeout_pryvoda_VV[i] = TIMEOUT_PRYVODA_VV_MIN;
+    target_label->control_switch[i] = 0;
   }
   
   target_label->number_iteration_el = NUMBER_ITERATION_EL_MAX;
@@ -1434,8 +1440,6 @@ void min_settings(__SETTINGS *target_label)
   
   for (unsigned int i = 0; i < NUMBER_GROUP_USTAVOK; i++)
   {
-    target_label->pickup_ozt_BB[i] = PICKUP_OZT_BB_MIN;
-    target_label->pickup_ozt_BH[i] = PICKUP_OZT_BH_MIN;
     target_label->pickup_ozt_Id0[i] = PICKUP_OZT_Id0_MIN;
     target_label->pickup_ozt_delta_Id[i] = PICKUP_OZT_DELTA_Id_MIN;
     target_label->pickup_ozt_Kg1[i] = PICKUP_OZT_Kg1_MIN;
@@ -1626,12 +1630,6 @@ void min_settings(__SETTINGS *target_label)
     }
   }
 
-  target_label->timeout_swch_on = TIMEOUT_SWCH_ON_MIN;
-  target_label->timeout_swch_off = TIMEOUT_SWCH_OFF_MIN;
-  target_label->timeout_swch_udl_blk_on = TIMEOUT_SWCH_UDL_BLK_ON_MIN;
-  target_label->timeout_pryvoda_VV = TIMEOUT_PRYVODA_VV_MIN;
-  target_label->control_switch = 0;
-  
   target_label->prefault_number_periods = TIMEOUT_PREFAULT_MIN / 20;
   target_label->postfault_number_periods = TIMEOUT_POSTFAULT_MIN / 20;
 
@@ -1644,9 +1642,11 @@ void min_settings(__SETTINGS *target_label)
   
   target_label->timeout_idle_new_settings = TIMEOUT_NEW_SETTINGS_MIN;
   
-  target_label->TCurrent_HV = KOEF_TT_HV_MIN;
-  target_label->TCurrent_LV = KOEF_TT_LV_MIN;
+  target_label->TCurrent_H = KOEF_TT_H_MIN;
+  target_label->TCurrent_L = KOEF_TT_L_MIN;
   target_label->TVoltage = KOEF_TN_MIN;
+  target_label->pickup_vyr_H = PICKUP_VYR_H_MIN;
+  target_label->pickup_vyr_L = PICKUP_VYR_L_MIN;
   target_label->control_transformator = MASKA_FOR_BIT(INDEX_ML_CTR_TRANSFORMATOR_PHASE_LINE);
 
   for(unsigned int i=0; i< ((M_ADDRESS_LAST_USER_REGISTER_DATA - M_ADDRESS_FIRST_USER_REGISTER_DATA) + 1); i++) target_label->user_register[i] = 0;

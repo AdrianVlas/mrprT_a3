@@ -54,8 +54,8 @@ typedef struct
   unsigned int ranguvannja_digital_registrator[N_BIG];    //Ранжування дискретного реєстратора
   
   //Блок ввімкнення-вимкнення вимикача
-  unsigned int ranguvannja_off_cb[NUMBER_ON_OFF][N_BIG];  //Ранжування блоку вимкнення силового вимикача
-  unsigned int ranguvannja_on_cb[NUMBER_ON_OFF][N_BIG];   //Ранжування блоку ввімкнення силового вимикача
+  unsigned int ranguvannja_off_cb[NUMBER_OFF_ON][N_BIG];  //Ранжування блоку вимкнення силового вимикача
+  unsigned int ranguvannja_on_cb[NUMBER_OFF_ON][N_BIG];   //Ранжування блоку ввімкнення силового вимикача
   
   //Тип дискретних виходів
   unsigned int type_of_output;                        //Тип дискретних виходів
@@ -117,8 +117,6 @@ typedef struct
   //ОЗТ
   int32_t type_con_ozt;                                         //Група з'єднань (0 - Група 1; 1 - Група 1; 2 - Група 11)
   /*Диф.струм*/
-  uint32_t pickup_ozt_BB[NUMBER_GROUP_USTAVOK];                 //Вирівнювання В – уставка вирівнювання високої сторони #5.3.3 
-  uint32_t pickup_ozt_BH[NUMBER_GROUP_USTAVOK];                 //Вирівнювання Н – уставка вирівнювання низької сторони  #5.3.3
   uint32_t pickup_ozt_Id0[NUMBER_GROUP_USTAVOK];                //Уставка Id0 (початкова горизонтальна ділянка)#5.3.29
   uint32_t pickup_ozt_delta_Id[NUMBER_GROUP_USTAVOK];           //Уставка  Дельта Iд.відс. #5.3.20
   /*Гальмування*/
@@ -306,9 +304,11 @@ typedef struct
   uint32_t control_UP;                                          //Поля для управління
   int32_t ctrl_UP_input[NUMBER_UP];                             //Вибір входу Універсального захисту
 
-  unsigned int TCurrent_HV;             //Коефіцієнт трансформації для трансформатора струмів високої сторони
-  unsigned int TCurrent_LV;             //Коефіцієнт трансформації для трансформатора струмів низької сторони
+  unsigned int TCurrent_H;              //Коефіцієнт трансформації для трансформатора струмів високої сторони
+  unsigned int TCurrent_L;              //Коефіцієнт трансформації для трансформатора струмів низької сторони
   unsigned int TVoltage;                //Коефіцієнт трансформації для трансформатора напруг
+  uint32_t pickup_vyr_H;                //Вирівнювання В – уставка вирівнювання високої сторони #5.3.3 
+  uint32_t pickup_vyr_L;                //Вирівнювання Н – уставка вирівнювання низької сторони  #5.3.3
   unsigned int control_transformator;   //налаштування для меню "Трансформатор"
   
   unsigned int password1;                                       //Пароль для редагування з меню
@@ -321,11 +321,11 @@ typedef struct
   unsigned int timeout_idle_new_settings;
 
   //Вимикач
-  int timeout_swch_on;                          //Витримка T вкл.
-  int timeout_swch_off;                         //Витримка T відкл.
-  int timeout_swch_udl_blk_on;                  //Витримка T "удлинение сигнала блокировки включения"
-  int timeout_pryvoda_VV;                       //Витримка T "Привіода ВВ"
-  unsigned int control_switch;                  //Поле для управління вимикачем
+  int timeout_swch_on[NUMBER_OFF_ON];                          //Витримка T вкл.
+  int timeout_swch_off[NUMBER_OFF_ON];                         //Витримка T відкл.
+  int timeout_swch_udl_blk_on[NUMBER_OFF_ON];                  //Витримка T "удлинение сигнала блокировки включения"
+  int timeout_pryvoda_VV[NUMBER_OFF_ON];                       //Витримка T "Привіода ВВ"
+  unsigned int control_switch[NUMBER_OFF_ON];                  //Поле для управління вимикачем
   
   //Аналоговий реєстратор
   unsigned int prefault_number_periods; //Час доаварійного масиву (кількість періодів промислової частоти)
@@ -564,6 +564,7 @@ typedef enum _id_list
   ID_NOT,
   ID_TF,
   ID_PRVV,
+  ID_OFF_ON,
     
   MAX_NUMBER_IN_ID_LIST
 } __id_list;

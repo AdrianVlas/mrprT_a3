@@ -4240,51 +4240,51 @@ inline void on_off_handler(unsigned int *p_active_functions)
   //Спочатку опрацьовуємо таймери
   /*********************/
   //Таймер  відключення
-  if (global_timers[INDEX_TIMER_VIDKL_VV] >= 0)
+  if (global_timers[INDEX_TIMER_VIDKL_VV_H] >= 0)
   {
     //Таймер БО зараз активний і як мінімум тільки зараз завершить свою роботу
-    if (global_timers[INDEX_TIMER_VIDKL_VV] >= current_settings_prt.timeout_swch_off)
+    if (global_timers[INDEX_TIMER_VIDKL_VV_H] >= current_settings_prt.timeout_swch_off[0])
     {
       //Таймер досягнув свого максимального значення
-      global_timers[INDEX_TIMER_VIDKL_VV] = -1;
+      global_timers[INDEX_TIMER_VIDKL_VV_H] = -1;
       //Відмічаємо у масиві функцій, які зараз активуються, що блок БО має бути деативованим
       _CLEAR_BIT(p_active_functions, RANG_WORK_BO_H);
     }
     //Незавершена робота блоку БО означає, що таймер блокування БВ має бути запущений і знаходитися у свому початковому значенні,
     //щоб як тільки блок БО відпрацює, щоб блокування включення почалося на весь час з моменту закінчення роботи блоку БО
-    global_timers[INDEX_TIMER_BLK_VKL_VV] = 0;
+    global_timers[INDEX_TIMER_BLK_VKL_VV_H] = 0;
   }
     
   //Таймер  блокування включення
-  if (global_timers[INDEX_TIMER_BLK_VKL_VV] >= 0)
+  if (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >= 0)
   {
     //Таймер блокування включення БВ зараз активний і як мінімум тільки зараз завершить свою роботу
-    if (global_timers[INDEX_TIMER_BLK_VKL_VV] >= current_settings_prt.timeout_swch_udl_blk_on)
+    if (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >= current_settings_prt.timeout_swch_udl_blk_on[0])
     {
       //Таймер досягнув свого максимального значення
-      global_timers[INDEX_TIMER_BLK_VKL_VV] = -1;
+      global_timers[INDEX_TIMER_BLK_VKL_VV_H] = -1;
     }
   }
 
   //Таймер  включення
-  if (global_timers[INDEX_TIMER_VKL_VV] >= 0)
+  if (global_timers[INDEX_TIMER_VKL_VV_H] >= 0)
   {
     //Таймер БВ зараз активний і як мінімум тільки зараз завершить свою роботу
 
     //Якщо по якійсь причині таймер включення працює, при умові, що таймери БО і блокування включення ще не скинуті, то таймер включення треба скинути
-    if ((global_timers[INDEX_TIMER_VIDKL_VV] >= 0) || (global_timers[INDEX_TIMER_BLK_VKL_VV] >=0))
+    if ((global_timers[INDEX_TIMER_VIDKL_VV_H] >= 0) || (global_timers[INDEX_TIMER_BLK_VKL_VV_H] >=0))
     {
-      global_timers[INDEX_TIMER_VKL_VV] = -1;
+      global_timers[INDEX_TIMER_VKL_VV_H] = -1;
       //Відмічаємо у масиві функцій, які зараз активуються, що блок БB має бути деативованим
       _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
     }
     else
     {
       //Перевіряємо, чи таймер включення не досягнув свого масимального значення
-      if (global_timers[INDEX_TIMER_VKL_VV] >= current_settings_prt.timeout_swch_on)
+      if (global_timers[INDEX_TIMER_VKL_VV_H] >= current_settings_prt.timeout_swch_on[0])
       {
         //Таймер досягнув свого максимального значення
-        global_timers[INDEX_TIMER_VKL_VV] = -1;
+        global_timers[INDEX_TIMER_VKL_VV_H] = -1;
         //Відмічаємо у масиві функцій, які зараз активуються, що блок БB має бути деативованим
         _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
       }
@@ -4316,13 +4316,13 @@ inline void on_off_handler(unsigned int *p_active_functions)
     _SET_BIT(p_active_functions, RANG_WORK_BO_H);
 
     //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БО) таймери: блоку БО, блокуванння БВ.
-    global_timers[INDEX_TIMER_VIDKL_VV  ] = 0;
-    global_timers[INDEX_TIMER_BLK_VKL_VV] = 0;
+    global_timers[INDEX_TIMER_VIDKL_VV_H  ] = 0;
+    global_timers[INDEX_TIMER_BLK_VKL_VV_H] = 0;
     
     //Скидаємо активацію блоку ввімкнення
     _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
     //Скидаємо таймер блку вимкнення
-    global_timers[INDEX_TIMER_VKL_VV] = -1;  
+    global_timers[INDEX_TIMER_VKL_VV_H] = -1;  
 
     /*
     Формуємо сигнал "Відключення від захистів" (він рівний наявності умови команди
@@ -4591,8 +4591,8 @@ inline void on_off_handler(unsigned int *p_active_functions)
   //Потім розглядається блок включення
   /*********************/
   if (
-      (global_timers[INDEX_TIMER_VIDKL_VV  ] < 0) && 
-      (global_timers[INDEX_TIMER_BLK_VKL_VV] < 0) &&
+      (global_timers[INDEX_TIMER_VIDKL_VV_H  ] < 0) && 
+      (global_timers[INDEX_TIMER_BLK_VKL_VV_H] < 0) &&
       (_CHECK_SET_BIT(p_active_functions, RANG_BLOCK_VKL_VV_H) == 0)
      )
   {
@@ -4615,13 +4615,13 @@ inline void on_off_handler(unsigned int *p_active_functions)
       _SET_BIT(p_active_functions, RANG_WORK_BV_H);
 
       //Запускаємо (або продовжуємо утримувати у 0, поки не пропаде сигнал активації БВ) таймер роботи БВ
-      global_timers[INDEX_TIMER_VKL_VV] = 0;
+      global_timers[INDEX_TIMER_VKL_VV_H] = 0;
     }
   }
   else
   {
     //На даний момент існує одна або більше умов блокування БВ
-    global_timers[INDEX_TIMER_VKL_VV] = -1;
+    global_timers[INDEX_TIMER_VKL_VV_H] = -1;
     _CLEAR_BIT(p_active_functions, RANG_WORK_BV_H);
   }
   /*********************/
@@ -4648,10 +4648,10 @@ void control_VV(unsigned int *p_active_functions)
   
   _XOR_INVERTOR(logic_control_VV_0, 0, logic_control_VV_0, 1, logic_control_VV_0, 2);
 
-  _TIMER_T_0(INDEX_TIMER_PRYVOD_VV, current_settings_prt.timeout_pryvoda_VV, logic_control_VV_0, 2, logic_control_VV_0, 3);
+  _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], logic_control_VV_0, 2, logic_control_VV_0, 3);
 
   //М:"Контроль ВВ"
-  logic_control_VV_0 |= ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) << 4;
+  logic_control_VV_0 |= ((current_settings_prt.control_switch[0] & CTR_PRYVOD_VV) != 0) << 4;
   
   _AND2(logic_control_VV_0, 3, logic_control_VV_0, 4, logic_control_VV_0, 5);
   
@@ -4705,11 +4705,21 @@ inline unsigned int stop_regisrator(unsigned int* carrent_active_functions, unsi
           if (global_timers[i] >= 0) 
           {
             if (
-                (i != INDEX_TIMER_PRYVOD_VV) ||
-                (  
-                 ((current_settings_prt.control_switch & CTR_PRYVOD_VV) != 0) &&
-                 (global_timers[i] < current_settings_prt.timeout_pryvoda_VV) 
-                )   
+                (
+                 (i != INDEX_TIMER_PRYVOD_VV_H) ||
+                 (  
+                  ((current_settings_prt.control_switch[0] & CTR_PRYVOD_VV) != 0) &&
+                  (global_timers[i] < current_settings_prt.timeout_pryvoda_VV[0]) 
+                 )
+                )
+                &&
+                (
+                 (i != INDEX_TIMER_PRYVOD_VV_L) ||
+                 (  
+                  ((current_settings_prt.control_switch[1] & CTR_PRYVOD_VV) != 0) &&
+                  (global_timers[i] < current_settings_prt.timeout_pryvoda_VV[1]) 
+                 )
+                )
                )
             global_timers_work = 1;
           }
@@ -6588,7 +6598,7 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           else label_to_time_array = time;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
           //Коефіцієнт трансформації TT
-          header_ar.TCurrent = current_settings_prt.TCurrent_HV;
+          header_ar.TCurrent = current_settings_prt.TCurrent_H;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
           //Додаткові налаштування при яких було запущено аналоговий реєстратор
@@ -7983,7 +7993,37 @@ inline void main_protection(void)
     /**************************/
     //Включення-Відключення
     /**************************/
-    on_off_handler(active_functions);
+    if ((current_settings_prt.configuration & (1 << OFF_ON_BIT_CONFIGURATION)) != 0)
+    {
+      on_off_handler(active_functions);
+    }
+    else
+    {
+      //Очищуємо сигнали, які не можуть бути у даній конфігурації
+      const unsigned int maska_on_off_signals[N_BIG] = 
+      {
+        MASKA_OFF_ON_SIGNALS_0,
+        MASKA_OFF_ON_SIGNALS_1,
+        MASKA_OFF_ON_SIGNALS_2, 
+        MASKA_OFF_ON_SIGNALS_3, 
+        MASKA_OFF_ON_SIGNALS_4, 
+        MASKA_OFF_ON_SIGNALS_5,
+        MASKA_OFF_ON_SIGNALS_6, 
+        MASKA_OFF_ON_SIGNALS_7, 
+        MASKA_OFF_ON_SIGNALS_8
+      };
+      for (unsigned int i = 0; i < N_BIG; i++) active_functions[i] &= (unsigned int)(~maska_on_off_signals[i]);
+
+      global_timers[INDEX_TIMER_VIDKL_VV_H] = -1;
+      global_timers[INDEX_TIMER_BLK_VKL_VV_H] = -1;
+      global_timers[INDEX_TIMER_VKL_VV_H] = -1;
+      global_timers[INDEX_TIMER_PRYVOD_VV_H] = -1;
+      
+      global_timers[INDEX_TIMER_VIDKL_VV_L] = -1;
+      global_timers[INDEX_TIMER_BLK_VKL_VV_L] = -1;
+      global_timers[INDEX_TIMER_VKL_VV_L] = -1;
+      global_timers[INDEX_TIMER_PRYVOD_VV_L] = -1;
+    }
     /**************************/
     
     /**************************/

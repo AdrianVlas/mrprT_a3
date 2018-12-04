@@ -205,6 +205,7 @@ extern int previous_level_in_current_level_menu[MAX_LEVEL_MENU];
 extern const uint32_t buttons_mode[NUMBER_BUTTON_MODE][N_SMALL];
 extern const uint32_t output_boards[N_OUTPUT_BOARDS][2];
 extern const uint32_t input_boards[N_INPUT_BOARDS][2];
+extern const uint8_t OFF_ON_value[MAX_NAMBER_LANGUAGE][NUMBER_OFF_ON];
 
 extern unsigned int periodical_tasks_TEST_SETTINGS;
 extern unsigned int periodical_tasks_TEST_USTUVANNJA;

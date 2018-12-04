@@ -16,6 +16,7 @@ void make_ekran_main(void)
      " Настройки      ",
      " Диагностика    ",
      " Конфигурация   ",
+     " БО/БВ          ",
      " ОЗТ            ",
      " МТЗ            ",
      " 3U0            ",
@@ -38,6 +39,7 @@ void make_ekran_main(void)
      " Налаштування   ",
      " Діагностика    ",
      " Конфігурація   ",
+     " БВимк./БВвімк. ",
      " ОЗТ            ",
      " МСЗ            ",
      " 3U0            ",
@@ -60,6 +62,7 @@ void make_ekran_main(void)
      " Settings       ",
      " Diagnostic     ",
      " Configuration  ",
+     " Off/On         ",
      " ОЗТ            ",
      " OCP            ",
      " 3U0            ",
@@ -82,6 +85,7 @@ void make_ekran_main(void)
      " Реттегіш       ",
      " Диагностика    ",
      " Конфигурациялар",
+     " БО/БВ          ",
      " ОЗТ            ",
      " МТK            ",
      " 3U0            ",
@@ -115,11 +119,11 @@ void make_ekran_main(void)
   /******************************************/
   //Виключаємо поля, які не треба відображати
   /******************************************/
-  for (unsigned int zachyst = 0; zachyst < (TOTAL_NUMBER_PROTECTION - 1); zachyst++) /*Мінус один - це попревка на останній пункт конфігурації "Розширена логіка"*/
+  for (unsigned int zachyst = 0; zachyst < (TOTAL_NUMBER_PROTECTION - 1); zachyst++) /*Мінус один - це поправка на останній пункт конфігурації "Розширена логіка"*/
   {
     if ((current_settings.configuration & (1 << zachyst)) == 0)
     {
-      unsigned int i = INDEX_ML1_OZT + zachyst - additional_current;
+      unsigned int i = INDEX_ML1_Off_On + zachyst - additional_current;
     
       if ((i+1) <= position_temp) position_temp--;
       do

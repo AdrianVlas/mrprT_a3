@@ -10,6 +10,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_EKRAN_CONFIGURATION][MAX_COL_LCD_PART1] = 
   {
     {
+     "ан/аб     ",
      "нгр       ",
      "лрг       ",
      "3U0       ",
@@ -25,6 +26,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "пЮЯЬ.КНЦ. "
     },
     {
+     "аб./абБ.  ",
      "нгр       ",
      "ляг       ",
      "3U0       ",
@@ -40,6 +42,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "пНГЬ.КНЦ. "
     },
     {
+     "Off/On    ",
      "нгр       ",
      "OCP       ",
      "3U0       ",
@@ -55,6 +58,7 @@ void make_ekran_configuration(unsigned int configuration_edit_temp)
      "Ext.logic "
     },
     {
+     "ан/аб     ",
      "нгр       ",
      "лрK       ",
      "3U0       ",

@@ -1,14 +1,21 @@
 #ifndef __CONST_SETPOINT_INTERVAL__
 #define __CONST_SETPOINT_INTERVAL__
 
-#define KOEF_TT_HV_MIN                1
-#define KOEF_TT_HV_MAX                2000
+#define KOEF_TT_H_MIN                1
+#define KOEF_TT_H_MAX                2000
 
-#define KOEF_TT_LV_MIN                1
-#define KOEF_TT_LV_MAX                2000
+#define KOEF_TT_L_MIN                1
+#define KOEF_TT_L_MAX                2000
 
 #define KOEF_TN_MIN                   50
 #define KOEF_TN_MAX                   1800
+
+#define PICKUP_VYR_H_MIN               1500
+#define PICKUP_VYR_H_MAX               20000
+
+#define PICKUP_VYR_L_MIN               1500
+#define PICKUP_VYR_L_MAX               20000
+
 
 #define SETPOINT_GRUPA_USTAVOK_MIN    1
 #define SETPOINT_GRUPA_USTAVOK_MAX    4
@@ -21,12 +28,6 @@ enum _type_con_ozt
   
   _N_TYPE_CON_OZT 
 };
-
-#define PICKUP_OZT_BB_MIN               1500
-#define PICKUP_OZT_BB_MAX               20000
-
-#define PICKUP_OZT_BH_MIN               1500
-#define PICKUP_OZT_BH_MAX               20000
 
 #define PICKUP_OZT_DELTA_Id_MIN         2000
 #define PICKUP_OZT_DELTA_Id_MAX         40000

@@ -31,7 +31,7 @@
 #define NUMBER_UP                       8
 
 #define NUMBER_PRVV                     2
-#define NUMBER_ON_OFF                   2
+#define NUMBER_OFF_ON                   2
 
 //#define NUMBER_DEFINED_ELEMENTS         6
 #define NUMBER_DEFINED_FUNCTIONS        8
@@ -52,8 +52,10 @@
 #define N_INPUT_BOARDS          2
 #define N_OUTPUT_BOARDS         3
 
-enum _configuration {
-OZT_BIT_CONFIGURATION = 0,
+enum _configuration 
+{
+OFF_ON_BIT_CONFIGURATION = 0,
+OZT_BIT_CONFIGURATION,
 MTZ_BIT_CONFIGURATION,
 P_3U0_BIT_CONFIGURATION,
 TZNP_BIT_CONFIGURATION,
@@ -161,7 +163,8 @@ RANG_SMALL_DT4_SET,
 RANG_SMALL_DT4_RESET,
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     21
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     9
+#define NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL      12
 #define NUMBER_OZT_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL       1
@@ -178,6 +181,7 @@ RANG_SMALL_DT4_RESET,
 
 #define NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL       (                                          \
                                                   NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL    + \
+                                                  NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL     + \
                                                   NUMBER_OZT_SIGNAL_FOR_RANG_SMALL        + \
                                                   NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL        + \
                                                   NUMBER_P_3U0_SIGNAL_FOR_RANG_SMALL      + \
@@ -468,7 +472,8 @@ RANG_D_NOT16,
 RANG_ERROR_CONF_EL
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG     36
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG     18
+#define NUMBER_OFF_ON_SIGNAL_FOR_RANG      18
 #define NUMBER_OZT_SIGNAL_FOR_RANG         12
 #define NUMBER_MTZ_SIGNAL_FOR_RANG         39
 #define NUMBER_P_3U0_SIGNAL_FOR_RANG       3
@@ -485,6 +490,7 @@ RANG_ERROR_CONF_EL
 
 #define NUMBER_TOTAL_SIGNAL_FOR_RANG       (                                    \
                                             NUMBER_GENERAL_SIGNAL_FOR_RANG    + \
+                                            NUMBER_OFF_ON_SIGNAL_FOR_RANG     + \
                                             NUMBER_OZT_SIGNAL_FOR_RANG        + \
                                             NUMBER_MTZ_SIGNAL_FOR_RANG        + \
                                             NUMBER_P_3U0_SIGNAL_FOR_RANG      + \
@@ -502,7 +508,8 @@ RANG_ERROR_CONF_EL
 
 /*****************************************/
 
-enum _mtz_const {
+enum _mtz_const 
+{
   RANG_BLOCK_MTZ = 0,
   RANG_BLOCK_USK_MTZ,
   RANG_SECTOR_VPERED_MTZN,
@@ -517,7 +524,8 @@ enum _mtz_const {
   MTZ_SETTINGS_LENGTH
 };
 
-enum _mtz_levels_const {
+enum _mtz_levels_const 
+{
   MTZ_LEVEL1 = 0,
   MTZ_LEVEL2,
   MTZ_LEVEL3,
@@ -526,13 +534,15 @@ enum _mtz_levels_const {
   NUMBER_LEVEL_MTZ //Количество ступеней МТЗ
 };
 
-enum _mtz_abc_const {
+enum _mtz_abc_const 
+{
   PHASE_A_INDEX = 0,
   PHASE_B_INDEX,
   PHASE_C_INDEX
 };
 
-enum _mtz_abc_direction_const {
+enum _mtz_abc_direction_const 
+{
   MTZ_NEVYZN = 0,
   MTZ_VPERED,
   MTZ_NAZAD
@@ -749,6 +759,43 @@ enum _sector_kz_zv_const
 #define MASKA_FOR_INPUT_SIGNALS_8                  0
 /*****************************************/
 
+/*****************************************/
+//Макски всіх сигналів Блоків ввімкнення/Вимкнення
+/*****************************************/
+#define MASKA_OFF_ON_SIGNALS_0        (unsigned int)(  \
+    (1 << (RANG_BLOCK_VKL_VV_H - 0))                   \
+  | (1 << (RANG_STATE_VV_H - 0))                       \
+  | (1 << (RANG_VKL_VV_H - 0))                         \
+  | (1 << (RANG_CTRL_VKL_H - 0))                       \
+  | (1 << (RANG_OTKL_VV_H - 0))                        \
+  | (1 << (RANG_CTRL_OTKL_H - 0))                      \
+  | (1 << (RANG_PRYVID_VV_H - 0))                      \
+  | (1 << (RANG_WORK_BO_H - 0))                        \
+  | (1 << (RANG_WORK_BV_H - 0))                        \
+  | (1 << (RANG_BLOCK_VKL_VV_L - 0))                   \
+  | (1 << (RANG_STATE_VV_L - 0))                       \
+  | (1 << (RANG_VKL_VV_L - 0))                         \
+  | (1 << (RANG_CTRL_VKL_L - 0))                       \
+  | (1 << (RANG_OTKL_VV_L - 0))                        \
+)
+
+
+#define MASKA_OFF_ON_SIGNALS_1        (unsigned int)(   \
+    (1 << (RANG_CTRL_OTKL_L - 32))                      \
+  | (1 << (RANG_PRYVID_VV_L - 32))                      \
+  | (1 << (RANG_WORK_BO_L - 32))                        \
+  | (1 << (RANG_WORK_BV_L - 32))                        \
+)
+
+#define MASKA_OFF_ON_SIGNALS_2                  0
+#define MASKA_OFF_ON_SIGNALS_3                  0
+#define MASKA_OFF_ON_SIGNALS_4                  0
+#define MASKA_OFF_ON_SIGNALS_5                  0
+#define MASKA_OFF_ON_SIGNALS_6                  0
+#define MASKA_OFF_ON_SIGNALS_7                  0
+#define MASKA_OFF_ON_SIGNALS_8                  0
+/*****************************************/
+     
 /*****************************************/
 //Макски всіх сигналів ОЗТ
 /*****************************************/
