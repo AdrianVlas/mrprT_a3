@@ -373,14 +373,14 @@ void dataflash_mamory_read(int index_chip)
         if (first_number_time_sample == -1)
         {
           //Читання часових зрізів разом з заголовком аналогового реєстратора
-          number_bytes = sizeof(__HEADER_AR) + (last_number_time_sample + 1)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int);
+          number_bytes = sizeof(__HEADER_AR) + (last_number_time_sample + 1)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int);
           //Адреса читання вде визначена, бо вона співпадає з базовою адресою
         }
         else
         {
           //Читання часових зрізів разом без заголовка аналогового реєстратора
-          number_bytes = (last_number_time_sample + 1 - first_number_time_sample)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int);
-          temp_value_for_address += (sizeof(__HEADER_AR) + first_number_time_sample*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int));
+          number_bytes = (last_number_time_sample + 1 - first_number_time_sample)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int);
+          temp_value_for_address += (sizeof(__HEADER_AR) + first_number_time_sample*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int));
         }
       }
 
@@ -1241,7 +1241,7 @@ void actions_after_changing_tiomouts_ar(void)
 /*****************************************************/
 void calc_size_and_max_number_records_ar(unsigned int prefault_number_periods, unsigned int postfault_number_periods)
 {
-  size_one_ar_record = sizeof(__HEADER_AR) + ((prefault_number_periods + postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int);
+  size_one_ar_record = sizeof(__HEADER_AR) + ((prefault_number_periods + postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int);
   max_number_records_ar = (NUMBER_PAGES_INTO_DATAFLASH_2 << VAGA_SIZE_PAGE_DATAFLASH_2) / size_one_ar_record;
 }
 /*****************************************************/

@@ -240,7 +240,7 @@ int postREGBigWriteAction(void)
 
           //Виставляємо читання заголовку запису даного запису і дальше, скільки можливо, часових зрізів
           *point_to_first_number_time_sample = -1;
-          int last_number_time_sample_tmp = (SIZE_PAGE_DATAFLASH_2 - sizeof(__HEADER_AR))/((NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int));
+          int last_number_time_sample_tmp = (SIZE_PAGE_DATAFLASH_2 - sizeof(__HEADER_AR))/((NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int));
           int max_number_time_sample = (current_settings.prefault_number_periods + current_settings.postfault_number_periods) << VAGA_NUMBER_POINT_AR;
           if (last_number_time_sample_tmp <= max_number_time_sample)
             {

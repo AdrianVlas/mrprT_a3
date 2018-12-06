@@ -831,7 +831,7 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
 /*****************************************************/
 inline void calc_measurement(unsigned int number_group_stp)
 {
-  int ortogonal_local[2*NUMBER_ANALOG_CANALES];
+  int ortogonal_local[2*NUMBER_ANALOG_CANALES_WITH_CALC];
 
   //Виставляємо семафор заборони обновлення значень з вимірювальної системи
 //  semaphore_measure_values = 1;
@@ -871,7 +871,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   */
   
   unsigned int bank_ortogonal_tmp = (bank_ortogonal + 1) & 0x1;
-  for(unsigned int i=0; i<(2*NUMBER_ANALOG_CANALES); i++ )
+  for(unsigned int i=0; i<(2*NUMBER_ANALOG_CANALES_WITH_CALC); i++ )
   {
     ortogonal_local[i] = ortogonal[i][bank_ortogonal_tmp];
   }
@@ -6717,12 +6717,12 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           if (copying_time == 2) label_to_time_array = time_copy;
           else label_to_time_array = time;
           for(unsigned int i = 0; i < 7; i++) header_ar.time[i] = *(label_to_time_array + i);
-          //Коефіцієнт трансформації TT
-          header_ar.TCurrent = current_settings_prt.TCurrent_H;
+          //Коефіцієнт трансформації TС(ВН)
+          header_ar.TCurrent_H = current_settings_prt.TCurrent_H;
+          //Коефіцієнт трансформації TС(НН)
+          header_ar.TCurrent_L = current_settings_prt.TCurrent_L;
           //Коефіцієнт трансформації TН
           header_ar.TVoltage = current_settings_prt.TVoltage;
-          //Додаткові налаштування при яких було запущено аналоговий реєстратор
-          header_ar.control_extra_settings_1 = 0/*current_settings_prt.control_extra_settings_1 & (CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE)*/;
           //І'мя ячейки
           for(unsigned int i=0; i<MAX_CHAR_IN_NAME_OF_CELL; i++)
             header_ar.name_of_cell[i] = current_settings_prt.name_of_cell[i] & 0xff;
@@ -6730,7 +6730,7 @@ inline void analog_registrator(unsigned int* carrent_active_functions)
           //Помічаємо, що ще ми ще не "відбирали" миттєві значення з масив для аналогового реєстратора
           copied_number_samples = 0;
           //Визначаємо загальну кількість миттєвих значень, які мають бути записані у мікросхему dataFlash2
-          total_number_samples = ((current_settings_prt.prefault_number_periods + current_settings_prt.postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar);
+          total_number_samples = ((current_settings_prt.prefault_number_periods + current_settings_prt.postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar);
 
           //Визначаємо,що покищо заготовок аналогового реєстратора не скопійоманий у масив звідки будуть дані забирватися вже для запису у DataFlash
           unsaved_bytes_of_header_ar = sizeof(__HEADER_AR);
@@ -8832,7 +8832,7 @@ void TIM2_IRQHandler(void)
       if (
           ((number_word_digital_part_ar*8*sizeof(short int)) < NUMBER_TOTAL_SIGNAL_FOR_RANG)
           ||  
-          (size_one_ar_record_tmp != (sizeof(__HEADER_AR) + ((current_settings_prt.prefault_number_periods + current_settings_prt.postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int)))
+          (size_one_ar_record_tmp != (sizeof(__HEADER_AR) + ((current_settings_prt.prefault_number_periods + current_settings_prt.postfault_number_periods) << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int)))
           ||
           (
            !(

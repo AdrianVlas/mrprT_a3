@@ -118,17 +118,9 @@ void global_vareiables_installation(void)
   }
   vdd_adc2 = VDD_NORMAL_VALUE;
 
-//  for(unsigned int i=0; i<(NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT); i++)
-//    current_data[i] = 0;
-  
-//  for(unsigned int i=0; i<NUMBER_POINT; i++)
-//  {
-//    sqr_current_data_3I0[i] = 0;
-//  }
-
 //  rozshyrena_vyborka.time_p = 0;
 //  rozshyrena_vyborka.time_c = 0;
-//  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+//  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
 //  {
 //    rozshyrena_vyborka.data_p[i] = 0;
 //    rozshyrena_vyborka.data_c[i] = 0;
@@ -138,7 +130,7 @@ void global_vareiables_installation(void)
   {
 //    data_for_oscylograph[i].time_stemp = 0;
 //    data_for_oscylograph[i].DATA_fix = 0;
-//    for (unsigned int j = 0; j < NUMBER_ANALOG_CANALES; j++) data_for_oscylograph[i].data[j] = 0;
+//    for (unsigned int j = 0; j < NUMBER_ANALOG_CANALES_WITH_CALC; j++) data_for_oscylograph[i].data[j] = 0;
 //    for (unsigned int j = 0; j < N_BIG; j++) data_for_oscylograph[i].active_functions[j] = 0;
     data_for_oscylograph[i].state_ar_record = STATE_AR_NO_RECORD;
   }
@@ -191,7 +183,7 @@ void global_vareiables_installation(void)
   sector_2_mtz_tznp[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
 
-//  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES); i++)
+//  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC); i++)
 //  {
 //    data_sin[i] = 0;
 //    data_cos[i] = 0;
@@ -212,7 +204,7 @@ void global_vareiables_installation(void)
 //    phi_ustuvannja_sin_cos_meas[2*i + 1] = phi_ustuvannja_sin_cos[2*i + 1] = arm_cos_f32(phi_radian_tmp);
 //  }
 
-//  for(unsigned int i=0; i<(2*NUMBER_ANALOG_CANALES); i++)
+//  for(unsigned int i=0; i<(2*NUMBER_ANALOG_CANALES_WITH_CALC); i++)
 //  {
 //    ortogonal_irq[i] = 0;
 //    ortogonal[i][0] = ortogonal[i][1] = 0;

@@ -72,9 +72,7 @@ extern unsigned int index_array_of_one_value;
 
 extern EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 extern int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
-//extern int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
 extern unsigned long long sqr_current_data_3I0[NUMBER_POINT];
-extern unsigned int index_array_of_current_data_value;
 
 extern unsigned int changed_ustuvannja; 
 extern unsigned char crc_ustuvannja;
@@ -86,11 +84,11 @@ extern const float sin_data_f[NUMBER_POINT];
 extern const float cos_data_f[NUMBER_POINT];
 extern unsigned int index_sin_cos_array;
 extern unsigned int index_data_sin_cos_array;
-extern int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES];
-extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
+extern int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
+extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
 extern unsigned int index_data_sin_and_cos_array;
-extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
-extern int ortogonal[2*NUMBER_ANALOG_CANALES][2];
+extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES_WITH_CALC];
+extern int ortogonal[2*NUMBER_ANALOG_CANALES_WITH_CALC][2];
 //extern unsigned int semaphore_measure_values;
 extern unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;
@@ -454,16 +452,6 @@ extern unsigned char data_usb_transmiting;
 extern unsigned int timeout_idle_USB;
 
 //MODBUS-RTU
-//extern unsigned int registers_address_read;
-//extern unsigned int registers_address_write;
-//extern unsigned int data_write_to_memory;
-//extern unsigned int number_registers_read;
-//extern unsigned short int registers_values[64] /*@ "variables_RAM1"*/;
-//extern unsigned int action_is_continued;
-//extern unsigned int part_transmit_carrent_data;
-//extern unsigned int command_to_receive_current_data;
-//extern int current_data_transmit[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT] /*@ "variables_RAM1"*/;
-//extern volatile unsigned int wait_of_receiving_current_data; 
 extern unsigned int password_set_USB, password_set_RS485;
 extern unsigned int password_changed;
 extern unsigned int password_ustuvannja;
