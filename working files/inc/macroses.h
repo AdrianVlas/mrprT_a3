@@ -544,24 +544,24 @@
 #define KOEF_VH_VL(type_con_ozt_tmp, koef_VH_tmp, koef_VL_tmp)                                                          \
 {                                                                                                                       \
   type_con_ozt_tmp = current_settings_prt.type_con_ozt;                                                                 \
+  koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_L;                                                \
   switch (type_con_ozt_meas)                                                                                            \
   {                                                                                                                     \
   case TYPE_CON_OZT_0:                                                                                                  \
     {                                                                                                                   \
       koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_H;                                            \
-      koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_L;                                            \
       break;                                                                                                            \
     }                                                                                                                   \
   case TYPE_CON_OZT_1:                                                                                                  \
   case TYPE_CON_OZT_11:                                                                                                 \
     {                                                                                                                   \
-      koef_VH_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_H;                                            \
-      koef_VL_tmp = (double)I_NOM/(1.7320508075688772935274463415059*(double)current_settings_prt.pickup_vyr_L);        \
+      koef_VH_tmp = (double)I_NOM/(1.7320508075688772935274463415059*(double)current_settings_prt.pickup_vyr_H);        \
+      koef_VL_tmp = (double)I_NOM/(double)current_settings_prt.pickup_vyr_L;                                            \
       break;                                                                                                            \
     }                                                                                                                   \
   default:                                                                                                              \
     {                                                                                                                   \
-      total_error_sw_fixed(1000);                                                                                       \
+      total_error_sw_fixed(25);                                                                                         \
     }                                                                                                                   \
   }                                                                                                                     \
 }

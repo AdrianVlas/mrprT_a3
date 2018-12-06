@@ -71,7 +71,7 @@ extern unsigned int vdd_adc2;
 extern unsigned int index_array_of_one_value;
 
 extern EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
-extern int ADCs_data[NUMBER_ANALOG_CANALES];
+extern int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
 //extern int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
 extern unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 extern unsigned int index_array_of_current_data_value;

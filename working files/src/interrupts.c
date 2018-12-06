@@ -640,7 +640,7 @@ void TIM4_IRQHandler(void)
           else
           {
             //Теоретично цього ніколи не мало б бути
-            total_error_sw_fixed(78);
+            total_error_sw_fixed(45);
           }
           TIM4->CCR3 = (capture_new = (TIM4->CNT +  delta));
           previous_tick = current_tick;

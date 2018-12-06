@@ -1070,6 +1070,37 @@ void SPI_ADC_IRQHandler(void)
     }
     /*****/
     
+    /*****/
+    //Диф.струми
+    /*****/
+    switch (type_con_ozt_meas)
+    {
+    case TYPE_CON_OZT_0:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)ADCs_data[I_Ia_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)ADCs_data[I_Ib_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)ADCs_data[I_Ic_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    case TYPE_CON_OZT_1:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    case TYPE_CON_OZT_11:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    default: total_error_sw_fixed(23);
+    }
+    
+    /*****/
+    
     unsigned int head_data_for_oscylograph_tmp = head_data_for_oscylograph;
     unsigned int x2, x1, delta_x; 
 

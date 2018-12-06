@@ -229,12 +229,9 @@ enum _index_chanal_meas
   
   NUMBER_ANALOG_CANALES,
   
-  I_Ia_P_H = NUMBER_ANALOG_CANALES,
-  I_Ib_P_H,
-  I_Ic_P_H,
-  I_Ia_P_L,
-  I_Ib_P_L,
-  I_Ic_P_L,
+  I_dIa = NUMBER_ANALOG_CANALES,
+  I_dIb,
+  I_dIc,
   
   NUMBER_ANALOG_CANALES_WITH_CALC,
 };

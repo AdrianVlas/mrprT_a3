@@ -107,7 +107,7 @@ unsigned int vdd_adc2 = VDD_NORMAL_VALUE;
 unsigned int index_array_of_one_value/* = 0*/;
 
 EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
-int ADCs_data[NUMBER_ANALOG_CANALES];
+int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
 //int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
 unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 unsigned int index_array_of_current_data_value/* = 0*/;
@@ -274,7 +274,6 @@ const uint32_t small_big_rang[NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL] =
 RANG_RESET_LEDS,
 RANG_RESET_RELES,
 RANG_MISCEVE_DYSTANCIJNE,
-RANG_OTKL_VID_ZOVN_ZAHYSTIV,
 RANG_1_GRUPA_USTAVOK,
 RANG_2_GRUPA_USTAVOK,
 RANG_3_GRUPA_USTAVOK,
