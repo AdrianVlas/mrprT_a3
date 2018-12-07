@@ -285,54 +285,76 @@ void operate_test_ADCs(void)
  *************************************************************************/
 void Fourier(void)
 {
-//  unsigned int index_data_sin_cos_array_tmp = index_data_sin_cos_array;
-//  unsigned int index_sin_cos_array_tmp = index_sin_cos_array;
-//
-//  long long data64_new = (long long)ADCs_data[I_3I0];
-//  unsigned long long square_new = data64_new*data64_new;
-//
-//  sum_sqr_data_3I0_irq += square_new;
-//  sum_sqr_data_3I0_irq -= sqr_current_data_3I0[index_array_of_one_value_fourier];
-//  sqr_current_data_3I0[index_array_of_one_value_fourier] = square_new;
-//    
-//  if((++index_array_of_one_value_fourier) == NUMBER_POINT)
-//    index_array_of_one_value_fourier = 0;
-//  else if (index_array_of_one_value_fourier > NUMBER_POINT)
-//  {
-//    //Якщо сюди дійшла програма, значить відбулася недопустива помилка, тому треба зациклити програму, щоб вона пішла на перезагрузку
-//    total_error_sw_fixed(58);
-//  }
-//
-//  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
-//  {
-//    //Зчитуємо миттєве значення яке треба опрацювати
-//    int temp_value_1 = ADCs_data[i];
-//    int temp_value_2;
-//    unsigned int i_ort_tmp = 2*i;
-//
-//    //Ортогональні SIN
-//    ortogonal_irq[i_ort_tmp] -= data_sin[index_data_sin_cos_array_tmp];
-//    temp_value_2 = (int)((float)temp_value_1*sin_data_f[index_sin_cos_array_tmp]);
-//    data_sin[index_data_sin_cos_array_tmp] = temp_value_2;
-//    ortogonal_irq[i_ort_tmp] += temp_value_2;
-//    
-//    //Ортогональні COS
-//    ortogonal_irq[i_ort_tmp + 1] -= data_cos[index_data_sin_cos_array_tmp];
-//    temp_value_2 = (int)((float)temp_value_1*cos_data_f[index_sin_cos_array_tmp]);
-//    data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
-//    ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
-//    
-//    if((++index_data_sin_cos_array_tmp) >= (NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC)) index_data_sin_cos_array_tmp = 0;
-//  }
-//  index_data_sin_cos_array = index_data_sin_cos_array_tmp;
-//  
-//  if((++index_sin_cos_array_tmp) >= NUMBER_POINT) index_sin_cos_array_tmp = 0;
-//  index_sin_cos_array = index_sin_cos_array_tmp;
-//
-//  //Копіювання для інших систем
-//  unsigned int bank_ortogonal_tmp = bank_ortogonal;
-//  for(unsigned int i = 0; i < (2*NUMBER_ANALOG_CANALES_WITH_CALC); i++ ) ortogonal[i][bank_ortogonal_tmp] = ortogonal_irq[i];
-//  sum_sqr_data_3I0[bank_ortogonal_tmp] = sum_sqr_data_3I0_irq;
+  unsigned int index_period_array_tmp = index_period_array;
+  int *p_data_sin = data_sin[index_period_array_tmp];
+  int *p_data_cos = data_cos[index_period_array_tmp];
+  int *p_data_0   = data_0[index_period_array_tmp];
+
+  unsigned int i_ort_tmp = 0;
+  for (size_t i = 0; i < NUMBER_ANALOG_CANALES; i++)
+  {
+    //Зчитуємо миттєве значення яке треба опрацювати
+    int temp_value_1 = ADCs_data[i];
+
+    int temp_value_2;
+    
+    //Ортогональні SIN
+    ortogonal_irq[i_ort_tmp] -= *p_data_sin;
+    temp_value_2 = (int)((float)temp_value_1*sin_data_f[index_period_array_tmp]);
+    *p_data_sin = temp_value_2;
+    p_data_sin++;
+    ortogonal_irq[i_ort_tmp++] += temp_value_2;
+    
+    //Ортогональні COS
+    ortogonal_irq[i_ort_tmp] -= *p_data_cos;
+    temp_value_2 = (int)((float)temp_value_1*sin_data_f[(index_period_array_tmp + (NUMBER_POINT >> 2)) & 0x1f]);
+    *p_data_cos = temp_value_2;
+    p_data_cos++;
+    ortogonal_irq[i_ort_tmp++] += temp_value_2;
+  }
+  
+  for (size_t i = NUMBER_ANALOG_CANALES; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
+  {
+    //Обробка  миттєвих диф.струмів
+    
+    //Зчитуємо миттєве значення яке треба опрацювати
+    int temp_value_1 = ADCs_data[i];
+    
+    //Аперводична складова
+    aperiodic_irq[i_ort_tmp] -= *p_data_0;
+    *p_data_0 = temp_value_1;
+    p_data_0++;
+    aperiodic_irq[i_ort_tmp++] += temp_value_1;
+
+    const uint32_t garm[3] = {1, 2, 5};
+    for (size_t j = 0; j < 3; j++)
+    {
+      int temp_value_2;
+      
+      //Ортогональні SIN
+      ortogonal_irq[i_ort_tmp] -= *p_data_sin;
+      temp_value_2 = (int)((float)temp_value_1*sin_data_f[(garm[j]*index_period_array_tmp) & 0x1f]);
+      *p_data_sin = temp_value_2;
+      p_data_sin++;
+      ortogonal_irq[i_ort_tmp++] += temp_value_2;
+    
+      //Ортогональні COS
+      ortogonal_irq[i_ort_tmp] -= *p_data_cos;
+      temp_value_2 = (int)((float)temp_value_1*sin_data_f[(garm[j]*index_period_array_tmp + (NUMBER_POINT >> 2)) & 0x1f]);
+      *p_data_cos = temp_value_2;
+      *p_data_cos++;
+      ortogonal_irq[i_ort_tmp++] += temp_value_2;
+    
+    }
+  }
+  
+  if((++index_period_array_tmp) >= NUMBER_POINT) index_period_array_tmp = 0;
+  index_period_array = index_period_array_tmp;
+
+  //Копіювання для інших систем
+  unsigned int bank_ortogonal_tmp = bank_ortogonal;
+  for(size_t i = 0; i < (2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))); i++ ) ortogonal[i][bank_ortogonal_tmp] = ortogonal_irq[i];
+  for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++ )aperiodic[i][bank_ortogonal_tmp] = aperiodic_irq[i];
 }
 /*************************************************************************/
 
@@ -1073,27 +1095,28 @@ void SPI_ADC_IRQHandler(void)
     /*****/
     //Диф.струми
     /*****/
+    double koef_VH_tmp = koef_VH_meas, koef_VL_tmp = koef_VL_meas;
     switch (type_con_ozt_meas)
     {
     case TYPE_CON_OZT_0:
       {
-        ADCs_data[I_dIa] = (int)(round((double)ADCs_data[I_Ia_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
-        ADCs_data[I_dIb] = (int)(round((double)ADCs_data[I_Ib_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
-        ADCs_data[I_dIc] = (int)(round((double)ADCs_data[I_Ic_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        ADCs_data[I_dIa] = (int)(round((double)ADCs_data[I_Ia_H]*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_tmp));
+        ADCs_data[I_dIb] = (int)(round((double)ADCs_data[I_Ib_H]*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_tmp));
+        ADCs_data[I_dIc] = (int)(round((double)ADCs_data[I_Ic_H]*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_tmp));
         break;
       }
     case TYPE_CON_OZT_1:
       {
-        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
-        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
-        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ic_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_tmp));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ia_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_tmp));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ib_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_tmp));
         break;
       }
     case TYPE_CON_OZT_11:
       {
-        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
-        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
-        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ib_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_tmp));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ic_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_tmp));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ia_H])*koef_VH_tmp)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_tmp));
         break;
       }
     default: total_error_sw_fixed(23);
@@ -1245,11 +1268,6 @@ void SPI_ADC_IRQHandler(void)
         if (++tail_data_for_oscylograph >= MAX_INDEX_DATA_FOR_OSCYLOGRAPH) tail_data_for_oscylograph = 0;
       }
     }
-//    /**************************************************/
-//    //При необхідності повідомляємо про вихід з формування миттєвих значень
-//    /**************************************************/
-//    if (wait_of_receiving_current_data  == true) wait_of_receiving_current_data  = false;
-//    /**************************************************/
 
     //Управління аналоговим реємстратором
     if ((state_ar_record == STATE_AR_START) || (state_ar_record == STATE_AR_SAVE_SRAM_AND_SAVE_FLASH))
@@ -1503,59 +1521,19 @@ void calc_angle(void)
   semaphore_measure_values_low = 0;
   
   //Визначаємо, який вектор беремо за осному
-  __full_ort_index index_base = FULL_ORT_Ua;
+  __index_meas index_base = IM_UA;
 
   /***
   Визначаємо, який останній вектор можна брати за основу
   ***/
-  __full_ort_index index_last = FULL_ORT_Uca;
+  __index_meas index_last = IM_UCA;
   /***/
   
   int base_index_for_angle_tmp = -1;
-  __full_ort_index index = index_base;
+  __index_meas index = index_base;
   while( index <= index_last)
   {
-    unsigned int index_m;
-    switch (index)
-    {
-    case FULL_ORT_Ua:
-      {
-        index_m = IM_UA;
-        break;
-      }
-    case FULL_ORT_Ub:
-      {
-        index_m = IM_UB;
-        break;
-      }
-    case FULL_ORT_Uc:
-      {
-        index_m = IM_UC;
-        break;
-      }
-    case FULL_ORT_Uab:
-      {
-        index_m = IM_UAB;
-        break;
-      }
-    case FULL_ORT_Ubc:
-      {
-        index_m = IM_UBC;
-        break;
-      }
-    case FULL_ORT_Uca:
-      {
-        index_m = IM_UCA;
-        break;
-      }
-    default:
-      {
-        //Теоретично цього ніколи не мало б бути
-        total_error_sw_fixed(61);
-      }
-    }
-  
-    if (measurement_low[index_m] >= PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE)
+    if (measurement_low[index] >= PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE)
     {
       base_index_for_angle_tmp = index;
       break; //Вихід із циклу while
@@ -1575,7 +1553,7 @@ void calc_angle(void)
     unsigned int amplituda_base = sqrt_64((unsigned long long)((long long)SIN_BASE*(long long)SIN_BASE) + (unsigned long long)((long long)COS_BASE*(long long)COS_BASE));
     if (amplituda_base != 0)
     {
-      for (__full_ort_index index_tmp = index_base; index_tmp < FULL_ORT_MAX; index_tmp++)
+      for (__index_meas index_tmp = index_base; index_tmp < FULL_ORT_MAX; index_tmp++)
       {
         if (index_tmp == index)
         {
@@ -1585,143 +1563,10 @@ void calc_angle(void)
         else
         {
           unsigned int porig_chutlyvosti;
-          unsigned int index_m;
-          switch (index_tmp)
-          {
-          case FULL_ORT_Ua:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UA;
-              break;
-            }
-          case FULL_ORT_Ub:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UB;
-              break;
-            }
-          case FULL_ORT_Uc:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UC;
-              break;
-            }
-          case FULL_ORT_Uab:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UAB;
-              break;
-            }
-          case FULL_ORT_Ubc:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UBC;
-              break;
-            }
-          case FULL_ORT_Uca:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_UCA;
-              break;
-            }
-          case FULL_ORT_3U0_r:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_3U0_r;
-              break;
-            }
-          case FULL_ORT_U2:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_U2;
-              break;
-            }
-          case FULL_ORT_U1:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
-              index_m = IM_U1;
-              break;
-            }
-          case FULL_ORT_Ia_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IA_H;
-              break;
-            }
-          case FULL_ORT_Ib_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IB_H;
-              break;
-            }
-          case FULL_ORT_Ic_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IC_H;
-              break;
-            }
-          case FULL_ORT_3I0_r_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_3I0_r_H;
-              break;
-            }
-          case FULL_ORT_I2_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_I2_H;
-              break;
-            }
-          case FULL_ORT_I1_H:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_I1_H;
-              break;
-            }
-          case FULL_ORT_Ia_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IA_L;
-              break;
-            }
-          case FULL_ORT_Ib_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IB_L;
-              break;
-            }
-          case FULL_ORT_Ic_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_IC_L;
-              break;
-            }
-          case FULL_ORT_3I0_r_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_3I0_r_L;
-              break;
-            }
-          case FULL_ORT_I2_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_I2_L;
-              break;
-            }
-          case FULL_ORT_I1_L:
-            {
-              porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
-              index_m = IM_I1_L;
-              break;
-            }
-          default:
-            {
-              //Теоретично цього ніколи не мало б бути
-              total_error_sw_fixed(62);
-            }
-          }
-      
-          if (measurement_low[index_m] >= porig_chutlyvosti)
+          if (index_tmp <= _IM_U_END) porig_chutlyvosti = PORIG_CHUTLYVOSTI_VOLTAGE_ANGLE;
+          else porig_chutlyvosti = PORIG_CHUTLYVOSTI_CURRENT;
+          
+          if (measurement_low[index_tmp] >= porig_chutlyvosti)
           {
             //Розраховуємо кут
 #define SIN_TARGET ortogonal_low_tmp[2*index_tmp]
@@ -1790,7 +1635,7 @@ void calc_angle(void)
     else
     {
       //Амплітуда базового вектору вимірювання по незрозумілій для мене причини рівна 0 (я думаю, що сюди програма не мала б ніколи заходити). Це перестарховка.
-      for (__full_ort_index index_tmp = FULL_ORT_Ua; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle[index_tmp] = -1;
+      for (__index_meas index_tmp = _IM_BEGIN; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle[index_tmp] = -1;
     }
 
 #undef SIN_BASE
@@ -1800,7 +1645,7 @@ void calc_angle(void)
   else
   {
     //Не зафіксовано вектора вимірювання, відносно якого можна розраховувати кути
-    for (__full_ort_index index_tmp = FULL_ORT_Ua; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle[index_tmp] = -1;
+    for (__index_meas index_tmp = _IM_BEGIN; index_tmp < FULL_ORT_MAX; index_tmp++) phi_angle[index_tmp] = -1;
   }
 }
 

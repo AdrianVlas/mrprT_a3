@@ -182,39 +182,6 @@ void global_vareiables_installation(void)
   sector_2_mtz_tznp[5] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 - SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[6] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
   sector_2_mtz_tznp[7] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*((float)(-90 + SECTOR2_MTZ_TZNP - POPRAVKA_MTZ_TZNP))/180.0f)));
-
-//  for(unsigned int i=0; i<(NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC); i++)
-//  {
-//    data_sin[i] = 0;
-//    data_cos[i] = 0;
-//  }
-  
-//  for(unsigned int i=0; i<NUMBER_ANALOG_CANALES; i++)
-//  {
-//    ADCs_data_raw[i].tick = 0;
-//    ADCs_data_raw[i].value = 0;
-//      
-//    ustuvannja_meas[i] = ustuvannja[i] = DEFAULT_USTUVANNJA_VALUE;
-//
-//    int phi_tmp;
-//    phi_ustuvannja_meas[i] = phi_ustuvannja[i] = phi_tmp = 0;
-//    
-//    float phi_radian_tmp = PI*((float)phi_tmp)/180.0f;
-//    phi_ustuvannja_sin_cos_meas[2*i    ] = phi_ustuvannja_sin_cos[2*i    ] = arm_sin_f32(phi_radian_tmp);
-//    phi_ustuvannja_sin_cos_meas[2*i + 1] = phi_ustuvannja_sin_cos[2*i + 1] = arm_cos_f32(phi_radian_tmp);
-//  }
-
-//  for(unsigned int i=0; i<(2*NUMBER_ANALOG_CANALES_WITH_CALC); i++)
-//  {
-//    ortogonal_irq[i] = 0;
-//    ortogonal[i][0] = ortogonal[i][1] = 0;
-//  }
-
-//  for(unsigned int i=0; i<(2*FULL_ORT_MAX); i++)
-//  {
-//    ortogonal_calc[i]     = 0;
-//    ortogonal_calc_low[i] = 0;
-//  }
   /**************************/
 
   /**************************/

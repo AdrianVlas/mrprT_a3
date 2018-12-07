@@ -238,52 +238,90 @@ enum _index_chanal_meas
 
 enum _index_meas
 {
-  IM_IA_H,
-  IM_IB_H,
-  IM_IC_H,
-  IM_IA_L,
-  IM_IB_L,
-  IM_IC_L,
-  IM_UA,
-  IM_UB,
-  IM_UC,
-  IM_IA_P_H,
-  IM_IB_P_H,
-  IM_IC_P_H,
-  IM_IA_P_L,
-  IM_IB_P_L,
-  IM_IC_P_L,
-  IM_adIA,
-  IM_adIB,
-  IM_adIC,
-  IM_dIA,
-  IM_dIB,
-  IM_dIC,
-  IM_2dIA,
-  IM_2dIB,
-  IM_2dIC,
-  IM_5dIA,
-  IM_5dIB,
-  IM_5dIC,
-  IM_gdIA,
-  IM_gdIB,
-  IM_gdIC,
-  IM_3I0_r_H,
-  IM_I2_H,
-  IM_I1_H,
-  IM_I2_P_H,
-  IM_I1_P_H,
-  IM_3I0_r_L,
-  IM_I2_L,
-  IM_I1_L,
-  IM_I2_P_L,
-  IM_I1_P_L,
-  IM_UAB,
-  IM_UBC,
-  IM_UCA,
-  IM_3U0_r,
-  IM_U2,
-  IM_U1,
+  _IM_BEGIN = 0,
+  _IM_U_BEGIN = _IM_BEGIN,
+  
+    IM_UA = _IM_U_BEGIN,
+    IM_UB,
+    IM_UC,
+
+    IM_UAB,
+    IM_UBC,
+    IM_UCA,
+
+    IM_3U0_r,
+    IM_U2,
+    IM_U1,
+
+  _IM_U_END = IM_U1,
+  
+  _IM_I_BEGIN,
+    
+    IM_IA_H = _IM_I_BEGIN,
+    IM_IB_H,
+    IM_IC_H,
+  
+    IM_3I0_r_H,
+    IM_I2_H,
+    IM_I1_H,
+
+    IM_IA_P_H,
+    IM_IB_P_H,
+    IM_IC_P_H,
+
+    IM_I2_P_H,
+    IM_I1_P_H,
+
+    IM_IA_L,
+    IM_IB_L,
+    IM_IC_L,
+  
+    IM_3I0_r_L,
+    IM_I2_L,
+    IM_I1_L,
+
+    IM_IA_P_L,
+    IM_IB_P_L,
+    IM_IC_P_L,
+  
+    IM_I2_P_L,
+    IM_I1_P_L,
+
+  _IM_I_END = IM_I1_P_L,
+  
+  FULL_ORT_MAX,
+  
+  _IM_dI_BEGIN = FULL_ORT_MAX,
+  
+    IM_dIA = _IM_dI_BEGIN,
+    IM_dIB,
+    IM_dIC,
+    IM_2dIA,
+    IM_2dIB,
+    IM_2dIC,
+    IM_5dIA,
+    IM_5dIB,
+    IM_5dIC,
+
+  _IM_dI_END = IM_5dIC,
+  
+  FULL_ORT_MAX_TOTAL,
+
+  _IM_adI_BEGIN = FULL_ORT_MAX_TOTAL,
+  
+    IM_adIA = _IM_adI_BEGIN,
+    IM_adIB,
+    IM_adIC,
+
+  _IM_adI_END = IM_adIC,
+  
+  _IM_gdI_BEGIN,
+    
+    IM_gdIA = _IM_gdI_BEGIN,
+    IM_gdIB,
+    IM_gdIC,
+
+  _IM_gdI_END = IM_gdIC,
 
   _NUMBER_IM
 };
@@ -303,32 +341,64 @@ MAX_INDEX_PhK
 };
 /*****************************************/
 
-enum _full_ort_index
-{
-FULL_ORT_Ua = 0,
-FULL_ORT_Ub,
-FULL_ORT_Uc,
-FULL_ORT_Uab,
-FULL_ORT_Ubc,
-FULL_ORT_Uca,
-FULL_ORT_3U0_r,
-FULL_ORT_U2,
-FULL_ORT_U1,
-FULL_ORT_Ia_H,
-FULL_ORT_Ib_H,
-FULL_ORT_Ic_H,
-FULL_ORT_3I0_r_H,
-FULL_ORT_I2_H,
-FULL_ORT_I1_H,
-FULL_ORT_Ia_L,
-FULL_ORT_Ib_L,
-FULL_ORT_Ic_L,
-FULL_ORT_3I0_r_L,
-FULL_ORT_I2_L,
-FULL_ORT_I1_L,
-
-FULL_ORT_MAX
-};
+//enum _full_ort_index
+//{
+//FULL_ORT_Ua = 0,
+//FULL_ORT_Ub,
+//FULL_ORT_Uc,
+//
+//FULL_ORT_Uab,
+//FULL_ORT_Ubc,
+//FULL_ORT_Uca,
+//
+//FULL_ORT_3U0_r,
+//FULL_ORT_U2,
+//FULL_ORT_U1,
+//
+//FULL_ORT_Ia_H,
+//FULL_ORT_Ib_H,
+//FULL_ORT_Ic_H,
+//
+//FULL_ORT_3I0_r_H,
+//FULL_ORT_I2_H,
+//FULL_ORT_I1_H,
+//
+//FULL_ORT_Ia_P_H,
+//FULL_ORT_Ib_P_H,
+//FULL_ORT_Ic_P_H,
+//
+//FULL_ORT_I2_P_H,
+//FULL_ORT_I1_P_H,
+//
+//FULL_ORT_Ia_L,
+//FULL_ORT_Ib_L,
+//FULL_ORT_Ic_L,
+//
+//FULL_ORT_3I0_r_L,
+//FULL_ORT_I2_L,
+//FULL_ORT_I1_L,
+//
+//FULL_ORT_Ia_P_L,
+//FULL_ORT_Ib_P_L,
+//FULL_ORT_Ic_P_L,
+//
+//FULL_ORT_I2_P_L,
+//FULL_ORT_I1_P_L,
+//
+//FULL_ORT_MAX,
+//
+//FULL_ORT_dIa = FULL_ORT_MAX,
+//FULL_ORT_dIb,
+//FULL_ORT_dIc,
+//FULL_ORT_2dIa,
+//FULL_ORT_2dIb,
+//FULL_ORT_2dIc,
+//FULL_ORT_5dIa,
+//FULL_ORT_5dIb,
+//FULL_ORT_5dIc,
+//
+//FULL_ORT_MAX_TOTAL
+//};
 
 #define UNDEF_PHI                              (1 << 31)
 

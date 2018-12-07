@@ -434,7 +434,7 @@ STATE_READING_WRITE_READ,
 STATE_READING_READ
 } STATE_READING_ADCs;
 
-typedef enum _full_ort_index __full_ort_index;
+typedef enum _index_meas __index_meas;
 typedef enum _index_energy __index_energy;
 
 typedef struct
@@ -545,6 +545,8 @@ typedef enum _index_I_U
 {
   INDEX_I_H = 0,
   INDEX_I_L,
+  INDEX_I_P_H,
+  INDEX_I_P_L,
   INDEX_U,
   
   _NUMBER_FOR_I_U

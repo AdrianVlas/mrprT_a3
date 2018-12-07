@@ -72,7 +72,6 @@ extern unsigned int index_array_of_one_value;
 
 extern EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 extern int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
-extern unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 
 extern unsigned int changed_ustuvannja; 
 extern unsigned char crc_ustuvannja;
@@ -81,15 +80,14 @@ extern int phi_ustuvannja_meas[NUMBER_ANALOG_CANALES], phi_ustuvannja[NUMBER_ANA
 extern float phi_ustuvannja_sin_cos_meas[2*NUMBER_ANALOG_CANALES], phi_ustuvannja_sin_cos[2*NUMBER_ANALOG_CANALES], phi_edit_ustuvannja_sin_cos[2*NUMBER_ANALOG_CANALES];
 
 extern const float sin_data_f[NUMBER_POINT];
-extern const float cos_data_f[NUMBER_POINT];
-extern unsigned int index_sin_cos_array;
-extern unsigned int index_data_sin_cos_array;
-extern int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
-extern int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
-extern unsigned int index_data_sin_and_cos_array;
-extern int ortogonal_irq[2*NUMBER_ANALOG_CANALES_WITH_CALC];
-extern int ortogonal[2*NUMBER_ANALOG_CANALES_WITH_CALC][2];
-//extern unsigned int semaphore_measure_values;
+extern unsigned int index_period_array;
+extern int data_0[NUMBER_POINT][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
+extern int data_sin[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
+extern int data_cos[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
+extern int ortogonal_irq[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
+extern int ortogonal[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))][2];
+extern int aperiodic_irq[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
+extern int aperiodic[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES][2];
 extern unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;
 
@@ -103,8 +101,8 @@ extern unsigned int measurement_middle[_NUMBER_IM];
 extern unsigned int measurement_low[_NUMBER_IM]; 
 
 extern const unsigned int index_converter[NUMBER_ANALOG_CANALES];
-extern int ortogonal_calc[2*FULL_ORT_MAX];
-extern int ortogonal_calc_low[2*FULL_ORT_MAX];
+extern int ortogonal_calc[2*FULL_ORT_MAX_TOTAL];
+extern int ortogonal_calc_low[2*FULL_ORT_MAX_TOTAL];
 extern int phi_angle[FULL_ORT_MAX];
 extern int base_index_for_angle;
 
@@ -239,7 +237,8 @@ extern unsigned char temp_register_rtc[2];
 
 extern unsigned int changed_settings; 
 extern unsigned char crc_settings;
-extern __SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
+extern __SETTINGS current_settings_prt, current_settings;
+extern __SETTINGS edition_settings, current_settings_interfaces;
 extern uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 extern int32_t type_con_ozt_meas;
 extern double koef_VH_meas, koef_VL_meas;

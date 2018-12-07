@@ -286,7 +286,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 380;
 #else
-//        if (base_index_for_angle <= FULL_ORT_3U0) return (base_index_for_angle + 1) &0xFFFF;
+//        if (base_index_for_angle <= IM_3U0) return (base_index_for_angle + 1) &0xFFFF;
 //        else
 //        {
 //          //Теоретично цього ніколи не мало б бути
@@ -300,7 +300,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 381;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ua]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UA]) &0xFFFF;
 #endif
       }
     case 50://OFFSET_ANGLE_UB_1
@@ -308,7 +308,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 382;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ub]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UB]) &0xFFFF;
 #endif
       }
     case 51://OFFSET_ANGLE_UC_1
@@ -316,7 +316,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 383;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Uc]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UC]) &0xFFFF;
 #endif
       }
     case 52://OFFSET_ANGLE_UAB_1
@@ -324,7 +324,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 384;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Uab]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UAB]) &0xFFFF;
 #endif
       }
     case 53://OFFSET_ANGLE_UBC_1
@@ -332,7 +332,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 385;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ubc]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UBC]) &0xFFFF;
 #endif
       }
     case 54://OFFSET_ANGLE_UCA_1
@@ -340,7 +340,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 386;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Uca]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UCA]) &0xFFFF;
 #endif
       }
     case 55://OFFSET_ANGLE_3U0_1
@@ -348,7 +348,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 387;
 #else
-//        return ((unsigned int)phi_angle[FULL_ORT_3U0]) &0xFFFF;
+//        return ((unsigned int)phi_angle[IM_3U0]) &0xFFFF;
 #endif
       }
 //    case 56://OFFSET_ANGLE_UA_2
@@ -362,7 +362,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 394;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ia_H]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_IA_H]) &0xFFFF;
 #endif
       }
     case 63://OFFSET_ANGLE_Ib_1
@@ -370,7 +370,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 395;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ib_H]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_IB_H]) &0xFFFF;
 #endif
       }
     case 64://OFFSET_ANGLE_Ic_1
@@ -378,7 +378,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 396;
 #else
-        return ((unsigned int)phi_angle[FULL_ORT_Ic_H]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_IC_H]) &0xFFFF;
 #endif
       }
     case 65://OFFSET_ANGLE_I04
@@ -386,7 +386,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 397;
 #else
-//        return ((unsigned int)phi_angle[FULL_ORT_I04]) &0xFFFF;
+//        return ((unsigned int)phi_angle[IM_I04]) &0xFFFF;
 #endif
       }
     case 66://OFFSET_ANGLE_3I0_1
@@ -394,7 +394,7 @@ int getAISmallModbusRegister(int adrReg)
 #ifdef TESTZBIRKA_VERSII_PZ
         return 398;
 #else
-//        return ((unsigned int)phi_angle[FULL_ORT_3I0]) &0xFFFF;
+//        return ((unsigned int)phi_angle[IM_3I0]) &0xFFFF;
 #endif
       }
 //    case 67://OFFSET_ANGLE_3I0_r
@@ -402,7 +402,7 @@ int getAISmallModbusRegister(int adrReg)
 //#ifdef TESTZBIRKA_VERSII_PZ
 //        return 399;
 //#else
-//        return ((unsigned int)phi_angle[FULL_ORT_3I0_r]) &0xFFFF;
+//        return ((unsigned int)phi_angle[IM_3I0_r]) &0xFFFF;
 //#endif
 //      }
 //    case 68://

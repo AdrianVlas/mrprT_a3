@@ -42,8 +42,6 @@ const unsigned int input_adc[NUMBER_INPUTs_ADCs][2]={
                                                     };
 EXTENDED_OUTPUT_DATA output_adc[NUMBER_INPUTs_ADCs];
 ROZSHYRENA_VYBORKA rozshyrena_vyborka;
-//12345
-uint32_t previous_states_MTZ04_vvid_pr_0/* = 0*/;
 
 unsigned int command_word_adc/* = 0*/, command_word_adc_work/* = 0*/, active_index_command_word_adc/* = 0*/;
 unsigned int state_reading_ADCs = STATE_READING_ADCs_NONE;
@@ -108,7 +106,6 @@ unsigned int index_array_of_one_value/* = 0*/;
 
 EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
 int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
-unsigned long long sqr_current_data_3I0[NUMBER_POINT];
 
 unsigned int changed_ustuvannja = CHANGED_ETAP_NONE; 
 unsigned char crc_ustuvannja;
@@ -191,49 +188,15 @@ const float sin_data_f[NUMBER_POINT] = {
                                         -0.195090322016129000000000000000f
 };
 
-const float cos_data_f[NUMBER_POINT] = {
-                                         1.000000000000000000000000000000f,
-                                         0.980785280403230000000000000000f,
-                                         0.923879532511287000000000000000f,
-                                         0.831469612302545000000000000000f,
-                                         0.707106781186548000000000000000f,
-                                         0.555570233019602000000000000000f,
-                                         0.382683432365090000000000000000f,
-                                         0.195090322016129000000000000000f,
-                                         0.000000000000000122514845490862f,
-                                        -0.195090322016128000000000000000f,
-                                        -0.382683432365090000000000000000f,
-                                        -0.555570233019602000000000000000f,
-                                        -0.707106781186547000000000000000f,
-                                        -0.831469612302545000000000000000f,
-                                        -0.923879532511287000000000000000f,
-                                        -0.980785280403230000000000000000f,
-                                        -1.000000000000000000000000000000f,
-                                        -0.980785280403230000000000000000f,
-                                        -0.923879532511287000000000000000f,
-                                        -0.831469612302545000000000000000f,
-                                        -0.707106781186548000000000000000f,
-                                        -0.555570233019602000000000000000f,
-                                        -0.382683432365090000000000000000f,
-                                        -0.195090322016129000000000000000f,
-                                         0.000000000000000000000000000000f,
-                                         0.195090322016128000000000000000f,
-                                         0.382683432365090000000000000000f,
-                                         0.555570233019602000000000000000f,
-                                         0.707106781186547000000000000000f,
-                                         0.831469612302545000000000000000f,
-                                         0.923879532511287000000000000000f,
-                                         0.980785280403230000000000000000f
-};
-
-unsigned int index_sin_cos_array/* = 0*/;
-unsigned int index_data_sin_cos_array/* = 0*/;
-int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
-int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
-int ortogonal_irq[2*NUMBER_ANALOG_CANALES_WITH_CALC];
-int ortogonal[2*NUMBER_ANALOG_CANALES_WITH_CALC][2];
+unsigned int index_period_array/* = 0*/;
+int data_0[NUMBER_POINT][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
+int data_sin[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
+int data_cos[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
+int ortogonal_irq[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
+int ortogonal[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))][2];
+int aperiodic_irq[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
+int aperiodic[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES][2];
 unsigned int bank_ortogonal/* = 0*/;
-//unsigned int semaphore_measure_values = 0;
 unsigned int semaphore_measure_values_low/* = 0*/;
 
 unsigned int semaphore_measure_values_low1/* = 0*/;
@@ -245,9 +208,29 @@ unsigned int measurement_high[2][_NUMBER_IM]/* = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 unsigned int measurement_middle[_NUMBER_IM]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/; 
 unsigned int measurement_low[_NUMBER_IM]/* = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}*/; 
 
-const unsigned int index_converter[NUMBER_ANALOG_CANALES]  = {FULL_ORT_Ia_H, FULL_ORT_Ib_H , FULL_ORT_Ic_H, FULL_ORT_Ia_L, FULL_ORT_Ib_L , FULL_ORT_Ic_L, FULL_ORT_Ua , FULL_ORT_Ub , FULL_ORT_Uc};
-int ortogonal_calc[2*FULL_ORT_MAX];
-int ortogonal_calc_low[2*FULL_ORT_MAX];
+const unsigned int index_converter[NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)]  = 
+{
+  IM_IA_H,
+  IM_IB_H,
+  IM_IC_H,
+  IM_IA_L,
+  IM_IB_L,
+  IM_IC_L,
+  IM_UA,
+  IM_UB,
+  IM_UC,
+  IM_dIA,
+  IM_dIB,
+  IM_dIC,
+  IM_2dIA,
+  IM_2dIB,
+  IM_2dIC,
+  IM_5dIA,
+  IM_5dIB,
+  IM_5dIC
+};
+int ortogonal_calc[2*FULL_ORT_MAX_TOTAL];
+int ortogonal_calc_low[2*FULL_ORT_MAX_TOTAL];
 int phi_angle[FULL_ORT_MAX];
 int base_index_for_angle = -1;
 
@@ -553,7 +536,8 @@ unsigned char temp_register_rtc[2];
 
 unsigned int changed_settings = CHANGED_ETAP_NONE; 
 unsigned char crc_settings;
-__SETTINGS current_settings_prt, current_settings, edition_settings, current_settings_interfaces;
+__SETTINGS current_settings_prt, current_settings;
+SRAM1 __SETTINGS edition_settings, current_settings_interfaces;
 uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 int32_t type_con_ozt_meas;
 double koef_VH_meas, koef_VL_meas;
