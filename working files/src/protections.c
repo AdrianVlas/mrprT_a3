@@ -133,21 +133,21 @@ inline unsigned int sqrt_32(unsigned int y)
 inline void velychyna_zvorotnoi_poslidovnosti(int ortogonal_local_calc[])
 {
   enum _n_phase {_A = 0, _B, _C, _A_B_C};
-  const enum _full_ort_index a_b_c[_NUMBER_FOR_I_U][_A_B_C] = 
+  const enum _index_meas a_b_c[_NUMBER_FOR_I_U][_A_B_C] = 
   {
-    {FULL_ORT_Ia_H  , FULL_ORT_Ib_H  , FULL_ORT_Ic_H  },
-    {FULL_ORT_Ia_L  , FULL_ORT_Ib_L  , FULL_ORT_Ic_L  },
-    {FULL_ORT_Ia_P_H, FULL_ORT_Ib_P_H, FULL_ORT_Ic_P_H},
-    {FULL_ORT_Ia_P_L, FULL_ORT_Ib_P_L, FULL_ORT_Ic_P_L},
-    {FULL_ORT_Ua    , FULL_ORT_Ub    , FULL_ORT_Uc    }
+    {IM_IA_H  , IM_IB_H  , IM_IC_H  },
+    {IM_IA_L  , IM_IB_L  , IM_IC_L  },
+    {IM_IA_P_H, IM_IB_P_H, IM_IC_P_H},
+    {IM_IA_P_L, IM_IB_P_L, IM_IC_P_L},
+    {IM_UA    , IM_UB    , IM_UC    }
   };
   const uint32_t const_val[_NUMBER_FOR_I_U][2] = 
   {
-    {FULL_ORT_I2_H  , FULL_ORT_I1_H  },
-    {FULL_ORT_I2_L  , FULL_ORT_I1_L  },
-    {FULL_ORT_I2_P_H, FULL_ORT_I1_P_H},
-    {FULL_ORT_I2_P_L, FULL_ORT_I1_P_L},
-    {FULL_ORT_U2    , FULL_ORT_U1    }
+    {IM_I2_H  , IM_I1_H  },
+    {IM_I2_L  , IM_I1_L  },
+    {IM_I2_P_H, IM_I1_P_H},
+    {IM_I2_P_L, IM_I1_P_L},
+    {IM_U2    , IM_U1    }
   };
     
   int mul_x1, mul_x2, mul_x3, mul_x4, mul_y1, mul_y2, mul_y3, mul_y4;
@@ -244,7 +244,6 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
       for (unsigned int i = 0; i < 3; i++)
       {
         unsigned int index_I, index_U;
-        unsigned int index_I_ort, index_U_ort;
         switch (i)
         {
         case 0:
@@ -252,16 +251,13 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
             if (current)
             {
               index_I = IM_IA_L;
-              index_I_ort = FULL_ORT_Ia_L;
             }
             else
             {
               index_I = IM_IA_H;
-              index_I_ort = FULL_ORT_Ia_H;
             }
 
             index_U = IM_UBC;
-            index_U_ort = FULL_ORT_Ubc;
 
             break;
           }
@@ -270,16 +266,13 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
             if (current)
             {
               index_I = IM_IB_L;
-              index_I_ort = FULL_ORT_Ib_L;
             }
             else
             {
               index_I = IM_IB_H;
-              index_I_ort = FULL_ORT_Ib_H;
             }
 
             index_U = IM_UCA;
-            index_U_ort = FULL_ORT_Uca;
 
             break;
           }
@@ -288,16 +281,13 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
             if (current)
             {
               index_I = IM_IC_L;
-              index_I_ort = FULL_ORT_Ic_L;
             }
             else
             {
               index_I = IM_IC_H;
-              index_I_ort = FULL_ORT_Ic_H;
             }
 
             index_U = IM_UAB;
-            index_U_ort = FULL_ORT_Uab;
 
             break;
           }
@@ -323,10 +313,10 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
             (Ix_bilshe_porogu_tmp  != 0)
            )
         {
-#define SIN_I   ortogonal_local_calc[2*index_I_ort    ]
-#define COS_I   ortogonal_local_calc[2*index_I_ort + 1]
-#define SIN_U   ortogonal_local_calc[2*index_U_ort    ]
-#define COS_U   ortogonal_local_calc[2*index_U_ort + 1]
+#define SIN_I   ortogonal_local_calc[2*index_I    ]
+#define COS_I   ortogonal_local_calc[2*index_I + 1]
+#define SIN_U   ortogonal_local_calc[2*index_U    ]
+#define COS_U   ortogonal_local_calc[2*index_U + 1]
 
           amp_cos_U_fi = (COS_U*a_cos_fi - SIN_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
           amp_sin_U_fi = (SIN_U*a_cos_fi + COS_U*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
@@ -532,10 +522,10 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
       sin(phi + Pi) = -sin(phi)
       Тому COS_U змінюємо знак
       */
-#define SIN_I           ((voltage) ? ortogonal_local_calc[2*FULL_ORT_3I0_r_L    ] : ortogonal_local_calc[2*FULL_ORT_3I0_r_H    ])
-#define COS_I           ((voltage) ? ortogonal_local_calc[2*FULL_ORT_3I0_r_L + 1] : ortogonal_local_calc[2*FULL_ORT_3I0_r_H + 1])
-#define SIN_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0_r      ])
-#define COS_U_plus_Pi   (-ortogonal_local_calc[2*FULL_ORT_3U0_r   + 1])
+#define SIN_I           ((voltage) ? ortogonal_local_calc[2*IM_3I0_r_L    ] : ortogonal_local_calc[2*IM_3I0_r_H    ])
+#define COS_I           ((voltage) ? ortogonal_local_calc[2*IM_3I0_r_L + 1] : ortogonal_local_calc[2*IM_3I0_r_H + 1])
+#define SIN_U_plus_Pi   (-ortogonal_local_calc[2*IM_3U0_r      ])
+#define COS_U_plus_Pi   (-ortogonal_local_calc[2*IM_3U0_r   + 1])
 
       int cos_I_fi = (COS_I*a_cos_fi - SIN_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
       int sin_I_fi = (SIN_I*a_cos_fi + COS_I*a_sin_fi) >> AMPLITUDA_FI_VAGA; //З поверненням до початкової розрядності ортогональних
@@ -689,20 +679,20 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
   S = UaIa* + UbIb* + UcIc*
   */
   
-#define IA_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ia_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ia_H + 1])
-#define IA_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ia_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ia_H + 0])
-#define UA_SIN          ortogonal_local_calc[2*FULL_ORT_Ua + 1]
-#define UA_COS          ortogonal_local_calc[2*FULL_ORT_Ua + 0]
+#define IA_SIN          ((voltage) ? ortogonal_local_calc[2*IM_IA_L + 1] : ortogonal_local_calc[2*IM_IA_H + 1])
+#define IA_COS          ((voltage) ? ortogonal_local_calc[2*IM_IA_L + 0] : ortogonal_local_calc[2*IM_IA_H + 0])
+#define UA_SIN          ortogonal_local_calc[2*IM_UA + 1]
+#define UA_COS          ortogonal_local_calc[2*IM_UA + 0]
   
-#define IB_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ib_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 1])
-#define IB_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ib_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 0])
-#define UB_SIN          ortogonal_local_calc[2*FULL_ORT_Ub + 1]
-#define UB_COS          ortogonal_local_calc[2*FULL_ORT_Ub + 0]
+#define IB_SIN          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 1] : ortogonal_local_calc[2*IM_IC_H + 1])
+#define IB_COS          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 0] : ortogonal_local_calc[2*IM_IC_H + 0])
+#define UB_SIN          ortogonal_local_calc[2*IM_UB + 1]
+#define UB_COS          ortogonal_local_calc[2*IM_UB + 0]
 
-#define IC_SIN          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ic_L + 1] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 1])
-#define IC_COS          ((voltage) ? ortogonal_local_calc[2*FULL_ORT_Ic_L + 0] : ortogonal_local_calc[2*FULL_ORT_Ic_H + 0])
-#define UC_SIN          ortogonal_local_calc[2*FULL_ORT_Uc + 1]
-#define UC_COS          ortogonal_local_calc[2*FULL_ORT_Uc + 0]
+#define IC_SIN          ((voltage) ? ortogonal_local_calc[2*IM_IC_L + 1] : ortogonal_local_calc[2*IM_IC_H + 1])
+#define IC_COS          ((voltage) ? ortogonal_local_calc[2*IM_IC_L + 0] : ortogonal_local_calc[2*IM_IC_H + 0])
+#define UC_SIN          ortogonal_local_calc[2*IM_UC + 1]
+#define UC_COS          ortogonal_local_calc[2*IM_UC + 0]
   
   long long Re_UaIa, Im_UaIa;
   if (measurement[IM_IA_H] >= PORIG_I_ENERGY)
@@ -912,28 +902,28 @@ inline void calc_measurement(unsigned int number_group_stp)
   Дорозраховунок ортогональних
   ***/
   //3I0_H(розрахункове)
-  ortogonal_calc[2*FULL_ORT_3I0_r_H + 0] = ortogonal_calc[2*FULL_ORT_Ia_H    ] + ortogonal_calc[2*FULL_ORT_Ib_H    ] + ortogonal_calc[2*FULL_ORT_Ic_H    ];
-  ortogonal_calc[2*FULL_ORT_3I0_r_H + 1] = ortogonal_calc[2*FULL_ORT_Ia_H + 1] + ortogonal_calc[2*FULL_ORT_Ib_H + 1] + ortogonal_calc[2*FULL_ORT_Ic_H + 1];
+  ortogonal_calc[2*IM_3I0_r_H + 0] = ortogonal_calc[2*IM_IA_H    ] + ortogonal_calc[2*IM_IB_H    ] + ortogonal_calc[2*IM_IC_H    ];
+  ortogonal_calc[2*IM_3I0_r_H + 1] = ortogonal_calc[2*IM_IA_H + 1] + ortogonal_calc[2*IM_IB_H + 1] + ortogonal_calc[2*IM_IC_H + 1];
 
   //3I0_L(розрахункове)
-  ortogonal_calc[2*FULL_ORT_3I0_r_L + 0] = ortogonal_calc[2*FULL_ORT_Ia_L    ] + ortogonal_calc[2*FULL_ORT_Ib_L    ] + ortogonal_calc[2*FULL_ORT_Ic_L    ];
-  ortogonal_calc[2*FULL_ORT_3I0_r_L + 1] = ortogonal_calc[2*FULL_ORT_Ia_L + 1] + ortogonal_calc[2*FULL_ORT_Ib_L + 1] + ortogonal_calc[2*FULL_ORT_Ic_L + 1];
+  ortogonal_calc[2*IM_3I0_r_L + 0] = ortogonal_calc[2*IM_IA_L    ] + ortogonal_calc[2*IM_IB_L    ] + ortogonal_calc[2*IM_IC_L    ];
+  ortogonal_calc[2*IM_3I0_r_L + 1] = ortogonal_calc[2*IM_IA_L + 1] + ortogonal_calc[2*IM_IB_L + 1] + ortogonal_calc[2*IM_IC_L + 1];
 
   //3U0(розрахункове)
-  ortogonal_calc[2*FULL_ORT_3U0_r + 0] = ortogonal_calc[2*FULL_ORT_Ua    ] + ortogonal_calc[2*FULL_ORT_Ub    ] + ortogonal_calc[2*FULL_ORT_Uc    ];
-  ortogonal_calc[2*FULL_ORT_3U0_r + 1] = ortogonal_calc[2*FULL_ORT_Ua + 1] + ortogonal_calc[2*FULL_ORT_Ub + 1] + ortogonal_calc[2*FULL_ORT_Uc + 1];
+  ortogonal_calc[2*IM_3U0_r + 0] = ortogonal_calc[2*IM_UA    ] + ortogonal_calc[2*IM_UB    ] + ortogonal_calc[2*IM_UC    ];
+  ortogonal_calc[2*IM_3U0_r + 1] = ortogonal_calc[2*IM_UA + 1] + ortogonal_calc[2*IM_UB + 1] + ortogonal_calc[2*IM_UC + 1];
     
   //Ubc
-  ortogonal_calc[2*FULL_ORT_Ubc + 0] = ortogonal_calc[2*FULL_ORT_Ub    ] - ortogonal_calc[2*FULL_ORT_Uc    ];
-  ortogonal_calc[2*FULL_ORT_Ubc + 1] = ortogonal_calc[2*FULL_ORT_Ub + 1] - ortogonal_calc[2*FULL_ORT_Uc + 1];
+  ortogonal_calc[2*IM_UBC + 0] = ortogonal_calc[2*IM_UB    ] - ortogonal_calc[2*IM_UC    ];
+  ortogonal_calc[2*IM_UBC + 1] = ortogonal_calc[2*IM_UB + 1] - ortogonal_calc[2*IM_UC + 1];
   
   //Uca
-  ortogonal_calc[2*FULL_ORT_Uca + 0] = ortogonal_calc[2*FULL_ORT_Uc    ] - ortogonal_calc[2*FULL_ORT_Ua    ];
-  ortogonal_calc[2*FULL_ORT_Uca + 1] = ortogonal_calc[2*FULL_ORT_Uc + 1] - ortogonal_calc[2*FULL_ORT_Ua + 1];
+  ortogonal_calc[2*IM_UCA + 0] = ortogonal_calc[2*IM_UC    ] - ortogonal_calc[2*IM_UA    ];
+  ortogonal_calc[2*IM_UCA + 1] = ortogonal_calc[2*IM_UC + 1] - ortogonal_calc[2*IM_UA + 1];
 
   //Uab
-  ortogonal_calc[2*FULL_ORT_Uab + 0] = ortogonal_calc[2*FULL_ORT_Ua    ] - ortogonal_calc[2*FULL_ORT_Ub    ];
-  ortogonal_calc[2*FULL_ORT_Uab + 1] = ortogonal_calc[2*FULL_ORT_Ua + 1] - ortogonal_calc[2*FULL_ORT_Ub + 1];
+  ortogonal_calc[2*IM_UAB + 0] = ortogonal_calc[2*IM_UA    ] - ortogonal_calc[2*IM_UB    ];
+  ortogonal_calc[2*IM_UAB + 1] = ortogonal_calc[2*IM_UA + 1] - ortogonal_calc[2*IM_UB + 1];
 
   //Приведені струми високої сторони
   double koef_VH_tmp = koef_VH_meas;
@@ -941,40 +931,40 @@ inline void calc_measurement(unsigned int number_group_stp)
   {
   case TYPE_CON_OZT_0:
     {
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ia_H + 0]*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ia_H + 1]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 0] = (int)(round((double)ortogonal_calc[2*IM_IA_H + 0]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 1] = (int)(round((double)ortogonal_calc[2*IM_IA_H + 1]*koef_VH_tmp));
 
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ib_H + 0]*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ib_H + 1]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 0] = (int)(round((double)ortogonal_calc[2*IM_IB_H + 0]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 1] = (int)(round((double)ortogonal_calc[2*IM_IB_H + 1]*koef_VH_tmp));
       
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ic_H + 0]*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ic_H + 1]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 0] = (int)(round((double)ortogonal_calc[2*IM_IC_H + 0]*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 1] = (int)(round((double)ortogonal_calc[2*IM_IC_H + 1]*koef_VH_tmp));
 
       break;
     }
   case TYPE_CON_OZT_1:
     {
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ia_H + 0] - ortogonal_calc[2*FULL_ORT_Ic_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ia_H + 1] - ortogonal_calc[2*FULL_ORT_Ic_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IA_H + 0] - ortogonal_calc[2*IM_IC_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IA_H + 1] - ortogonal_calc[2*IM_IC_H + 1])*koef_VH_tmp));
 
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ib_H + 0] - ortogonal_calc[2*FULL_ORT_Ia_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ib_H + 1] - ortogonal_calc[2*FULL_ORT_Ia_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IB_H + 0] - ortogonal_calc[2*IM_IA_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IB_H + 1] - ortogonal_calc[2*IM_IA_H + 1])*koef_VH_tmp));
       
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ic_H + 0] - ortogonal_calc[2*FULL_ORT_Ib_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ic_H + 1] - ortogonal_calc[2*FULL_ORT_Ib_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IC_H + 0] - ortogonal_calc[2*IM_IB_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IC_H + 1] - ortogonal_calc[2*IM_IB_H + 1])*koef_VH_tmp));
 
       break;
     }
   case TYPE_CON_OZT_11:
     {
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ia_H + 0] - ortogonal_calc[2*FULL_ORT_Ib_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ia_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ia_H + 1] - ortogonal_calc[2*FULL_ORT_Ib_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IA_H + 0] - ortogonal_calc[2*IM_IB_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IA_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IA_H + 1] - ortogonal_calc[2*IM_IB_H + 1])*koef_VH_tmp));
 
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ib_H + 0] - ortogonal_calc[2*FULL_ORT_Ic_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ib_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ib_H + 1] - ortogonal_calc[2*FULL_ORT_Ic_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IB_H + 0] - ortogonal_calc[2*IM_IC_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IB_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IB_H + 1] - ortogonal_calc[2*IM_IC_H + 1])*koef_VH_tmp));
       
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 0] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ic_H + 0] - ortogonal_calc[2*FULL_ORT_Ia_H + 0])*koef_VH_tmp));
-      ortogonal_calc[2*FULL_ORT_Ic_P_H + 1] = (int)(round((double)(ortogonal_calc[2*FULL_ORT_Ic_H + 1] - ortogonal_calc[2*FULL_ORT_Ia_H + 1])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 0] = (int)(round((double)(ortogonal_calc[2*IM_IC_H + 0] - ortogonal_calc[2*IM_IA_H + 0])*koef_VH_tmp));
+      ortogonal_calc[2*IM_IC_P_H + 1] = (int)(round((double)(ortogonal_calc[2*IM_IC_H + 1] - ortogonal_calc[2*IM_IA_H + 1])*koef_VH_tmp));
 
       break;
     }
@@ -983,14 +973,14 @@ inline void calc_measurement(unsigned int number_group_stp)
   
   //Приведені струми низької сторони
   double koef_VL_tmp = koef_VL_meas;
-  ortogonal_calc[2*FULL_ORT_Ia_P_L + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ia_L + 0]*koef_VL_tmp));
-  ortogonal_calc[2*FULL_ORT_Ia_P_L + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ia_L + 1]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IA_P_L + 0] = (int)(round((double)ortogonal_calc[2*IM_IA_L + 0]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IA_P_L + 1] = (int)(round((double)ortogonal_calc[2*IM_IA_L + 1]*koef_VL_tmp));
   
-  ortogonal_calc[2*FULL_ORT_Ib_P_L + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ib_L + 0]*koef_VL_tmp));
-  ortogonal_calc[2*FULL_ORT_Ib_P_L + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ib_L + 1]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IB_P_L + 0] = (int)(round((double)ortogonal_calc[2*IM_IB_L + 0]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IB_P_L + 1] = (int)(round((double)ortogonal_calc[2*IM_IB_L + 1]*koef_VL_tmp));
   
-  ortogonal_calc[2*FULL_ORT_Ic_P_L + 0] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ic_L + 0]*koef_VL_tmp));
-  ortogonal_calc[2*FULL_ORT_Ic_P_L + 1] = (int)(round((double)ortogonal_calc[2*FULL_ORT_Ic_L + 1]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IC_P_L + 0] = (int)(round((double)ortogonal_calc[2*IM_IC_L + 0]*koef_VL_tmp));
+  ortogonal_calc[2*IM_IC_P_L + 1] = (int)(round((double)ortogonal_calc[2*IM_IC_L + 1]*koef_VL_tmp));
   
   /***/
   //Розраховуємо напругу прямої і зворотньої послідовності
@@ -1027,7 +1017,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   Якщо врахувати, що сигнал є підсиленим у 16 раз, то максимальне значення ортогональних може бути
   16*150000/Koef_1 = 36989,581624588726888916668767919 < 36990(0x907E) це є 16 бітне число (+ можливий знак) - тобто число виходить 17-бітне
   
-  Якщо з фазної напруги розраховується лінійна напруга, то, якзо припустити що вектори розврнуті у різні сторони, то  максимальне
+  Якщо з фазної напруги розраховується лінійна напруга, то, якщо припустити що вектори розврнуті у різні сторони, то  максимальне
   значення ортогональних може бути
   2*16*150000/Koef_1 = 73979,163249177453777833337535838 < 73980(0x120FC) це є 17 бітне число (+ можливий знак) - тобто число виходить 18-бітне
   ---------------------------------------------------------------------------------------------------------
@@ -1036,64 +1026,24 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   //Розраховуємо діюче значення через перетворення Фур'є
   /***/
-  for(enum _full_ort_index i = FULL_ORT_Ua; i < FULL_ORT_MAX_TOTAL; i++)
+  for(enum _index_meas i = IM_UA; i < FULL_ORT_MAX_TOTAL; i++)
   {
-    if ((i >= I_Ia_H) && (i <= I_Ic_L))
+    uint32_t mnognyk, vaga_dilennja;
+    if (i <= _IM_U_END)
     {
-      unsigned int index_m, index_ort;
-      switch (i)
-      {
-      case I_Ia_H:
-      case I_Ib_H:
-      case I_Ic_H:
-        {
-          unsigned int delta_index = (i - I_Ia_H);
-          index_m = IM_IA_H + delta_index;
-          index_ort = FULL_ORT_Ia_H + delta_index;
-          break;
-        }
-      case I_Ia_L:
-      case I_Ib_L:
-      case I_Ic_L:
-        {
-          unsigned int delta_index = (i - I_Ia_L);
-          index_m = IM_IA_L + delta_index;
-          index_ort = FULL_ORT_Ia_L + delta_index;
-          break;
-        }
-      default:
-        {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(66);
-        }
-      }
-      
-      measurement[index_m] = ( MNOGNYK_I_DIJUCHE*(sqrt_32((unsigned int)(ortogonal_calc[2*index_ort]*ortogonal_calc[2*index_ort]) + (unsigned int)(ortogonal_calc[2*index_ort+1]*ortogonal_calc[2*index_ort+1]))) ) >> (VAGA_DILENNJA_I_DIJUCHE + 4);
+      mnognyk = MNOGNYK_U_DIJUCHE;
+      vaga_dilennja = VAGA_DILENNJA_U_DIJUCHE;
     }
     else
     {
-      unsigned int index_m, index_ort;
-      switch (i)
-      {
-      case I_Ua:
-      case I_Ub:
-      case I_Uc:
-        {
-          unsigned int delta_index = (i - I_Ua);
-          index_m = IM_UA + delta_index;
-          index_ort = FULL_ORT_Ua + delta_index;
-          break;
-        }
-      default:
-        {
-          //Теоретично цього ніколи не мало б бути
-          total_error_sw_fixed(67);
-        }
-      }
-      
-      measurement[index_m] = ( MNOGNYK_U_DIJUCHE*(sqrt_32((unsigned int)(ortogonal_calc[2*index_ort]*ortogonal_calc[2*index_ort]) + (unsigned int)(ortogonal_calc[2*index_ort+1]*ortogonal_calc[2*index_ort+1]))) ) >> (VAGA_DILENNJA_U_DIJUCHE + 4);
+      mnognyk = MNOGNYK_I_DIJUCHE;
+      vaga_dilennja = VAGA_DILENNJA_I_DIJUCHE;
     }
     
+    uint64_t _x = ortogonal_calc[2*i    ];
+    uint64_t _y = ortogonal_calc[2*i + 1];
+
+    measurement[i] = ( mnognyk*(sqrt_64(_x*_x + _y*_y)) ) >> (vaga_dilennja + 4);
   }
   /***/
 
