@@ -193,9 +193,9 @@ int data_0[NUMBER_POINT][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES
 int data_sin[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
 int data_cos[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
 int ortogonal_irq[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
-int ortogonal[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))][2];
+int ortogonal[2][2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
 int aperiodic_irq[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
-int aperiodic[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES][2];
+int aperiodic[2][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
 unsigned int bank_ortogonal/* = 0*/;
 unsigned int semaphore_measure_values_low/* = 0*/;
 
@@ -541,6 +541,7 @@ SRAM1 __SETTINGS edition_settings, current_settings_interfaces;
 uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 int32_t type_con_ozt_meas;
 double koef_VH_meas, koef_VL_meas;
+uint32_t pickup_ozt_k_meas[NUMBER_GROUP_USTAVOK];
 unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];
 int * type_mtz_arr[NUMBER_LEVEL_MTZ];

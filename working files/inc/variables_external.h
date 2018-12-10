@@ -85,9 +85,9 @@ extern int data_0[NUMBER_POINT][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_
 extern int data_sin[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
 extern int data_cos[NUMBER_POINT][NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)];
 extern int ortogonal_irq[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
-extern int ortogonal[2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))][2];
+extern int ortogonal[2][2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))];
 extern int aperiodic_irq[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
-extern int aperiodic[NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES][2];
+extern int aperiodic[2][NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES];
 extern unsigned int semaphore_measure_values_low;
 extern unsigned int bank_ortogonal;
 
@@ -242,6 +242,7 @@ extern __SETTINGS edition_settings, current_settings_interfaces;
 extern uint8_t ctr_transformator_I_VH_meas, ctr_transformator_I_VL_meas;
 extern int32_t type_con_ozt_meas;
 extern double koef_VH_meas, koef_VL_meas;
+extern uint32_t pickup_ozt_k_meas[NUMBER_GROUP_USTAVOK];
 extern int * type_mtz_arr[NUMBER_LEVEL_MTZ];
 extern unsigned int mtz_settings_prt[NUMBER_LEVEL_MTZ][MTZ_SETTINGS_LENGTH];
 extern unsigned int mtz_tmr_const[NUMBER_LEVEL_MTZ][NUMBER_LEVEL_TMR_CONST];

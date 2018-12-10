@@ -851,10 +851,10 @@ inline void calc_measurement(unsigned int number_group_stp)
     //Струми/напруги з давачів
     for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++ )
     {
-      ortogonal_local[index_ort] = ortogonal[index_ort][bank_ortogonal_tmp];
+      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
       index_ort++;
 
-      ortogonal_local[index_ort] = ortogonal[index_ort][bank_ortogonal_tmp];
+      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
       index_ort++;
     }
 
@@ -862,13 +862,13 @@ inline void calc_measurement(unsigned int number_group_stp)
     uint32_t index_aper = 0;
     for(unsigned int i = NUMBER_ANALOG_CANALES; i < (NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)); i++ )
     {
-      aperiodic_local[index_aper] = aperiodic[index_aper][bank_ortogonal_tmp];
+      aperiodic_local[index_aper] = aperiodic[bank_ortogonal_tmp][index_aper];
       index_aper++;
 
-      ortogonal_local[index_ort] = ortogonal[index_ort][bank_ortogonal_tmp];
+      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
       index_ort++;
 
-      ortogonal_local[index_ort] = ortogonal[index_ort][bank_ortogonal_tmp];
+      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
       index_ort++;
     }
   
@@ -1047,6 +1047,17 @@ inline void calc_measurement(unsigned int number_group_stp)
   }
   /***/
 
+  /***/
+  //Розраховуємо аперіодичну складову і струм гальмування
+  /***/
+  for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++)
+  {
+    measurement[IM_adIA + i] = ( MNOGNYK_I_DIJUCHE* ((uint64_t)abs(aperiodic_local[i]))) >> (VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3); // (VAGA_DILENNJA_I_DIJUCHE + 4 + VAGA_NUMBER_POINT - 1) = VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3
+    
+    measurement[IM_gdIA + i] = measurement[IM_IA_P_H + i] + pickup_ozt_k_meas[number_group_stp]*(measurement[IM_IA_P_L + i] - measurement[IM_IA_P_H + i])/1000;
+  }
+  /***/
+  
   unsigned int voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
   if ((current_settings_prt.configuration & (1<<MTZ_BIT_CONFIGURATION)) != 0)
   {

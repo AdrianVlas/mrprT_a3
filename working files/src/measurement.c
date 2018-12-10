@@ -353,8 +353,8 @@ void Fourier(void)
 
   //Копіювання для інших систем
   unsigned int bank_ortogonal_tmp = bank_ortogonal;
-  for(size_t i = 0; i < (2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))); i++ ) ortogonal[i][bank_ortogonal_tmp] = ortogonal_irq[i];
-  for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++ )aperiodic[i][bank_ortogonal_tmp] = aperiodic_irq[i];
+  for(size_t i = 0; i < (2*(NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES))); i++ ) ortogonal[bank_ortogonal_tmp][i] = ortogonal_irq[i];
+  for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++ )aperiodic[bank_ortogonal_tmp][i] = aperiodic_irq[i];
 }
 /*************************************************************************/
 
@@ -611,6 +611,7 @@ void SPI_ADC_IRQHandler(void)
       //Копіюємо налаштування, які потрібні вимірювальній системі
       ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
       ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      for (size_t n_g = 0; n_g < NUMBER_GROUP_USTAVOK; n_g++)pickup_ozt_k_meas[n_g] = current_settings_prt.pickup_ozt_k[n_g];
       KOEF_VH_VL(type_con_ozt_meas, koef_VH_meas, koef_VL_meas);
       
       //Помічаємо, що зміни прийняті системою захистів

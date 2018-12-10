@@ -2629,9 +2629,20 @@ void control_settings(void)
     i++;
   }
   
+  i = 0;
+  while ((difference == 0) && (i < NUMBER_GROUP_USTAVOK))
+  {
+    if (pickup_ozt_k_meas[i] != current_settings_prt.pickup_ozt_k[i]) difference = 0xff;
+    i++;
+  }
+  
   int32_t type_con_ozt_tmp;
   double koef_VH_tmp, koef_VL_tmp;
-  KOEF_VH_VL(type_con_ozt_tmp, koef_VH_tmp, koef_VL_tmp);
+  if (difference == 0)
+  {
+    KOEF_VH_VL(type_con_ozt_tmp, koef_VH_tmp, koef_VL_tmp);
+  }
+  
   if (
       (difference == 0) && 
       (crc_settings == crc_settings_tmp) &&

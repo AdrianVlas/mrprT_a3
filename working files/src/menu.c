@@ -688,6 +688,8 @@ void main_manu_function(void)
               {
                 //Переходимо на меню Вимкнення/Ввімкнення
                 if(current_ekran.index_position == INDEX_ML1_Off_On) current_ekran.current_level = EKRAN_CHOOSE_LIST_OFF_ON;
+                //Переходимо на меню ОЗТ
+                if(current_ekran.index_position == INDEX_ML1_OZT) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_OZT;
                 //Переходимо на меню МТЗ
                 else if(current_ekran.index_position == INDEX_ML1_MTZ) current_ekran.current_level = EKRAN_CHOOSE_SETTINGS_MTZ;
                 //Переходимо на меню 3U0

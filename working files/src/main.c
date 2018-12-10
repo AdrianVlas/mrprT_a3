@@ -450,6 +450,7 @@ int main(void)
 
       ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
       ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      for (size_t n_g = 0; n_g < NUMBER_GROUP_USTAVOK; n_g++)pickup_ozt_k_meas[n_g] = current_settings_prt.pickup_ozt_k[n_g];
       KOEF_VH_VL(type_con_ozt_meas, koef_VH_meas, koef_VL_meas);
       
       //Помічаємо, що зміни прийняті всіма системами
@@ -561,6 +562,7 @@ int main(void)
 
       ctr_transformator_I_VH_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VH) & 0x1;
       ctr_transformator_I_VL_meas = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_I_VL) & 0x1;
+      for (size_t n_g = 0; n_g < NUMBER_GROUP_USTAVOK; n_g++)pickup_ozt_k_meas[n_g] = current_settings_prt.pickup_ozt_k[n_g];
       KOEF_VH_VL(type_con_ozt_meas, koef_VH_meas, koef_VL_meas);
       
       //Помічаємо, що зміни прийняті всіма системами
