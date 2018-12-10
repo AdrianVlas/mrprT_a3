@@ -7600,7 +7600,7 @@ inline void main_protection(void)
   static unsigned int previous_active_functions[N_BIG];
   
   //Логічні схеми мають працювати тільки у тому випадку, якщо немє сигналу "Аварийная неисправность"
-  if (_CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) == 0)
+  if (_CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) == 0 || _CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) != 0 )
   {
     //Аварійна ситуація не зафіксована
     
@@ -7613,7 +7613,8 @@ inline void main_protection(void)
     /**************************/
     //Контроль привода ВВ
     /**************************/
-    control_VV(active_functions);
+    control_2VV(active_functions);//control_VV(active_functions);
+	
     /**************************/
 
     /**************************/
@@ -7896,7 +7897,8 @@ inline void main_protection(void)
     /**************************/
     if ((current_settings_prt.configuration & (1 << KZ_ZV_BIT_CONFIGURATION)) != 0)
     {
-      kz_zv_handler(active_functions, number_group_stp);
+      //kz_zv_handler(active_functions, number_group_stp);
+      Kz_zv_handler(active_functions, number_group_stp);
     }
     else
     {
@@ -7922,7 +7924,8 @@ inline void main_protection(void)
     /**************************/
     if ((current_settings_prt.configuration & (1 << GP_BIT_CONFIGURATION)) != 0)
     {
-      gp_handler(active_functions, number_group_stp);
+      //gp_handler(active_functions, number_group_stp);
+      GP_handler(active_functions, number_group_stp);
     }
     else
     {
@@ -7951,7 +7954,8 @@ inline void main_protection(void)
     /**************************/
     if ((current_settings_prt.configuration & (1 << TP_BIT_CONFIGURATION)) != 0)
     {
-      tp_handler(active_functions, number_group_stp);
+      //tp_handler(active_functions, number_group_stp);
+      TP_handler(active_functions, number_group_stp);
     }
     else
     {
@@ -8108,7 +8112,9 @@ inline void main_protection(void)
     /**************************/
     if ((current_settings_prt.configuration & (1 << OFF_ON_BIT_CONFIGURATION)) != 0)
     {
-      on_off_handler(active_functions);
+      //on_off_handler(active_functions);
+	  Bvhs_handler(active_functions);
+	  Bvls_handler(active_functions);
     }
     else
     {
