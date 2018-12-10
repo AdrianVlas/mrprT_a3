@@ -419,13 +419,13 @@ else{
       _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_MTZ]);
   }
 } 
-void GP_TP_handler(unsigned int *p_active_functions, unsigned int number_group_stp);
+void GP_handler(unsigned int *p_active_functions, unsigned int number_group_stp);
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //                  
 //....................................................................................................
 //=====================================================================================================
-void GP_TP_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
+void GP_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
 // ----------------    -------------------------
 register long lV; 
 register union { 
@@ -435,9 +435,9 @@ register union {
       unsigned int gz1    :1;//2
       unsigned int gz2    :1;//3
       unsigned int gzrpn  :1;//4
-      unsigned int tz_on  :1;//5
-      unsigned int tz_blk :1;//6
-      unsigned int tz_dv  :1;//7
+//      unsigned int tz_on  :1;//5
+//      unsigned int tz_blk :1;//6
+//      unsigned int tz_dv  :1;//7
       
    } bool_vars;
   long lVl;
@@ -465,16 +465,7 @@ unsigned long u32_bit_holder = 0;
     lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_GP_RPN);
     if(lV != 0)
         wrp.bool_vars.gzrpn = 1;        
-    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_TP);
-    if(lV != 0)
-        wrp.bool_vars.tz_dv = 1;    
-    lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_TP);
-    if(lV != 0)
-        wrp.bool_vars.tz_blk = 1;   
-        
-    lV = (current_settings.control_TP & (1<< INDEX_ML_CTR_TP_STATE)) ;
-    if(lV != 0)
-        wrp.bool_vars.tz_on = 1;
+
         
     lV = wrp.lVl&7; 
     if(lV == 5){//0B101
@@ -536,26 +527,72 @@ unsigned long u32_bit_holder = 0;
     else
     _CLEAR_BIT(p_active_functions, RANG_GP_RPN); 
   
-	//u32_bit_holder &= 0xf;
-   lV = wrp.lVl&0xe0;//b11100000 
-    if(lV == 0xa0){//0B1010 0000
-        u32_bit_holder |= 0x800;
-        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 11, u32_bit_holder, 12);
+
+}
+//
+//--------------------------------------------------------------------------------------------------------
+//````````````````````````````````````````````````````````````````````````````````````````````````````````
+
+void TP_handler(unsigned int *p_active_functions, unsigned int number_group_stp);
+//=====================================================================================================
+//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+//                  
+//....................................................................................................
+//=====================================================================================================
+void TP_handler(unsigned int *p_active_functions, unsigned int number_group_stp){
+// ----------------    -------------------------
+register long lV; 
+register union { 
+   struct {
+      unsigned int tz_on   :1;//0
+      unsigned int tz_blk  :1;//1
+      unsigned int tz_dv   :1;//2
+//      unsigned int   :1;//3
+//      unsigned int   :1;//4
+//      unsigned int  :1;//5
+//      unsigned int  :1;//6
+//      unsigned int  :1;//7
+      
+   } bool_vars;
+  long lVl;
+}wrp;
+unsigned long u32_bit_holder = 0;
+
+    wrp.lVl = 0;
+     
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_IN_TP);
+    if(lV != 0)
+        wrp.bool_vars.tz_dv = 1;    
+    lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_TP);
+    if(lV != 0)
+        wrp.bool_vars.tz_blk = 1;   
+        
+    lV = (current_settings.control_TP & (1<< INDEX_ML_CTR_TP_STATE)) ;
+    if(lV != 0)
+        wrp.bool_vars.tz_on = 1;
+        
+    lV = wrp.lVl&7; 
+    if(lV == 5){//0B101
+        u32_bit_holder |= 2;
+        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 1, u32_bit_holder, 2);
     }else{
         //u32_bit_holder ~= 2;
-        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 12);
+        _TIMER_0_T(INDEX_TIMER_TZ_TMP_04, 400, u32_bit_holder, 0, u32_bit_holder, 2);
     }
     //
-    if (_GET_OUTPUT_STATE(u32_bit_holder, 12))
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 2))
     _SET_BIT(p_active_functions, RANG_PO_TP);
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_TP); 
     
-    _TIMER_T_0(INDEX_TIMER_TZ, current_settings_prt.timeout_TP[number_group_stp], u32_bit_holder, 12, u32_bit_holder, 13);
-    if (_GET_OUTPUT_STATE(u32_bit_holder, 13))
+    _TIMER_T_0(INDEX_TIMER_GZ1, current_settings_prt.timeout_TP[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 3))
     _SET_BIT(p_active_functions, RANG_TP);
     else
-    _CLEAR_BIT(p_active_functions, RANG_TP);  
+    _CLEAR_BIT(p_active_functions, RANG_TP); 
+    
+
+
 }
 //
 //--------------------------------------------------------------------------------------------------------
