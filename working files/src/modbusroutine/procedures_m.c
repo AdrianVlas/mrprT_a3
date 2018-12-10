@@ -392,7 +392,7 @@ int dataAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
 //данные аналогового регистратора
   //Максимальна кількість часових зрівів
   int max_number_time_sample = (current_settings.prefault_number_periods + current_settings.postfault_number_periods) << VAGA_NUMBER_POINT_AR;
-  unsigned int lenMax = (3 + NUMBER_ANALOG_CANALES + number_word_digital_part_ar);
+  unsigned int lenMax = (3 + NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar);
   if ((unsigned int)recordLen > lenMax) return MARKER_ERRORPERIMETR;//уйти если превышение
 
   if(recordNumber>max_number_time_sample) return MARKER_ERRORPERIMETR;//уйти если превышение
@@ -421,7 +421,7 @@ int dataAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
 
       //Виставляємо читання без заголовку запису даного запису з запитуваноого номеру зрізу і дальше, скільки можливо, часових зрізів
       *point_to_first_number_time_sample = recordNumber;
-      int last_number_time_sample_tmp = recordNumber + SIZE_PAGE_DATAFLASH_2/((NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int));
+      int last_number_time_sample_tmp = recordNumber + SIZE_PAGE_DATAFLASH_2/((NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int));
       if (last_number_time_sample_tmp <= max_number_time_sample)
         {
           *point_to_last_number_time_sample = last_number_time_sample_tmp - 1;//номер останнього часового зрізу ВКЛЮЧНО
@@ -467,12 +467,12 @@ int dataAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
   if((*point_to_first_number_time_sample) == -1)
     {
       index_time_sample = sizeof(__HEADER_AR) + recordNumber*
-                          (NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int);
+                          (NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int);
     }
   else
     {
       index_time_sample = 0 + (recordNumber - (*point_to_first_number_time_sample))*
-                          (NUMBER_ANALOG_CANALES + number_word_digital_part_ar)*sizeof(short int);
+                          (NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar)*sizeof(short int);
     }
 
   switch(offsetRegister)
@@ -507,7 +507,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
     }//switch
 
 //АНАЛОГОВЫЕ КАНАЛЫ
-  if(recordNumber>=2 && recordNumber<=(2+NUMBER_ANALOG_CANALES-1))
+  if(recordNumber>=2 && recordNumber<=(2+NUMBER_ANALOG_CANALES_WITH_CALC-1))
     {
       if(recordLen>27) return MARKER_ERRORPERIMETR;
       int subObj = recordNumber-2;//индекс канала
@@ -518,7 +518,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
       else
         header_ar_tmp = (__HEADER_AR*)buffer_for_RS485_read_record_ar;
 
-      char idetyficator[NUMBER_ANALOG_CANALES][16] =
+      char idetyficator[NUMBER_ANALOG_CANALES_WITH_CALC][16] =
       {
         "Ia(x)           ",
         "Ib(x)           ",
@@ -528,7 +528,10 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
         "Ic(x)           ",
         "Ua              ",
         "Ub              ",
-        "Uc              "
+        "Uc              ",
+        "dIa             ",
+        "dIb             ",
+        "dIc             "
       };
       
       int index_language = index_language_in_array(current_settings.language);
@@ -596,8 +599,11 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
         case 9://Фаза канала offsetRegister
         {
           //Фаза каналу - 2 ASCII символів
-          char phase[NUMBER_ANALOG_CANALES][2] =
+          char phase[NUMBER_ANALOG_CANALES_WITH_CALC][2] =
           {
+            "A ",
+            "B ",
+            "C ",
             "A ",
             "B ",
             "C ",
@@ -666,7 +672,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           //Одиниці вимірювання - 2 ASCII символів
           const char label_meas[2][2] = {"mA","mV"};
           unsigned int index;
-          if (subObj <= I_Ic_L)index = 0;
+          if ((subObj <= I_Ic_L) || (subObj >= I_dIa)) index = 0;
           else index = 1;
 
           return label_meas[index][0] | (label_meas[index][1]<<8);
@@ -674,7 +680,7 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
         case 19://Коэффициент канала offsetRegister
         {
           //Коефіцієнт каналу
-          if (subObj <= I_Ic_L ) return (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
+          if ((subObj <= I_Ic_L) || (subObj >= I_dIa)) return (1000*MNOGNYK_I)   >> (VAGA_DILENNJA_I   + 4);
           else return (1000*MNOGNYK_U)   >> (VAGA_DILENNJA_U   + 4);
         }//case 19
         case 20://Добавочное смещение offsetRegister
@@ -696,16 +702,20 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
             {
               if (subObj <= I_Ic_H )
               {
-                return header_ar_tmp->TCurrent;
+                return header_ar_tmp->TCurrent_H;
               }
               else
               {
-                return header_ar_tmp->TCurrent;
+                return header_ar_tmp->TCurrent_L;
               }
+            }
+          else if (subObj <= I_Uc )
+            {
+              return header_ar_tmp->TVoltage;
             }
           else
             {
-              return header_ar_tmp->TVoltage;
+              return 1;
             }
         }//case 24
         case 25://Вторичный коэф. трансф. offsetRegister
@@ -716,24 +726,24 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
           return 'S';
         }//switch
       return MARKER_ERRORPERIMETR;
-    }//if(recordNumber>=2 && recordNumber<=(2+NUMBER_ANALOG_CANALES))
+    }//if(recordNumber>=2 && recordNumber<=(2+NUMBER_ANALOG_CANALES_WITH_CALC))
 
 //ДИСКРЕТНЫЕ КАНАЛЫ
-  if(recordNumber>=((2+NUMBER_ANALOG_CANALES)) && recordNumber<=(((2+NUMBER_ANALOG_CANALES)) +DISKRET_TOTAL)-1)
+  if(recordNumber>=((2+NUMBER_ANALOG_CANALES_WITH_CALC)) && recordNumber<=(((2+NUMBER_ANALOG_CANALES_WITH_CALC)) +DISKRET_TOTAL)-1)
     {
       if(recordLen>19) return MARKER_ERRORPERIMETR;
-      int subObj = recordNumber-((2+NUMBER_ANALOG_CANALES));//индекс канала
+      int subObj = recordNumber-((2+NUMBER_ANALOG_CANALES_WITH_CALC));//индекс канала
       return recordNumberCaseDiskret(subObj, offsetRegister);
 
-    }//if(recordNumber>=(2+NUMBER_ANALOG_CANALES +1) && recordNumber<=(2+NUMBER_ANALOG_CANALES +1 +100))
+    }//if(recordNumber>=(2+NUMBER_ANALOG_CANALES_WITH_CALC +1) && recordNumber<=(2+NUMBER_ANALOG_CANALES_WITH_CALC +1 +100))
 
 //ОСТАЛЬНЫЕ
-  if(recordNumber>=(((2+NUMBER_ANALOG_CANALES)) +DISKRET_TOTAL) && recordNumber<=((((2+NUMBER_ANALOG_CANALES)) +DISKRET_TOTAL) +7)-1)
+  if(recordNumber>=(((2+NUMBER_ANALOG_CANALES_WITH_CALC)) +DISKRET_TOTAL) && recordNumber<=((((2+NUMBER_ANALOG_CANALES_WITH_CALC)) +DISKRET_TOTAL) +7)-1)
     {
-      int subObj = recordNumber-(((2+NUMBER_ANALOG_CANALES)) +DISKRET_TOTAL);//индекс записи
+      int subObj = recordNumber-(((2+NUMBER_ANALOG_CANALES_WITH_CALC)) +DISKRET_TOTAL);//индекс записи
       return recordNumberCaseOther(subObj, offsetRegister, recordLen, ANALOG_REGISTRATOR);
 
-    }//if(recordNumber>=(2+NUMBER_ANALOG_CANALES +1 +DISKRET_TOTAL +1) && recordNumber<=(2+NUMBER_ANALOG_CANALES +1 +DISKRET_TOTAL +1 +7))
+    }//if(recordNumber>=(2+NUMBER_ANALOG_CANALES_WITH_CALC +1 +DISKRET_TOTAL +1) && recordNumber<=(2+NUMBER_ANALOG_CANALES_WITH_CALC +1 +DISKRET_TOTAL +1 +7))
 
   return MARKER_ERRORPERIMETR;
 }//configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
@@ -846,9 +856,9 @@ int recordNumberCase0Case1(int offsetRegister, int recordNumber, int recordLen, 
           switch(offsetRegister)
             {
             case 0://Количество каналов всего offsetRegister
-              return NUMBER_ANALOG_CANALES + NUMBER_TOTAL_SIGNAL_FOR_RANG;
+              return NUMBER_ANALOG_CANALES_WITH_CALC + NUMBER_TOTAL_SIGNAL_FOR_RANG;
             case 1://Количество аналоговых каналов offsetRegister
-              return NUMBER_ANALOG_CANALES;
+              return NUMBER_ANALOG_CANALES_WITH_CALC;
             case 2://Количество дискретных каналов offsetRegister
               return NUMBER_TOTAL_SIGNAL_FOR_RANG;
             }//switch

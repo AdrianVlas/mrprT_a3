@@ -303,7 +303,7 @@ void Fourier(void)
 //    total_error_sw_fixed(58);
 //  }
 //
-//  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+//  for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
 //  {
 //    //Зчитуємо миттєве значення яке треба опрацювати
 //    int temp_value_1 = ADCs_data[i];
@@ -322,7 +322,7 @@ void Fourier(void)
 //    data_cos[index_data_sin_cos_array_tmp] = temp_value_2;
 //    ortogonal_irq[i_ort_tmp + 1] += temp_value_2;
 //    
-//    if((++index_data_sin_cos_array_tmp) >= (NUMBER_POINT*NUMBER_ANALOG_CANALES)) index_data_sin_cos_array_tmp = 0;
+//    if((++index_data_sin_cos_array_tmp) >= (NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC)) index_data_sin_cos_array_tmp = 0;
 //  }
 //  index_data_sin_cos_array = index_data_sin_cos_array_tmp;
 //  
@@ -331,7 +331,7 @@ void Fourier(void)
 //
 //  //Копіювання для інших систем
 //  unsigned int bank_ortogonal_tmp = bank_ortogonal;
-//  for(unsigned int i = 0; i < (2*NUMBER_ANALOG_CANALES); i++ ) ortogonal[i][bank_ortogonal_tmp] = ortogonal_irq[i];
+//  for(unsigned int i = 0; i < (2*NUMBER_ANALOG_CANALES_WITH_CALC); i++ ) ortogonal[i][bank_ortogonal_tmp] = ortogonal_irq[i];
 //  sum_sqr_data_3I0[bank_ortogonal_tmp] = sum_sqr_data_3I0_irq;
 }
 /*************************************************************************/
@@ -1070,6 +1070,37 @@ void SPI_ADC_IRQHandler(void)
     }
     /*****/
     
+    /*****/
+    //Диф.струми
+    /*****/
+    switch (type_con_ozt_meas)
+    {
+    case TYPE_CON_OZT_0:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)ADCs_data[I_Ia_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)ADCs_data[I_Ib_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)ADCs_data[I_Ic_H]*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    case TYPE_CON_OZT_1:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    case TYPE_CON_OZT_11:
+      {
+        ADCs_data[I_dIa] = (int)(round((double)(ADCs_data[I_Ia_H] - ADCs_data[I_Ib_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ia_L]*koef_VL_meas));
+        ADCs_data[I_dIb] = (int)(round((double)(ADCs_data[I_Ib_H] - ADCs_data[I_Ic_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ib_L]*koef_VL_meas));
+        ADCs_data[I_dIc] = (int)(round((double)(ADCs_data[I_Ic_H] - ADCs_data[I_Ia_H])*koef_VH_meas)) + (int)(round((double)ADCs_data[I_Ic_L]*koef_VL_meas));
+        break;
+      }
+    default: total_error_sw_fixed(23);
+    }
+    
+    /*****/
+    
     unsigned int head_data_for_oscylograph_tmp = head_data_for_oscylograph;
     unsigned int x2, x1, delta_x; 
 
@@ -1083,7 +1114,7 @@ void SPI_ADC_IRQHandler(void)
       //Формуємо дані для розширеної виборки
       x1 = rozshyrena_vyborka.time_p = penultimate_tick_DATA_VAL;
       x2 = rozshyrena_vyborka.time_c = previous_tick_DATA_VAL;
-      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++) 
+      for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++) 
       {
         rozshyrena_vyborka.data_p[i] = rozshyrena_vyborka.data_c[i];
         rozshyrena_vyborka.data_c[i] = ADCs_data[i];
@@ -1120,7 +1151,7 @@ void SPI_ADC_IRQHandler(void)
             break;
           }
 
-          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+          for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
           {
             int y1 = rozshyrena_vyborka.data_p[i], y2 = rozshyrena_vyborka.data_c[i];
             long long y;
@@ -1167,12 +1198,9 @@ void SPI_ADC_IRQHandler(void)
             )
       {
         unsigned int tail_data_for_oscylograph_tmp = tail_data_for_oscylograph;
-        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++)
+        for (unsigned int i = 0; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
         {
           int data_tmp = data_for_oscylograph[tail_data_for_oscylograph_tmp].data[i];
-          
-//          //Цифровий осцилограф
-//          current_data[index_array_of_current_data_value++] = data_tmp;
           
           if((prescaler_ar & MASKA_BIT_FOR_PRESCALER) == 0)
           {
@@ -1181,8 +1209,6 @@ void SPI_ADC_IRQHandler(void)
             AR_WRITE(index_array_ar_current, data_tmp);
           }
         }
-        //Індекс цифрового осцилографа
-        if (index_array_of_current_data_value >= (NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT)) index_array_of_current_data_value = 0;/*Умова мал аб бути ==, але щоб перестахуватися на невизначену помилку я поставив >=*/
 
         //Масив дискретних сигналів для аналогового реєстратора
         unsigned int *label_to_active_functions_source = data_for_oscylograph[tail_data_for_oscylograph_tmp].active_functions;
@@ -1247,12 +1273,12 @@ void SPI_ADC_IRQHandler(void)
         тимчасово помісчаємо її у змінну "вигрузки" для того, щоб дальша програма 
         мала "універсальний", тобто прстіший, вигляд
         */
-        difference = index_array_ar_current - number_postfault_slices*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar);
+        difference = index_array_ar_current - number_postfault_slices*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar);
         if (difference >= 0) index_array_ar_heat = difference;
         else index_array_ar_heat = difference + SIZE_BUFFER_FOR_AR;
 
         //Встановлюємо мітку "вигрузки"
-        difference = index_array_ar_heat - (current_settings_prt.prefault_number_periods << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar);
+        difference = index_array_ar_heat - (current_settings_prt.prefault_number_periods << VAGA_NUMBER_POINT_AR)*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar);
         if (difference >= 0) index_array_ar_tail = difference;
         else index_array_ar_tail = difference + SIZE_BUFFER_FOR_AR;
           
@@ -1303,7 +1329,7 @@ void SPI_ADC_IRQHandler(void)
       if (difference_before < 0) difference_before += SIZE_BUFFER_FOR_AR;
       difference_after = (index_array_ar_current - index_array_ar_tail_tmp);
       if (difference_after < 0) difference_after += SIZE_BUFFER_FOR_AR;
-      if ((difference_after - difference_before) != number_postfault_slices*(NUMBER_ANALOG_CANALES + number_word_digital_part_ar))
+      if ((difference_after - difference_before) != number_postfault_slices*(NUMBER_ANALOG_CANALES_WITH_CALC + number_word_digital_part_ar))
       {
         //Помилкова ситуація, яка викликана переповненням 
         _SET_BIT(set_diagnostyka, ERROR_AR_OVERLOAD_BUFFER_BIT);

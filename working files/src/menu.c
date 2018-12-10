@@ -17654,7 +17654,7 @@ void main_manu_function(void)
                   default:
                     {
                       //Теоретично цього ніколи не мало б бути
-                      total_error_sw_fixed(97);
+                      total_error_sw_fixed(48);
                     }
                   }
                     

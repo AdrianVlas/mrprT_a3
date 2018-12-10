@@ -1072,10 +1072,10 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 1;
-  case 576:
-    (*outMaska) = RANG_OTKL_VID_ZOVN_ZAHYSTIV;
-    (*dvMaska)  = RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV;
-    break;
+//  case 576:
+//    (*outMaska) = RANG_OTKL_VID_ZOVN_ZAHYSTIV;
+//    (*dvMaska)  = RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV;
+//    break;
   case 577:
     (*outMaska) = RANG_ERROR_CONF_EL;
 //        (*dvMaska) =

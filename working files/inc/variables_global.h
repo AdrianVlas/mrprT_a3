@@ -107,10 +107,8 @@ unsigned int vdd_adc2 = VDD_NORMAL_VALUE;
 unsigned int index_array_of_one_value/* = 0*/;
 
 EXTENDED_SAMPLE ADCs_data_raw[NUMBER_ANALOG_CANALES];
-int ADCs_data[NUMBER_ANALOG_CANALES];
-//int current_data[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT];
+int ADCs_data[NUMBER_ANALOG_CANALES_WITH_CALC];
 unsigned long long sqr_current_data_3I0[NUMBER_POINT];
-unsigned int index_array_of_current_data_value/* = 0*/;
 
 unsigned int changed_ustuvannja = CHANGED_ETAP_NONE; 
 unsigned char crc_ustuvannja;
@@ -230,10 +228,10 @@ const float cos_data_f[NUMBER_POINT] = {
 
 unsigned int index_sin_cos_array/* = 0*/;
 unsigned int index_data_sin_cos_array/* = 0*/;
-int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES];
-int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES];
-int ortogonal_irq[2*NUMBER_ANALOG_CANALES];
-int ortogonal[2*NUMBER_ANALOG_CANALES][2];
+int data_sin[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
+int data_cos[NUMBER_POINT*NUMBER_ANALOG_CANALES_WITH_CALC];
+int ortogonal_irq[2*NUMBER_ANALOG_CANALES_WITH_CALC];
+int ortogonal[2*NUMBER_ANALOG_CANALES_WITH_CALC][2];
 unsigned int bank_ortogonal/* = 0*/;
 //unsigned int semaphore_measure_values = 0;
 unsigned int semaphore_measure_values_low/* = 0*/;
@@ -274,7 +272,6 @@ const uint32_t small_big_rang[NUMBER_TOTAL_SIGNAL_FOR_RANG_SMALL] =
 RANG_RESET_LEDS,
 RANG_RESET_RELES,
 RANG_MISCEVE_DYSTANCIJNE,
-RANG_OTKL_VID_ZOVN_ZAHYSTIV,
 RANG_1_GRUPA_USTAVOK,
 RANG_2_GRUPA_USTAVOK,
 RANG_3_GRUPA_USTAVOK,
@@ -766,16 +763,6 @@ unsigned char data_usb_transmiting/* = false*/;
 unsigned int timeout_idle_USB;
 
 //MODBUS-RTU
-//unsigned int registers_address_read =0x20000000;
-//unsigned int registers_address_write =0x20000000;
-//unsigned int data_write_to_memory;
-//unsigned int number_registers_read/* = 0*/;
-//unsigned short int registers_values[64]/* @ "variables_RAM1"*/;
-//unsigned int action_is_continued/* = false*/;
-//unsigned int part_transmit_carrent_data/* = 0*/;
-//unsigned int command_to_receive_current_data/* = false*/;
-//int current_data_transmit[NUMBER_ANALOG_CANALES*NUMBER_POINT*NUMBER_PERIOD_TRANSMIT] /*@ "variables_RAM1"*/; 
-//volatile unsigned int wait_of_receiving_current_data/*  = false*/; 
 SRAM1 unsigned int password_set_USB, password_set_RS485;
 SRAM1 unsigned int password_changed;
 SRAM1 unsigned int password_ustuvannja/* = 0*/;

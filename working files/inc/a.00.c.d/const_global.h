@@ -80,7 +80,6 @@ enum _rang_small
 RANG_SMALL_RESET_LEDS = 0,
 RANG_SMALL_RESET_RELES,
 RANG_SMALL_MISCEVE_DYSTANCIJNE,
-RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV,
 RANG_SMALL_1_GRUPA_USTAVOK,
 RANG_SMALL_2_GRUPA_USTAVOK,
 RANG_SMALL_3_GRUPA_USTAVOK,
@@ -163,7 +162,7 @@ RANG_SMALL_DT4_SET,
 RANG_SMALL_DT4_RESET,
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     9
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG_SMALL     8
 #define NUMBER_OFF_ON_SIGNAL_FOR_RANG_SMALL      12
 #define NUMBER_OZT_SIGNAL_FOR_RANG_SMALL         5
 #define NUMBER_MTZ_SIGNAL_FOR_RANG_SMALL         5
@@ -206,7 +205,6 @@ enum _rang_output_led_df_reg
 RANG_RESET_LEDS = 0,
 RANG_RESET_RELES,
 RANG_MISCEVE_DYSTANCIJNE,
-RANG_OTKL_VID_ZOVN_ZAHYSTIV,
 RANG_DEFECT,
 RANG_AVAR_DEFECT,
 RANG_WORK_A_REJESTRATOR,
@@ -472,7 +470,7 @@ RANG_D_NOT16,
 RANG_ERROR_CONF_EL
 };
 
-#define NUMBER_GENERAL_SIGNAL_FOR_RANG     18
+#define NUMBER_GENERAL_SIGNAL_FOR_RANG     17
 #define NUMBER_OFF_ON_SIGNAL_FOR_RANG      18
 #define NUMBER_OZT_SIGNAL_FOR_RANG         12
 #define NUMBER_MTZ_SIGNAL_FOR_RANG         39
@@ -568,11 +566,11 @@ enum _sector_kz_zv_const
     (1 << (RANG_SMALL_DF1_IN - 32))                           \
   | (1 << (RANG_SMALL_DF2_IN - 32))                           \
   | (1 << (RANG_SMALL_DF3_IN - 32))                           \
+  | (1 << (RANG_SMALL_DF4_IN - 32))                           \
 )
 
 #define MASKA_BUTTON_MODE_0_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DF4_IN - 64))                           \
-  | (1 << (RANG_SMALL_DF5_IN - 64))                           \
+    (1 << (RANG_SMALL_DF5_IN - 64))                           \
   | (1 << (RANG_SMALL_DF6_IN - 64))                           \
   | (1 << (RANG_SMALL_DF7_IN - 64))                           \
   | (1 << (RANG_SMALL_DF8_IN - 64))                           \
@@ -609,11 +607,11 @@ enum _sector_kz_zv_const
   | (1 << (RANG_SMALL_BLOCK_MTZ3 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_MTZ4 - 0))                        \
   | (1 << (RANG_SMALL_BLOCK_P_3U0 - 0))                       \
+  | (1 << (RANG_SMALL_BLOCK_TZNP1 - 0))                       \
 )
 
 #define MASKA_BUTTON_MODE_1_SIGNALS_1 (unsigned int)(         \
-    (1 << (RANG_SMALL_BLOCK_TZNP1 - 32))                      \
-  | (1 << (RANG_SMALL_BLOCK_TZNP2 - 32))                      \
+    (1 << (RANG_SMALL_BLOCK_TZNP2 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_TZNP3 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_TZNP4 - 32))                      \
   | (1 << (RANG_SMALL_BLOCK_ZOP1 - 32))                       \
@@ -636,11 +634,11 @@ enum _sector_kz_zv_const
   | (1 << (RANG_SMALL_DF1_IN - 32))                           \
   | (1 << (RANG_SMALL_DF2_IN - 32))                           \
   | (1 << (RANG_SMALL_DF3_IN - 32))                           \
+  | (1 << (RANG_SMALL_DF4_IN - 32))                           \
 )
 
 #define MASKA_BUTTON_MODE_1_SIGNALS_2 (unsigned int)(         \
-    (1 << (RANG_SMALL_DF4_IN - 64))                           \
-  | (1 << (RANG_SMALL_DF5_IN - 64))                           \
+    (1 << (RANG_SMALL_DF5_IN - 64))                           \
   | (1 << (RANG_SMALL_DF6_IN - 64))                           \
   | (1 << (RANG_SMALL_DF7_IN - 64))                           \
   | (1 << (RANG_SMALL_DF8_IN - 64))                           \
@@ -663,7 +661,6 @@ enum _sector_kz_zv_const
     (1 << (RANG_RESET_LEDS - 0))                                \
   | (1 << (RANG_RESET_RELES - 0))                               \
   | (1 << (RANG_MISCEVE_DYSTANCIJNE - 0))                       \
-  | (1 << (RANG_OTKL_VID_ZOVN_ZAHYSTIV - 0))                    \
   | (1 << (RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV - 0))         \
   | (1 << (RANG_BLOCK_VKL_VV_H - 0))                            \
   | (1 << (RANG_STATE_VV_H - 0))                                \
@@ -676,11 +673,11 @@ enum _sector_kz_zv_const
   | (1 << (RANG_VKL_VV_L - 0))                                  \
   | (1 << (RANG_CTRL_VKL_L - 0))                                \
   | (1 << (RANG_OTKL_VV_L - 0))                                 \
+  | (1 << (RANG_CTRL_OTKL_L - 0))                               \
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_1        (unsigned int)(        \
-    (1 << (RANG_CTRL_OTKL_L - 32))                              \
-  | (1 << (RANG_BLOCK_OZT1 - 32))                               \
+    (1 << (RANG_BLOCK_OZT1 - 32))                               \
   | (1 << (RANG_BLOCK_OZT2 - 32))                               \
   | (1 << (RANG_BLOCK_A_OZT2 - 32))                             \
   | (1 << (RANG_BLOCK_2G_OZT2 - 32))                            \
@@ -745,11 +742,11 @@ enum _sector_kz_zv_const
   | (1 << (RANG_DF8_IN - 192))                                \
   | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
+  | (1 << (RANG_DT2_SET - 192))                               \
 )
 
 #define MASKA_FOR_INPUT_SIGNALS_7        (unsigned int)(      \
-    (1 << (RANG_DT2_SET - 224))                               \
-  | (1 << (RANG_DT2_RESET - 224))                             \
+    (1 << (RANG_DT2_RESET - 224))                             \
   | (1 << (RANG_DT3_SET - 224))                               \
   | (1 << (RANG_DT3_RESET - 224))                             \
   | (1 << (RANG_DT4_SET - 224))                               \
@@ -777,12 +774,12 @@ enum _sector_kz_zv_const
   | (1 << (RANG_VKL_VV_L - 0))                         \
   | (1 << (RANG_CTRL_VKL_L - 0))                       \
   | (1 << (RANG_OTKL_VV_L - 0))                        \
+  | (1 << (RANG_CTRL_OTKL_L - 0))                      \
 )
 
 
 #define MASKA_OFF_ON_SIGNALS_1        (unsigned int)(   \
-    (1 << (RANG_CTRL_OTKL_L - 32))                      \
-  | (1 << (RANG_PRYVID_VV_L - 32))                      \
+    (1 << (RANG_PRYVID_VV_L - 32))                      \
   | (1 << (RANG_WORK_BO_L - 32))                        \
   | (1 << (RANG_WORK_BV_L - 32))                        \
 )
@@ -849,11 +846,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_SECTOR_VPERED_MTZN2 - 32))                   \
    | (1 << (RANG_SECTOR_NAZAD_MTZN2 - 32))                    \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
+   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
 )
 
 #define MASKA_MTZ_SIGNALS_2        (unsigned int)(            \
-     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
    | (1 << (RANG_PO_U_MTZPN2 - 64))                           \
    | (1 << (RANG_PO_MTZPN2 - 64))                             \
    | (1 << (RANG_MTZ2 - 64))                                  \
@@ -918,11 +915,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
    | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
+   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
 )
      
 #define MASKA_TZNP_SIGNALS_3       (unsigned int)(            \
-     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+     (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
    | (1 << (RANG_TZNP1 - 96))                                 \
    | (1 << (RANG_BLOCK_TZNP2 - 96))                           \
@@ -953,11 +950,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
 )
 
 #define MASKA_TZNP_SIGNALS_4       (unsigned int)(            \
-     (1 << (RANG_PO_TZNP4_NAZAD - 128))                        \
-   | (1 << (RANG_TZNP4 - 128))                                 \
+     (1 << (RANG_TZNP4 - 128))                                \
 )
 
 #define MASKA_TZNP_SIGNALS_5                 0
@@ -1056,11 +1053,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
    | (1 << (RANG_BLOCK_UMAX2 - 128))                          \
+   | (1 << (RANG_PO_UMAX2 - 128))                             \
 )
 
 #define MASKA_UMAX_SIGNALS_5       (unsigned int)(            \
-     (1 << (RANG_PO_UMAX2 - 160))                             \
-   | (1 << (RANG_UMAX2 - 160))                                \
+     (1 << (RANG_UMAX2 - 160))                                \
 )
 
 #define MASKA_UMAX_SIGNALS_6                 0
@@ -1159,11 +1156,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_UP1 + 3*2 - 160))                          \
    | (1 << (RANG_BLOCK_UP1 + 3*3 - 160))                    \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                       \
+   | (1 << (RANG_UP1 + 3*3 - 160))                          \
 )
 
 #define MASKA_UP_SIGNALS_6       (unsigned int)(            \
-     (1 << (RANG_UP1 + 3*3 - 192))                          \
-   | (1 << (RANG_BLOCK_UP1 + 3*4 - 192))                    \
+     (1 << (RANG_BLOCK_UP1 + 3*4 - 192))                    \
    | (1 << (RANG_PO_UP1 + 3*4 - 192))                       \
    | (1 << (RANG_UP1 + 3*4 - 192))                          \
    | (1 << (RANG_BLOCK_UP1 + 3*5 - 192))                    \
@@ -1211,11 +1208,11 @@ enum _sector_kz_zv_const
   | (1 << (RANG_DT1_SET - 192))                               \
   | (1 << (RANG_DT1_RESET - 192))                             \
   | (1 << (RANG_DT1_OUT - 192))                               \
+  | (1 << (RANG_DT2_SET - 192))                               \
 )
 
 #define MASKA_EL_SIGNALS_7        (unsigned int)(             \
-    (1 << (RANG_DT2_SET - 224))                               \
-  | (1 << (RANG_DT2_RESET - 224))                             \
+    (1 << (RANG_DT2_RESET - 224))                             \
   | (1 << (RANG_DT2_OUT - 224))                               \
   | (1 << (RANG_DT3_SET - 224))                               \
   | (1 << (RANG_DT3_RESET - 224))                             \
@@ -1246,12 +1243,12 @@ enum _sector_kz_zv_const
   | (1 << (RANG_D_XOR5 - 224))                                \
   | (1 << (RANG_D_XOR6 - 224))                                \
   | (1 << (RANG_D_XOR7 - 224))                                \
+  | (1 << (RANG_D_XOR8 - 224))                                \
 )
 
 
 #define MASKA_EL_SIGNALS_8        (unsigned int)(             \
-    (1 << (RANG_D_XOR8 - 256))                                \
-  | (1 << (RANG_D_NOT1 - 256))                                \
+    (1 << (RANG_D_NOT1 - 256))                                \
   | (1 << (RANG_D_NOT2 - 256))                                \
   | (1 << (RANG_D_NOT3 - 256))                                \
   | (1 << (RANG_D_NOT4 - 256))                                \
@@ -1316,11 +1313,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_MTZPN1 - 32))                             \
    | (1 << (RANG_MTZ1 - 32))                                  \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
+   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_2 (unsigned int)(\
-     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
    | (1 << (RANG_PO_MTZPN2 - 64))                             \
    | (1 << (RANG_MTZ2 - 64))                                  \
    | (1 << (RANG_PO_MTZ3 - 64))                               \
@@ -1338,11 +1335,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
    | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
+   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_3 (unsigned int)(\
-     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+     (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
    | (1 << (RANG_TZNP1 - 96))                                 \
    | (1 << (RANG_PO_3I0_TZNP2_VPERED - 96))                   \
@@ -1364,11 +1361,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_4 (unsigned int)(\
-     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
-   | (1 << (RANG_TZNP4 - 128))                                \
+     (1 << (RANG_TZNP4 - 128))                                \
    | (1 << (RANG_PO_UROV1 - 128))                             \
    | (1 << (RANG_UROV1_1 - 128))                              \
    | (1 << (RANG_UROV1_2 - 128))                              \
@@ -1385,11 +1382,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_UMIN2 - 128))                                \
    | (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
+   | (1 << (RANG_PO_UMAX2 - 128))                             \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_5 (unsigned int)(\
-     (1 << (RANG_PO_UMAX2 - 160))                             \
-   | (1 << (RANG_PO_GP1 - 160))                               \
+     (1 << (RANG_PO_GP1 - 160))                               \
    | (1 << (RANG_GP1 - 160))                                  \
    | (1 << (RANG_PO_GP2 - 160))                               \
    | (1 << (RANG_PO_GP_RPN - 160))                            \
@@ -1403,11 +1400,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_UP1 + 3*2 - 160))                         \
    | (1 << (RANG_UP1 + 3*2 - 160))                            \
    | (1 << (RANG_PO_UP1 + 3*3 - 160))                         \
+   | (1 << (RANG_UP1 + 3*3 - 160))                            \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_6 (unsigned int)(\
-     (1 << (RANG_UP1 + 3*3 - 192))                            \
-   | (1 << (RANG_PO_UP1 + 3*4 - 192))                         \
+     (1 << (RANG_PO_UP1 + 3*4 - 192))                         \
    | (1 << (RANG_UP1 + 3*4 - 192))                            \
    | (1 << (RANG_PO_UP1 + 3*5 - 192))                         \
    | (1 << (RANG_UP1 + 3*5 - 192))                            \
@@ -1452,8 +1449,7 @@ enum _sector_kz_zv_const
 */
 /*****************************************/
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_0 (unsigned int)(\
-     (1 << (RANG_OTKL_VID_ZOVN_ZAHYSTIV - 0))                  \
-   | (1 << (RANG_VIDKL_VID_ZAKHYSTIV - 0))                     \
+     (1 << (RANG_VIDKL_VID_ZAKHYSTIV - 0))                     \
    | (1 << (RANG_VKL_VV_H - 0))                                \
    | (1 << (RANG_OTKL_VV_H - 0))                               \
    | (1 << (RANG_WORK_BO_H - 0))                               \
@@ -1475,11 +1471,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_MTZPN1 - 32))                              \
    | (1 << (RANG_MTZ1 - 32))                                   \
    | (1 << (RANG_PO_MTZ2 - 32))                                \
+   | (1 << (RANG_PO_MTZN2_VPERED - 32))                        \
 )            
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_2 (unsigned int)(\
-     (1 << (RANG_PO_MTZN2_VPERED - 64))                        \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                         \
+     (1 << (RANG_PO_MTZN2_NAZAD - 64))                         \
    | (1 << (RANG_PO_MTZPN2 - 64))                              \
    | (1 << (RANG_MTZ2 - 64))                                   \
    | (1 << (RANG_PO_MTZ3 - 64))                                \
@@ -1514,11 +1510,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_ZOP2 - 128))                                  \
    | (1 << (RANG_PO_UMAX1 - 128))                              \
    | (1 << (RANG_UMAX1 - 128))                                 \
+   | (1 << (RANG_PO_UMAX2 - 128))                              \
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_5 (unsigned int)(\
-     (1 << (RANG_PO_UMAX2 - 160))                              \
-   | (1 << (RANG_UMAX2 - 160))                                 \
+     (1 << (RANG_UMAX2 - 160))                                 \
 )  
 
 #define MASKA_FOR_CONTINUE_GET_DR_ACTINE_WORD_6        0
@@ -1538,11 +1534,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_MTZPN1 - 32))                             \
    | (1 << (RANG_MTZ1 - 32))                                  \
    | (1 << (RANG_PO_MTZ2 - 32))                               \
+   | (1 << (RANG_PO_MTZN2_VPERED - 32))                       \
 )
 
 #define MASKA_MONITOTYNG_PHASE_SIGNALES_2 (unsigned int)(     \
-     (1 << (RANG_PO_MTZN2_VPERED - 64))                       \
-   | (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
+     (1 << (RANG_PO_MTZN2_NAZAD - 64))                        \
    | (1 << (RANG_PO_MTZPN2 - 64))                             \
    | (1 << (RANG_MTZ2 - 64))                                  \
    | (1 << (RANG_PO_MTZ3 - 64))                               \
@@ -1593,11 +1589,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3I0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3I0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
 )            
 
 #define MASKA_MONITOTYNG_3I0_SIGNALES_4        (unsigned int)(\
-     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
-   | (1 << (RANG_TZNP4 - 128))                                \
+     (1 << (RANG_TZNP4 - 128))                                \
 )            
 
 #define MASKA_MONITOTYNG_3I0_SIGNALES_5        0
@@ -1616,11 +1612,11 @@ enum _sector_kz_zv_const
      (1 << (RANG_PO_P_3U0 - 64))                              \
    | (1 << (RANG_P_3U0 - 64))                                 \
    | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
+   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
 )            
 
 #define MASKA_MONITOTYNG_3U0_SIGNALES_3        (unsigned int)(\
-     (1 << (RANG_PO_3U0_TZNP1_NAZAD - 96))                    \
-   | (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
+     (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
    | (1 << (RANG_TZNP1 - 96))                                 \
    | (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
@@ -1636,11 +1632,11 @@ enum _sector_kz_zv_const
    | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
    | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
+   | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
 )            
 
 #define MASKA_MONITOTYNG_3U0_SIGNALES_4        (unsigned int)(\
-     (1 << (RANG_PO_TZNP4_NAZAD - 128))                       \
-   | (1 << (RANG_TZNP4 - 128))                                \
+     (1 << (RANG_TZNP4 - 128))                                \
 )            
 
 #define MASKA_MONITOTYNG_3U0_SIGNALES_5        0
@@ -1681,11 +1677,11 @@ enum _sector_kz_zv_const
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_4 (unsigned int)(      \
      (1 << (RANG_PO_UMAX1 - 128))                             \
    | (1 << (RANG_UMAX1 - 128))                                \
+   | (1 << (RANG_PO_UMAX2 - 128))                             \
 )
 
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_5 (unsigned int)(      \
-     (1 << (RANG_PO_UMAX2 - 160))                             \
-   | (1 << (RANG_UMAX2 - 160))                                \
+     (1 << (RANG_UMAX2 - 160))                                \
 )
 
 #define MASKA_MONITOTYNG_UMAX_SIGNALES_6        0
@@ -1719,32 +1715,28 @@ enum _sector_kz_zv_const
 /*****************************************/
 typedef enum _vymknennja_vid_zakhystiv__
 {
+  VYMKNENNJA_VID_OZT1 = 0,
+  VYMKNENNJA_VID_OZT2,
+  
   VYMKNENNJA_VID_MTZ1,
   VYMKNENNJA_VID_MTZ2,
   VYMKNENNJA_VID_MTZ3,
   VYMKNENNJA_VID_MTZ4,
 
-  VYMKNENNJA_VID_MTZ04_1,
-  VYMKNENNJA_VID_MTZ04_2,
-
-  VYMKNENNJA_VID_ZDZ,
-
-  VYMKNENNJA_VID_3I0,
-  VYMKNENNJA_VID_3U0,
-  VYMKNENNJA_VID_NZZ,
+  VYMKNENNJA_VID_P_3U0,
 
   VYMKNENNJA_VID_TZNP1,
   VYMKNENNJA_VID_TZNP2,
   VYMKNENNJA_VID_TZNP3,
+  VYMKNENNJA_VID_TZNP4,
 
-  VYMKNENNJA_VID_ACHR_CHAPV_VID_DV,
-  VYMKNENNJA_VID_ACHR_CHAPV1,
-  VYMKNENNJA_VID_ACHR_CHAPV2,
+  VYMKNENNJA_VID_UROV1_1,
+  VYMKNENNJA_VID_UROV1_2,
+  VYMKNENNJA_VID_UROV2_1,
+  VYMKNENNJA_VID_UROV2_2,
 
-  VYMKNENNJA_VID_UROV1,
-  VYMKNENNJA_VID_UROV2,
-
-  VYMKNENNJA_VID_ZOP,
+  VYMKNENNJA_VID_ZOP1,
+  VYMKNENNJA_VID_ZOP2,
 
   VYMKNENNJA_VID_UMIN1,
   VYMKNENNJA_VID_UMIN2,
@@ -1752,11 +1744,15 @@ typedef enum _vymknennja_vid_zakhystiv__
   VYMKNENNJA_VID_UMAX1,
   VYMKNENNJA_VID_UMAX2,
 
+  VYMKNENNJA_VID_GP1,
+  VYMKNENNJA_VID_GP2,
+  VYMKNENNJA_VID_GP_RPN,
+
+  VYMKNENNJA_VID_TP,
+  
   VYMKNENNJA_VID_UP1,
   
-  VYMKNENNJA_VID_ZOVNISHNIKH_ZAKHYSTIV = VYMKNENNJA_VID_UP1 + NUMBER_UP,
-  
-  VYMKNENNJA_VID_INSHYKH_SYGNALIV,
+  VYMKNENNJA_VID_INSHYKH_SYGNALIV = VYMKNENNJA_VID_UP1 + NUMBER_UP,
     
   VYMKNENNJA_VID_MAX_NUMBER  
   
