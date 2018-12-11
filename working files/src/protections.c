@@ -60,6 +60,22 @@ inline unsigned int get_order(int value)
 /*****************************************************/
 
 /*****************************************************/
+//Пошук розрядності числа типу int64
+/*****************************************************/
+inline unsigned int get_order_64(int64_t value)
+{
+  unsigned int i = 0;
+
+  if (value == 0) return 1;  
+  if (value < 0) value = -value;
+
+  while ((value >> (++i)) != 0); 
+
+  return i;    
+}
+/*****************************************************/
+
+/*****************************************************/
 //Розрахунок кореня квадратного методом половинного ділення  з прогнозуванням розрядності числа
 /*****************************************************/
 unsigned int sqrt_64(unsigned long long y)
@@ -661,9 +677,170 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
 /*****************************************************/
 //Направленість МТЗ з визначенням секторів
 /*****************************************************/
-inline void directional_kz_zv(void) 
+inline void directional_kz_zv(int ortogonal_local_calc[], unsigned int number_group_stp) 
 {
-  sector_kz_zv = SECTOR_KZ_NEVYZN;
+  /*
+  За розрахунком описаним при розрахунку діючих значень наші ортогональні для струму є у ворматі (15 біт + знак) = 16-розряжне число і не перевищують число 0x6E51
+  Приведений струм максимально можливий може бути чило помножене на Iном (5А) і поділений на мінімальну уставку Iвир (1,5А). Тобто приведений струм не може бути більший за струм з давача помножений у 4 рази (бо 5/1,5 < 4).
+  Отже ортогональні приведеного струму можуть бути у чотири зази більші. 0x6E51 * 4 = 0x1B944
+  Оскільки струм зворотньої послідовності не мє більшим за максимальний струм у трифазній мережі, то і максимальне значення ортогональних для приведеного струму зворотної послідовності не буде більшим за 0x1B944 (17- бітне число)
+  */
+  static unsigned int KZ_ZV_I2_P_H_bilshe_porogu;
+  unsigned int porig_I2_P_H;
+  if (KZ_ZV_I2_P_H_bilshe_porogu == 0) porig_I2_P_H = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
+  else porig_I2_P_H = PORIG_CHUTLYVOSTI_CURRENT;
+  unsigned int KZ_ZV_I2_P_H_bilshe_porogu_tmp = KZ_ZV_I2_P_H_bilshe_porogu = (measurement[IM_I2_P_H] >= porig_I2_P_H);
+      
+  static unsigned int KZ_ZV_I2_P_L_bilshe_porogu;
+  unsigned int porig_I2_P_L;
+  if (KZ_ZV_I2_P_L_bilshe_porogu == 0) porig_I2_P_L = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_SECTOR_BLK/100;
+  else porig_I2_P_L = PORIG_CHUTLYVOSTI_CURRENT;
+  unsigned int KZ_ZV_I2_P_L_bilshe_porogu_tmp = KZ_ZV_I2_P_L_bilshe_porogu = (measurement[IM_I2_P_L] >= porig_I2_P_L);
+
+  if (
+      (KZ_ZV_I2_P_H_bilshe_porogu_tmp != 0) &&
+      (KZ_ZV_I2_P_L_bilshe_porogu_tmp != 0)
+     )
+  {
+#define SIN_I2_P_H           ortogonal_local_calc[2*IM_I2_P_H    ]
+#define COS_I2_P_H           ortogonal_local_calc[2*IM_I2_P_H + 1]
+
+#define SIN_I2_P_L           ortogonal_local_calc[2*IM_I2_P_L    ]
+#define COS_I2_P_L           ortogonal_local_calc[2*IM_I2_P_L + 1]
+    
+    //Вираховуємо COS і SIN кута різниці між I2(ВН пр.) і I2(НН пр.)
+    int64_t cos_fi, sin_fi;
+    /*
+    З наведених вище теоретичних роззрахунківвипливає, що максимальне значення ортогональних для струму може бути 0x1B944
+    Тобто ми можемо вийти за межі чотирибайтного числа.
+    Тому для забезпечення точності для малих значеть я ввожу 64-бітні змінні.
+    */
+    cos_fi = COS_I2_P_H*COS_I2_P_L + SIN_I2_P_H*SIN_I2_P_L;
+    sin_fi = SIN_I2_P_H*COS_I2_P_L - COS_I2_P_H*SIN_I2_P_L;
+
+#undef SIN_I2_P_H
+#undef COS_I2_P_H
+    
+#undef SIN_I2_P_L
+#undef COS_I2_P_L
+
+    /*
+    З вище наведених розрахунків виходить, що COS і SIN різниці струмыв і напруги може бути 35(34)-бітне число
+    Векторні координати границь секторів задано 7-бінтими числами + знак
+    Тоді щоб не отримати переповнення треба гарантувати, що розрядність різниці векторів
+    COS і SIN буде = 31 - (7 + 1) = 23
+    7 - це розрядність координат векторів границь секторів
+    1 - це врахування що ми використовіємо формулу (ab+cd)
+    */
+    unsigned int order_cos, order_sin, max_order, shift = 0;
+    order_cos = get_order_64(cos_fi);
+    order_sin = get_order_64(sin_fi);
+    if (order_cos > order_sin) max_order = order_cos; else max_order = order_sin;
+    if (max_order > 23) shift = max_order - 23;
+  
+    /*
+    Сам зсув я роблю після визначення квадранта - це хоч і втрата на розмірі програмного коду,
+    але мало б підвищити точність визначення квадранту.
+    Хоч може тут я перемудровую?..
+    */
+
+    //Визначення сектору
+    int sin_fi1_minus_fi2;
+    int cos_s, sin_s;
+    if (
+        (cos_fi >  0) && 
+        (sin_fi >= 0)
+       )
+    {
+      //1-ий квадрант
+      cos_fi = cos_fi >> shift;
+      sin_fi = sin_fi >> shift;
+          
+      if (sector_kz_zv != SECTOR_KZ_V)
+      {
+        cos_s = current_settings_prt.pickup_kz_zv_angle_cos_1[number_group_stp];
+        sin_s = current_settings_prt.pickup_kz_zv_angle_sin_1[number_group_stp];
+      }
+      else
+      {
+        cos_s = current_settings_prt.pickup_kz_zv_angle_cos_2[number_group_stp];
+        sin_s = current_settings_prt.pickup_kz_zv_angle_sin_2[number_group_stp];
+      }
+          
+      sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
+      sector_kz_zv = (sin_fi1_minus_fi2 <= 0) ?  SECTOR_KZ_V : SECTOR_KZ_NEVYZN;
+    }
+    else if (
+             (cos_fi <= 0) && 
+             (sin_fi >  0)  
+            )
+    {
+      //2-ий квадрант
+      cos_fi = cos_fi >> shift;
+      sin_fi = sin_fi >> shift;
+          
+      if (sector_kz_zv != SECTOR_KZ_Z)
+      {
+        cos_s = -current_settings_prt.pickup_kz_zv_angle_cos_1[number_group_stp];
+        sin_s =  current_settings_prt.pickup_kz_zv_angle_sin_1[number_group_stp];
+      }
+      else
+      {
+        cos_s = -current_settings_prt.pickup_kz_zv_angle_cos_2[number_group_stp];
+        sin_s =  current_settings_prt.pickup_kz_zv_angle_sin_2[number_group_stp];
+      }
+          
+      sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
+      sector_kz_zv = (sin_fi1_minus_fi2 >= 0) ?  SECTOR_KZ_Z : SECTOR_KZ_NEVYZN;
+    }
+    else if (
+             (cos_fi <  0) && 
+             (sin_fi >= 0)  
+            )
+    {
+      //3-ий квадрант
+      cos_fi = cos_fi >> shift;
+      sin_fi = sin_fi >> shift;
+          
+      if (sector_kz_zv != SECTOR_KZ_Z)
+      {
+        cos_s = -current_settings_prt.pickup_kz_zv_angle_cos_1[number_group_stp];
+        sin_s = -current_settings_prt.pickup_kz_zv_angle_sin_1[number_group_stp];
+      }
+      else
+      {
+        cos_s = -current_settings_prt.pickup_kz_zv_angle_cos_2[number_group_stp];
+        sin_s = -current_settings_prt.pickup_kz_zv_angle_sin_2[number_group_stp];
+      }
+          
+      sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
+      sector_kz_zv = (sin_fi1_minus_fi2 <= 0) ?  SECTOR_KZ_Z : SECTOR_KZ_NEVYZN;
+    }
+    else
+    {
+      //4-ий квадрант
+      cos_fi = cos_fi >> shift;
+      sin_fi = sin_fi >> shift;
+         
+      if (sector_kz_zv != SECTOR_KZ_V)
+      {
+        cos_s =  current_settings_prt.pickup_kz_zv_angle_cos_1[number_group_stp];
+        sin_s = -current_settings_prt.pickup_kz_zv_angle_sin_1[number_group_stp];
+      }
+      else
+      {
+        cos_s =  current_settings_prt.pickup_kz_zv_angle_cos_2[number_group_stp];
+        sin_s = -current_settings_prt.pickup_kz_zv_angle_sin_2[number_group_stp];
+      }
+          
+      sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
+      sector_kz_zv = (sin_fi1_minus_fi2 >= 0) ?  SECTOR_KZ_V : SECTOR_KZ_NEVYZN;
+    }
+  }
+  else
+  {
+    sector_kz_zv = SECTOR_KZ_NEVYZN;
+  }
 }
 /*****************************************************/
 
@@ -1093,7 +1270,7 @@ inline void calc_measurement(unsigned int number_group_stp)
     /***/
     //Фазочутливий елемент для "Зовнішнього/Внутрішнього Пошкодження"
     /***/
-    directional_kz_zv();
+    directional_kz_zv(ortogonal_calc, number_group_stp);
     /***/
   }
   else
@@ -4072,7 +4249,6 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
         
         break;
       }
-
     case UP_CTRL_Uab_Ubc_Uca:
       {
         analog_value = measurement[IM_UAB];

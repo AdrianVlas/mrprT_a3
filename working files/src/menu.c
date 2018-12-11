@@ -9522,16 +9522,10 @@ void main_manu_function(void)
                         current_settings.pickup_kz_zv_angle[group] = angle;
                         //Формуємо запис у таблиці настройок про зміну конфігурації і ініціюємо запис у EEPROM нових настройок
                         float angle_f = (float)angle;
-                        current_settings.pickup_kz_zv_angle_cos[group] = (int) (AMPLITUDA_FI*
-                //cos
-                arm_cos_f32(
-                            //(double)
-                            (PI*angle_f/180.0f)));
-                        current_settings.pickup_kz_zv_angle_sin[group] = (int) (AMPLITUDA_FI*
-                //sin
-                arm_sin_f32(
-                            //(double)
-                            (PI*angle_f/180.0f)));
+                        current_settings.pickup_kz_zv_angle_cos_1[group] = (int) (AMPLITUDA_SECTOR*arm_cos_f32((PI*angle_f/180.0f)));
+                        current_settings.pickup_kz_zv_angle_sin_1[group] = (int) (AMPLITUDA_SECTOR*arm_sin_f32((PI*angle_f/180.0f)));
+                        current_settings.pickup_kz_zv_angle_cos_2[group] = (int) (AMPLITUDA_SECTOR*arm_cos_f32((PI*(angle_f + ANGLE_HYS)/180.0f)));
+                        current_settings.pickup_kz_zv_angle_sin_2[group] = (int) (AMPLITUDA_SECTOR*arm_sin_f32((PI*(angle_f + ANGLE_HYS)/180.0f)));
                         fix_change_settings(0, 1);
 
 

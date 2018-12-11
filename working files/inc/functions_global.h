@@ -274,6 +274,7 @@ unsigned int norma_value(unsigned long long);
 unsigned int sqrt_32(unsigned int);
 unsigned int sqrt_64(unsigned long long);
 unsigned int get_order(int);
+unsigned int get_order_64(int64_t);
 
 void calc_angle(void);
 void calc_power(int*, unsigned int);
@@ -283,7 +284,7 @@ void velychyna_zvorotnoi_poslidovnosti(int*);
 
 void directional_mtz(int*, unsigned int, unsigned int);
 void directional_tznp(int*, unsigned int, unsigned int);
-void directional_kz_zv(void);
+void directional_kz_zv(int*,  unsigned int);
 
 void main_routines_for_spi1(void);
 void main_function_for_dataflash_resp(int);

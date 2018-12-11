@@ -8,6 +8,8 @@
 #define AMPLITUDA_FI_VAGA     10
 #define AMPLITUDA_FI          (1 << AMPLITUDA_FI_VAGA)
 
+#define ANGLE_HYS               5.0f
+
 #define SECTOR1   10
 #define POPRAVKA_NZZ  0/*-2*/
 #define SECTOR2   5

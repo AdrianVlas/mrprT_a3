@@ -1389,6 +1389,7 @@ enum _sector_kz_zv_const
      (1 << (RANG_PO_GP1 - 160))                               \
    | (1 << (RANG_GP1 - 160))                                  \
    | (1 << (RANG_PO_GP2 - 160))                               \
+   | (1 << (RANG_GP2 - 160))                                  \
    | (1 << (RANG_PO_GP_RPN - 160))                            \
    | (1 << (RANG_GP_RPN - 160))                               \
    | (1 << (RANG_PO_TP - 160))                                \

@@ -1574,8 +1574,10 @@ void min_settings(__SETTINGS *target_label)
     angle = SETPOINT_KZ_ZV_ANGLE_MIN;
     angle_f = (float)angle;
     target_label->pickup_kz_zv_angle[i] = angle;
-    target_label->pickup_kz_zv_angle_cos[i] = (int) (AMPLITUDA_FI*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
-    target_label->pickup_kz_zv_angle_sin[i] = (int) (AMPLITUDA_FI*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->pickup_kz_zv_angle_cos_1[i] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->pickup_kz_zv_angle_sin_1[i] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*angle_f/180.0f)));
+    target_label->pickup_kz_zv_angle_cos_2[i] = (int) (AMPLITUDA_SECTOR*/*cos*/arm_cos_f32(/*(double)*/(PI*(angle_f + ANGLE_HYS)/180.0f)));
+    target_label->pickup_kz_zv_angle_sin_2[i] = (int) (AMPLITUDA_SECTOR*/*sin*/arm_sin_f32(/*(double)*/(PI*(angle_f + ANGLE_HYS)/180.0f)));
 
     target_label->timeout_GP1[i] = TIMEOUT_GP1_MIN;
     target_label->timeout_GP2[i] = TIMEOUT_GP2_MIN;
