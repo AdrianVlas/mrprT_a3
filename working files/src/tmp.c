@@ -36,8 +36,10 @@ long Ii,Ip;
 _Bool ctrl_ready_tu = ((current_settings_prt.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_READY_TU) == 0);
 
 GRZU8
-
-
+git push  --repo 'https://github.com/AdrianVlas/mrprT_a3.git'
+getmac
+ipconfig /all
+arp -g
 register union { 
    struct {
     //  unsigned int previous_state_po_dfrp1 : 1;
