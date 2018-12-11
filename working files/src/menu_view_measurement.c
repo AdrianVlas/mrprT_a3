@@ -1,5 +1,8 @@
 #include "header.h"
 
+void actualMeasurement_A(int actualIndex, unsigned char *nameString, unsigned int pervynna_vtorynna);
+void actualMeasurement_Y(int actualIndex, unsigned char *nameString);
+
 /*****************************************************/
 //Конвертація в рядок і поміщення в масив для відображення на екрані вимірювань
 /*****************************************************/
@@ -333,28 +336,24 @@ void make_ekran_measurement(void)
      " Токи           ",
      " Напряжения     ",
      " Частоты        ",
-     " Углы           ",
      " Мощность       "
     },
     {
      " Струми         ",
      " Напруги        ",
      " Частоти        ",
-     " Кути           ",
      " Потужність     "
     },
     {
      " Currents       ",
      " Voltages       ",
      " Frequencies    ",
-     " Angles         ",
      " Power          "
     },
     {
      " Токи           ",
      " Напряжения     ",
      " Частоты        ",
-     " Углы           ",
      " Мощность       "
     }
   };
@@ -399,19 +398,23 @@ void make_ekran_measurement_voltage_type(void)
   {
     {
      " Фазные         ",
-     " Линейные       "
+     " Линейные       ",
+     " Симметричные   "
     },
     {
      " Фазні          ",
-     " Лінійні        "
+     " Лінійні        ",
+     " Симетричнi     "
     },
     {
      " Фазные         ",
-     " Линейные       "
+     " Линейные       ",
+     " Симметричные   "
     },
     {
      " Фазные         ",
-     " Линейные       "
+     " Линейные       ",
+     " Симметричные   "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -447,97 +450,466 @@ void make_ekran_measurement_voltage_type(void)
 /*****************************************************/
 
 /*****************************************************/
-//Формуємо екран відображення струмів
+//Формуємо екран відображення списків вимірювань
 /*****************************************************/
-void make_ekran_current(unsigned int pervynna_vtorynna)
+void make_ekran_measurement_current_type(void)
 {
-  
-  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT][MAX_COL_LCD] = 
+  const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_MEASURMENT_CURRENT_TYPE][MAX_COL_LCD] = 
   {
-    " 3I0 i=         ",
-    " 3I0  =         ",
-    " 3I0**=         ",
-    " 3I0-1=         ",
-    " Ia   =         ",
-    " Ib   =         ",
-    " Ic   =         ",
-    " I2   =         ",
-    " I1   =         ",
-    " I0.4 =         "
+    {
+     " Фазные         ",
+     " Приведенные    ",
+     " Дифференциал   ",
+     " Симметричные   "
+    },
+    {
+     " Фазні          ",
+     " Приведені      ",
+     " Диференцiйнi   ",
+     " Симетричнi     "
+    },
+    {
+     " Фазные         ",
+     " Приведенные    ",
+     " Дифференциал   ",
+     " Симметричные   "
+    },
+    {
+     " Фазные         ",
+     " Приведенные    ",
+     " Дифференциал   ",
+     " Симметричные   "
+    }
   };
-  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_CURRENT] = 
-  {
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-    IM_IA_H,
-  };
-  
-  //Копіюємо вимірювання які потрібні для відображення
-  semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_CURRENT; i++ ) 
-  {
-    unsigned int index_to_copy = index_array[i];
-    measurement_low[index_to_copy] = measurement_middle[index_to_copy];
-  }
-  semaphore_measure_values_low1 = 0;
-
   int index_language = index_language_in_array(current_settings.language);
-  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_CURRENT; i++)
-  {
-    name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
-  }
   
-  int position_temp = current_ekran.index_position;
-  int index_of_ekran;
-
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
   index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
   
   //Копіюємо  рядки у робочий екран
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_CURRENT)
-    {
-      /********************************/
-      //Вводимо вимірювальні значення  
-      unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
-      {
-        unsigned int start_number_digit_after_point;
-        if (
-            (index == INDEX_ML_3I0_i      ) ||
-            (index == INDEX_ML_3I0        ) ||
-            (index == INDEX_ML_3I0_other_g)
-           ) 
-          start_number_digit_after_point = 2;
-        else 
-          start_number_digit_after_point = 3;
-
-        unsigned int koef_mul = 1;
-        if (pervynna_vtorynna != 0)
-        {
-//          if (index < IM_3I0_r) koef_mul = 1/*current_settings.T0*/;
-//          else if (index == IM_I04) koef_mul = 1/*current_settings.TCurrent04*/;
-          /*else*/  koef_mul = current_settings.TCurrent_H;
-        }
-        convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], koef_mul, 1, name_string[index_of_ekran], 7);
-      }
-      /********************************/
-
-      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
-    }
+    //Наступні рядки треба перевірити, чи їх требе відображати у текучій коффігурації
+    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_CURRENT_TYPE)
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran][j];
     else
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
 
     index_of_ekran++;
   }
+
+  //Курсор по горизонталі відображається на першій позиції
+  current_ekran.position_cursor_x = 0;
+  //Відображення курору по вертикалі
+  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  current_ekran.cursor_blinking_on = 0;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+
+/*****************************************************/
+//Формуємо екран відображення струмів
+/*****************************************************/
+/*****************************************************/
+/*****************************************************/
+//Формуємо екран відображення токи фазные
+/*****************************************************/
+void make_ekran_current_phase(unsigned int pervynna_vtorynna)
+{
+  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_PHASE][MAX_COL_LCD] = 
+  {
+    " Ia_В =         ",
+    " Ya_В =         ",
+    " Ib_В =         ",
+    " Yb_В =         ",
+    " Ic_В =         ",
+    " Yc_В =         ",
+    " Ia_H =         ",
+    " Ya_H =         ",
+    " Ib_H =         ",
+    " Yb_H =         ",
+    " Ic_H =         ",
+    " Yc_H =         ",
+  };
+
+  unsigned int row = 12;
+  
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
+  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  
+  //Копіюємо  рядки у робочий екран
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < row)
+    {
+      /********************************/
+//Токи фазные
+    switch(index_of_ekran)
+    {
+     case 0://Ia_В
+       actualMeasurement_A(IM_IA_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://Ya_В
+       actualMeasurement_Y(IM_IA_H, name_string[index_of_ekran]);
+       break;
+     case 2://Ib_В
+       actualMeasurement_A(IM_IB_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://Yb_В
+       actualMeasurement_Y(IM_IB_H, name_string[index_of_ekran]);
+       break;
+     case 4://Ic_В
+       actualMeasurement_A(IM_IC_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://Yc_В
+       actualMeasurement_Y(IM_IC_H, name_string[index_of_ekran]);
+       break;
+     case 6://Ia_H
+       actualMeasurement_A(IM_IA_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 7://Ya_H
+       actualMeasurement_Y(IM_IA_L, name_string[index_of_ekran]);
+       break;
+     case 8://Ib_H
+       actualMeasurement_A(IM_IB_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 9://Yb_H
+       actualMeasurement_Y(IM_IB_L, name_string[index_of_ekran]);
+       break;
+     case 10://Ic_H
+       actualMeasurement_A(IM_IC_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 11://Yc_H
+       actualMeasurement_Y(IM_IC_L, name_string[index_of_ekran]);
+       break;
+    }//switch
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+
+  //Курсор по горизонталі відображається на першій позиції
+  current_ekran.position_cursor_x = 0;
+  //Відображення курору по вертикалі
+  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  current_ekran.cursor_blinking_on = 0;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+/*****************************************************/
+//Формуємо екран відображення токи приведенные
+/*****************************************************/
+void make_ekran_current_given(unsigned int pervynna_vtorynna)
+{
+  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_GIVEN][MAX_COL_LCD] = 
+  {
+    " IPa_В=         ",
+    " YPa_В=         ",
+    " IPb_В=         ",
+    " YPb_В=         ",
+    " IPc_В=         ",
+    " YPc_В=         ",
+    " IPa_H=         ",
+    " YPa_H=         ",
+    " IPb_H=         ",
+    " YPb_H=         ",
+    " IPc_H=         ",
+    " YPc_H=         ",
+  };
+  unsigned int row = 12;
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
+  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+
+  //Копіюємо  рядки у робочий екран
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < row)
+    {
+      /********************************/
+//токи приведенные
+    switch(index_of_ekran)
+    {
+     case 0://IPa_В
+       actualMeasurement_A(IM_IA_P_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://YPa_В
+       actualMeasurement_Y(IM_IA_P_H, name_string[index_of_ekran]);
+       break;
+     case 2://IPb_В
+       actualMeasurement_A(IM_IB_P_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://YPb_В
+       actualMeasurement_Y(IM_IB_P_H, name_string[index_of_ekran]);
+       break;
+     case 4://IPc_В
+       actualMeasurement_A(IM_IC_P_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://YPc_В
+       actualMeasurement_Y(IM_IC_P_H, name_string[index_of_ekran]);
+       break;
+     case 6://IPa_H
+       actualMeasurement_A(IM_IA_P_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 7://YPa_H
+       actualMeasurement_Y(IM_IA_H, name_string[index_of_ekran]);
+       break;
+     case 8://IPb_H
+       actualMeasurement_A(IM_IB_P_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 9://YPb_H
+       actualMeasurement_Y(IM_IB_P_L, name_string[index_of_ekran]);
+       break;
+     case 10://IPc_H
+       actualMeasurement_A(IM_IC_P_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 11://YPc_H
+       actualMeasurement_Y(IM_IC_P_L, name_string[index_of_ekran]);
+       break;
+    }//switch
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+
+  //Курсор по горизонталі відображається на першій позиції
+  current_ekran.position_cursor_x = 0;
+  //Відображення курору по вертикалі
+  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  current_ekran.cursor_blinking_on = 0;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+/*****************************************************/
+//Формуємо екран відображення токи дифф
+/*****************************************************/
+void make_ekran_current_diff(unsigned int pervynna_vtorynna)
+{
+  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_DIFF][MAX_COL_LCD] = 
+  {
+    " IDa1=          ",
+    " IDb1=          ",
+    " IDc1=          ",
+    " ITa =          ",
+    " ITb =          ",
+    " ITc =          ",
+    " IDa2=          ",
+    " IDb2=          ",
+    " IDc2=          ",
+    " IDa5=          ",
+    " IDb5=          ",
+    " IDc5=          "
+  };
+  unsigned int row = 12;
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
+  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+
+  //Копіюємо  рядки у робочий екран
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < row)
+    {
+      /********************************/
+//токи дифф
+    switch(index_of_ekran)
+    {
+     case 0://Ia1
+       actualMeasurement_A(IM_dIA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://Ib1
+       actualMeasurement_A(IM_dIB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 2://Ic1
+       actualMeasurement_A(IM_dIC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://IaT
+       actualMeasurement_A(IM_gdIA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 4://IbT
+       actualMeasurement_A(IM_gdIB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://IcT
+       actualMeasurement_A(IM_gdIC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 6://Ia2
+       actualMeasurement_A(IM_2dIA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 7://Ib2
+       actualMeasurement_A(IM_2dIB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 8://Ic2
+       actualMeasurement_A(IM_2dIC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 9://Ia5
+       actualMeasurement_A(IM_5dIA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 10://Ib5
+       actualMeasurement_A(IM_5dIB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 11://Ic5
+       actualMeasurement_A(IM_5dIC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+    }//switch
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+
+  //Курсор по горизонталі відображається на першій позиції
+  current_ekran.position_cursor_x = 0;
+  //Відображення курору по вертикалі
+  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  current_ekran.cursor_blinking_on = 0;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+/*****************************************************/
+//Формуємо екран відображення токи симметричные
+/*****************************************************/
+void make_ekran_current_sklad(unsigned int pervynna_vtorynna)
+{
+  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_SKLAD][MAX_COL_LCD] = 
+  {
+    " I0_В =         ",
+    " Y0_В =         ",
+    " I2_В =         ",
+    " Y2_В =         ",
+    " I1_В =         ",
+    " Y1_В =         ",
+    " I0_H =         ",
+    " Y0_H =         ",
+    " I2_H =         ",
+    " Y2_H =         ",
+    " I1_H =         ",
+    " Y1_H =         ",
+    " IP2_В=         ",
+    " YP2_В=         ",
+    " IP1_В=         ",
+    " YP1_В=         ",
+    " IP2_H=         ",
+    " YP2_H=         ",
+    " IP1_H=         ",
+    " YP1_H=         ",
+  };
+  unsigned int row = 20;
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
+  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+
+  //Копіюємо  рядки у робочий екран
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < row)
+    {
+      /********************************/
+//токи симметричные
+    switch(index_of_ekran)
+    {
+     case 0://A0_В
+       actualMeasurement_A(IM_3I0_r_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://Y0_В
+       actualMeasurement_Y(IM_3I0_r_H, name_string[index_of_ekran]);
+       break;
+     case 2://I2_В
+       actualMeasurement_A(IM_I2_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://Y2_В
+       actualMeasurement_Y(IM_I2_H, name_string[index_of_ekran]);
+       break;
+     case 4://I1_В
+       actualMeasurement_A(IM_I1_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://Y1_В
+       actualMeasurement_Y(IM_I1_H, name_string[index_of_ekran]);
+       break;
+     case 6://I0_H
+       actualMeasurement_A(IM_3I0_r_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 7://Y0_H
+       actualMeasurement_Y(IM_3I0_r_L, name_string[index_of_ekran]);
+       break;
+     case 8://I2_H
+       actualMeasurement_A(IM_I2_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 9://Y2_H
+       actualMeasurement_Y(IM_I2_L, name_string[index_of_ekran]);
+       break;
+     case 10://I1_H
+       actualMeasurement_A(IM_I1_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 11://Y1_H
+       actualMeasurement_Y(IM_I1_L, name_string[index_of_ekran]);
+       break;
+     case 12://AP2_В
+       actualMeasurement_A(IM_I2_P_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 13://YP2_В
+       actualMeasurement_Y(IM_I2_P_H, name_string[index_of_ekran]);
+       break;
+     case 14://AP1_В
+       actualMeasurement_A(IM_I1_P_H, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 15://YP1_В
+       actualMeasurement_Y(IM_I1_P_H, name_string[index_of_ekran]);
+       break;
+     case 16://AP2_H
+       actualMeasurement_A(IM_I2_P_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 17://YP2_H
+       actualMeasurement_Y(IM_I2_P_L, name_string[index_of_ekran]);
+       break;
+     case 18://AP1_H
+       actualMeasurement_A(IM_I1_P_L, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 19://YP1_H
+       actualMeasurement_Y(IM_I1_P_L, name_string[index_of_ekran]);
+       break;
+    }//switch
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
 
   //Курсор по горизонталі відображається на першій позиції
   current_ekran.position_cursor_x = 0;
@@ -559,29 +931,15 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE][MAX_COL_LCD] = 
   {
-    " Ua  =          ",
-    " Ub  =          ",
-    " Uc  =          ",
-    " U2  =          ",
-    " U1  =          ",
-    " 3U0 =          "
+    " Ua_В =         ",
+    " YUa_В=         ",
+    " Ub_В =         ",
+    " YUb_В=         ",
+    " Uc_В =         ",
+    " YUc_В=         ",
   };
-  const unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE] = {IM_UA, IM_UB, IM_UC, IM_U2, IM_U1, IM_3U0_r};
 
-  //Копіюємо вимірювання які потрібні для відображення
-  semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE; i++ ) 
-  {
-    unsigned int index_to_copy = index_array[i];
-    measurement_low[index_to_copy] = measurement_middle[index_to_copy];
-  }
-  semaphore_measure_values_low1 = 0;
-  
-  int index_language = index_language_in_array(current_settings.language);
-  for (unsigned int i = 0; i < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE; i++)
-  {
-    name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
-  }
+  unsigned int row = 6;
   
   unsigned int position_temp = current_ekran.index_position;
   unsigned int index_of_ekran;
@@ -591,32 +949,39 @@ void make_ekran_voltage_phase(unsigned int pervynna_vtorynna)
   //Копіюємо  рядки у робочий екран
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-    if (index_of_ekran < MAX_ROW_FOR_MEASURMENT_VOLTAGE_PHASE)
+    if (index_of_ekran < row)
     {
       /********************************/
-      //Вводимо вимірювальні значення  
-      unsigned int start_number_digit_after_point = 3;
-
-      unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
-      {
-        if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
-        else
-        {
-          //Фазні напруги
-          convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
-        }
-      }
-      /********************************/
-
+//фазних напруг 
+    switch(index_of_ekran)
+    {
+     case 0://AUa_В
+       actualMeasurement_A(IM_UA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://YUa_В
+       actualMeasurement_Y(IM_UA, name_string[index_of_ekran]);
+       break;
+     case 2://AUb_В
+       actualMeasurement_A(IM_UB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://YUb_В
+       actualMeasurement_Y(IM_UB, name_string[index_of_ekran]);
+       break;
+     case 4://AUc_В
+       actualMeasurement_A(IM_UC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://YUc_В
+       actualMeasurement_Y(IM_UC, name_string[index_of_ekran]);
+       break;
+    }//switch
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
     }
     else
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
 
     index_of_ekran++;
-  }
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
 
   //Курсор по горизонталі відображається на першій позиції
   current_ekran.position_cursor_x = 0;
@@ -639,26 +1004,14 @@ void make_ekran_voltage_line(unsigned int pervynna_vtorynna)
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE][MAX_COL_LCD] = 
   {
     " Uab =          ",
+    " Yab =          ",
     " Ubc =          ",
-    " Uca =          "
+    " Ybc =          ",
+    " Uca =          ",
+    " Yca =          ",
   };
-  unsigned int index_array[MAX_ROW_FOR_MEASURMENT_VOLTAGE_LINE] = {IM_UAB, IM_UBC, IM_UCA};
-  unsigned int row = 3;
-  
-  //Копіюємо вимірювання які потрібні для відображення
-  semaphore_measure_values_low1 = 1;
-  for (unsigned int i = 0; i < row; i++ ) 
-  {
-    unsigned int index_to_copy = index_array[i];
-    measurement_low[index_to_copy] = measurement_middle[index_to_copy];
-  }
-  semaphore_measure_values_low1 = 0;
 
-  int index_language = index_language_in_array(current_settings.language);
-  for (unsigned int i = 0; i < row; i++)
-  {
-    name_string[i][MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
-  }
+  unsigned int row = 6;
   
   unsigned int position_temp = current_ekran.index_position;
   unsigned int index_of_ekran;
@@ -668,32 +1021,110 @@ void make_ekran_voltage_line(unsigned int pervynna_vtorynna)
   //Копіюємо  рядки у робочий екран
   for (unsigned int i=0; i< MAX_ROW_LCD; i++)
   {
-    //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
     if (index_of_ekran < row)
     {
       /********************************/
-      //Вводимо вимірювальні значення  
-      unsigned int start_number_digit_after_point = 3;
-
-      unsigned int index = index_array[index_of_ekran];
-      if (index != 255)
-      {
-        if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], 1, 1, name_string[index_of_ekran], 7);
-        else
-        {
-          //Лінійні напруги
-          convert_and_insert_char_for_measurement(start_number_digit_after_point, measurement_low[index], current_settings.TVoltage, 1, name_string[index_of_ekran], 7);
-        }
-      }
-      /********************************/
-
+//лінійних напруг 
+    switch(index_of_ekran)
+    {
+     case 0://Uab_В
+       actualMeasurement_A(IM_UAB, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://Yab_В
+       actualMeasurement_Y(IM_UAB, name_string[index_of_ekran]);
+       break;
+     case 2://Ubc_В
+       actualMeasurement_A(IM_UBC, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://Ybc_В
+       actualMeasurement_Y(IM_UBC, name_string[index_of_ekran]);
+       break;
+     case 4://Uca_В
+       actualMeasurement_A(IM_UCA, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://Yca_В
+       actualMeasurement_Y(IM_UCA, name_string[index_of_ekran]);
+       break;
+    }//switch
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
     }
     else
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
 
     index_of_ekran++;
-  }
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+
+  //Курсор по горизонталі відображається на першій позиції
+  current_ekran.position_cursor_x = 0;
+  //Відображення курору по вертикалі
+  current_ekran.position_cursor_y = position_temp & (MAX_ROW_LCD - 1);
+  //Курсор видимий
+  current_ekran.cursor_on = 1;
+  //Курсор не мигає
+  current_ekran.cursor_blinking_on = 0;
+  //Обновити повністю весь екран
+  current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
+}
+/*****************************************************/
+/*****************************************************/
+//Формуємо екран відображення симетрич напруг 
+/*****************************************************/
+void make_ekran_voltage_sklad(unsigned int pervynna_vtorynna)
+{
+  unsigned char name_string[MAX_ROW_FOR_MEASURMENT_VOLTAGE_SKLAD][MAX_COL_LCD] = 
+  {
+    " 3U0 =          ",
+    " Y3U0=          ",
+    " U2  =          ",
+    " YU2 =          ",
+    " U1  =          ",
+    " YU1 =          ",
+  };
+
+  unsigned int row = 6;
+  
+  unsigned int position_temp = current_ekran.index_position;
+  unsigned int index_of_ekran;
+  
+  index_of_ekran = (position_temp >> POWER_MAX_ROW_LCD) << POWER_MAX_ROW_LCD;
+  
+  //Копіюємо  рядки у робочий екран
+  for (unsigned int i=0; i< MAX_ROW_LCD; i++)
+  {
+    if (index_of_ekran < row)
+    {
+      /********************************/
+//симетрич напруг 
+    switch(index_of_ekran)
+    {
+     case 0://A3U0
+       actualMeasurement_A(IM_3U0_r, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 1://Y3U0
+       actualMeasurement_Y(IM_3U0_r, name_string[index_of_ekran]);
+       break;
+     case 2://AU2
+       actualMeasurement_A(IM_U2, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 3://YU2
+       actualMeasurement_Y(IM_U2, name_string[index_of_ekran]);
+       break;
+     case 4://AU1
+       actualMeasurement_A(IM_U1, name_string[index_of_ekran], pervynna_vtorynna);
+       break;
+     case 5://YU1
+       actualMeasurement_Y(IM_U1, name_string[index_of_ekran]);
+       break;
+    }//switch
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_of_ekran][j];
+      /********************************/
+    }
+    else
+      for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = ' ';
+
+    index_of_ekran++;
+  }//for (unsigned int i=0; i< MAX_ROW_LCD; i++)
 
   //Курсор по горизонталі відображається на першій позиції
   current_ekran.position_cursor_x = 0;
@@ -775,6 +1206,7 @@ void make_ekran_frequency(void)
 /*****************************************************/
 //Формуємо екран відображення кутів
 /*****************************************************/
+/*
 void make_ekran_angle(void)
 {
   int index_language = index_language_in_array(current_settings.language);
@@ -843,9 +1275,9 @@ void make_ekran_angle(void)
     
     int number_charts_for_undef_tmp = number_chars_for_undef[index_language];
     
-    /*************
+    //
     Завершуємо формування назв кутів
-    *************/
+    //
 //    if ((current_settings.control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04) == 0)
 //    {
 //      if (index_language == INDEX_LANGUAGE_EN) name_string[FULL_ORT_3I0_r][3] = 'c';
@@ -859,7 +1291,7 @@ void make_ekran_angle(void)
       name_string[index_1][SIZE_NAME_ANALOG_CANAL + 1 + index_2] = name_string[base_index_for_angle][index_2];
     }
 #undef SIZE_NAME_ANALOG_CANAL
-    /*************/
+    //
         
 //    unsigned int value_index_shift[MAX_ROW_FOR_MEASURMENT_ANGLE] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 //    unsigned int additional_current = 0;
@@ -896,9 +1328,9 @@ void make_ekran_angle(void)
     for (unsigned int i=0; i< MAX_ROW_LCD; i++)
     {
       //Наступні рядки треба перевірити, чи їх требе відображати у текучій кофігурації
-      if (index_of_ekran < (MAX_ROW_FOR_MEASURMENT_ANGLE/* - additional_current*/))
+      if (index_of_ekran < (MAX_ROW_FOR_MEASURMENT_ANGLE// - additional_current))
       {
-        int value = phi_angle[index_of_ekran/* + value_index_shift[index_of_ekran]*/];
+        int value = phi_angle[index_of_ekran// + value_index_shift[index_of_ekran]];
 
 #define LAST_POSITION_OF_TITLE  10
         
@@ -920,7 +1352,7 @@ void make_ekran_angle(void)
             (name_string[index_of_ekran][0] != ' ') && 
             (shift > 0) && 
             (
-             ((value >= 0 /*0.0°*/) && (value <= 999 /*99.9°*/)) ||
+             ((value >= 0 //0.0°) && (value <= 999 //99.9°)) ||
              (
               (value < 0) &&
               (number_charts_for_undef_tmp < (MAX_COL_LCD - LAST_POSITION_OF_TITLE - 1 - 1))  
@@ -940,9 +1372,9 @@ void make_ekran_angle(void)
         
         if (value >= 0)
         {
-          int number_charts_for_value = 4; /*число до коми, десяткова кома, десті і знак "°"*/
-          if (value > 999 /*99.9°*/) number_charts_for_value += 2;
-          else if (value > 99 /*9.9°*/) number_charts_for_value += 1;
+          int number_charts_for_value = 4; //число до коми, десяткова кома, десті і знак "°"//
+          if (value > 999 //99.9°) number_charts_for_value += 2;
+          else if (value > 99 //9.9°) number_charts_for_value += 1;
           
           int free_position = MAX_COL_LCD - position - number_charts_for_value;
           if (free_position >= 3)
@@ -1042,6 +1474,7 @@ void make_ekran_angle(void)
   //Обновити повністю весь екран
   current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
 }
+*/
 /*****************************************************/
 
 /*****************************************************/
@@ -1203,6 +1636,181 @@ void make_ekran_power(unsigned int pervynna_vtorynna)
   //Обновити повністю весь екран
   current_ekran.current_action = ACTION_WITH_CARRENT_EKRANE_FULL_UPDATE;
 }
+
+void actualMeasurement_A(int actualIndex, unsigned char *nameString, unsigned int pervynna_vtorynna)
+{
+  int meass = 0;
+  //Копіюємо вимірювання які потрібні для відображення
+  semaphore_measure_values_low1 = 1;
+  meass = measurement_middle[actualIndex];
+  semaphore_measure_values_low1 = 0;
+
+  int index_language = index_language_in_array(current_settings.language);
+
+  unsigned int transform = 1;
+ //Вводимо вимірювальні значення  
+  unsigned int start_number_digit_after_point = 3;
+
+  switch(actualIndex)
+  {
+   //токи фазные
+   case IM_IA_H: case IM_IB_H: case IM_IC_H: //case IM_IA_L: case IM_IB_L: case IM_IC_L:
+   //токи приведенные
+   case IM_IA_P_H: case IM_IB_P_H: case IM_IC_P_H: //case IM_IA_P_L: case IM_IB_P_L: case IM_IC_P_L:
+   //токи дифф
+   case IM_dIA:  case IM_dIB:  case IM_dIC:  case IM_gdIA: case IM_gdIB: case IM_gdIC:
+   case IM_2dIA: case IM_2dIB: case IM_2dIC: case IM_5dIA: case IM_5dIB: case IM_5dIC:
+   //токи симметричные
+   case IM_3I0_r_H: case IM_I2_H: case IM_I1_H: //case IM_3I0_r_L: case IM_I2_L: case IM_I1_L:
+   case IM_I2_P_H:  case IM_I1_P_H:
+    transform = current_settings.TCurrent_H;
+    nameString[MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
+   break;
+
+   //токи фазные
+   /*case IM_IA_H: case IM_IB_H: case IM_IC_H:*/ case IM_IA_L: case IM_IB_L: case IM_IC_L:
+   //токи приведенные
+   /*case IM_IA_P_H: case IM_IB_P_H: case IM_IC_P_H:*/ case IM_IA_P_L: case IM_IB_P_L: case IM_IC_P_L:
+   //токи дифф
+//   case IM_dIA:  case IM_dIB:  case IM_dIC:  case IM_gdIA: case IM_gdIB: case IM_gdIC:
+//   case IM_2dIA: case IM_2dIB: case IM_2dIC: case IM_5dIA: case IM_5dIB: case IM_5dIC:
+   //токи симметричные
+   /*case IM_3I0_r_H: case IM_I2_H: case IM_I1_H:*/ case IM_3I0_r_L: case IM_I2_L: case IM_I1_L:
+   case IM_I2_P_L:  case IM_I1_P_L:
+    transform = current_settings.TCurrent_L;
+    nameString[MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
+   break;
+
+   //фазних напруг 
+   case IM_UA: case IM_UB: case IM_UC: 
+   //лінійних напруг 
+   case IM_UAB: case IM_UBC: case IM_UCA:
+   //симетрич напруг 
+   case IM_3U0_r: case IM_U2: case IM_U1:
+    transform = current_settings.TVoltage;
+    nameString[MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_V];
+   break;
+  }//switch
+
+  if (pervynna_vtorynna == 0) convert_and_insert_char_for_measurement(start_number_digit_after_point, meass, 1, 1, nameString, 7);
+  else
+  {
+   convert_and_insert_char_for_measurement(start_number_digit_after_point, meass, transform, 1, nameString, 7);
+  }
+
+}//actualMeasurement_A(int actualIndex)
+
+void actualMeasurement_Y(int actualIndex, unsigned char *nameString)
+{
+    const unsigned char undefined[MAX_NAMBER_LANGUAGE][MAX_COL_LCD - 7] =
+    {
+      "Неопред. ",
+      "Невизнач.",
+      "Undef.   ",
+      "Неопред. "  
+    };
+  int index_language = index_language_in_array(current_settings.language);
+
+  if (base_index_for_angle < 0)
+  {
+      for (unsigned int j = 7; j<MAX_COL_LCD; j++) nameString[j] = undefined[index_language][j-7];
+      return;
+  }//if
+
+  int value = phi_angle[actualIndex];
+
+//  nameString[MAX_COL_LCD - 1] = '°';
+
+#define LAST_POSITION_OF_TITLE  7
+
+        int position = LAST_POSITION_OF_TITLE;// - shift + 1;
+
+//#undef LAST_POSITION_OF_TITLE
+        
+        if (value >= 0)
+        {
+          int number_charts_for_value = 4; //число до коми, десяткова кома, десті і знак "°"//
+          if (value > 999) /*99.9°)*/ number_charts_for_value += 2;
+          else if (value > 99) /*9.9°)*/ number_charts_for_value += 1;
+          
+          int free_position = MAX_COL_LCD - position - number_charts_for_value;
+          if (free_position >= 3)
+          {
+            nameString[position    ] = ' ';
+            //nameString[position + 1] = '=';
+            nameString[position + 2] = ' ';
+            position += 3;
+          }
+          else if (free_position == 2)
+          {
+            nameString[position    ] = ' ';
+        //    nameString[position + 1] = '=';
+            position += 2;
+          }
+          else
+          {
+          //  nameString[position    ] = '=';
+            position += 1;
+          }
+          
+          //Кут між лінійною напругою і фазним струмом (з точністю до десятих)
+          int vaga = 1000, first_symbol = 0;
+      
+          while (vaga > 0)
+          {
+            int temp_data;
+            temp_data = value / vaga; //виділяємо число, яке треба перетворити у символ і помістити у дану позицію екрану
+            value %= vaga; //вираховуємо число без символа, який ми зараз будемо виводити на екран
+            vaga /=10; //зменшуємо ваговий коефіцієнт в 10 разів
+            
+            if (vaga == 0) nameString[position++] = '.'; //десяткова кома
+
+            //У випадку, якщо ми не у режимі редагування, то нулі перед найстаршим значущим числом приховуємо
+            if ((temp_data != 0) || (first_symbol != 0))
+            {
+              nameString[position] = temp_data + 0x30;
+              if (first_symbol == 0) first_symbol = 1;
+            }
+            else
+            {
+              //Нуль виводимо тільки у тому випадку, якщо це є символ одиниць числа (текуча вага числа рівна 1)
+              if (vaga > 1 ) nameString[position] = ' ';
+              else
+              {
+                nameString[position] = temp_data + 0x30;
+                if (first_symbol == 0) first_symbol = 1;
+              }
+            }
+            if (nameString[position] != ' ') position++;
+          }
+          nameString[position] = '°';
+        }
+        else
+        {
+          int free_position = MAX_COL_LCD - position;// - number_charts_for_undef_tmp;
+          if (free_position >= 3)
+          {
+            nameString[position    ] = ' ';
+    //        nameString[position + 1] = '=';
+            nameString[position + 2] = ' ';
+            position += 3;
+          }
+          else if (free_position == 2)
+          {
+            nameString[position    ] = ' ';
+  //          nameString[position + 1] = '=';
+            position += 2;
+          }
+          else
+          {
+      //      nameString[position    ] = '=';
+            position += 1;
+          }
+       }
+
+
+}//actualMeasurement_Y
+
 /*****************************************************/
 
 /*****************************************************/

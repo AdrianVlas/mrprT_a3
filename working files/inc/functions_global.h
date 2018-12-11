@@ -55,12 +55,23 @@ void make_ekran_about_error(const unsigned char [][MAX_COL_LCD]);
 void make_ekran_about_activation_command(unsigned int, unsigned char [][MAX_NAMBER_LANGUAGE][MAX_COL_LCD]);
 void make_ekran_configuration(unsigned int);
 void make_ekran_measurement(void);
+//void make_ekran_measurement_voltage_type(void);
+//void make_ekran_current(unsigned int);
+//void make_ekran_voltage_phase(unsigned int);
+//void make_ekran_voltage_line(unsigned int);
+void make_ekran_frequency(void);
+//void make_ekran_angle(void);
+
 void make_ekran_measurement_voltage_type(void);
-void make_ekran_current(unsigned int);
+void make_ekran_measurement_current_type(void);
+void make_ekran_current_phase(unsigned int);
+void make_ekran_current_given(unsigned int);
+void make_ekran_current_diff(unsigned int);
+void make_ekran_current_sklad(unsigned int);
 void make_ekran_voltage_phase(unsigned int);
 void make_ekran_voltage_line(unsigned int);
-void make_ekran_frequency(void);
-void make_ekran_angle(void);
+void make_ekran_voltage_sklad(unsigned int);
+
 void make_ekran_power(unsigned int);
 void convert_and_insert_char_for_measurement(unsigned int, unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int);
 void convert_and_insert_char_for_frequency(int, unsigned char *);
