@@ -76,11 +76,11 @@
 
 #define COL_SETPOINT_N_OZT_N2G_BEGIN               5
 #define COL_SETPOINT_N_OZT_N2G_COMMA               6
-#define COL_SETPOINT_N_OZT_N2G_END                 8
+#define COL_SETPOINT_N_OZT_N2G_END                 9
 
 #define COL_SETPOINT_N_OZT_N5G_BEGIN               5
 #define COL_SETPOINT_N_OZT_N5G_COMMA               6
-#define COL_SETPOINT_N_OZT_N5G_END                 8
+#define COL_SETPOINT_N_OZT_N5G_END                 9
 
 #define COL_SETPOINT_K_OZT_KP_BEGIN                6
 #define COL_SETPOINT_K_OZT_KP_COMMA                7

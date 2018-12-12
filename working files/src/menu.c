@@ -12098,10 +12098,10 @@ void main_manu_function(void)
                                                                          COL_SETPOINT_A_OZT_AK_COMMA, COL_SETPOINT_A_OZT_AK_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_N_OZT_N2G)
                     edition_settings.pickup_ozt_K_2I[group] = edit_setpoint(1, edition_settings.pickup_ozt_K_2I[group], 1, 
-                                                                         COL_SETPOINT_N_OZT_N2G_COMMA, COL_SETPOINT_N_OZT_N2G_END, 10);
+                                                                         COL_SETPOINT_N_OZT_N2G_COMMA, COL_SETPOINT_N_OZT_N2G_END, 1);
                   else if (current_ekran.index_position == INDEX_ML_N_OZT_N5G)
                     edition_settings.pickup_ozt_K_5I[group] = edit_setpoint(1, edition_settings.pickup_ozt_K_5I[group], 1, 
-                                                                         COL_SETPOINT_N_OZT_N5G_COMMA, COL_SETPOINT_N_OZT_N5G_END, 10);
+                                                                         COL_SETPOINT_N_OZT_N5G_COMMA, COL_SETPOINT_N_OZT_N5G_END, 1);
                   else if (current_ekran.index_position == INDEX_ML_K_OZT_KP)
                     edition_settings.pickup_ozt_kp[group] = edit_setpoint(1, edition_settings.pickup_ozt_kp[group], 1, 
                                                                          COL_SETPOINT_K_OZT_KP_COMMA, COL_SETPOINT_K_OZT_KP_END, 1);
@@ -13486,10 +13486,10 @@ void main_manu_function(void)
                                                              COL_SETPOINT_A_OZT_AK_COMMA, COL_SETPOINT_A_OZT_AK_END, 10);
                   else if (current_ekran.index_position == INDEX_ML_N_OZT_N2G)
                     edition_settings.pickup_ozt_K_2I[group] = edit_setpoint(0, edition_settings.pickup_ozt_K_2I[group], 1,
-                                                             COL_SETPOINT_N_OZT_N2G_COMMA, COL_SETPOINT_N_OZT_N2G_END, 10);
+                                                             COL_SETPOINT_N_OZT_N2G_COMMA, COL_SETPOINT_N_OZT_N2G_END, 1);
                   else if (current_ekran.index_position == INDEX_ML_N_OZT_N5G)
                     edition_settings.pickup_ozt_K_5I[group] = edit_setpoint(0, edition_settings.pickup_ozt_K_5I[group], 1,
-                                                             COL_SETPOINT_N_OZT_N5G_COMMA, COL_SETPOINT_N_OZT_N5G_END, 10);
+                                                             COL_SETPOINT_N_OZT_N5G_COMMA, COL_SETPOINT_N_OZT_N5G_END, 1);
                   else if (current_ekran.index_position == INDEX_ML_K_OZT_KP)
                     edition_settings.pickup_ozt_kp[group] = edit_setpoint(0, edition_settings.pickup_ozt_kp[group], 1,
                                                              COL_SETPOINT_K_OZT_KP_COMMA, COL_SETPOINT_K_OZT_KP_END, 1);
