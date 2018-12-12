@@ -8,16 +8,16 @@ void make_ekran_setpoint_P_3U0(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_P_3U0][MAX_COL_LCD] = 
   {
     {
-      "  Уставка 3U0   "
+      " Уставка 3U0-1  "
     },
     {
-      "  Уставка 3U0   "
+      " Уставка 3U0-1  "
     },
     {
-      "  Уставка 3U0   "
+      " Уставка 3U0-1  "
     },
     {
-      "  Уставка 3U0   "
+      " Уставка 3U0-1  "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -112,16 +112,16 @@ void make_ekran_timeout_P_3U0(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_TIMEOUT_P_3U0][MAX_COL_LCD] = 
   {
     {
-      "  Выдержка 3U0  "
+      " Выдержка 3U0-1 "
     },
     {
-      "  Витримка 3U0  "
+      " Витримка 3U0-1 "
     },
     {
-      "  Выдержка 3U0  "
+      " Выдержка 3U0-1 "
     },
     {
-      "  Выдержка 3U0  "
+      " Выдержка 3U0-1 "
     }
   };
   int index_language = index_language_in_array(current_settings.language);
@@ -217,16 +217,16 @@ void make_ekran_control_P_3U0()
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_P_3U0][MAX_COL_LCD] = 
   {
     {
-      "   Защита 3U0   "
+      "  Защита 3U0-1  "
     },
     {
-      "   Захист 3U0   "
+      "  Захист 3U0-1  "
     },
     {
-      "   Защита 3U0   "
+      "  Защита 3U0-1  "
     },
     {
-      "   Защита 3U0   "
+      "  Защита 3U0-1  "
     }
   };
 

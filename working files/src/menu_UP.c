@@ -540,7 +540,7 @@ void make_ekran_control_UP()
     "      Uca       ",
     "       U1       ",
     "       U2       ",
-    "       3U0      ",
+    "      3U0-1     ",
     "       P        ",
     "       Q        ",
     "       S        "
