@@ -1332,34 +1332,18 @@ enum _sector_kz_zv_const
    | (1 << (RANG_MTZ4 - 64))                                  \
    | (1 << (RANG_PO_P_3U0 - 64))                              \
    | (1 << (RANG_P_3U0 - 64))                                 \
-   | (1 << (RANG_PO_3I0_TZNP1_VPERED - 64))                   \
-   | (1 << (RANG_PO_3I0_TZNP1_NAZAD - 64))                    \
-   | (1 << (RANG_PO_3U0_TZNP1_VPERED - 64))                   \
-   | (1 << (RANG_PO_3U0_TZNP1_NAZAD - 64))                    \
 )
 
 #define MASKA_SIGNALES_FOR_LOCK_GROUP_PICKUP_3 (unsigned int)(\
      (1 << (RANG_PO_TZNP1_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP1_NAZAD - 96))                        \
    | (1 << (RANG_TZNP1 - 96))                                 \
-   | (1 << (RANG_PO_3I0_TZNP2_VPERED - 96))                   \
-   | (1 << (RANG_PO_3I0_TZNP2_NAZAD - 96))                    \
-   | (1 << (RANG_PO_3U0_TZNP2_VPERED - 96))                   \
-   | (1 << (RANG_PO_3U0_TZNP2_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP2_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP2_NAZAD - 96))                        \
    | (1 << (RANG_TZNP2 - 96))                                 \
-   | (1 << (RANG_PO_3I0_TZNP3_VPERED - 96))                   \
-   | (1 << (RANG_PO_3I0_TZNP3_NAZAD - 96))                    \
-   | (1 << (RANG_PO_3U0_TZNP3_VPERED - 96))                   \
-   | (1 << (RANG_PO_3U0_TZNP3_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP3_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP3_NAZAD - 96))                        \
    | (1 << (RANG_TZNP3 - 96))                                 \
-   | (1 << (RANG_PO_3I0_TZNP4_VPERED - 96))                   \
-   | (1 << (RANG_PO_3I0_TZNP4_NAZAD - 96))                    \
-   | (1 << (RANG_PO_3U0_TZNP4_VPERED - 96))                   \
-   | (1 << (RANG_PO_3U0_TZNP4_NAZAD - 96))                    \
    | (1 << (RANG_PO_TZNP4_VPERED - 96))                       \
    | (1 << (RANG_PO_TZNP4_NAZAD - 96))                        \
 )
