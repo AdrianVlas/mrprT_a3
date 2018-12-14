@@ -242,8 +242,8 @@ void make_ekran_control_urov(uint32_t prvv)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_UROV - NUMBER_UP + 1][MAX_COL_LCD] = 
   {
     {
-      "      УРОВ      ",
-      "  Выбор I УРОВ  ",
+      "     УРОВx      ",
+      " Выбор I УРОВx  ",
       "  Пуск от ОЗТ1  ",
       "  Пуск от ОЗТ2  ",
       "  Пуск от МТЗ1  ",
@@ -268,8 +268,8 @@ void make_ekran_control_urov(uint32_t prvv)
       "  Пуск от УЗx   "
     },
     {
-      "      ПРВВ      ",
-      "  Вибір I ПРВВ  ",
+      "     ПРВВx      ",
+      " Вибір I ПРВВx  ",
       " Пуск від ОЗТ1  ",
       " Пуск від ОЗТ2  ",
       " Пуск від МСЗ1  ",
@@ -294,8 +294,8 @@ void make_ekran_control_urov(uint32_t prvv)
       "  Пуск від УЗx  "
     },
     {
-      "      CBFP      ",
-      "  Select I CBFP ",
+      "     CBFPx      ",
+      " Select I CBFPx ",
       "  Пуск от ОЗТ1  ",
       "  Пуск от ОЗТ2  ",
       " Start from OCP1",
@@ -320,8 +320,8 @@ void make_ekran_control_urov(uint32_t prvv)
       "  Пуск от УЗx   "
     },
     {
-      "      УРОВ      ",
-      "  Выбор I УРОВ  ",
+      "     УРОВx      ",
+      " Выбор I УРОВx  ",
       "  Пуск от ОЗТ1  ",
       "  Пуск от ОЗТ2  ",
       "  Пуск от МТЗ1  ",
@@ -379,8 +379,16 @@ void make_ekran_control_urov(uint32_t prvv)
              for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][INDEX_ML_CTRUROV_STARTED_FROM_UP1][j];
              working_ekran[i][index_number_UP[index_language]] = 0x31+index_of_ekran_tmp - INDEX_ML_CTRUROV_STARTED_FROM_UP1;
           }//if
-          else for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
-          if(index_of_ekran_tmp==INDEX_ML_CTRUROV_STATE) working_ekran[i][10] = 0x31+prvv;
+          else
+          {
+            for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = name_string[index_language][index_of_ekran_tmp][j];
+            if(index_of_ekran_tmp==INDEX_ML_CTRUROV_STATE) working_ekran[i][9] = 0x31+prvv;
+            else if(index_of_ekran_tmp==INDEX_ML_CTRUROV_SEL_I) 
+            {
+              uint8_t index_n[MAX_NAMBER_LANGUAGE] = {13, 13, 14, 13};
+              working_ekran[i][index_n[index_language]] = 0x31+prvv;
+            }
+          }
         }//виводимо заголовок
       }//if (i==0 || i==2)
       else

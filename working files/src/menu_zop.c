@@ -259,27 +259,27 @@ void make_ekran_control_zop()
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_CONTROL_ZOP][MAX_COL_LCD] = 
   {
     {
-      "    гно1        ",
+      "      гно1      ",
       "  бШАНП I гно1  ",
-      "    гно2        ",
+      "      гно2      ",
       "  бШАНП I гно2  "
     },
     {
-      "    гго1        ",
+      "      гго1      ",
       "  бХАЁП I гго1  ",
-      "    гго2        ",
+      "      гго2      ",
       "  бХАЁП I гго2  "
     },
     {
-      "    NPSP1       ",
+      "     NPSP1      ",
       " Select I NPSP1 ",
-      "    NPSP2       ",
+      "     NPSP2      ",
       " Select I NPSP2 "
     },
     {
-      "    гно1        ",
+      "      гно1      ",
       "  бШАНП I гно1  ",
-      "    гно2        ",
+      "      гно2      ",
       "  бШАНП I гно2  "
     }
   };
