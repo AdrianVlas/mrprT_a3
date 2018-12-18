@@ -5739,14 +5739,15 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
   if(state_dr_record == STATE_DR_EXECUTING_RECORD)
   {
     //Перевіряємо чи не виникла умова, що зарараз буде перебір фіксації максимальних струмів
-    unsigned int temp_value_for_max_min_fix_measurement = (
-                                                            number_max_phase_dr   + 
-                                                            number_max_3I0_dr     +
-                                                            number_max_3U0_dr     +
-                                                            number_min_U_dr       +
-                                                            number_max_U_dr       +
-                                                            number_max_ZOP_dr
-                                                      );
+    unsigned int temp_value_for_max_min_fix_measurement = 0;
+	
+//                                                           ( number_max_phase_dr   + 
+//                                                            number_max_3I0_dr     +
+//                                                            number_max_3U0_dr     +
+//                                                            number_min_U_dr       +
+//                                                            number_max_U_dr       +
+//                                                            number_max_ZOP_dr
+//                                                      );
     if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
     {
       //Сюди, теоретично програма нікол не мала б заходити, але якщо зайшла, тоиреба перервати роботу дискретного реєстратора
@@ -5760,7 +5761,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
     }
     else
     {
-      //Перевіряємо чи стоїть умова почати моніторити максимальний фазний струм
+/*      //Перевіряємо чи стоїть умова почати моніторити максимальний фазний струм
       if(
          ((carrent_active_functions[0] & MASKA_MONITOTYNG_PHASE_SIGNALES_0) != 0) ||
          ((carrent_active_functions[1] & MASKA_MONITOTYNG_PHASE_SIGNALES_1) != 0) ||
@@ -5886,9 +5887,9 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           temp_value_for_max_min_fix_measurement++;
         }
       }
-    
+*/    
       
-      if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
+/*      if(temp_value_for_max_min_fix_measurement > MAX_NUMBER_FIX_MAX_MEASUREMENTS)
       {
         //Виникла ситуація, що зарараз буде перебір фіксації максимальних вимірювань
         //Треба примусово завершити текучий запис і почати наступний запис
@@ -5941,14 +5942,15 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           //Сформований запис ставим в чергу для запису
           routine_for_queue_dr();
         }
-        /*
+        / *
         Скидаємо сигнал роботи дискретного реєстратора у масиві попередніх активних функцій
         Це ми робимо для того, щоб у першому записі нового запису було зафіксовано активацію роботу дискретного реєстратора
-        */
+        * /
         _CLEAR_BIT(previous_active_functions, RANG_WORK_D_REJESTRATOR);
         
-      }
+      }*/
     }
+	
   }
   
   switch (state_dr_record)
@@ -6016,7 +6018,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           //Помічаємо скільки часу пройшло з початку запуску запису
           time_from_start_record_dr = 0;
           
-          //Скидаємо кількість фіксацій максимальних струмів/напруг
+/*          //Скидаємо кількість фіксацій максимальних струмів/напруг
           number_max_phase_dr = 0;
           number_max_3I0_dr = 0;
           number_max_3U0_dr = 0;
@@ -6026,7 +6028,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           
           //Знімаємо повідомлення про моніторинг максимальних струмів
           state_current_monitoring = 0;
-          
+
           //Перевіряємо чи стоїть умова моніторити максимальний фазний струм
           if(
              ((carrent_active_functions[0] & MASKA_MONITOTYNG_PHASE_SIGNALES_0) != 0) ||
@@ -6136,7 +6138,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           {
             start_monitoring_max_ZOP(time_from_start_record_dr);
           }
-      
+      */
           //Записуємо попередній cтан сигналів перед аварією
           //Мітка часу попереднього стану сигналів до моменту початку запису
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR +  0] = 0xff;
@@ -6255,7 +6257,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
       //Збільшуємо час з початку запуску запису
       time_from_start_record_dr++;
       //Включно до цього часу іде процес запису
-
+/*
       //Контроль-фіксація максимальних аналогових сигналів
       
       //Перевіряємо чи стоїть умова моніторити максимальний фазний струм
@@ -6425,7 +6427,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
           end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP, carrent_active_functions);
       }
-      
+ */     
       //Дальші дії виконуємо тіьлки у тому випадку, якщо функція end_monitoring_min_max_measurement не зафіксувала помилку і не скинула state_dr_record у STATE_DR_NO_RECORD
       if(state_dr_record != STATE_DR_NO_RECORD)
       {
@@ -6510,15 +6512,15 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         //Перевіряємо, чи стоїть умова завершення запису
         if (
             (state_dr_record == STATE_DR_MAKE_RECORD)                  ||
-            (time_from_start_record_dr >= MAX_TIME_OFFSET_FROM_START)  ||  
-            ((number_items_dr + 1)     >= MAX_EVENTS_IN_ONE_RECORD  )  
+            (time_from_start_record_dr >= MAX_TIME_OFFSET_FROM_START)    
+//           || ((number_items_dr + 1)     >= MAX_EVENTS_IN_ONE_RECORD  )  
            )
         {
           //Немає умови продовження запису, або є умова завершення запису - завершуємо формування запису і подаємо команду на запис
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_ITEMS_DR      ] = number_items_dr;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_CHANGES_DR    ] =  number_changes_into_dr_record       & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_NUMBER_CHANGES_DR + 1] = (number_changes_into_dr_record >> 8) & 0xff;
-
+/*
           //Перевіряємо чи треба завершити моніторинг максимального фазного струму
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE)) != 0)
             end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_PHASE, carrent_active_functions);
@@ -6542,18 +6544,18 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           //Перевіряємо чи треба завершити моніторинг максимального струму послідовності
           if((state_current_monitoring & (1<<IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP)) != 0)
             end_monitoring_min_max_measurement(IDENTIFIER_BIT_ARRAY_MAX_CURRENT_ZOP, carrent_active_functions);
-        
+*/        
           //Дальші дії виконуємо тіьлки у тому випадку, якщо функція end_monitoring_min_max_measurement не зафіксувала помилку і не скинула state_dr_record у STATE_DR_NO_RECORD
           if(state_dr_record != STATE_DR_NO_RECORD)
           {
-            //Записуємо кількість зафіксованих максимальних вимірювань всіх типів
+/*            //Записуємо кількість зафіксованих максимальних вимірювань всіх типів
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_PHASE_DR  ] = number_max_phase_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3I0_DR    ] = number_max_3I0_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_3U0_DR    ] = number_max_3U0_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MIN_U_DR      ] = number_min_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_U_DR      ] = number_max_U_dr;
             buffer_for_save_dr_record[FIRST_INDEX_NUMBER_MAX_ZOP_DR    ] = number_max_ZOP_dr;
-
+*/
             //Переводимо режим роботи із дискретним реєстратором у стан "Виконується безпосередній запис у DataFlash"
             if (state_dr_record != STATE_DR_MAKE_RECORD)
             {

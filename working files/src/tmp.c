@@ -1,4 +1,50 @@
 
+/*****************************************************/
+//Перевірка на необхідність завершення роботи аналогового/дискретного реєстраторів
+/*****************************************************/
+stop_regisrator(unsigned int* carrent_active_functions, unsigned int* ranguvannja_registrator)
+/*****************************************************/
+//Функція обробки черги зформованих записів дискретного реєстратора
+/*****************************************************/
+inline void routine_for_queue_dr(void)
+
+state_dr_record / /!<< Приймає числа наведені нижче
+STATE_DR_NO_RECORD              0 //На даний момент ніких дій з дискретним реєстратором не виконується
+STATE_DR_FORCE_START_NEW_RECORD 1 //Оформлені події оформити як запис, але ще не досягнуто умови
+ завершення роботи дискретного реєстратора тому при наступному проході розпочати новий запис
+STATE_DR_EXECUTING_RECORD       2 //Іде процес запису реєстратора
+STATE_DR_MAKE_RECORD            3 //Оформити запис для  запису у Dataflash
+STATE_DR_CUT_RECORD             4 //Оформлені події оформити як запис, але ще не досягнуто умови 
+завершення роботи дискретного реєстратора тому при наступному проході розпочати новий запис
+Що мається на увазі?
+number_records_dr_waiting_for_saving_operation / /!<< зараз виглядають як числа 0,1,2 
+Визначає вибір буферу, з якого потрібно дані перекидати у  Datafalsh
+ 0 - buffer_for_save_dr_record 1- buffer_for_save_dr_record_level_1
+ Запис завжди ведеться buffer_for_save_dr_record_level_2
+ При перекиданні з buffer_for_save_dr_record_level_1 в buffer_for_save_dr_record_level_2
+ ще відбувається і перенос з  buffer_for_save_dr_record в buffer_for_save_dr_record_level_1
+
+якщо (control_tasks_dataflash & TASK_MAMORY_PAGE_PROGRAM_THROUGH_BUFFER_DATAFLASH_FOR_DR) == 0 / /!<<  тобто зараз не йде запис
+
+якщо йде 
+
+Поки що основна інформація полягає в тому, що запис безпосередньо у Datafalsh ведеться з буферу
+buffer_for_save_dr_record_level_2. 
+
+/*****************************************************/
+//Функція обробки логіки дискретного реєстратора
+/*****************************************************/
+inline void digital_registrator(unsigned int* carrent_active_functions)
+
+ //Переводимо режим роботи із дискретним реєстратором у стан "Іде процес запису реєстратора"
+          state_dr_record = STATE_DR_EXECUTING_RECORD;
+
+buffer_for_save_dr_record / /!<<  типо за задумом базовий буфер для формування запису в дискретному реєстраторі		  
+		  
+
+state_current_monitoring  / /!<<  Поле, яке фіксує які блоки моніторингу використовуються 
+		  
+		  
 typedef struct Setpoints_tag{
 
  
@@ -222,7 +268,8 @@ __SETTINGS *p_current_settings_prt;
 	else{//Clr State
 
 	}
- 
+
+ Аварійна несправність розкоментувати
 CYCLECOUNTER	631174246	ReadOnly	
 631174684
 438
@@ -231,6 +278,35 @@ CYCLECOUNTER	1659861	ReadOnly
 358	
 
 
+
+
+
+Introduction to Application Development with Qt Quick, Release 1.0
+page 34
+https://doc.qt.io/Qt-5/windows-deployment.html
+https://books.google.com.ua/books?id=6F0dDAAAQBAJ&pg=PP9&lpg=PP9&dq=qt+book+pdf&source=bl&ots=ZRtEVMgxk6&sig=OweF-OleTdI3z7yINTcm1vkRWqI&hl=uk&sa=X&ved=2ahUKEwiPloeah47fAhUBDSwKHfugADc4HhDoATAAegQICRAB#v=onepage&q=qt%20book%20pdf&f=false
+https://books.google.com.ua/books?id=9uhODwAAQBAJ&pg=PP4&lpg=PP4&dq=qt+book+pdf&source=bl&ots=A5CG0w3Uan&sig=aYI4oXkbewPD5G2ohH2_DqTIxqo&hl=uk&sa=X&ved=2ahUKEwiPloeah47fAhUBDSwKHfugADc4HhDoATABegQICBAB#v=onepage&q=qt%20book%20pdf&f=false
+https://github.com/zakariakov/booksorg
+http://pllug.org.ua/pllug-roadmaps/
+Qt Training: Model/View (part 2/4): Showing Simple Data: Oliver Gutbrod, by e-GITS
+Qt Training: Fundamentals of Qt - Objects in Qt, part 1/3 - Qt objects, UI elements
+Qt Training: Model/View II (part 1/5): Editing item data, by e-GITS
+Qt Training: Application Creation (part 1/3): MainWindows: Justin Noel by ICS
+Qt Training: Widgets (part 1/3): Common Widgets: Torsten Rahn by basysKom
+Qt Training: Graphics View (part 1/3): Using GraphicsView Classes: Tuukka Ahoniemi
+Qt DevDays 2011, Advanced Qt - A Deep Dive 5/6 - ModelView Part 1: Volker Krause, Jesper Pedersen
+Qt DevDays 2011, Advanced Qt -A Deep Dive 1/6 Graphics View Part 1: Volker Krause, Jesper Pedersen
+QtWS15- Get to know the Qt Installer Framework, Kai Köhne, The Qt Company
+QtDD12 - Effective QML: Best practices for Developing with Qt Quick - Adenilson Calvacanti
+Introducing Qt Quick Controls in Qt 5.1
+Qt DevDays 2011, Getting Started - a Qt fast track 1/4 - Overview: Oliver Gutbrod
+Qt DevDays 2011, Programming with Qt Quick 3/6 - Visual Elements Part 1: Justin Noel
+QtDD12 - OpenGL with Qt 5 - Dr. Sean Harmer
+Qt DevDays 2011, Programming with Qt Quick 1/6 - Meet Qt Quick Part 1: Justin Noel
+https://www.qcustomplot.com/
+https://dou.ua/lenta/digests/plus-digest-7/
+
+https://www.youtube.com/watch?v=Y4utTBcSjdM&list=PLB22HyVdO1GkLFrvRi5vIo5XcWS0EflxD
 
  
  
