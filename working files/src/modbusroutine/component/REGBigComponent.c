@@ -316,10 +316,6 @@ int postREGBigWriteAction(void)
             ||
             (current_ekran.current_level == EKRAN_CHANGES_SIGNALS_DR        )
             ||
-            (current_ekran.current_level == EKRAN_TITLE_MAX_VALUES          )
-            ||
-            (current_ekran.current_level == EKRAN_MAX_VALUES                )
-            ||
             (
               (control_tasks_dataflash & (
                  TASK_MAMORY_PAGE_PROGRAM_THROUGH_BUFFER_DATAFLASH_FOR_DR |
