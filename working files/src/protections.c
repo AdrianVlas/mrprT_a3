@@ -5281,7 +5281,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 33] = (previous_active_functions[7] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 34] = (previous_active_functions[7] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 35] =  previous_active_functions[8]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 36] = (previous_active_functions[8] >> 8)  & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 36] = (previous_active_functions[8] >> 8 ) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 37] = (previous_active_functions[8] >> 16) & 0xff;
           //Нулем позначаємо у цій позиції кількість змін
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + 38] = 0;
@@ -5335,8 +5335,8 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 33] = (carrent_active_functions[7] >> 16) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 34] = (carrent_active_functions[7] >> 24) & 0xff;
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 35] =  carrent_active_functions[8]        & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 36] = (carrent_active_functions[8] >> 16) & 0xff;
-          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 37] = (carrent_active_functions[8] >> 24) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 36] = (carrent_active_functions[8] >> 8 ) & 0xff;
+          buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 37] = (carrent_active_functions[8] >> 16) & 0xff;
           
           //Кількість змін сигналів у порівнянні із попереднім станом
           buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 38] = number_changes_into_current_item & 0xff;
@@ -5439,8 +5439,8 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 33] = (carrent_active_functions[7] >> 16) & 0xff;
         buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 34] = (carrent_active_functions[7] >> 24) & 0xff;
         buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 35] =  carrent_active_functions[8]        & 0xff;
-        buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 36] = (carrent_active_functions[8] >> 16) & 0xff;
-        buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 37] = (carrent_active_functions[8] >> 24) & 0xff;
+        buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 36] = (carrent_active_functions[8] >> 8 ) & 0xff;
+        buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 37] = (carrent_active_functions[8] >> 16) & 0xff;
         //Кількість змін сигналів у порівнянні із попереднім станом
         buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 38] = number_changes_into_current_item & 0xff;
         buffer_for_save_dr_record[FIRST_INDEX_FIRST_DATA_DR + number_items_dr*40 + 39] = (number_changes_into_current_item >> 8) & 0xff;
