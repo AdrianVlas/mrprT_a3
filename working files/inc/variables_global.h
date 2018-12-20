@@ -562,6 +562,9 @@ _Bool previous_state_mtz_po_uncn = 0;
 unsigned int p_global_trigger_state_mtz2/* = 0*/;
 unsigned int p_global_trigger_state_mtz04_2/* = 0*/;
 
+//Визначення періодів у хвилину і більше
+unsigned int number_seconds;
+
 //Ресурс++
 unsigned int restart_resurs_count/* = 0*/;
 unsigned int resurs_temp/* = 0*/;
