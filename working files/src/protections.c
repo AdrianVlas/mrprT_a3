@@ -6011,8 +6011,12 @@ inline void main_protection(void)
         _SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_LEDS);
         _SET_BIT(temp_value_for_activated_function, RANG_SMALL_RESET_RELES);
       }
-      if ((pressed_buttons_united & (1 << (BIT_KEY_I - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV_H);
-      if ((pressed_buttons_united & (1 << (BIT_KEY_O - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV_H);
+      if ((current_settings_prt.configuration & (1 << OFF_ON_BIT_CONFIGURATION)) != 0)
+      {
+        //Обробку кнопок ввімкнення/вискнення проводимо тільки тоді, коли БО/БВ ввімкнено у кофігурацію
+        if ((pressed_buttons_united & (1 << (BIT_KEY_I - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_VKL_VV_L);
+        if ((pressed_buttons_united & (1 << (BIT_KEY_O - BIT_KEY_1))) != 0) _SET_BIT(temp_value_for_activated_function, RANG_SMALL_OTKL_VV_L);
+      }
     }
     
     //Активація з інтерфейсу

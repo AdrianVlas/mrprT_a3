@@ -560,6 +560,8 @@ enum _sector_kz_zv_const
     (1 << (RANG_SMALL_RESET_LEDS - 0))                        \
   | (1 << (RANG_SMALL_RESET_RELES - 0))                       \
   | (1 << (RANG_SMALL_RESET_BLOCK_READY_TU_VID_ZAHYSTIV - 0)) \
+  | (1 << (RANG_SMALL_VKL_VV_H - 0))                          \
+  | (1 << (RANG_SMALL_OTKL_VV_H - 0))                         \
 )
 
 #define MASKA_BUTTON_MODE_0_SIGNALS_1 (unsigned int)(         \
