@@ -2,9 +2,9 @@
 #include "header.h"
 
 //начальный регистр в карте памяти
-#define BEGIN_ADR_REGISTER 332
+#define BEGIN_ADR_REGISTER 350
 //конечный регистр в карте памяти
-#define END_ADR_REGISTER 408
+#define END_ADR_REGISTER 519
 
 int getAISmallModbusRegister(int);//получить содержимое регистра
 int getAISmallModbusBit(int);//получить содержимое бита
@@ -39,117 +39,490 @@ void constructorAISmallComponent(COMPONENT_OBJ *aismallcomp)
   aismallcomponent->isActiveActualData = 0;
 }//constructorIUSmallComponent(COMPONENT_OBJ *iucomp)
 
+#define TRANSFORMATOR_VH if(!transVH_VL)  break;return -1;
+#define TRANSFORMATOR_VL if(transVH_VL) break;return -1;
+
 int getAISmallModbusRegister(int adrReg)
 {
   //получить содержимое регистра
   if(privateAISmallGetReg2(adrReg)==MARKER_OUTPERIMETR) return MARKER_OUTPERIMETR;
     int offset = adrReg-BEGIN_ADR_REGISTER;
+    unsigned int transVH_VL = current_settings_interfaces.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL);
     switch (offset)
     {
-    case 0://UA
+    case 0://UA H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 332;
+        adrReg += transVH_VL;
+        return 350;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 1://UB H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 351;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 2://UC H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 352;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+
+    case 7://P  H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 357;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 8://Q H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 358;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 9://S H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 359;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 10://cos f H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 360;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+
+    case 25://UAB H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 375;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 26://UBC H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 376;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 27://UCA H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 377;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+
+//    case 28:
+
+    case 29://3U0  H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 379;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 30://U1 H
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 380;
+#else
+       TRANSFORMATOR_VH
+#endif
+    case 31://U2 H
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 381;
+#else
+       TRANSFORMATOR_VH
+#endif
+    case 46://OFFSET_ANGLE_UA_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 396;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 47://OFFSET_ANGLE_UB_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 397;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 48://OFFSET_ANGLE_UC_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 398;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 49://OFFSET_ANGLE_UAB_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 399;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 50://OFFSET_ANGLE_UBC_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 400;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 51://OFFSET_ANGLE_UCA_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 401;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+
+//    case 52:
+
+    case 53://OFFSET_ANGLE_3U0_1  H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 403;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 54://OFFSET_ANGLE_U1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 404;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+    case 55://OFFSET_ANGLE_U2  H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 405;
+#else
+       TRANSFORMATOR_VH
+#endif
+      }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    case 78://UA L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 428;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 79://UB L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 429;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 80://UC L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 430;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+    case 85://P L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 435;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 86://Q L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 436;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 87://S L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 437;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 88://cos f L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 438;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+    case 90://Частота ТН2
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 440;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+    case 103://UAB L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 453;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 104://UBC L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 454;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 105://UCA L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 455;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+//    case 28:
+
+    case 107://3U0 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 457;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 108://U1 L
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 458;
+#else
+       TRANSFORMATOR_VL
+#endif
+    case 109://U2 L
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 459;
+#else
+       TRANSFORMATOR_VL
+#endif
+
+    case 124://OFFSET_ANGLE_UA_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 474;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 125://OFFSET_ANGLE_UB_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 475;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 126://OFFSET_ANGLE_UC_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 476;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 127://OFFSET_ANGLE_UAB_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 477;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 128://OFFSET_ANGLE_UBC_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 478;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 129://OFFSET_ANGLE_UCA_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 479;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+//    case 52:
+
+    case 131://OFFSET_ANGLE_3U0_1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 481;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 132://OFFSET_ANGLE_U1 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 482;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+    case 133://OFFSET_ANGLE_U2 L
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 483;
+#else
+       TRANSFORMATOR_VL
+#endif
+      }
+
+    }//switch
+//----------------------------------------------------------------------------
+    switch (offset)
+    {
+    case 78://UA L
+    case 0://UA H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 350;
 #else
         return (measurement_low[IM_UA] >> 3) &0xFFFF;
 #endif
       }
-    case 1://UB
+    case 79://UB L
+    case 1://UB H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 333;
+        return 351;
 #else
         return (measurement_low[IM_UB] >> 3) &0xFFFF;
 #endif
       }
-    case 2://UC
+    case 80://UC L
+    case 2://UC H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 334;
+        return 352;
 #else
         return (measurement_low[IM_UC] >> 3) &0xFFFF;
 #endif
       }
-
-//    case 3://IA
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 335;
-//#else
-//        return (measurement_low[IM_IA] >> 2) &0xFFFF;
-//#endif
-//      }
-//    case 4://IB
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 336;
-//#else
-//        return (measurement_low[IM_IB] >> 2) &0xFFFF;
-//#endif
-//      }
-//    case 5://IC
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 337;
-//#else
-//        return (measurement_low[IM_IC] >> 2) &0xFFFF;
-//#endif
-//      }
-
-//    case 6://I04
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 338;
-//#else
-//        return (measurement_low[IM_I04] >> 2) &0xFFFF;
-//#endif
-//      }
-    case 7://P
+    case 3://Ток Ia ВН
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 339;
+        return 353;
+#else
+        return (measurement_low[IM_IA_H] >> 2) &0xFFFF;
+#endif
+      }
+    case 4://Ток Ib ВН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 354;
+#else
+        return (measurement_low[IM_IB_H] >> 2) &0xFFFF;
+#endif
+      }
+    case 5://Ток Ic ВН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 355;
+#else
+        return (measurement_low[IM_IC_H] >> 2) &0xFFFF;
+#endif
+      }
+
+    case 85://P L
+    case 7://P H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 357;
 #else
         return (P[0]/50) &0xFFFF;
 #endif
       }
-    case 8://P
+    case 86://Q L
+    case 8://Q H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 340;
+        return 358;
 #else
         return (Q[0]/50) &0xFFFF;
 #endif
       }
-    case 9://P
+    case 87://S L
+    case 9://S H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 341;
+        return 359;
 #else
         return (S[0]/50) &0xFFFF;
 #endif
       }
-    case 10://cos f
+    case 88://cos f L
+    case 10://cos f H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 342;
+        return 360;
 #else
         if (S != 0)
           return (cos_phi_x1000) &0xFFFF;
           return 0x0;
 #endif
       }
-//    case 11://3I0
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 343;
-//#else
-//        return (measurement_low[IM_3I0]) &0xFFFF;
-//#endif
-//      }
-    case 12://freq
+
+    case 90://freq L
+    case 12://freq H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 344;
+        return 362;
 #else
         int int_frequency = (int)(frequency*100);
         
@@ -168,281 +541,598 @@ int getAISmallModbusRegister(int adrReg)
         }
 #endif
       } break;
-//    case 13://Ea+
-//    case 14://Ea+
-//    case 15://Ea-
-//    case 16://Ea-
-//    case 17://Eq1
-//    case 18://Eq1
-//    case 19://Eq2
-//    case 20://Eq2
-//    case 21://Eq3
-//    case 22://Eq3
-//    case 23://Eq4
-//    case 24://Eq4
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 345+(offset-13);
-//#else
-//        unsigned int enrg = (unsigned int)(energy[(offset-13) >> 1]*1000.0);
-//        if((offset-13)&1)
-//          //Передаємо старше слово
-//        return (enrg>> 16)& 0xffff;
-//          //Передаємо молодше слово
-//        return enrg& 0xffff;
-//#endif
-//      } break;
-    case 25://UAB
+
+    case 103://UAB L
+    case 25://UAB H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 357;
+        return 375;
 #else
         return (measurement_low[IM_UAB] >> 3) &0xFFFF;
 #endif
       }
-    case 26://UBC
+    case 104://UBC L
+    case 26://UBC H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 358;
+        return 376;
 #else
         return (measurement_low[IM_UBC] >> 3) &0xFFFF;
 #endif
       }
-    case 27://UCA
+    case 105://UCA L
+    case 27://UCA H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 359;
+        return 377;
 #else
         return (measurement_low[IM_UCA] >> 3) &0xFFFF;
 #endif
       }
-//    case 28://3U0
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 360;
-//#else
-//        return (measurement_low[IM_3U0] >> 3) &0xFFFF;
-//#endif
-//      }
-//    case 29://3I0-1
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 361;
-//#else
-//        return (measurement_low[IM_3I0_r] >> 2) &0xFFFF;
-//#endif
-//      }
-//    case 30://IM_3I0_other_g
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 362;
-//#else
-//        return (measurement_low[IM_3I0_other_g]) &0xFFFF;
-//#endif
-//      }
-//    case 31://IM_I1
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 363;
-//#else
-//        return (measurement_low[IM_I1] >> 2) &0xFFFF;
-//#endif
-//      }
-//    case 32://IM_I2
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 364;
-//#else
-//        return (measurement_low[IM_I2] >> 2) &0xFFFF;
-//#endif
-//      }
-//    case 33://Iah2
-//    case 34://Ibh2
-//    case 35://Ich2
-//    case 36://Uab TCH
-//    case 37://Ubc TCH
-//    case 38://Ua TH2
-//    case 39://Ub TH2
-//    case 40://Uc TH2
-//    case 41://Uab TH2
-//    case 42://Ubc TH2
-//    case 43://Uca TH2
-    case 44://U1
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 376;
-#else
-        return (measurement_low[IM_U1] >> 3) &0xFFFF;
-#endif
-    case 45://U2
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 377;
-#else
-        return (measurement_low[IM_U2] >> 3) &0xFFFF;
-#endif
-//    case 46://freq TH2
-//    case 47://Z0
-    case 48://baza
+
+//    case 28:
+
+    case 107://3U0 L
+    case 29://3U0 H
       {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 379;
+#else
+        return (measurement_low[IM_3U0_r] >> 3) &0xFFFF;
+#endif
+      }
+    case 108://U1 L
+    case 30://U1 H
 #ifdef TESTZBIRKA_VERSII_PZ
         return 380;
 #else
-//        if (base_index_for_angle <= IM_3U0) return (base_index_for_angle + 1) &0xFFFF;
-//        else
-//        {
-//          //Теоретично цього ніколи не мало б бути
-//          total_error_sw_fixed(72);
-//          return 0;
-//        }
+        return (measurement_low[IM_U1] >> 3) &0xFFFF;
 #endif
-      } break;
-    case 49://OFFSET_ANGLE_UA_1
-      {
+    case 109://U2 L
+    case 31://U2 H
 #ifdef TESTZBIRKA_VERSII_PZ
         return 381;
 #else
-        return ((unsigned int)phi_angle[IM_UA]) &0xFFFF;
+        return (measurement_low[IM_U2] >> 3) &0xFFFF;
 #endif
-      }
-    case 50://OFFSET_ANGLE_UB_1
-      {
-#ifdef TESTZBIRKA_VERSII_PZ
-        return 382;
-#else
-        return ((unsigned int)phi_angle[IM_UB]) &0xFFFF;
-#endif
-      }
-    case 51://OFFSET_ANGLE_UC_1
+
+//    case 32:
+
+    case 33://3I0-1 BH
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 383;
 #else
-        return ((unsigned int)phi_angle[IM_UC]) &0xFFFF;
+        return (measurement_low[IM_3I0_r_H] >> 2) &0xFFFF;
 #endif
       }
-    case 52://OFFSET_ANGLE_UAB_1
+    case 34://IM_I1 BH
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 384;
 #else
-        return ((unsigned int)phi_angle[IM_UAB]) &0xFFFF;
+        return (measurement_low[IM_I1_H] >> 2) &0xFFFF;
 #endif
       }
-    case 53://OFFSET_ANGLE_UBC_1
+    case 35://IM_I2 BH
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 385;
 #else
-        return ((unsigned int)phi_angle[IM_UBC]) &0xFFFF;
+        return (measurement_low[IM_I2_H] >> 2) &0xFFFF;
 #endif
       }
-    case 54://OFFSET_ANGLE_UCA_1
+
+//    case 36:
+//    case 37:
+//    case 38:
+
+    case 39://Приведенный Ток Ia ВН
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 386;
+        return 389;
 #else
-        return ((unsigned int)phi_angle[IM_UCA]) &0xFFFF;
+        return (measurement_low[IM_IA_P_H] >> 2) &0xFFFF;
 #endif
       }
-    case 55://OFFSET_ANGLE_3U0_1
+    case 40://Приведенный Ток Ib ВН
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 387;
+        return 390;
 #else
-//        return ((unsigned int)phi_angle[IM_3U0]) &0xFFFF;
+        return (measurement_low[IM_IB_P_H] >> 2) &0xFFFF;
 #endif
       }
-//    case 56://OFFSET_ANGLE_UA_2
-//    case 57://OFFSET_ANGLE_UB_2
-//    case 58://OFFSET_ANGLE_UC_2
-//    case 59://OFFSET_ANGLE_UAB_2
-//    case 60://OFFSET_ANGLE_UBC_2
-//    case 61://OFFSET_ANGLE_UCA_2
-    case 62://OFFSET_ANGLE_Ia_1
+    case 41://Приведенный Ток Ic ВН
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 394;
+        return 391;
 #else
-        return ((unsigned int)phi_angle[IM_IA_H]) &0xFFFF;
+        return (measurement_low[IM_IC_P_H] >> 2) &0xFFFF;
 #endif
       }
-    case 63://OFFSET_ANGLE_Ib_1
+    case 42://Приведенный Ток I1 ВН
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        return 395;
+        return 392;
 #else
-        return ((unsigned int)phi_angle[IM_IB_H]) &0xFFFF;
+        return (measurement_low[IM_I1_P_H] >> 2) &0xFFFF;
 #endif
       }
-    case 64://OFFSET_ANGLE_Ic_1
+    case 43://Приведенный Ток I2 ВН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 393;
+#else
+        return (measurement_low[IM_I2_P_H] >> 2) &0xFFFF;
+#endif
+      }
+
+//    case 44:
+//    case 45:
+
+    case 124://OFFSET_ANGLE_UA_1 L
+    case 46://OFFSET_ANGLE_UA_1 H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 396;
 #else
-        return ((unsigned int)phi_angle[IM_IC_H]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UA]) &0xFFFF;
 #endif
       }
-    case 65://OFFSET_ANGLE_I04
+    case 125://OFFSET_ANGLE_UB_1 L
+    case 47://OFFSET_ANGLE_UB_1 H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 397;
 #else
-//        return ((unsigned int)phi_angle[IM_I04]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UB]) &0xFFFF;
 #endif
       }
-    case 66://OFFSET_ANGLE_3I0_1
+    case 126://OFFSET_ANGLE_UC_1 L
+    case 48://OFFSET_ANGLE_UC_1 H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
         return 398;
 #else
-//        return ((unsigned int)phi_angle[IM_3I0]) &0xFFFF;
+        return ((unsigned int)phi_angle[IM_UC]) &0xFFFF;
 #endif
       }
-//    case 67://OFFSET_ANGLE_3I0_r
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 399;
-//#else
-//        return ((unsigned int)phi_angle[IM_3I0_r]) &0xFFFF;
-//#endif
-//      }
-//    case 68://
-//    case 69://
-//    case 70://
-//    case 71://
-//    case 72://
-//    case 73://
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 405;
-//#else
-//        return resurs_vidkljuchennja & 0xffff;
-//#endif
-//      }
-//    case 74://
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 406;
-//#else
-//        return (resurs_vidkljuchennja >> 16) & 0xffff;
-//#endif
-//      }
-//    case 75://
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 407;
-//#else
-//        return resurs_vymykacha & 0xffff;
-//#endif
-//      }
-//    case 76://
-//      {
-//#ifdef TESTZBIRKA_VERSII_PZ
-//        return 408;
-//#else
-//        return (resurs_vymykacha >> 16) & 0xffff;
-//#endif
-//      }
+    case 127://OFFSET_ANGLE_UAB_1 L
+    case 49://OFFSET_ANGLE_UAB_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 399;
+#else
+        return ((unsigned int)phi_angle[IM_UAB]) &0xFFFF;
+#endif
+      }
+    case 128://OFFSET_ANGLE_UBC_1 L
+    case 50://OFFSET_ANGLE_UBC_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 400;
+#else
+        return ((unsigned int)phi_angle[IM_UBC]) &0xFFFF;
+#endif
+      }
+    case 129://OFFSET_ANGLE_UCA_1 L
+    case 51://OFFSET_ANGLE_UCA_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 401;
+#else
+        return ((unsigned int)phi_angle[IM_UCA]) &0xFFFF;
+#endif
+      }
 
+//    case 52:
+
+    case 131://OFFSET_ANGLE_3U0_1 L
+    case 53://OFFSET_ANGLE_3U0_1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 403;
+#else
+        return ((unsigned int)phi_angle[IM_3U0_r]) &0xFFFF;
+#endif
+      }
+    case 132://OFFSET_ANGLE_U1 L
+    case 54://OFFSET_ANGLE_U1 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 404;
+#else
+        return ((unsigned int)phi_angle[IM_U1]) &0xFFFF;
+#endif
+      }
+    case 133://OFFSET_ANGLE_U2 L
+    case 55://OFFSET_ANGLE_U2 H
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 405;
+#else
+        return ((unsigned int)phi_angle[IM_U2]) &0xFFFF;
+#endif
+      }
+    case 56://OFFSET_ANGLE_Ia BH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 406;
+#else
+        return ((unsigned int)phi_angle[IM_IA_H]) &0xFFFF;
+#endif
+      }
+    case 57://OFFSET_ANGLE_Ib BH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 407;
+#else
+        return ((unsigned int)phi_angle[IM_IB_H]) &0xFFFF;
+#endif
+      }
+    case 58://OFFSET_ANGLE_Ic BH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 408;
+#else
+        return ((unsigned int)phi_angle[IM_IC_H]) &0xFFFF;
+#endif
+      }
+
+//    case 59:
+//    case 60:
+
+    case 61://Угол между 3Io-1 ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 411;
+#else
+        return ((unsigned int)phi_angle[IM_3I0_r_H]) &0xFFFF;
+#endif
+      }
+    case 62://Угол между I1 ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 412;
+#else
+        return ((unsigned int)phi_angle[IM_I1_H]) &0xFFFF;
+#endif
+      }
+    case 63://Угол между I2 ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 413;
+#else
+        return ((unsigned int)phi_angle[IM_I2_H]) &0xFFFF;
+#endif
+      }
+    case 64://Угол между приведенным Ia ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 414;
+#else
+        return ((unsigned int)phi_angle[IM_IA_P_H]) &0xFFFF;
+#endif
+      }
+    case 65://Угол между приведенным Ib ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 415;
+#else
+        return ((unsigned int)phi_angle[IM_IB_P_H]) &0xFFFF;
+#endif
+      }
+    case 66://Угол между приведенным Ic ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 416;
+#else
+        return ((unsigned int)phi_angle[IM_IC_P_H]) &0xFFFF;
+#endif
+      }
+    case 67://Угол между приведенным I1 ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 417;
+#else
+        return ((unsigned int)phi_angle[IM_I1_P_H]) &0xFFFF;
+#endif
+      }
+    case 68://Угол между приведенным I2 ВН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 418;
+#else
+        return ((unsigned int)phi_angle[IM_I2_P_H]) &0xFFFF;
+#endif
+      }
+
+
+    case 81://Ток Ia HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 431;
+#else
+        return (measurement_low[IM_IA_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 82://Ток Ib HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 432;
+#else
+        return (measurement_low[IM_IB_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 83://Ток Ic HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 433;
+#else
+        return (measurement_low[IM_IC_L] >> 2) &0xFFFF;
+#endif
+      }
+
+    case 111://3I0-1 HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 461;
+#else
+        return (measurement_low[IM_3I0_r_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 112://IM_I1 HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 462;
+#else
+        return (measurement_low[IM_I1_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 113://IM_I2 HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 463;
+#else
+        return (measurement_low[IM_I2_L] >> 2) &0xFFFF;
+#endif
+      }
+
+
+    case 117://Приведенный Ток Ia HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 467;
+#else
+        return (measurement_low[IM_IA_P_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 118://Приведенный Ток Ib HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 468;
+#else
+        return (measurement_low[IM_IB_P_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 119://Приведенный Ток Ic HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 469;
+#else
+        return (measurement_low[IM_IC_P_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 120://Приведенный Ток I1 HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 470;
+#else
+        return (measurement_low[IM_I1_P_L] >> 2) &0xFFFF;
+#endif
+      }
+    case 121://Приведенный Ток I2 HН
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 471;
+#else
+        return (measurement_low[IM_I2_P_L] >> 2) &0xFFFF;
+#endif
+      }
+
+
+    case 134://OFFSET_ANGLE_Ia HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 484;
+#else
+        return ((unsigned int)phi_angle[IM_IA_L]) &0xFFFF;
+#endif
+      }
+    case 135://OFFSET_ANGLE_Ib HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 485;
+#else
+        return ((unsigned int)phi_angle[IM_IB_L]) &0xFFFF;
+#endif
+      }
+    case 136://OFFSET_ANGLE_Ic HH
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 486;
+#else
+        return ((unsigned int)phi_angle[IM_IC_L]) &0xFFFF;
+#endif
+      }
+
+//    case 137://
+//    case 138://
+
+    case 139://Угол между 3Io-1 HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 489;
+#else
+        return ((unsigned int)phi_angle[IM_3I0_r_L]) &0xFFFF;
+#endif
+      }
+    case 140://Угол между I1 HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 490;
+#else
+        return ((unsigned int)phi_angle[IM_I1_L]) &0xFFFF;
+#endif
+      }
+    case 141://Угол между I2 HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 491;
+#else
+        return ((unsigned int)phi_angle[IM_I2_L]) &0xFFFF;
+#endif
+      }
+
+    case 142://Угол между приведенным Ia HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 492;
+#else
+        return ((unsigned int)phi_angle[IM_IA_P_L]) &0xFFFF;
+#endif
+      }
+    case 143://Угол между приведенным Ib HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 493;
+#else
+        return ((unsigned int)phi_angle[IM_IB_P_L]) &0xFFFF;
+#endif
+      }
+    case 144://Угол между приведенным Ic HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 494;
+#else
+        return ((unsigned int)phi_angle[IM_IC_P_L]) &0xFFFF;
+#endif
+      }
+    case 145://Угол между приведенным I1 HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 495;
+#else
+        return ((unsigned int)phi_angle[IM_I1_P_L]) &0xFFFF;
+#endif
+      }
+    case 146://Угол между приведенным I2 HН и базой
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 496;
+#else
+        return ((unsigned int)phi_angle[IM_I2_P_L]) &0xFFFF;
+#endif
+      }
+
+    case 158://Ток Ia Dif
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 508;
+#else
+        return (measurement_low[IM_dIA] >> 2) &0xFFFF;
+#endif
+      }
+    case 159://Ток Ib Dif
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 509;
+#else
+        return (measurement_low[IM_dIB] >> 2) &0xFFFF;
+#endif
+      }
+    case 160://Ток Ic Dif
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 510;
+#else
+        return (measurement_low[IM_dIC] >> 2) &0xFFFF;
+#endif
+      }
+    case 161://Ток Ia G
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 511;
+#else
+        return (measurement_low[IM_gdIA] >> 2) &0xFFFF;
+#endif
+      }
+    case 162://Ток Ib G
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 512;
+#else
+        return (measurement_low[IM_gdIB] >> 2) &0xFFFF;
+#endif
+      }
+    case 163://Ток Ic G
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 513;
+#else
+        return (measurement_low[IM_gdIC] >> 2) &0xFFFF;
+#endif
+      }
+
+    case 164://Iah2 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 514;
+#else
+        return (measurement_low[IM_2dIA] >> 2) &0xFFFF;
+#endif
+      }
+    case 165://Ibh2 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 515;
+#else
+        return (measurement_low[IM_2dIB] >> 2) &0xFFFF;
+#endif
+      }
+    case 166://Ich2 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 516;
+#else
+        return (measurement_low[IM_2dIC] >> 2) &0xFFFF;
+#endif
+      }
+    case 167://Iah5 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 517;
+#else
+        return (measurement_low[IM_5dIA] >> 2) &0xFFFF;
+#endif
+      }
+    case 168://Ibh5 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 518;
+#else
+        return (measurement_low[IM_5dIB] >> 2) &0xFFFF;
+#endif
+      }
+    case 169://Ich5 diff
+      {
+#ifdef TESTZBIRKA_VERSII_PZ
+        return 519;
+#else
+        return (measurement_low[IM_5dIC] >> 2) &0xFFFF;
+#endif
+      }
     }//switch
     return 0;
 }//getDVModbusRegister(int adrReg)

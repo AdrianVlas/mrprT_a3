@@ -1,9 +1,9 @@
 #include "header.h"
 
 //начальный регистр в карте памяти
-#define BEGIN_ADR_REGISTER 2540
+#define BEGIN_ADR_REGISTER 2604
 //конечный регистр в карте памяти
-#define END_ADR_REGISTER 2571
+#define END_ADR_REGISTER 2635
 
 #define REGISTERS_PF 2
 
@@ -87,6 +87,9 @@ int setPFBigModbusRegister(int adrReg, int dataReg)
 
   superSetOperativMarker(pfbigcomponent, adrReg);
   superSetTempWriteArray(dataReg);//записать в буфер
+
+  //проверка на конфиг
+  if(!(edition_settings.configuration&(1<<EL_BIT_CONFIGURATION))) return MARKER_ERRORPERIMETR;
 
   int offset = adrReg-BEGIN_ADR_REGISTER;
   switch(offset%REGISTERS_PF)

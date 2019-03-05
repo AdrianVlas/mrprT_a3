@@ -21,7 +21,6 @@ void global_component_installation(void) {
   constructorNOTBigComponent(&(config_array[NOTBIGCOMPONENT]));//подготовка компонента not
   constructorORBigComponent(&(config_array[ORBIGCOMPONENT]));//подготовка компонента or
   constructorPKVBigComponent(&(config_array[PKVBIGCOMPONENT]));//подготовка компонента pkv
-  constructorRAISmallComponent(&(config_array[RAISMALLCOMPONENT]));//подготовка компонента raismall
   constructorREGBigComponent(&(config_array[REGBIGCOMPONENT]));//подготовка компонента reg
   constructorPREGBigComponent(&(config_array[PREGBIGCOMPONENT]));//подготовка компонента reg
   constructorRPRBigComponent(&(config_array[RPRBIGCOMPONENT]));//подготовка компонента prpr
@@ -32,7 +31,6 @@ void global_component_installation(void) {
   constructorXORBigComponent(&(config_array[XORBIGCOMPONENT]));//подготовка компонента xor
   constructorYustBigComponent(&(config_array[YUSTBIGCOMPONENT]));//подготовка компонента yust
   constructorAISmallComponent(&(config_array[AISMALLCOMPONENT]));//подготовка компонента aismall
-  constructorQAISmallComponent(&(config_array[QAISMALLCOMPONENT]));//подготовка компонента qaismall
   constructorPFBigComponent(&(config_array[PFBIGCOMPONENT]));//подготовка компонента pf
 }//global_vareiables_installation_bo(void)
 

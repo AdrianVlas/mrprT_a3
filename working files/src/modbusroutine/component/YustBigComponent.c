@@ -3,7 +3,7 @@
 //начальный регистр в карте памяти
 #define BEGIN_ADR_REGISTER 61948
 //конечный регистр в карте памяти
-#define END_ADR_REGISTER 63001
+#define END_ADR_REGISTER 62100
 
 int privateYustBigGetReg2(int adrReg);
 
@@ -59,6 +59,7 @@ int getYustBigModbusRegister(int adrReg)
   case 25:
   case 26:
   case 27:
+  case 28:
     return (ustuvannja[offset-20]) &0xFFFF;
   case 52-16+0://62000-16 +0
   case 52-16+1://62000-16 +1
@@ -68,6 +69,7 @@ int getYustBigModbusRegister(int adrReg)
   case 52-16+5://62000-16 +5
   case 52-16+6://62000-16 +6
   case 52-16+7://62000-16 +7
+  case 52-16+8://62000-16 +8
     return (phi_ustuvannja[offset- (52-16+0)]) &0xFFFF;
 
   case 52://62000
@@ -154,6 +156,7 @@ int postYustBigWriteAction(void) {
     case 25:
     case 26:
     case 27:
+    case 28:
       edit_ustuvannja[offset-20] = tempWriteArray[offsetTempWriteArray+i];
       break;
   case 52-16+0://62000-16 +0
@@ -164,6 +167,7 @@ int postYustBigWriteAction(void) {
   case 52-16+5://62000-16 +5
   case 52-16+6://62000-16 +6
   case 52-16+7://62000-16 +7
+  case 52-16+8://62000-16 +8
       {
       int index = offset- (52-16+0);
       int angle = tempWriteArray[offsetTempWriteArray+i];
@@ -179,9 +183,6 @@ int postYustBigWriteAction(void) {
     case 152://62100
       upravlMin = tempWriteArray[offsetTempWriteArray+i];//флаг min param
       break;
-//    case 1053://63001
-//      upravlMinEnrg = tempWriteArray[offsetTempWriteArray+i];//флаг min Enrg
-//      break;
     }//switch
   }//for
 
@@ -224,10 +225,6 @@ int postYustBigWriteAction(void) {
       typI = 3;
     if(set_new_settings_from_interface(typI)) return ERROR_VALID2;
   }//if(upravlMin==0x1111)
-//  else if(upravlMinEnrg==0x1234) {
-//      //Для скидання показів лічильника треба вказати конкретне число - інакше повідомляємо, що такої адреси взагалі не існує (примітивний метод маскування від несанкціонованого дослідження карти пам'яті)
-//      clean_energy = 0xff;
-//  }//if(upravlMinEnrg==0x1234)
   else return ERROR_VALID2;//флаг юстировки
 
   return 0;

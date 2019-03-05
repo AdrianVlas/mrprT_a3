@@ -13,7 +13,6 @@ extern int globalbeginAdrReg;//адрес нач регистра
 extern int globalbeginAdrBit;//адрес нач бит
 
 #define DISKRET_TOTAL NUMBER_TOTAL_SIGNAL_FOR_RANG
-// - NUMBER_UP_SIGNAL_FOR_RANG + 3)
 #define DISKRET_REGISTRATOR 0
 #define ANALOG_REGISTRATOR  1
 
@@ -537,44 +536,6 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
       int index_language = index_language_in_array(current_settings.language);
       for (size_t i = I_Ia_H; i <= I_Ic_H; i++) idetyficator[i][3] = (index_language == INDEX_LANGUAGE_EN) ? 'H' : 'В';
       for (size_t i = I_Ia_L; i <= I_Ic_L; i++) idetyficator[i][3] = (index_language == INDEX_LANGUAGE_EN) ? 'L' : 'Н';
-//      const char idetyficator_current[2][16] =
-//      {
-//        "Ib              ",
-//        "I 0.4kV         "
-//      };
-
-//      unsigned int phase_line = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_PHASE_LINE;
-//      unsigned int Ib_I04 = header_ar_tmp->control_extra_settings_1 & CTR_EXTRA_SETTINGS_1_CTRL_IB_I04;
-//      for (unsigned int k = 0; k < 16; k++) idetyficator[2][k] = idetyficator_current[Ib_I04 != 0][k];
-
-//      if (phase_line == 0)
-//        {
-//          const char idetyficator_phase[3][16] =
-//          {
-//            "Ua              ",
-//            "Ub              ",
-//            "Uc              "
-//          };
-//          char *point_to_changed_name = idetyficator[I_Ua + 0];
-//          for (unsigned int j = 0; j < 3; j++)
-//            {
-//              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_phase[j][k];
-//            }
-//        }
-//      else
-//        {
-//          const char idetyficator_line[3][16] =
-//          {
-//            "Uab             ",
-//            "Ubc             ",
-//            "Uca             "
-//          };
-//          char *point_to_changed_name = idetyficator[I_Ua + 0];
-//          for (unsigned int j = 0; j < 3; j++)
-//            {
-//              for (unsigned int k = 0; k < 16; k++) *(point_to_changed_name + j*16 + k) = idetyficator_line[j][k];
-//            }
-//        }
 
       switch(offsetRegister)
         {
@@ -614,44 +575,6 @@ int configAnalogRegistrator(int offsetRegister, int recordNumber, int recordLen)
             "B ",
             "C "
           };
-
-//          {
-//            const char phase_c[2][2] =
-//            {
-//              "B ",
-//              "04"
-//            };
-//            for (unsigned int k = 0; k < 2; k++) phase[I_Ib_I04][k] = phase_c[Ib_I04 != 0][k];
-//          }
-
-//          if (phase_line == 0)
-//            {
-//              const char phase_p[3][2] =
-//              {
-//                "A ",
-//                "B ",
-//                "C "
-//              };
-//              char *point_to_changed_name = phase[I_Ua + 0];
-//              for (unsigned int j = 0; j < 3; j++)
-//                {
-//                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = phase_p[j][k];
-//                }
-//            }
-//          else
-//            {
-//              const char pase_l[3][2] =
-//              {
-//                "AB",
-//                "BC",
-//                "CA"
-//              };
-//              char *point_to_changed_name = phase[I_Ua + 0];
-//              for (unsigned int j = 0; j < 3; j++)
-//                {
-//                  for (unsigned int k = 0; k < 2; k++) *(point_to_changed_name + j*2 + k) = pase_l[j][k];
-//                }
-//            }
 
           return phase[subObj][0] | (phase[subObj][1]<<8);
         }//case 9
@@ -1040,7 +963,7 @@ int recordNumberCaseOther(int subObj, int offsetRegister, int recordLen, int reg
               unsigned int s, ds_ms;
 
 
-              if(subObj==4)  goto m1;// return time_avar_analog[offsetRegister];
+              if(subObj==4)  goto m1;
               //Кількість секунд
               s = max_time_milliseconds_before / 100;
               //Кількість десятих і сотих мілісекунд
@@ -1248,9 +1171,7 @@ m1:
     }//case 3 4
     case 5://Тип данных subObj
       if(recordLen>1) return MARKER_ERRORPERIMETR;
-      //if(registrator==DISKRET_REGISTRATOR) 
       return 'B'; //дані - це бінарні числа
-      //return (1000000 >> VAGA_NUMBER_POINT_AR)/50; //Період дискретизації
     case 6://Коэффициент временной метки subObj
       if(recordLen>1) return MARKER_ERRORPERIMETR;
     if(registrator==DISKRET_REGISTRATOR) return 1000;
@@ -1276,7 +1197,7 @@ int dataDiskretRegistrator(int offsetRegister, int recordNumber, int recordLen)
 
   if(recordNumber>(*(point_to_buffer + FIRST_INDEX_NUMBER_ITEMS_DR))) return MARKER_ERRORPERIMETR;//уйти если превышение
 
-  unsigned int offset = FIRST_INDEX_FIRST_DATA_DR + (recordNumber + 1)*40; //бо найперший запис містить попереднє значення (до фіксації запуску роботи дискретного реєстратора)
+  unsigned int offset = FIRST_INDEX_FIRST_DATA_DR + (recordNumber + 1)*38; //бо найперший запис містить попереднє значення (до фіксації запуску роботи дискретного реєстратора)
 
   switch(offsetRegister)
     {

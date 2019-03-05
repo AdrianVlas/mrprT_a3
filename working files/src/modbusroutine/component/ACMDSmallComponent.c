@@ -7,9 +7,9 @@
 #define BEGIN_ADR_BIT 50000
 
 //конечный регистр в карте памяти
-#define END_ADR_REGISTER 293
+#define END_ADR_REGISTER 302
 //конечный bit в карте памяти
-#define END_ADR_BIT 50599
+#define END_ADR_BIT 50743
 
 int privateACMDSmallGetReg2(int adrReg);
 int privateACMDSmallGetBit2(int adrBit);
@@ -215,37 +215,6 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //        (*dvMaska) =
     break;
 
-//  count_bit = 3;
-//#define MTZ04_CONFIGURATION_BEGIN 80
-//  case MTZ04_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_BLOCK_MTZ04_1;
-//    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_1;
-//    break;
-//  case 81:
-//    (*outMaska) = RANG_MTZ04_1;
-////        (*dvMaska) =
-//    break;
-//  case 82:
-//    (*outMaska) = RANG_PO_MTZ04_1;
-////        (*dvMaska) =
-//    break;
-//  case 83:
-//    (*outMaska) = RANG_BLOCK_MTZ04_2;
-//    (*dvMaska) = RANG_SMALL_BLOCK_MTZ04_2;
-//    break;
-//  case 84:
-//    (*outMaska) = RANG_MTZ04_2;
-////        (*dvMaska) =
-//    break;
-//  case 85:
-//    (*outMaska) = RANG_PO_MTZ04_2;
-////        (*dvMaska) =
-//    break;
-//#define MTZ04_CONFIGURATION_END 86
-//  case MTZ04_CONFIGURATION_END:
-//    (*outMaska) = RANG_BLOCK_USK_MTZ04_2;
-//    (*dvMaska) = RANG_SMALL_BLOCK_USK_MTZ04_2;
-//    break;
 
   case 88:
     (*outMaska) = RANG_NCN_MTZ;
@@ -259,848 +228,937 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
 
 //  count_bit = 3;
-//#define ZDZ_CONFIGURATION_BEGIN 112
-//  case ZDZ_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_BLOCK_ZDZ;
-//    (*dvMaska)  = RANG_SMALL_BLOCK_ZDZ;
-//    break;
-//  case 113:
-//    (*outMaska) = RANG_PUSK_ZDZ_VID_DV;
-//    (*dvMaska)  = RANG_SMALL_PUSK_ZDZ_VID_DV;
-//    break;
-//  case 114:
-//    (*outMaska) = RANG_PO_ZDZ;
-////        (*dvMaska) =
-//    break;
-//  case 115:
-//    (*outMaska) = RANG_ZDZ;
-////        (*dvMaska) =
-//    break;
-//  case 116:
-//    (*outMaska) = RANG_LIGHT_ZDZ_FROM_DV;
-////        (*dvMaska) =
-//    break;
-
-//123456
-//#if MODYFIKACIA_VERSII_PZ == 0
-//  case 117:
-//    (*outMaska) = RANG_LIGHT_ZDZ_FROM_OVD1;
-////        (*dvMaska) =
-//    break;
-//  case 118:
-//    (*outMaska) = RANG_LIGHT_ZDZ_FROM_OVD2;
-////        (*dvMaska) =
-//    break;
-//#define ZDZ_CONFIGURATION_END 119
-//  case ZDZ_CONFIGURATION_END:
-//    (*outMaska) = RANG_LIGHT_ZDZ_FROM_OVD3;
-////        (*dvMaska) =
-//    break;
-////123456
-//#else
-#define ZDZ_CONFIGURATION_END 116 /*???*/
-//#endif
-
-//  count_bit = 5;
-//#define ZZ_CONFIGURATION_BEGIN 128
-//  case ZZ_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_BLOCK_NZZ;
-//    (*dvMaska) = RANG_SMALL_BLOCK_NZZ;
-//    break;
-//  case 129:
-//    (*outMaska) = RANG_PO_NZZ;
-////        (*dvMaska) =
-//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-//    break;
-//  case 130:
-//    (*outMaska) = RANG_NZZ;
-////        (*dvMaska) =
-//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-//    break;
-//  case 131:
-//    (*outMaska) = RANG_PO_3I0;
-////        (*dvMaska) =
-//    break;
-//  case 132:
-//    (*outMaska) = RANG_3I0;
-////        (*dvMaska) =
-//    break;
-//
-////  count_bit = 3;
-//  case 135:
-//    (*outMaska) = RANG_PO_3U0;
-////        (*dvMaska) =
-//    break;
-//  case 136:
-//    (*outMaska) = RANG_3U0;
-////        (*dvMaska) =
-//    break;
-//#define ZZ_CONFIGURATION_END 137
-//  case ZZ_CONFIGURATION_END:
-//    (*outMaska) = RANG_SECTOR_NZZ;
-////        (*dvMaska) =
-//    if(edition_settings.control_zz&(1<<INDEX_ML_CTR_ZZ1_TYPE_BIT)) isValid = 0;
-//    break;
+#define P_3U0_BIT_CONFIGURATION_BEGIN 144
+  case P_3U0_BIT_CONFIGURATION_BEGIN:
+    (*outMaska) = RANG_BLOCK_P_3U0;
+    (*dvMaska) = RANG_SMALL_BLOCK_P_3U0;
+    break;
+  case 145:
+    (*outMaska) = RANG_PO_P_3U0;
+//        (*dvMaska) =
+    break;
+#define P_3U0_BIT_CONFIGURATION_END 146
+  case P_3U0_BIT_CONFIGURATION_END:
+    (*outMaska) = RANG_P_3U0;
+//        (*dvMaska) =
+    break;
 
 //  count_bit = 3;
-#define TZNP_CONFIGURATION_BEGIN 144
+#define TZNP_CONFIGURATION_BEGIN 160
   case TZNP_CONFIGURATION_BEGIN:
     (*outMaska) = RANG_BLOCK_TZNP1;
     (*dvMaska) = RANG_SMALL_BLOCK_TZNP1;
     break;
-  case 145:
+  case 161:
     (*outMaska) = RANG_PO_3I0_TZNP1_VPERED;
 //        (*dvMaska) =
     break;
-  case 146:
+  case 162:
     (*outMaska) = RANG_PO_3I0_TZNP1_NAZAD;
 //        (*dvMaska) =
     break;
-  case 147:
+  case 163:
     (*outMaska) = RANG_PO_3U0_TZNP1_VPERED;
 //        (*dvMaska) =
     break;
-  case 148:
+  case 164:
     (*outMaska) = RANG_PO_3U0_TZNP1_NAZAD;
 //        (*dvMaska) =
     break;
-  case 149:
+  case 165:
     (*outMaska) = RANG_PO_TZNP1_VPERED;
 //        (*dvMaska) =
     break;
-  case 150:
+  case 166:
     (*outMaska) = RANG_PO_TZNP1_NAZAD;
 //        (*dvMaska) =
     break;
-  case 151:
+  case 167:
     (*outMaska) = RANG_SECTOR_TZNP1_VPERED;
 //        (*dvMaska) =
     break;
-  case 152:
+  case 168:
     (*outMaska) = RANG_SECTOR_TZNP1_NAZAD;
 //        (*dvMaska) =
     break;
-  case 153:
+  case 169:
     (*outMaska) = RANG_TZNP1;
 //        (*dvMaska) =
     break;
-  case 154:
+  case 170:
     (*outMaska) = RANG_BLOCK_TZNP2;
     (*dvMaska) = RANG_SMALL_BLOCK_TZNP2;
     break;
-  case 155:
+  case 171:
     (*outMaska) = RANG_PO_3I0_TZNP2_VPERED;
 //        (*dvMaska) =
     break;
-  case 156:
+  case 172:
     (*outMaska) = RANG_PO_3I0_TZNP2_NAZAD;
 //        (*dvMaska) =
     break;
-  case 157:
+  case 173:
     (*outMaska) = RANG_PO_3U0_TZNP2_VPERED;
 //        (*dvMaska) =
     break;
-  case 158:
+  case 174:
     (*outMaska) = RANG_PO_3U0_TZNP2_NAZAD;
 //        (*dvMaska) =
     break;
-  case 159:
+  case 175:
     (*outMaska) = RANG_PO_TZNP2_VPERED;
 //        (*dvMaska) =
     break;
-  case 160:
+  case 176:
     (*outMaska) = RANG_PO_TZNP2_NAZAD;
 //        (*dvMaska) =
     break;
-  case 161:
+  case 177:
     (*outMaska) = RANG_SECTOR_TZNP2_VPERED;
 //        (*dvMaska) =
     break;
-  case 162:
+  case 178:
     (*outMaska) = RANG_SECTOR_TZNP2_NAZAD;
 //        (*dvMaska) =
     break;
-  case 163:
+  case 179:
     (*outMaska) = RANG_TZNP2;
 //        (*dvMaska) =
     break;
-  case 164:
+  case 180:
     (*outMaska) = RANG_BLOCK_TZNP3;
     (*dvMaska) = RANG_SMALL_BLOCK_TZNP3;
     break;
-  case 165:
+  case 181:
     (*outMaska) = RANG_PO_3I0_TZNP3_VPERED;
 //        (*dvMaska) =
     break;
-  case 166:
+  case 182:
     (*outMaska) = RANG_PO_3I0_TZNP3_NAZAD;
 //        (*dvMaska) =
     break;
-  case 167:
+  case 183:
     (*outMaska) = RANG_PO_3U0_TZNP3_VPERED;
 //        (*dvMaska) =
     break;
-  case 168:
+  case 184:
     (*outMaska) = RANG_PO_3U0_TZNP3_NAZAD;
 //        (*dvMaska) =
     break;
-  case 169:
+  case 185:
     (*outMaska) = RANG_PO_TZNP3_VPERED;
 //        (*dvMaska) =
     break;
-  case 170:
+  case 186:
     (*outMaska) = RANG_PO_TZNP3_NAZAD;
 //        (*dvMaska) =
     break;
-  case 171:
+  case 187:
     (*outMaska) = RANG_SECTOR_TZNP3_VPERED;
 //        (*dvMaska) =
     break;
-  case 172:
+  case 188:
     (*outMaska) = RANG_SECTOR_TZNP3_NAZAD;
 //        (*dvMaska) =
     break;
-#define TZNP_CONFIGURATION_END 173
-  case TZNP_CONFIGURATION_END:
+  case 189:
     (*outMaska) = RANG_TZNP3;
+//        (*dvMaska) =
+    break;
+  case 190:
+    (*outMaska) = RANG_BLOCK_TZNP4;
+    (*dvMaska) = RANG_SMALL_BLOCK_TZNP4;
+    break;
+  case 191:
+    (*outMaska) = RANG_PO_3I0_TZNP4_VPERED;
+//        (*dvMaska) =
+    break;
+  case 192:
+    (*outMaska) = RANG_PO_3I0_TZNP4_NAZAD;
+//        (*dvMaska) =
+    break;
+  case 193:
+    (*outMaska) = RANG_PO_3U0_TZNP4_VPERED;
+//        (*dvMaska) =
+    break;
+  case 194:
+    (*outMaska) = RANG_PO_3U0_TZNP4_NAZAD;
+//        (*dvMaska) =
+    break;
+  case 195:
+    (*outMaska) = RANG_PO_TZNP4_VPERED;
+//        (*dvMaska) =
+    break;
+  case 196:
+    (*outMaska) = RANG_PO_TZNP4_NAZAD;
+//        (*dvMaska) =
+    break;
+  case 197:
+    (*outMaska) = RANG_SECTOR_TZNP4_VPERED;
+//        (*dvMaska) =
+    break;
+  case 198:
+    (*outMaska) = RANG_SECTOR_TZNP4_NAZAD;
+//        (*dvMaska) =
+    break;
+#define TZNP_CONFIGURATION_END 199
+  case TZNP_CONFIGURATION_END:
+    (*outMaska) = RANG_TZNP4;
 //        (*dvMaska) =
     break;
 
 //  count_bit = 3;
-#define ZOP_CONFIGURATION_BEGIN 176
+#define ZOP_CONFIGURATION_BEGIN 208
   case ZOP_CONFIGURATION_BEGIN:
     (*outMaska) = RANG_BLOCK_ZOP1;
     (*dvMaska) = RANG_SMALL_BLOCK_ZOP1;
     break;
-  case 177:
+  case 209:
     (*outMaska) = RANG_ZOP1;
 //        (*dvMaska) =
     break;
-#define ZOP_CONFIGURATION_END 178
-  case ZOP_CONFIGURATION_END:
+  case 210:
     (*outMaska) = RANG_PO_ZOP1;
+//        (*dvMaska) =
+    break;
+  case 211:
+    (*outMaska) = RANG_BLOCK_ZOP2;
+    (*dvMaska) = RANG_SMALL_BLOCK_ZOP2;
+    break;
+  case 212:
+    (*outMaska) = RANG_ZOP2;
+//        (*dvMaska) =
+    break;
+#define ZOP_CONFIGURATION_END 213
+  case ZOP_CONFIGURATION_END:
+    (*outMaska) = RANG_PO_ZOP2;
 //        (*dvMaska) =
     break;
 
 //  count_bit = 3;
-#define UMIN_CONFIGURATION_BEGIN 192
+#define UMIN_CONFIGURATION_BEGIN 224
   case UMIN_CONFIGURATION_BEGIN:
     (*outMaska) = RANG_BLOCK_UMIN1;
     (*dvMaska) = RANG_SMALL_BLOCK_UMIN1;
     break;
-  case 193:
+  case 225:
     (*outMaska) = RANG_PO_UBLK_UMIN1;
 //        (*dvMaska) =
     break;
-  case 194:
+  case 226:
     (*outMaska) = RANG_PO_IBLK_UMIN1;
 //        (*dvMaska) =
     break;
-  case 195:
+  case 227:
     (*outMaska) = RANG_UMIN1;
 //        (*dvMaska) =
     break;
-  case 196:
+  case 228:
     (*outMaska) = RANG_PO_UMIN1;
 //        (*dvMaska) =
     break;
-  case 197:
+  case 229:
     (*outMaska) = RANG_BLOCK_UMIN2;
     (*dvMaska)  = RANG_SMALL_BLOCK_UMIN2;
     break;
-  case 198:
+  case 230:
     (*outMaska) = RANG_PO_UBLK_UMIN2;
 //        (*dvMaska) =
     break;
-  case 199:
+  case 231:
     (*outMaska) = RANG_PO_IBLK_UMIN2;
 //        (*dvMaska) =
     break;
-  case 200:
+  case 232:
     (*outMaska) = RANG_UMIN2;
 //        (*dvMaska) =
     break;
-  case 201:
+  case 233:
     (*outMaska) = RANG_PO_UMIN2;
 //        (*dvMaska) =
     break;
-  case 202:
+  case 234:
     (*outMaska) = RANG_START_UMIN1;
     (*dvMaska)  = RANG_SMALL_START_UMIN1;
     break;
-#define UMIN_CONFIGURATION_END 203
+#define UMIN_CONFIGURATION_END 235
   case UMIN_CONFIGURATION_END:
     (*outMaska) = RANG_START_UMIN2;
     (*dvMaska) = RANG_SMALL_START_UMIN2;
     break;
 
 //  count_bit = 3;
-#define UMAX_CONFIGURATION_BEGIN 208
+#define UMAX_CONFIGURATION_BEGIN 240
   case UMAX_CONFIGURATION_BEGIN:
     (*outMaska) = RANG_BLOCK_UMAX1;
     (*dvMaska)  = RANG_SMALL_BLOCK_UMAX1;
     break;
-  case 209:
+  case 241:
     (*outMaska) = RANG_UMAX1;
 //        (*dvMaska) =
     break;
-  case 210:
+  case 242:
     (*outMaska) = RANG_PO_UMAX1;
 //        (*dvMaska) =
     break;
-  case 211:
+  case 243:
     (*outMaska) = RANG_BLOCK_UMAX2;
     (*dvMaska)  = RANG_SMALL_BLOCK_UMAX2;
     break;
-  case 212:
+  case 244:
     (*outMaska) = RANG_UMAX2;
 //        (*dvMaska) =
     break;
-#define UMAX_CONFIGURATION_END 213
+#define UMAX_CONFIGURATION_END 245
   case UMAX_CONFIGURATION_END:
     (*outMaska) = RANG_PO_UMAX2;
 //        (*dvMaska) =
     break;
 
-//  count_bit = 3;
-//#define APV_CONFIGURATION_BEGIN 288
-//  case APV_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_STAT_BLK_APV;
-//    (*dvMaska) = RANG_SMALL_STAT_BLK_APV;
-//    break;
-//
-////  count_bit = 3;
-//  case 290:
-//    (*outMaska) = RANG_APV1;
-////        (*dvMaska) =
-//    break;
-//  case 291:
-//    (*outMaska) = RANG_APV2;
-////        (*dvMaska) =
-//    break;
-//  case 292:
-//    (*outMaska) = RANG_APV3;
-////        (*dvMaska) =
-//    break;
-//  case 293:
-//    (*outMaska) = RANG_APV4;
-////        (*dvMaska) =
-//    break;
-//#define APV_CONFIGURATION_END 294
-//  case APV_CONFIGURATION_END:
-//    (*outMaska) = RANG_APV_WORK;
-////        (*dvMaska) =
-//    break;
+//  count_bit = 5;
+#define UROV_CONFIGURATION_BEGIN 336
+    case UROV_CONFIGURATION_BEGIN:
+      (*outMaska) = RANG_PUSK_UROV1_VID_DV;
+      (*dvMaska) = RANG_SMALL_PUSK_UROV1_VID_DV;
+      break;
+    case 337:
+      (*outMaska) = RANG_UROV1_1;
+//        (*dvMaska) =
+      break;
+    case 338:
+      (*outMaska) = RANG_UROV1_2;
+//        (*dvMaska) =
+      break;
+    case 339:
+      (*outMaska) = RANG_PO_UROV1;
+//        (*dvMaska) =
+      break;
 
 //  count_bit = 5;
-#define UROV_CONFIGURATION_BEGIN 304
-//  case UROV_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_PUSK_UROV_VID_DV;
-//    (*dvMaska) = RANG_SMALL_PUSK_UROV_VID_DV;
-//    break;
-//  case 305:
-//    (*outMaska) = RANG_UROV1;
-////        (*dvMaska) =
-//    break;
-//  case 306:
-//    (*outMaska) = RANG_UROV2;
-////        (*dvMaska) =
-//    break;
-#define UROV_CONFIGURATION_END 307
-//  case UROV_CONFIGURATION_END:
-//    (*outMaska) = RANG_PO_UROV;
-////        (*dvMaska) =
-//    break;
+    case 352:
+      (*outMaska) = RANG_PUSK_UROV2_VID_DV;
+      (*dvMaska) = RANG_SMALL_PUSK_UROV2_VID_DV;
+      break;
+    case 353:
+      (*outMaska) = RANG_UROV2_1;
+//        (*dvMaska) =
+      break;
+    case 354:
+      (*outMaska) = RANG_UROV2_2;
+//        (*dvMaska) =
+      break;
+#define UROV_CONFIGURATION_END 355
+    case UROV_CONFIGURATION_END:
+      (*outMaska) = RANG_PO_UROV2;
+//        (*dvMaska) =
+      break;
 
-//  count_bit = 1;
-//#define ACHR_CHAPV_CONFIGURATION_BEGIN 368
-//  case ACHR_CHAPV_CONFIGURATION_BEGIN:
-//    (*outMaska) = RANG_ACHR_CHAPV_VID_DV;
-//    (*dvMaska) = RANG_SMALL_ACHR_CHAPV_VID_DV;
-//    break;
-//  case 369:
-//    (*outMaska) = RANG_BLOCK_ACHR1;
-//    (*dvMaska) = RANG_SMALL_BLOCK_ACHR1;
-//    break;
-//  case 370:
-//    (*outMaska) = RANG_BLOCK_ACHR2;
-//    (*dvMaska) = RANG_SMALL_BLOCK_ACHR2;
-//    break;
-//  case 371:
-//    (*outMaska) = RANG_VN_BLOCK_CHAPV;
-////        (*dvMaska) =
-//    break;
-//  case 372:
-//    (*outMaska) = RANG_PO_ACHR1;
-////        (*dvMaska) =
-//    break;
-//  case 373:
-//    (*outMaska) = RANG_PO_ACHR2;
-////        (*dvMaska) =
-//    break;
-//  case 374:
-//    (*outMaska) = RANG_ACHR_CHAPV1;
-////        (*dvMaska) =
-//    break;
-//  case 375:
-//    (*outMaska) = RANG_ACHR_CHAPV2;
-////        (*dvMaska) =
-//    break;
-//  case 376:
-//    (*outMaska) = RANG_RAZR_CHAPV;
-////        (*dvMaska) =
-//    break;
-//  case 377:
-//    (*outMaska) = RANG_PO_CHAPV1;
-////        (*dvMaska) =
-//    break;
-//#define ACHR_CHAPV_CONFIGURATION_END 378
-//  case ACHR_CHAPV_CONFIGURATION_END:
-//    (*outMaska) = RANG_PO_CHAPV2;
-////        (*dvMaska) =
-//    break;
+//IF ВСТАВКА 432-455
 
-//IF ВСТАВКА 384-407
+//  count_bit = 3;
+#define OZT_CONFIGURATION_BEGIN 464
+  case OZT_CONFIGURATION_BEGIN:
+    (*outMaska) = RANG_BLOCK_OZT1;
+    (*dvMaska)  = RANG_SMALL_BLOCK_OZT1;
+    break;
+  case 465:
+    (*outMaska) = RANG_PO_OZT1;
+//        (*dvMaska) =
+    break;
+  case 466:
+    (*outMaska) = RANG_OZT1;
+//        (*dvMaska) =
+    break;
+  case 467:
+    (*outMaska) = RANG_BLOCK_OZT2;
+    (*dvMaska)  = RANG_SMALL_BLOCK_OZT2;
+    break;
+  case 468:
+    (*outMaska) = RANG_BLOCK_A_OZT2;
+    (*dvMaska)  = RANG_SMALL_BLOCK_A_OZT2;
+    break;
+  case 469:
+    (*outMaska) = RANG_PO_BLOCK_A_OZT2;
+//        (*dvMaska) =
+    break;
+  case 470:
+    (*outMaska) = RANG_BLOCK_2G_OZT2;
+    (*dvMaska)  = RANG_SMALL_BLOCK_2G_OZT2;
+    break;
+  case 471:
+    (*outMaska) = RANG_PO_BLOCK_2G_OZT2;
+//        (*dvMaska) =
+    break;
+  case 472:
+    (*outMaska) = RANG_BLOCK_5G_OZT2;
+    (*dvMaska)  = RANG_SMALL_BLOCK_5G_OZT2;
+    break;
+  case 473:
+    (*outMaska) = RANG_PO_BLOCK_5G_OZT2;
+//        (*dvMaska) =
+    break;
+  case 474:
+    (*outMaska) = RANG_PO_OZT2;
+//        (*dvMaska) =
+    break;
+#define OZT_CONFIGURATION_END 475
+  case OZT_CONFIGURATION_END:
+    (*outMaska) = RANG_OZT2;
+//        (*dvMaska) =
+    break;
+
+//  count_bit = 3;
+#define GP_CONFIGURATION_BEGIN 480
+  case GP_CONFIGURATION_BEGIN:
+    (*outMaska) = RANG_BLOCK_GP;
+    (*dvMaska)  = RANG_SMALL_BLOCK_GP;
+    break;
+  case 481:
+    (*outMaska) = RANG_IN_GP1;
+//        (*dvMaska) =
+    break;
+  case 482:
+    (*outMaska) = RANG_PO_GP1;
+//        (*dvMaska) =
+    break;
+  case 483:
+    (*outMaska) = RANG_GP1;
+//        (*dvMaska) =
+    break;
+  case 484:
+    (*outMaska) = RANG_IN_GP2;
+//        (*dvMaska) =
+    break;
+  case 485:
+    (*outMaska) = RANG_PO_GP2;
+//        (*dvMaska) =
+    break;
+  case 486:
+    (*outMaska) = RANG_GP2;
+//        (*dvMaska) =
+    break;
+  case 487:
+    (*outMaska) = RANG_IN_GP_RPN;
+//        (*dvMaska) =
+    break;
+  case 488:
+    (*outMaska) = RANG_PO_GP_RPN;
+//        (*dvMaska) =
+    break;
+#define GP_CONFIGURATION_END 489
+  case GP_CONFIGURATION_END:
+    (*outMaska) = RANG_GP_RPN;
+//        (*dvMaska) =
+    break;
+
+//  count_bit = 3;
+#define TP_CONFIGURATION_BEGIN 496
+  case TP_CONFIGURATION_BEGIN:
+    (*outMaska) = RANG_BLOCK_TP;
+    (*dvMaska)  = RANG_SMALL_BLOCK_TP;
+    break;
+  case 497:
+    (*outMaska) = RANG_IN_TP;
+//        (*dvMaska) =
+    break;
+  case 498:
+    (*outMaska) = RANG_PO_TP;
+//        (*dvMaska) =
+    break;
+#define TP_CONFIGURATION_END 499
+  case TP_CONFIGURATION_END:
+    (*outMaska) = RANG_TP;
+//        (*dvMaska) =
+    break;
+
+//  count_bit = 3;
+#define KZZV_CONFIGURATION_BEGIN 528
+  case KZZV_CONFIGURATION_BEGIN:
+    (*outMaska) = RANG_BLOCK_KZ_ZV;
+    (*dvMaska)  = RANG_SMALL_BLOCK_KZ_ZV;
+    break;
+  case 529:
+    (*outMaska) = RANG_KZ_V;
+//        (*dvMaska) =
+    break;
+  case 530:
+    (*outMaska) = RANG_KZ_Z;
+//        (*dvMaska) =
+    break;
+  case 531:
+    (*outMaska) = RANG_SECTOR_KZ_V;
+//        (*dvMaska) =
+    break;
+#define KZZV_CONFIGURATION_END 532
+  case KZZV_CONFIGURATION_END:
+    (*outMaska) = RANG_SECTOR_KZ_Z;
+//        (*dvMaska) =
+    break;
 
 //  count_bit = 8;
-#define EL_CONFIGURATION_BEGIN 432
+#define EL_CONFIGURATION_BEGIN 544
   case EL_CONFIGURATION_BEGIN:
     (*outMaska) = RANG_DF1_IN;
     (*dvMaska) = RANG_SMALL_DF1_IN;
     if(actControl==1) isValid = 0;
     break;
-  case 433:
+  case 545:
     (*outMaska) = RANG_DF2_IN;
     (*dvMaska) = RANG_SMALL_DF2_IN;
     if(actControl==2) isValid = 0;
     break;
-  case 434:
+  case 546:
     (*outMaska) = RANG_DF3_IN;
     (*dvMaska) = RANG_SMALL_DF3_IN;
     if(actControl==3) isValid = 0;
     break;
-  case 435:
+  case 547:
     (*outMaska) = RANG_DF4_IN;
     (*dvMaska) = RANG_SMALL_DF4_IN;
     if(actControl==4) isValid = 0;
     break;
-  case 436:
+  case 548:
     (*outMaska) = RANG_DF5_IN;
     (*dvMaska) = RANG_SMALL_DF5_IN;
     if(actControl==5) isValid = 0;
     break;
-  case 437:
+  case 549:
     (*outMaska) = RANG_DF6_IN;
     (*dvMaska) = RANG_SMALL_DF6_IN;
     if(actControl==6) isValid = 0;
     break;
-  case 438:
+  case 550:
     (*outMaska) = RANG_DF7_IN;
     (*dvMaska) = RANG_SMALL_DF7_IN;
     if(actControl==7) isValid = 0;
     break;
-  case 439:
+  case 551:
     (*outMaska) = RANG_DF8_IN;
     (*dvMaska) = RANG_SMALL_DF8_IN;
     if(actControl==8) isValid = 0;
     break;
 
 //  count_bit = 8;
-  case 448:
+  case 560:
     (*outMaska) = RANG_DF1_OUT;
 //        (*dvMaska) =
     if(actControl==1) isValid = 0;
     break;
-  case 449:
+  case 561:
     (*outMaska) = RANG_DF2_OUT;
 //        (*dvMaska) =
     if(actControl==2) isValid = 0;
     break;
-  case 450:
+  case 562:
     (*outMaska) = RANG_DF3_OUT;
 //        (*dvMaska) =
     if(actControl==3) isValid = 0;
     break;
-  case 451:
+  case 563:
     (*outMaska) = RANG_DF4_OUT;
 //        (*dvMaska) =
     if(actControl==4) isValid = 0;
     break;
-  case 452:
+  case 564:
     (*outMaska) = RANG_DF5_OUT;
 //        (*dvMaska) =
     if(actControl==5) isValid = 0;
     break;
-  case 453:
+  case 565:
     (*outMaska) = RANG_DF6_OUT;
 //        (*dvMaska) =
     if(actControl==6) isValid = 0;
     break;
-  case 454:
+  case 566:
     (*outMaska) = RANG_DF7_OUT;
 //        (*dvMaska) =
     if(actControl==7) isValid = 0;
     break;
-  case 455:
+  case 567:
     (*outMaska) = RANG_DF8_OUT;
 //        (*dvMaska) =
     if(actControl==8) isValid = 0;
     break;
 
 //  count_bit = 12;
-  case 464:
+  case 576:
     (*outMaska) = RANG_DT1_SET;
     (*dvMaska) = RANG_SMALL_DT1_SET;
     if(actControl==1) isValid = 0;
     break;
-  case 465:
+  case 577:
     (*outMaska) = RANG_DT1_RESET;
     (*dvMaska) = RANG_SMALL_DT1_RESET;
     if(actControl==1) isValid = 0;
     break;
-  case 466:
+  case 578:
     (*outMaska) = RANG_DT2_SET;
     (*dvMaska) = RANG_SMALL_DT2_SET;
     if(actControl==2) isValid = 0;
     break;
-  case 467:
+  case 579:
     (*outMaska) = RANG_DT2_RESET;
     (*dvMaska) = RANG_SMALL_DT2_RESET;
     if(actControl==2) isValid = 0;
     break;
-  case 468:
+  case 580:
     (*outMaska) = RANG_DT3_SET;
     (*dvMaska) = RANG_SMALL_DT3_SET;
     if(actControl==3) isValid = 0;
     break;
-  case 469:
+  case 581:
     (*outMaska) = RANG_DT3_RESET;
     (*dvMaska) = RANG_SMALL_DT3_RESET;
     if(actControl==3) isValid = 0;
     break;
-  case 470:
+  case 582:
     (*outMaska) = RANG_DT4_SET;
     (*dvMaska) = RANG_SMALL_DT4_SET;
     if(actControl==4) isValid = 0;
     break;
-  case 471:
+  case 583:
     (*outMaska) = RANG_DT4_RESET;
     (*dvMaska) = RANG_SMALL_DT4_RESET;
     if(actControl==4) isValid = 0;
     break;
-  case 472:
+  case 584:
     (*outMaska) = RANG_DT1_OUT;
 //        (*dvMaska) =
     if(actControl==1) isValid = 0;
     break;
-  case 473:
+  case 585:
     (*outMaska) = RANG_DT2_OUT;
 //        (*dvMaska) =
     if(actControl==2) isValid = 0;
     break;
-  case 474:
+  case 586:
     (*outMaska) = RANG_DT3_OUT;
 //        (*dvMaska) =
     if(actControl==3) isValid = 0;
     break;
-  case 475:
+  case 587:
     (*outMaska) = RANG_DT4_OUT;
 //        (*dvMaska) =
     if(actControl==4) isValid = 0;
     break;
 
 //  count_bit = 40;
-  case 480:
+  case 592:
     (*outMaska) = RANG_D_AND1;
 //        (*dvMaska) =
     break;
-  case 481:
+  case 593:
     (*outMaska) = RANG_D_AND2;
 //        (*dvMaska) =
     break;
-  case 482:
+  case 594:
     (*outMaska) = RANG_D_AND3;
 //        (*dvMaska) =
     break;
-  case 483:
+  case 595:
     (*outMaska) = RANG_D_AND4;
 //        (*dvMaska) =
     break;
-  case 484:
+  case 596:
     (*outMaska) = RANG_D_AND5;
 //        (*dvMaska) =
     break;
-  case 485:
+  case 597:
     (*outMaska) = RANG_D_AND6;
 //        (*dvMaska) =
     break;
-  case 486:
+  case 598:
     (*outMaska) = RANG_D_AND7;
 //        (*dvMaska) =
     break;
-  case 487:
+  case 599:
     (*outMaska) = RANG_D_AND8;
 //        (*dvMaska) =
     break;
-  case 488:
+  case 600:
     (*outMaska) = RANG_D_OR1;
 //        (*dvMaska) =
     break;
-  case 489:
+  case 601:
     (*outMaska) = RANG_D_OR2;
 //        (*dvMaska) =
     break;
-  case 490:
+  case 602:
     (*outMaska) = RANG_D_OR3;
 //        (*dvMaska) =
     break;
-  case 491:
+  case 603:
     (*outMaska) = RANG_D_OR4;
 //        (*dvMaska) =
     break;
-  case 492:
+  case 604:
     (*outMaska) = RANG_D_OR5;
 //        (*dvMaska) =
     break;
-  case 493:
+  case 605:
     (*outMaska) = RANG_D_OR6;
 //        (*dvMaska) =
     break;
-  case 494:
+  case 606:
     (*outMaska) = RANG_D_OR7;
 //        (*dvMaska) =
     break;
-  case 495:
+  case 607:
     (*outMaska) = RANG_D_OR8;
 //        (*dvMaska) =
     break;
-  case 496:
+  case 608:
     (*outMaska) = RANG_D_NOT1;
 //        (*dvMaska) =
     break;
-  case 497:
+  case 609:
     (*outMaska) = RANG_D_NOT2;
 //        (*dvMaska) =
     break;
-  case 498:
+  case 610:
     (*outMaska) = RANG_D_NOT3;
 //        (*dvMaska) =
     break;
-  case 499:
+  case 611:
     (*outMaska) = RANG_D_NOT4;
 //        (*dvMaska) =
     break;
-  case 500:
+  case 612:
     (*outMaska) = RANG_D_NOT5;
 //        (*dvMaska) =
     break;
-  case 501:
+  case 613:
     (*outMaska) = RANG_D_NOT6;
 //        (*dvMaska) =
     break;
-  case 502:
+  case 614:
     (*outMaska) = RANG_D_NOT7;
 //        (*dvMaska) =
     break;
-  case 503:
+  case 615:
     (*outMaska) = RANG_D_NOT8;
 //        (*dvMaska) =
     break;
-  case 504:
+  case 616:
     (*outMaska) = RANG_D_NOT9;
 //        (*dvMaska) =
     break;
-  case 505:
+  case 617:
     (*outMaska) = RANG_D_NOT10;
 //        (*dvMaska) =
     break;
-  case 506:
+  case 618:
     (*outMaska) = RANG_D_NOT11;
 //        (*dvMaska) =
     break;
-  case 507:
+  case 619:
     (*outMaska) = RANG_D_NOT12;
 //        (*dvMaska) =
     break;
-  case 508:
+  case 620:
     (*outMaska) = RANG_D_NOT13;
 //        (*dvMaska) =
     break;
-  case 509:
+  case 621:
     (*outMaska) = RANG_D_NOT14;
 //        (*dvMaska) =
     break;
-  case 510:
+  case 622:
     (*outMaska) = RANG_D_NOT15;
 //        (*dvMaska) =
     break;
-  case 511:
+  case 623:
     (*outMaska) = RANG_D_NOT16;
 //        (*dvMaska) =
     break;
-  case 512:
+  case 624:
     (*outMaska) = RANG_D_XOR1;
 //        (*dvMaska) =
     break;
-  case 513:
+  case 625:
     (*outMaska) = RANG_D_XOR2;
 //        (*dvMaska) =
     break;
-  case 514:
+  case 626:
     (*outMaska) = RANG_D_XOR3;
 //        (*dvMaska) =
     break;
-  case 515:
+  case 627:
     (*outMaska) = RANG_D_XOR4;
 //        (*dvMaska) =
     break;
-  case 516:
+  case 628:
     (*outMaska) = RANG_D_XOR5;
 //        (*dvMaska) =
     break;
-  case 517:
+  case 629:
     (*outMaska) = RANG_D_XOR6;
 //        (*dvMaska) =
     break;
-  case 518:
+  case 630:
     (*outMaska) = RANG_D_XOR7;
 //        (*dvMaska) =
     break;
-#define EL_CONFIGURATION_END 519
+#define EL_CONFIGURATION_END 631
   case EL_CONFIGURATION_END:
     (*outMaska) = RANG_D_XOR8;
 //        (*dvMaska) =
     break;
 
 //  count_bit = 3;
-#define  IMUNITET_BITACMD528 528
-  case IMUNITET_BITACMD528:
+#define  IMUNITET_BITACMD640 640
+  case IMUNITET_BITACMD640:
     (*outMaska) = RANG_VKL_VV_H;
     (*dvMaska) = RANG_SMALL_VKL_VV_H;
     break;
-#define  IMUNITET_BITACMD529 529
-  case IMUNITET_BITACMD529:
+#define  IMUNITET_BITACMD641 641
+  case IMUNITET_BITACMD641:
     (*outMaska) = RANG_OTKL_VV_H;
     (*dvMaska) = RANG_SMALL_OTKL_VV_H;
     break;
-  case 530:
+  case 642:
     (*outMaska) = RANG_BLOCK_VKL_VV_H;
     (*dvMaska) = RANG_SMALL_BLOCK_VKL_VV_H;
     break;
 
 //  count_bit = 15;
-  case 532:
+  case 644:
     (*outMaska) = RANG_WORK_BO_H;
 //        (*dvMaska) =
     break;
-  case 533:
+  case 645:
     (*outMaska) = RANG_WORK_BV_H;
 //        (*dvMaska) =
     break;
-  case 534:
+  case 646:
     (*outMaska) = RANG_STATE_VV_H;
     (*dvMaska) = RANG_SMALL_STATE_VV_H;
     break;
-  case 535:
+  case 647:
     (*outMaska) = RANG_PRYVID_VV_H;
 //        (*dvMaska) =
     break;
-  case 536:
+  case 648:
     (*outMaska) = RANG_CTRL_VKL_H;
     (*dvMaska) = RANG_SMALL_CTRL_VKL_H;
     break;
-  case 537:
+  case 649:
     (*outMaska) = RANG_CTRL_OTKL_H;
     (*dvMaska) = RANG_SMALL_CTRL_OTKL_H;
     break;
-//  case 538:
-//    (*outMaska) = RANG_PEREVYSHCHENNJA_Inom_VYMK;
-////        (*dvMaska) =
-//    break;
-//  case 539:
-//    (*outMaska) = RANG_KRYTYCHNYJ_RESURS_VYMYKACHA;
-////        (*dvMaska) =
-//    break;
-//  case 540:
-//    (*outMaska) = RANG_VYCHERPANYJ_RESURS_VYMYKACHA;
-////        (*dvMaska) =
-//    break;
+
+//  count_bit = 3;
+#define  IMUNITET_BITACMD672 672
+  case IMUNITET_BITACMD672:
+    (*outMaska) = RANG_VKL_VV_L;
+    (*dvMaska) = RANG_SMALL_VKL_VV_L;
+    break;
+#define  IMUNITET_BITACMD673 673
+  case IMUNITET_BITACMD673:
+    (*outMaska) = RANG_OTKL_VV_L;
+    (*dvMaska) = RANG_SMALL_OTKL_VV_L;
+    break;
+  case 674:
+    (*outMaska) = RANG_BLOCK_VKL_VV_L;
+    (*dvMaska) = RANG_SMALL_BLOCK_VKL_VV_L;
+    break;
+
+//  count_bit = 15;
+  case 676:
+    (*outMaska) = RANG_WORK_BO_L;
+//        (*dvMaska) =
+    break;
+  case 677:
+    (*outMaska) = RANG_WORK_BV_L;
+//        (*dvMaska) =
+    break;
+  case 678:
+    (*outMaska) = RANG_STATE_VV_L;
+    (*dvMaska) = RANG_SMALL_STATE_VV_L;
+    break;
+  case 679:
+    (*outMaska) = RANG_PRYVID_VV_L;
+//        (*dvMaska) =
+    break;
+  case 680:
+    (*outMaska) = RANG_CTRL_VKL_L;
+    (*dvMaska) = RANG_SMALL_CTRL_VKL_L;
+    break;
+  case 681:
+    (*outMaska) = RANG_CTRL_OTKL_L;
+    (*dvMaska) = RANG_SMALL_CTRL_OTKL_L;
+    break;
 
 //  count_bit = 12;
-  case 560:
+  case 704:
     (*outMaska) = RANG_DEFECT;
 //        (*dvMaska) =
     break;
-  case 561:
+  case 705:
     (*outMaska) = RANG_AVAR_DEFECT;
 //        (*dvMaska) =
     break;
-#define  IMUNITET_BITACMD562 562
-  case IMUNITET_BITACMD562:
+#define  IMUNITET_BITACMD706 706
+  case IMUNITET_BITACMD706:
     (*outMaska) = RANG_RESET_LEDS;
     (*dvMaska) = RANG_SMALL_RESET_LEDS;
     break;
-#define  IMUNITET_BITACMD563 563
-  case IMUNITET_BITACMD563:
+#define  IMUNITET_BITACMD707 707
+  case IMUNITET_BITACMD707:
     (*outMaska) = RANG_RESET_RELES;
     (*dvMaska) = RANG_SMALL_RESET_RELES;
     break;
 
-#define  IMUNITET_BITACMD564 564
-#define  IMUNITET_BITACMD565 565
+#define  IMUNITET_BITACMD708 708
 
-  case 566:
+  case 710:
     (*outMaska) = RANG_SETTINGS_CHANGED;
 //        (*dvMaska) =
     break;
 
-#define  BITACMD567 567
+#define  BITACMD711 711
 
-#define PASSWORD_SETCMD 568
+#define PASSWORD_SETCMD 712
 
-  case 569:
+  case 713:
     (*outMaska) = RANG_MISCEVE_DYSTANCIJNE;
     (*dvMaska) = RANG_SMALL_MISCEVE_DYSTANCIJNE;
     break;
-  case 570:
+  case 714:
     (*outMaska) = RANG_WORK_A_REJESTRATOR;
 //        (*dvMaska) =
     break;
-  case 571:
+  case 715:
     (*outMaska) = RANG_WORK_D_REJESTRATOR;
 //        (*dvMaska) =
     break;
 
 //  count_bit = 1;
-//  case 576:
-//    (*outMaska) = RANG_OTKL_VID_ZOVN_ZAHYSTIV;
-//    (*dvMaska)  = RANG_SMALL_OTKL_VID_ZOVN_ZAHYSTIV;
-//    break;
-  case 577:
+  case 721:
     (*outMaska) = RANG_ERROR_CONF_EL;
 //        (*dvMaska) =
     break;
 
 //  count_bit = 5;
-  case 595:
+  case 739:
     (*outMaska) = RANG_VIDKL_VID_ZAKHYSTIV;
 //        (*dvMaska) =
     break;
-  case 596:
+  case 740:
     (*outMaska) = RANG_BLK_GRUP_USTAVOK_VID_ZACHYSTIV;
 //        (*dvMaska) =
     break;
 
-  case 597:
+  case 741:
     (*outMaska) = RANG_INVERS_DV_GRUPA_USTAVOK;
 //        (*dvMaska) =
     break;
-  case 598:
+  case 742:
     (*outMaska) = RANG_READY_TU;
 //        (*dvMaska) =
     break;
-#define  IMUNITET_BITACMD599 599
-  case IMUNITET_BITACMD599:
+#define  IMUNITET_BITACMD743 743
+  case IMUNITET_BITACMD743:
     (*outMaska) = RANG_RESET_BLOCK_READY_TU_VID_ZAHYSTIV;
     (*dvMaska) = RANG_SMALL_RESET_BLOCK_READY_TU_VID_ZAHYSTIV;
     break;
@@ -1110,14 +1168,17 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     if(inOffset>=MTZ_CONFIGURATION_BEGIN && inOffset<=MTZ_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<MTZ_BIT_CONFIGURATION))) isValid = 0;
 
-//    if(inOffset>=MTZ04_CONFIGURATION_BEGIN && inOffset<=MTZ04_CONFIGURATION_END)
-//      if(!(edition_settings.configuration&(1<<MTZ04_BIT_CONFIGURATION))) isValid = 0;
+    if(inOffset>=P_3U0_BIT_CONFIGURATION_BEGIN && inOffset<=P_3U0_BIT_CONFIGURATION_END)
+      if(!(edition_settings.configuration&(1<<P_3U0_BIT_CONFIGURATION))) isValid = 0;
 
-//    if(inOffset>=ZDZ_CONFIGURATION_BEGIN && inOffset<=ZDZ_CONFIGURATION_END)
-//      if(!(edition_settings.configuration&(1<<ZDZ_BIT_CONFIGURATION))) isValid = 0;
+    if(inOffset>=GP_CONFIGURATION_BEGIN && inOffset<=GP_CONFIGURATION_END)
+      if(!(edition_settings.configuration&(1<<GP_BIT_CONFIGURATION))) isValid = 0;
 
-//    if(inOffset>=ZZ_CONFIGURATION_BEGIN && inOffset<=ZZ_CONFIGURATION_END)
-//      if(!(edition_settings.configuration&(1<<ZZ_BIT_CONFIGURATION))) isValid = 0;
+    if(inOffset>=TP_CONFIGURATION_BEGIN && inOffset<=TP_CONFIGURATION_END)
+      if(!(edition_settings.configuration&(1<<TP_BIT_CONFIGURATION))) isValid = 0;
+ 
+    if(inOffset>=KZZV_CONFIGURATION_BEGIN && inOffset<=KZZV_CONFIGURATION_END)
+      if(!(edition_settings.configuration&(1<<KZ_ZV_BIT_CONFIGURATION))) isValid = 0;
 
     if(inOffset>=TZNP_CONFIGURATION_BEGIN && inOffset<=TZNP_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<TZNP_BIT_CONFIGURATION))) isValid = 0;
@@ -1131,24 +1192,21 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     if(inOffset>=UMAX_CONFIGURATION_BEGIN && inOffset<=UMAX_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<UMAX_BIT_CONFIGURATION))) isValid = 0;
 
-//    if(inOffset>=APV_CONFIGURATION_BEGIN && inOffset<=APV_CONFIGURATION_END)
-//      if(!(edition_settings.configuration&(1<<APV_BIT_CONFIGURATION))) isValid = 0;
-
     if(inOffset>=UROV_CONFIGURATION_BEGIN && inOffset<=UROV_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<UROV_BIT_CONFIGURATION))) isValid = 0;
+
+    if(inOffset>=OZT_CONFIGURATION_BEGIN && inOffset<=OZT_CONFIGURATION_END)
+      if(!(edition_settings.configuration&(1<<OZT_BIT_CONFIGURATION))) isValid = 0;
 
     if(inOffset>=EL_CONFIGURATION_BEGIN && inOffset<=EL_CONFIGURATION_END)
       if(!(edition_settings.configuration&(1<<EL_BIT_CONFIGURATION))) isValid = 0;
 
-//    if(inOffset>=ACHR_CHAPV_CONFIGURATION_BEGIN && inOffset<=ACHR_CHAPV_CONFIGURATION_END)
-//      if(!(edition_settings.configuration&(1<<ACHR_CHAPV_BIT_CONFIGURATION))) isValid = 0;
-
   }//if((*outMaska)!=-1)
 
-  if(inOffset>=384 && inOffset<408)
+  if(inOffset>=432 && inOffset<456)
   {
     if(!(edition_settings.configuration&(1<<UP_BIT_CONFIGURATION))) isValid = 0;
-    int inupOffset = inOffset-384;
+    int inupOffset = inOffset-432;
     int subObj = inupOffset/3;
     int offsetObj = inupOffset%3;
     
@@ -1205,14 +1263,16 @@ void loadACMDSmallActualDataBit(int cmdSwitch, int beginOffset, int endOffset)
     int tsdata = 0;
     if(item>=beginOffset && item<endOffset)
     {
-     if(item==PASSWORD_SETCMD)//Пароль установлен
+     switch(item)
      {
+      case PASSWORD_SETCMD://Пароль установлен
+      {
       if(pointInterface==USB_RECUEST)//метка интерфейса 0-USB 1-RS485
-                 value = password_set_USB;//Пароль установлен
-      else
-                 value = password_set_RS485;//Пароль установлен
+            value = password_set_USB;//Пароль установлен
+      else  value = password_set_RS485;//Пароль установлен
       goto m1;
-     }//if
+      }//if
+     }//switch
       value = encoderN_BIGACMD(item);//кодировщик адреса modbus в индекс бита для реле
       if(value==-1) value=0;
       else {
@@ -1527,7 +1587,7 @@ int setACMDSmallModbusBit(int adrBit, int dataBit)
 
   superSetOperativMarker(acmdsmallcomponent, adrBit);
   superSetTempWriteArray(dataBit);//записать в буфер
-  if(adrBit!=BEGIN_ADR_BIT+BITACMD567)//Активация конфигурации
+  if(adrBit!=BEGIN_ADR_BIT+BITACMD711)//Активация конфигурации
   {
     if(dataBit==0) return MARKER_ERRORPERIMETR;
   }//if(adrBit!=50567)
@@ -1547,7 +1607,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
   }//if(offset<0)
   switch(inOffset)
   {
-  case 432://OF
+  case 544://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1557,7 +1617,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 433://OF
+  case 545://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1567,7 +1627,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 434://OF
+  case 546://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1577,7 +1637,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 435://OF
+  case 547://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1587,7 +1647,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 436://OF
+  case 548://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1597,7 +1657,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 437://OF
+  case 549://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1607,7 +1667,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 438://OF
+  case 550://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1617,7 +1677,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 439://OF
+  case 551://OF
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1628,7 +1688,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
     }//if(action)
     return 0;
 
-  case 464://DTR
+  case 576://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1638,7 +1698,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 465://DTR
+  case 577://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1648,7 +1708,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 466://DTR
+  case 578://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1658,7 +1718,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 467://DTR
+  case 579://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1668,7 +1728,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 468://DTR
+  case 580://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1678,7 +1738,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 469://DTR
+  case 581://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1688,7 +1748,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 470://DTR
+  case 582://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1698,7 +1758,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 471://DTR
+  case 583://DTR
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1709,7 +1769,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
     }//if(action)
     return 0;
 
-  case 528://
+  case IMUNITET_BITACMD640://Включение ВВ ВН
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1719,7 +1779,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 529://
+  case IMUNITET_BITACMD641://Отключение ВВ ВН
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1729,8 +1789,28 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
+  case IMUNITET_BITACMD672://Включение ВВ HН
+    if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
+    if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
+    if(actControl&&dataBit)
+    {
+      mutex_interface = true;
+      _SET_BIT(activation_function_from_interface, RANG_SMALL_VKL_VV_L); //Вкл.  виключателя
+      mutex_interface = false;
+    }//if(action)
+    return 0;
+  case IMUNITET_BITACMD673://Отключение ВВ HН
+    if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
+    if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
+    if(actControl&&dataBit)
+    {
+      mutex_interface = true;
+      _SET_BIT(activation_function_from_interface, RANG_SMALL_OTKL_VV_L); //Викл. виключателя
+      mutex_interface = false;
+    }//if(action)
+    return 0;
 
-  case 562://
+  case IMUNITET_BITACMD706://Сброс индикации
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1740,7 +1820,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 563://
+  case IMUNITET_BITACMD707://Сброс реле
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
@@ -1750,7 +1830,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       mutex_interface = false;
     }//if(action)
     return 0;
-  case 564://Скидання загальних функцій
+  case IMUNITET_BITACMD708://Сброс сработавших функций
     if(actControl&&dataBit)
     {
       //Скидання загальних функцій
@@ -1760,16 +1840,8 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
       reset_trigger_function_from_interface |= (1 << RS485_RECUEST);
     }//if(action)
     return 0;
-//  case 565://Сигнал про очищення ресурсу лічильників з системи захистів
-//    if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
-//    if (_CHECK_SET_BIT(active_functions, RANG_READY_TU) == 0)return MARKER_ERRORPERIMETR;
-//    if(actControl&&dataBit)
-//    {
-//      restart_counter = 0xff; //Сигнал про очищення ресурсу лічильників з системи захистів
-//    }//if(action)
-//    return 0;
 
-  case 567://Активизация конфигурации
+  case BITACMD711://Активизация конфигурации
     if(actControl)
     {
       if(dataBit)
@@ -1794,7 +1866,7 @@ int writeACMDSmallActualDataBit(int inOffset, int dataBit)
     }//if(action)
     return 0;
 
-  case 599://Скидання блокування готорності ТУ від захистів
+  case IMUNITET_BITACMD743://Скидання блокування готорності ТУ від захистів
     if(_CHECK_SET_BIT(active_functions, RANG_MISCEVE_DYSTANCIJNE) != 0) return MARKER_ERRORPERIMETR;
     if(actControl&&dataBit)
     {
@@ -1876,15 +1948,16 @@ int passwordImunitetBitACMDSmallComponent(int adrBit)
   if(privateACMDSmallGetBit2(adrBit)==MARKER_OUTPERIMETR) return MARKER_OUTPERIMETR;
   switch(adrBit)
   {
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD528://Включение ВВ
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD529://Отключение ВВ
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD640://Включение ВВ H
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD641://Отключение ВВ H
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD672://Включение ВВ L
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD673://Отключение ВВ L
 
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD562://Сброс индикации
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD563://Сброс реле
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD564://Сброс сработавших функций
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD565://Сброс счетчика ресурса выключателя
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD706://Сброс индикации
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD707://Сброс реле
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD708://Сброс сработавших функций
 
-    case BEGIN_ADR_BIT+IMUNITET_BITACMD599://Сброс блокировки готовности к ТУ от защит
+    case BEGIN_ADR_BIT+IMUNITET_BITACMD743://Сброс блокировки готовности к ТУ от защит
     return 0;//есть имунитет
   }//switch
   return MARKER_OUTPERIMETR;

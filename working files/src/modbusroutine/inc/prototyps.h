@@ -50,7 +50,6 @@ void constructorMFTBigComponent(COMPONENT_OBJ *);
 void constructorNOTBigComponent(COMPONENT_OBJ *);
 void constructorORBigComponent(COMPONENT_OBJ *);
 void constructorPKVBigComponent(COMPONENT_OBJ *);
-void constructorRAISmallComponent(COMPONENT_OBJ *);
 void constructorREGBigComponent(COMPONENT_OBJ *);
 void constructorPREGBigComponent(COMPONENT_OBJ *);
 void constructorRPRBigComponent(COMPONENT_OBJ *);
@@ -61,6 +60,5 @@ void constructorVVBigComponent(COMPONENT_OBJ *);
 void constructorXORBigComponent(COMPONENT_OBJ *);
 void constructorYustBigComponent(COMPONENT_OBJ *);
 void constructorAISmallComponent(COMPONENT_OBJ *);
-void constructorQAISmallComponent(COMPONENT_OBJ *);
 void constructorPFBigComponent(COMPONENT_OBJ *);
 #endif

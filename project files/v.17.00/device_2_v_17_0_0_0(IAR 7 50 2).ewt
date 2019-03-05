@@ -1475,10 +1475,16 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_general_pickups_el.h</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_GP.h</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_info.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_inputs.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_kz_zv.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_leds.h</name>
@@ -1499,6 +1505,9 @@
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_outputs.h</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_ozt.h</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_point_time_settings.h</name>
         </file>
         <file>
@@ -1515,6 +1524,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_time.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\working files\inc\const_menu_TP.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\inc\const_menu_transfer_functions.h</name>
@@ -1677,12 +1689,6 @@
               <name>$PROJ_DIR$\..\..\working files\src\modbusroutine\component\PREGBigComponent.c</name>
             </file>
             <file>
-              <name>$PROJ_DIR$\..\..\working files\src\modbusroutine\component\QAISmallComponent.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\..\working files\src\modbusroutine\component\RAISmallComponent.c</name>
-            </file>
-            <file>
               <name>$PROJ_DIR$\..\..\working files\src\modbusroutine\component\REGBigComponent.c</name>
             </file>
             <file>
@@ -1805,10 +1811,16 @@
           <name>$PROJ_DIR$\..\..\working files\src\menu_general_pickups_el.c</name>
         </file>
         <file>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_GP.c</name>
+        </file>
+        <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_info.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_inputs_outputs_leds_reg_df_buttons.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_kz_zp.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_level_password.c</name>
@@ -1818,6 +1830,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_mtz.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_ozt.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_point_time_settings.c</name>
@@ -1839,6 +1854,9 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_time.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\..\working files\src\menu_TP.c</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\working files\src\menu_transformator.c</name>
