@@ -397,10 +397,11 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
         target_label->ranguvannja_analog_registrator[i]  &= maska_inv;
         target_label->ranguvannja_digital_registrator[i] &= maska_inv;
         
+        //Повністю очищаємо ркжнування Блоків ввімкнення/Вимкнення
         for (size_t j = 0; j < NUMBER_OFF_ON; j++)
         {
-          target_label->ranguvannja_off_cb[j][i] &= maska_inv;
-          target_label->ranguvannja_on_cb[j][i]  &= maska_inv;
+          target_label->ranguvannja_off_cb[j][i] = 0;
+          target_label->ranguvannja_on_cb[j][i]  = 0;
         }
         
         for (int j = 0; j < NUMBER_DEFINED_FUNCTIONS; j++)
