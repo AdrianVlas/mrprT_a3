@@ -641,7 +641,7 @@ void SPI_ADC_IRQHandler(void)
     unsigned int vref_adc = vref_adc1; 
 
     /*****/
-    //Формуємо значення Ua1
+    //Формуємо значення Ua
     /*****/
     if ((command_word & (1 << I_Ua)) != 0)
     {

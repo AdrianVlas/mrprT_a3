@@ -117,9 +117,11 @@ unsigned int ustuvannja_meas[NUMBER_ANALOG_CANALES] = {
                                                         DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE,
+                                                        DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE
                                                       };
 unsigned int ustuvannja[NUMBER_ANALOG_CANALES] = {
+                                                        DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE,
                                                         DEFAULT_USTUVANNJA_VALUE,
