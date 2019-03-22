@@ -555,7 +555,7 @@ void start_settings_peripherals(void)
   if ((board_register_tmp & 0x01) == 0x01)
   {
     _DEVICE_REGISTER_V2(Bank1_SRAM2_ADDR, OFFSET_DD39_DD40_DD47) = 0x1;
-    if ((_DEVICE_REGISTER_V2(Bank1_SRAM2_ADDR, OFFSET_DD39_DD40_DD47) >> 8) != 0x11)  _SET_BIT(set_diagnostyka, ERROR_BA_1_CTLR);
+    if ((_DEVICE_REGISTER_V2(Bank1_SRAM2_ADDR, OFFSET_DD39_DD40_DD47) >> 8) != 0x25)  _SET_BIT(set_diagnostyka, ERROR_BA_1_CTLR);
   }
   if ((board_register_tmp & 0x02) == 0x02)
   {

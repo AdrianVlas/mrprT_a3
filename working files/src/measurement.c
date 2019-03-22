@@ -313,6 +313,7 @@ void Fourier(void)
     ortogonal_irq[i_ort_tmp++] += temp_value_2;
   }
   
+  unsigned int i_ort_ap_tmp = 0;
   for (size_t i = NUMBER_ANALOG_CANALES; i < NUMBER_ANALOG_CANALES_WITH_CALC; i++)
   {
     //Обробка  миттєвих диф.струмів
@@ -321,10 +322,10 @@ void Fourier(void)
     int temp_value_1 = ADCs_data[i];
     
     //Аперводична складова
-    aperiodic_irq[i_ort_tmp] -= *p_data_0;
+    aperiodic_irq[i_ort_ap_tmp] -= *p_data_0;
     *p_data_0 = temp_value_1;
     p_data_0++;
-    aperiodic_irq[i_ort_tmp++] += temp_value_1;
+    aperiodic_irq[i_ort_ap_tmp++] += temp_value_1;
 
     const uint32_t garm[3] = {1, 2, 5};
     for (size_t j = 0; j < 3; j++)
