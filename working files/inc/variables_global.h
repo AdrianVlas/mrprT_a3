@@ -224,13 +224,13 @@ const unsigned int index_converter[NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANA
   IM_UB,
   IM_UC,
   IM_dIA,
-  IM_dIB,
-  IM_dIC,
   IM_2dIA,
-  IM_2dIB,
-  IM_2dIC,
   IM_5dIA,
+  IM_dIB,
+  IM_2dIB,
   IM_5dIB,
+  IM_dIC,
+  IM_2dIC,
   IM_5dIC
 };
 int ortogonal_calc[2*FULL_ORT_MAX_TOTAL];

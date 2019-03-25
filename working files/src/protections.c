@@ -1026,7 +1026,7 @@ inline void calc_measurement(unsigned int number_group_stp)
     uint32_t index_ort = 0;
   
     //Струми/напруги з давачів
-    for(unsigned int i = 0; i < NUMBER_ANALOG_CANALES; i++ )
+    for(unsigned int i = 0; i < (NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)); i++ )
     {
       ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
       index_ort++;
@@ -1035,20 +1035,14 @@ inline void calc_measurement(unsigned int number_group_stp)
       index_ort++;
     }
 
-    //Диф.струми
+    //Аперіодична складова
     uint32_t index_aper = 0;
-    for(unsigned int i = NUMBER_ANALOG_CANALES; i < (NUMBER_ANALOG_CANALES + 3*(NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES)); i++ )
+    for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++)
     {
       aperiodic_local[index_aper] = aperiodic[bank_ortogonal_tmp][index_aper];
       index_aper++;
-
-      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
-      index_ort++;
-
-      ortogonal_local[index_ort] = ortogonal[bank_ortogonal_tmp][index_ort];
-      index_ort++;
     }
-  
+    
     bank_ortogonal = bank_ortogonal_tmp;
   }
   
