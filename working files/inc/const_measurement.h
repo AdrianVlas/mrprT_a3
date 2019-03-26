@@ -134,20 +134,20 @@ Koef_1 = 43,082401314338159487671373556419 (43/1 = 43)
 #define C_Ua_16                 15
 #define C_GND_ADC2_1            (0  + NUMBER_CANALs_ADC)
 #define C_VDD_ADC2_1            (1  + NUMBER_CANALs_ADC)
-#define C_Ic_H_1                (2  + NUMBER_CANALs_ADC)
-#define C_Ic_H_16               (3  + NUMBER_CANALs_ADC)
-#define C_Ib_H_1                (4  + NUMBER_CANALs_ADC)
-#define C_Ib_H_16               (5  + NUMBER_CANALs_ADC)
+#define C_Ic_L_1                (2  + NUMBER_CANALs_ADC)
+#define C_Ic_L_16               (3  + NUMBER_CANALs_ADC)
+#define C_Ib_L_1                (4  + NUMBER_CANALs_ADC)
+#define C_Ib_L_16               (5  + NUMBER_CANALs_ADC)
 #define C_GND_ADC2_2            (6  + NUMBER_CANALs_ADC)
-#define C_Ia_H_1                (7  + NUMBER_CANALs_ADC)
-#define C_Ia_H_16               (8  + NUMBER_CANALs_ADC)
-#define C_Ic_L_1                (9  + NUMBER_CANALs_ADC)
-#define C_Ic_L_16               (10 + NUMBER_CANALs_ADC)
+#define C_Ia_L_1                (7  + NUMBER_CANALs_ADC)
+#define C_Ia_L_16               (8  + NUMBER_CANALs_ADC)
+#define C_Ic_H_1                (9  + NUMBER_CANALs_ADC)
+#define C_Ic_H_16               (10 + NUMBER_CANALs_ADC)
 #define C_VREF_ADC2_1           (11 + NUMBER_CANALs_ADC)
-#define C_Ib_L_16               (12 + NUMBER_CANALs_ADC)
-#define C_Ib_L_1                (13 + NUMBER_CANALs_ADC)
-#define C_Ia_L_1                (14 + NUMBER_CANALs_ADC)
-#define C_Ia_L_16               (15 + NUMBER_CANALs_ADC)
+#define C_Ib_H_16               (12 + NUMBER_CANALs_ADC)
+#define C_Ib_H_1                (13 + NUMBER_CANALs_ADC)
+#define C_Ia_H_1                (14 + NUMBER_CANALs_ADC)
+#define C_Ia_H_16               (15 + NUMBER_CANALs_ADC)
 
 #define READ_Ua  (                     \
                   (1 << C_Ua_1   ) |   \
@@ -166,13 +166,13 @@ Koef_1 = 43,082401314338159487671373556419 (43/1 = 43)
 
 #define READ_I   (                       \
                   (1 << C_Ia_H_1   ) |   \
-                  (1 << C_Ia_H_16  ) |   \
+    (unsigned int)(1 << C_Ia_H_16  ) |   \
                   (1 << C_Ib_H_1   ) |   \
                   (1 << C_Ib_H_16  ) |   \
                   (1 << C_Ic_H_1   ) |   \
                   (1 << C_Ic_H_16  ) |   \
                   (1 << C_Ia_L_1   ) |   \
-    (unsigned int)(1 << C_Ia_L_16  ) |   \
+                  (1 << C_Ia_L_16  ) |   \
                   (1 << C_Ib_L_1   ) |   \
                   (1 << C_Ib_L_16  ) |   \
                   (1 << C_Ic_L_1   ) |   \
