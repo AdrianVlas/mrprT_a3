@@ -872,7 +872,17 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
 #define UC_COS          ortogonal_local_calc[2*IM_UC + 0]
   
   long long Re_UaIa, Im_UaIa;
-  if (measurement[IM_IA_H] >= PORIG_I_ENERGY)
+  if (
+      (
+       (voltage == 0) &&
+       (measurement[IM_IA_H] >= PORIG_I_ENERGY)
+      )
+      ||  
+      (
+       (voltage != 0) &&
+       (measurement[IM_IA_L] >= PORIG_I_ENERGY)
+      )
+     )   
   {
     Re_UaIa = UA_COS*IA_COS + UA_SIN*IA_SIN;
     Im_UaIa = UA_SIN*IA_COS - UA_COS*IA_SIN;
@@ -885,7 +895,17 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
   }
   
   long long Re_UbIb, Im_UbIb;
-  if (measurement[IM_IB_H] >= PORIG_I_ENERGY)
+  if (
+      (
+       (voltage == 0) &&
+       (measurement[IM_IB_H] >= PORIG_I_ENERGY)
+      )
+      ||  
+      (
+       (voltage != 0) &&
+       (measurement[IM_IB_L] >= PORIG_I_ENERGY)
+      )
+     )   
   {
     Re_UbIb = UB_COS*IB_COS + UB_SIN*IB_SIN;
     Im_UbIb = UB_SIN*IB_COS - UB_COS*IB_SIN;
@@ -898,7 +918,17 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
   }
   
   long long Re_UcIc, Im_UcIc;
-  if (measurement[IM_IC_H] >= PORIG_I_ENERGY)
+  if (
+      (
+       (voltage == 0) &&
+       (measurement[IM_IC_H] >= PORIG_I_ENERGY)
+      )
+      ||  
+      (
+       (voltage != 0) &&
+       (measurement[IM_IC_L] >= PORIG_I_ENERGY)
+      )
+     )   
   {
     Re_UcIc = UC_COS*IC_COS + UC_SIN*IC_SIN;
     Im_UcIc = UC_SIN*IC_COS - UC_COS*IC_SIN;
