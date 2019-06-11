@@ -91,6 +91,9 @@ int setVVBigModbusRegister(int adrReg, int dataReg)
   superSetOperativMarker(vvbigcomponent, adrReg);
   superSetTempWriteArray(dataReg);//записать в буфер
 
+  //проверка на конфиг
+  if(!(edition_settings.configuration&(1<<OFF_ON_BIT_CONFIGURATION))) return MARKER_ERRORPERIMETR;
+
   return validN_BIGACMD(dataReg);
 }//getDOUTBigModbusRegister(int adrReg)
 int setVVBigModbusBit(int x, int y)
