@@ -3,7 +3,7 @@
 //начальный регистр в карте памяти
 #define BEGIN_ADR_REGISTER 10300
 //конечный регистр в карте памяти
-#define END_ADR_REGISTER 11542
+#define END_ADR_REGISTER 11545
 
 int privateUSTBigGetReg2(int adrReg);
 
@@ -570,12 +570,14 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
     break;
 
   case 277:
+    (*multer) = 1;
     (*editValue) = (uint32_t*)&edition_settings.pickup_kz_zv[gruppa];
-    if(regUst<SETPOINT_KZ_ZV_MIN/10 || regUst>SETPOINT_KZ_ZV_MAX/10) diapazon=0;
+    if(regUst<SETPOINT_KZ_ZV_MIN || regUst>SETPOINT_KZ_ZV_MAX) diapazon=0;
     break;
   case 278:
+    (*multer) = 1;
     (*editValue) = (uint32_t*)&edition_settings.pickup_kz_zv_angle[gruppa];
-    if(regUst<SETPOINT_KZ_ZV_ANGLE_MIN/10 || regUst>SETPOINT_KZ_ZV_ANGLE_MAX/10) diapazon=0;
+    if(regUst<SETPOINT_KZ_ZV_ANGLE_MIN || regUst>SETPOINT_KZ_ZV_ANGLE_MAX) diapazon=0;
     break;
 
 //  count_bit = 9;
