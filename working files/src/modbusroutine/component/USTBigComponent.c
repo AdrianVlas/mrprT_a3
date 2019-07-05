@@ -886,11 +886,133 @@ int getUSTBigModbusRegister(int adrReg)
       }//if
     }//for(int item=0; item<NUMBER_UP; item++)
   }//for(int gruppa=0; gruppa<NUMBER_UP; gruppa++)
+//BН:0-(Ia+Ib+Ic);1-Ia;2-Ib;3-Ic;4-I1;5-I2;6-I04;7-3I0-1;8-3I0;9-3I0h;10-Ua+Ub+Uc;11-Ua;12-Ub;13-Uc;14-Uab+Ubc+Uca;15-Uab;16-Ubc;
+//17-Uca;18-U1;19-U2;20-3U0;21-3U0-1;22-P;23-Q;24-S
+//НН: 25-(Ia+Ib+Ic);26-Ia;27-Ib;28-Ic;29-I1;30-I2;31-3I0-1
+/*
+  UP_CTRL_Ia_Ib_Ic_H = _UP_CTRL_MIN, 
+  UP_CTRL_Ia_H,                      
+  UP_CTRL_Ib_H,                      
+  UP_CTRL_Ic_H,                      
+  UP_CTRL_I1_H,                      
+  UP_CTRL_I2_H,                      
+  UP_CTRL_3I0_r_H,                   
+  UP_CTRL_Ia_Ib_Ic_L,
+  UP_CTRL_Ia_L,
+  UP_CTRL_Ib_L,
+  UP_CTRL_Ic_L,
+  UP_CTRL_I1_L,
+  UP_CTRL_I2_L,
+  UP_CTRL_3I0_r_L,
+  UP_CTRL_Ua_Ub_Uc,
+  UP_CTRL_Uab_Ubc_Uca,
+  UP_CTRL_Ua,
+  UP_CTRL_Uab,
+  UP_CTRL_Ub,
+  UP_CTRL_Ubc,
+  UP_CTRL_Uc,
+  UP_CTRL_Uca,
+  UP_CTRL_U1,
+  UP_CTRL_U2,
+  UP_CTRL_3U0,
+  UP_CTRL_P,
+  UP_CTRL_Q,
+  UP_CTRL_S,
+*/
   for(int item=0; item<NUMBER_UP; item++)
   {
    if(editValue == (uint32_t*)&edition_settings.ctrl_UP_input[item])
    {
-     if((*editValue)>13) *editValue += 3;
+//     if((*editValue)>13) *editValue += 3;
+     switch(*editValue)
+     {
+      case UP_CTRL_Ia_Ib_Ic_H:
+       *editValue = 0;//(Ia+Ib+Ic)_H
+      break;
+      case UP_CTRL_Ia_H:
+       *editValue = 1;//Ia_H;
+      break;
+      case UP_CTRL_Ib_H:
+       *editValue = 2;//Ib_H;
+      break;
+      case UP_CTRL_Ic_H:
+       *editValue = 3;//Ic_H;
+      break;
+      case UP_CTRL_I1_H:
+       *editValue = 4;//I1_H;
+      break;
+      case UP_CTRL_I2_H:
+       *editValue = 5;//I2_H;
+      break;
+      case UP_CTRL_3I0_r_H:
+       *editValue = 7;//3I0-1_H
+      break;
+
+      case UP_CTRL_Ia_Ib_Ic_L:
+       *editValue = 25;//(Ia+Ib+Ic)_L
+      break;
+      case UP_CTRL_Ia_L:
+       *editValue = 26;//Ia_L;
+      break;
+      case UP_CTRL_Ib_L:
+       *editValue = 27;//Ib_L;
+      break;
+      case UP_CTRL_Ic_L:
+       *editValue = 28;//Ic_L;
+      break;
+      case UP_CTRL_I1_L:
+       *editValue = 29;//I1_L;
+      break;
+      case UP_CTRL_I2_L:
+       *editValue = 30;//I2_L;
+      break;
+      case UP_CTRL_3I0_r_L:
+       *editValue = 31;//3I0-1_L
+      break;
+
+      case UP_CTRL_Ua_Ub_Uc:
+       *editValue = 10;//Ua+Ub+Uc
+      break;
+      case UP_CTRL_Uab_Ubc_Uca:
+       *editValue = 14;//Uab+Ubc+Uca
+      break;
+      case UP_CTRL_Ua:
+       *editValue = 11;//Ua
+      break;
+      case UP_CTRL_Uab:
+       *editValue = 15;//Uab
+      break;
+      case UP_CTRL_Ub:
+       *editValue = 12;//Ub
+      break;
+      case UP_CTRL_Ubc:
+       *editValue = 16;//Ubc
+      break;
+      case UP_CTRL_Uc:
+       *editValue = 13;//Uc
+      break;
+      case UP_CTRL_Uca:
+       *editValue = 17;//Uca
+      break;
+      case UP_CTRL_U1:
+       *editValue = 18;//U1
+      break;
+      case UP_CTRL_U2:
+       *editValue = 19;//U2
+      break;
+      case UP_CTRL_3U0:
+       *editValue = 20;//3U0
+      break;
+      case UP_CTRL_P:
+       *editValue = 22;//P
+      break;
+      case UP_CTRL_Q:
+       *editValue = 23;//Q
+      break;
+      case UP_CTRL_S:
+       *editValue = 24;//S
+      break;
+    }//switch
    }//if
   }//for(int item=0; item<NUMBER_UP; item++)
   if(editValue == (uint32_t*)&edition_settings.buttons_mode)
@@ -1011,14 +1133,133 @@ int postUSTBigWriteAction(void)
     {
      if(editValue == (uint32_t*)&edition_settings.ctrl_UP_input[item])
      {
-      if(value>30) return ERROR_VALID2;//ошибка валидации
-       switch(value)
-       {
-        case 14: case 15: case 16:
-        return ERROR_VALID2;//ошибка валидации
-       }//switch
+//BН:0-(Ia+Ib+Ic);1-Ia;2-Ib;3-Ic;4-I1;5-I2;6-I04;7-3I0-1;8-3I0;9-3I0h;10-Ua+Ub+Uc;11-Ua;12-Ub;13-Uc;14-Uab+Ubc+Uca;15-Uab;16-Ubc;
+//17-Uca;18-U1;19-U2;20-3U0;21-3U0-1;22-P;23-Q;24-S
+//НН: 25-(Ia+Ib+Ic);26-Ia;27-Ib;28-Ic;29-I1;30-I2;31-3I0-1
+/*
+  UP_CTRL_Ia_Ib_Ic_H = _UP_CTRL_MIN, 
+  UP_CTRL_Ia_H,                      
+  UP_CTRL_Ib_H,                      
+  UP_CTRL_Ic_H,                      
+  UP_CTRL_I1_H,                      
+  UP_CTRL_I2_H,                      
+  UP_CTRL_3I0_r_H,                   
+  UP_CTRL_Ia_Ib_Ic_L,
+  UP_CTRL_Ia_L,
+  UP_CTRL_Ib_L,
+  UP_CTRL_Ic_L,
+  UP_CTRL_I1_L,
+  UP_CTRL_I2_L,
+  UP_CTRL_3I0_r_L,
+  UP_CTRL_Ua_Ub_Uc,
+  UP_CTRL_Uab_Ubc_Uca,
+  UP_CTRL_Ua,
+  UP_CTRL_Uab,
+  UP_CTRL_Ub,
+  UP_CTRL_Ubc,
+  UP_CTRL_Uc,
+  UP_CTRL_Uca,
+  UP_CTRL_U1,
+  UP_CTRL_U2,
+  UP_CTRL_3U0,
+  UP_CTRL_P,
+  UP_CTRL_Q,
+  UP_CTRL_S,
+*/
+      if(value>31) return ERROR_VALID2;//ошибка валидации
+     switch(value)
+     {
+      case 0:
+       value = UP_CTRL_Ia_Ib_Ic_H;//(Ia+Ib+Ic)_H
+      break;
+      case 1:
+       value = UP_CTRL_Ia_H;//Ia_H;
+      break;
+      case 2:
+       value = UP_CTRL_Ib_H;//Ib_H;
+      break;
+      case 3:
+       value = UP_CTRL_Ic_H;//Ic_H;
+      break;
+      case 4:
+       value = UP_CTRL_I1_H;//I1_H;
+      break;
+      case 5:
+       value = UP_CTRL_I2_H;//I2_H;
+      break;
+      case 6:return ERROR_VALID2;//ошибка валидации
+      case 7:
+       value = UP_CTRL_3I0_r_H;//3I0-1
+      break;
+      case 8:
+      case 9:
+       return ERROR_VALID2;//ошибка валидации
+      case 10:
+       value = UP_CTRL_Ua_Ub_Uc;//Ua+Ub+Uc
+      break;
+      case 11:
+       value = UP_CTRL_Ua;//Ua
+      break;
+      case 12:
+       value = UP_CTRL_Ub;//Ub
+      break;
+      case 13:
+       value = UP_CTRL_Uc;//Uc
+      break;
+      case 14:
+       value = UP_CTRL_Uab_Ubc_Uca;//Uab+Ubc+Uca
+      break;
+      case 15:
+       value = UP_CTRL_Uab;//Uab
+      break;
+      case 16:
+       value = UP_CTRL_Ubc;//Ubc
+      break;
+      case 17:
+       value = UP_CTRL_Uca;//Uca
+      break;
+      case 18:
+       value = UP_CTRL_U1;//U1
+      break;
+      case 19:
+       value = UP_CTRL_U2;//U2
+      break;
+      case 20:
+       value = UP_CTRL_3U0;//3U0
+      break;
+      case 21:return ERROR_VALID2;//ошибка валидации
+      case 22:
+       value = UP_CTRL_P;//P
+      break;
+      case 23:
+       value = UP_CTRL_Q;//Q
+      break;
+      case 24:
+       value = UP_CTRL_S;//S
+      break;
 
-      if(value>16) value -= 3;
+      case 25:
+       value = UP_CTRL_Ia_Ib_Ic_L;//(Ia+Ib+Ic)_L
+      break;
+      case 26:
+       value = UP_CTRL_Ia_L;//Ia_L
+      break;
+      case 27:
+       value = UP_CTRL_Ib_L;//Ib_L
+      break;
+      case 28:
+       value = UP_CTRL_Ic_L;//Ic_L
+      break;
+      case 29:
+       value = UP_CTRL_I1_L;//I1_L
+      break;
+      case 30:
+       value = UP_CTRL_I2_L;//I2_L
+      break;
+      case 31:
+       value = UP_CTRL_3I0_r_L;//3I0_1
+      break;
+     }//switch
      }//if
     }//for(int item=0; item<NUMBER_UP; item++)
     if(editValue == (uint32_t*)&edition_settings.type_of_input_signal)
