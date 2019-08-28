@@ -1497,6 +1497,11 @@ void min_settings(__SETTINGS *target_label)
     target_label->setpoint_P_3U0[i] = SETPOINT_P_3U0_MIN;
     target_label->timeout_P_3U0[i]  = TIMEOUT_P_3U0_MIN; 
 
+    target_label->setpoint_tznp_1_3I0_vpered[i] = SETPOINT_TZNP1_3I0_VPERED_MIN;
+    target_label->setpoint_tznp_1_3U0_vpered[i] = SETPOINT_TZNP1_3U0_VPERED_MIN;
+    target_label->setpoint_tznp_1_3I0_nazad[i] = SETPOINT_TZNP1_3I0_NAZAD_MIN;
+    target_label->setpoint_tznp_1_3U0_nazad[i] = SETPOINT_TZNP1_3U0_NAZAD_MIN;
+    
     angle = SETPOINT_TZNP1_ANGLE_MIN;
     angle_f = (float)angle;
     target_label->setpoint_tznp_1_angle[i] = angle;
