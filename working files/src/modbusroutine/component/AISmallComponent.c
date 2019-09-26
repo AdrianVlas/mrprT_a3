@@ -48,6 +48,13 @@ int getAISmallModbusRegister(int adrReg)
   if(privateAISmallGetReg2(adrReg)==MARKER_OUTPERIMETR) return MARKER_OUTPERIMETR;
     int offset = adrReg-BEGIN_ADR_REGISTER;
     unsigned int transVH_VL = current_settings_interfaces.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL);
+
+  semaphore_measure_values_low1 = 1;
+  for (unsigned int i = 0; i < _NUMBER_IM; i++ ) 
+  {
+    measurement_low[i] = measurement_middle[i];
+  }
+  semaphore_measure_values_low1 = 0;
     switch (offset)
     {
     case 0://UA H
