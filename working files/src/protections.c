@@ -6210,8 +6210,11 @@ inline void main_protection(void)
     active_functions[RANG_CTRL_OTKL_L    >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_CTRL_OTKL_L   ) != 0) << (RANG_CTRL_OTKL_L    & 0x1f);
 
     //нгр
-    active_functions[RANG_BLOCK_OZT1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT1    ) != 0) << (RANG_BLOCK_OZT1     & 0x1f);
-    active_functions[RANG_BLOCK_OZT2     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT2    ) != 0) << (RANG_BLOCK_OZT2     & 0x1f);
+    active_functions[RANG_BLOCK_OZT1       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT1   ) != 0) << (RANG_BLOCK_OZT1       & 0x1f);
+    active_functions[RANG_BLOCK_OZT2       >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_OZT2   ) != 0) << (RANG_BLOCK_OZT2       & 0x1f);
+    active_functions[RANG_PO_BLOCK_A_OZT2  >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_A_OZT2 ) != 0) << (RANG_PO_BLOCK_A_OZT2  & 0x1f);
+    active_functions[RANG_PO_BLOCK_2G_OZT2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_2G_OZT2) != 0) << (RANG_PO_BLOCK_2G_OZT2 & 0x1f);
+    active_functions[RANG_PO_BLOCK_5G_OZT2 >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_5G_OZT2) != 0) << (RANG_PO_BLOCK_5G_OZT2 & 0x1f);
 
     //лрг
     active_functions[RANG_BLOCK_MTZ1     >> 5] |= (_CHECK_SET_BIT(temp_value_for_activated_function, RANG_SMALL_BLOCK_MTZ1    ) != 0) << (RANG_BLOCK_MTZ1     & 0x1f);
