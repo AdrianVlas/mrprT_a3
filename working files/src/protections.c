@@ -861,8 +861,8 @@ inline void calc_power(int ortogonal_local_calc[], unsigned int voltage)
 #define UA_SIN          ortogonal_local_calc[2*IM_UA + 1]
 #define UA_COS          ortogonal_local_calc[2*IM_UA + 0]
   
-#define IB_SIN          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 1] : ortogonal_local_calc[2*IM_IC_H + 1])
-#define IB_COS          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 0] : ortogonal_local_calc[2*IM_IC_H + 0])
+#define IB_SIN          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 1] : ortogonal_local_calc[2*IM_IB_H + 1])
+#define IB_COS          ((voltage) ? ortogonal_local_calc[2*IM_IB_L + 0] : ortogonal_local_calc[2*IM_IB_H + 0])
 #define UB_SIN          ortogonal_local_calc[2*IM_UB + 1]
 #define UB_COS          ortogonal_local_calc[2*IM_UB + 0]
 
