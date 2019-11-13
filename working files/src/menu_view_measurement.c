@@ -669,7 +669,7 @@ void make_ekran_current_given(unsigned int pervynna_vtorynna)
        actualMeasurement_A(IM_IA_P_L, name_string[index_of_ekran], pervynna_vtorynna);
        break;
      case 7://YPa_H
-       actualMeasurement_Y(IM_IA_H, name_string[index_of_ekran]);
+       actualMeasurement_Y(IM_IA_L, name_string[index_of_ekran]);
        break;
      case 8://IPb_H
        actualMeasurement_A(IM_IB_P_L, name_string[index_of_ekran], pervynna_vtorynna);
