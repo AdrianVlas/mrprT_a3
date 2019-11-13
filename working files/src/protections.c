@@ -1255,7 +1255,7 @@ inline void calc_measurement(unsigned int number_group_stp)
   {
     measurement[IM_adIA + i] = ( MNOGNYK_I_DIJUCHE* ((uint64_t)abs(aperiodic_local[i]))) >> (VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3); // (VAGA_DILENNJA_I_DIJUCHE + 4 + VAGA_NUMBER_POINT - 1) = VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3
     
-    measurement[IM_gdIA + i] = measurement[IM_IA_P_H + i] + pickup_ozt_k_meas[number_group_stp]*(measurement[IM_IA_P_L + i] - measurement[IM_IA_P_H + i])/1000;
+    measurement[IM_gdIA + i] = measurement[IM_IA_P_H + i] + ((int)pickup_ozt_k_meas[number_group_stp])*((int)measurement[IM_IA_P_L + i] - (int)measurement[IM_IA_P_H + i])/1000;
   }
   /***/
   
