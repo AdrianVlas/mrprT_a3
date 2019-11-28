@@ -193,10 +193,6 @@ void global_vareiables_installation(void)
   /**************************/
   //Змінні, які потрібні для роботи
   /**************************/
-//  for(unsigned int i = 0; i < NUMBER_DEFINED_FUNCTIONS; i++)
-//  {
-//    etap_execution_df[i] = NONE_DF;
-//  }
   /**************************/
 
   /**************************/

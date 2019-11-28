@@ -383,8 +383,7 @@ uint32_t board_register;
 int global_timers[MAX_NUMBER_GLOBAL_TIMERS]; //Масив глобальних таймерів
 unsigned int timer_prt_signal_output_mode_2/* = 0*/;
 unsigned int output_timer_prt_signal_output_mode_2/* = false*/;
-unsigned int etap_execution_df[NUMBER_DEFINED_FUNCTIONS] = {NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF, NONE_DF}; //Етап виконання опреділюваної функції
-//unsigned int state_df = 0; //Текучий стан опреділюваних функцій
+unsigned int static_logic_df;
 
 _Bool previous_states_ready_tu/* = 0*/;
 _Bool trigger_ready_tu/* = 0*/;
