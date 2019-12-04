@@ -59,7 +59,7 @@ void main_manu_function(void)
     {
 /******************************************************************************************************************************************/ 
     case EKRAN_LEVEL_PASSWORD:
-    case EKRAN_LEVEL_PASSWORD_HARD:
+//    case EKRAN_LEVEL_PASSWORD_HARD:
       {
         //Зміння для фіксації стану курсору з попреднього рівня меню
         static __PREVIOUS_STATE_CURSOR previous_state_cursor;
@@ -99,8 +99,8 @@ void main_manu_function(void)
               unsigned int password;
               if (current_ekran.current_level == EKRAN_LEVEL_PASSWORD)
                 password = current_settings.password1;
-              else if (current_ekran.current_level == EKRAN_LEVEL_PASSWORD_HARD)
-                password = current_settings.password2;
+//              else if (current_ekran.current_level == EKRAN_LEVEL_PASSWORD_HARD)
+//                password = current_settings.password2;
               else
               {
                 //Теоретично цього ніколи не мало б бути
@@ -223,7 +223,7 @@ void main_manu_function(void)
 
 /******************************************************************************************************************************************/ 
     case EKRAN_LEVEL_SET_NEW_PASSWORD1:
-    case EKRAN_LEVEL_SET_NEW_PASSWORD2:
+//    case EKRAN_LEVEL_SET_NEW_PASSWORD2:
       {
         //Змінні для фіксації введеного паролю
         static unsigned int new_setting_password;
@@ -242,8 +242,8 @@ void main_manu_function(void)
           unsigned int *p_password;
           if (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD1)
             p_password = &current_settings.password1;
-          else if (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)
-            p_password = &current_settings.password2;
+//          else if (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)
+//            p_password = &current_settings.password2;
           else
           {
             //Теоретично цього ніколи не мало б бути
@@ -3071,12 +3071,12 @@ void main_manu_function(void)
                   //Переходимо на меню зміни паролю
                   current_ekran.current_level = EKRAN_LEVEL_SET_NEW_PASSWORD1;
                 }
-                else
-                {
-                  //Запам'ятовуємо поперердній екран
-                  //Переходимо на меню зміни паролю
-                  current_ekran.current_level = EKRAN_LEVEL_SET_NEW_PASSWORD2;
-                }
+//                else
+//                {
+//                  //Запам'ятовуємо поперердній екран
+//                  //Переходимо на меню зміни паролю
+//                  current_ekran.current_level = EKRAN_LEVEL_SET_NEW_PASSWORD2;
+//                }
                 current_ekran.index_position = position_in_current_level_menu[current_ekran.current_level];
                 current_ekran.edition = 1;
               }
@@ -3650,8 +3650,8 @@ void main_manu_function(void)
                 previous_level_in_current_level_menu[current_ekran.current_level] = temp_current_level;
               
                 if(
-                   ((current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD1) && (current_settings.password1 != 0)) ||
-                    (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)  
+                   ((current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD1) && (current_settings.password1 != 0)) /*||
+                    (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)*/  
                   )   
                 {
                   //У випавдку, якщо ми намагаємося перейти у вікно зміни паролю, то спочатку треба запитати старий пароль доступу, якщо він встановлений
@@ -3660,11 +3660,11 @@ void main_manu_function(void)
                     current_ekran.current_level = EKRAN_LEVEL_PASSWORD;
                     previous_level_in_current_level_menu[current_ekran.current_level] = EKRAN_LEVEL_SET_NEW_PASSWORD1;
                   }
-                  else if (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)
-                  {
-                    current_ekran.current_level = EKRAN_LEVEL_PASSWORD_HARD;
-                    previous_level_in_current_level_menu[current_ekran.current_level] = EKRAN_LEVEL_SET_NEW_PASSWORD2;
-                  }
+//                  else if (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)
+//                  {
+//                    current_ekran.current_level = EKRAN_LEVEL_PASSWORD_HARD;
+//                    previous_level_in_current_level_menu[current_ekran.current_level] = EKRAN_LEVEL_SET_NEW_PASSWORD2;
+//                  }
                   else
                   {
                     //Теоретично цього ніколи не мало б бути

@@ -24,8 +24,8 @@ void make_ekran_level_password(unsigned int password, unsigned int view)
   //Визначаємо з яким масивом будемо працювати
   unsigned char *point_to_working_array;
   if (
-      (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD1) ||
-      (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)
+      (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD1) /*||
+      (current_ekran.current_level == EKRAN_LEVEL_SET_NEW_PASSWORD2)*/
      )   
     point_to_working_array = (unsigned char *)name_string_2;
   else
@@ -103,13 +103,13 @@ void make_ekran_chose_passwords(void)
       {" Зміна паролю 1 ", " Вст.паролю 1   "},
       {" Pass.1 Change  ", " Password 1 Set "},
       {" Смена пароля 1 ", " Уст.пароля 1   "}
-    },
+    }/*,
     {
       {" Смена пароля 2 ", " Уст.пароля 2   "},
       {" Зміна паролю 2 ", " Вст.паролю 2   "},
       {" Pass.2 Change  ", " Password 2 Set "},
       {" Смена пароля 2 ", " Уст.пароля 2   "}
-    },
+    }*/
   };
   int index_language = index_language_in_array(current_settings.language);
   
@@ -128,8 +128,8 @@ void make_ekran_chose_passwords(void)
       unsigned int password;
       if (index_of_ekran == INDEX_OF_PASSWORD1)
         password = current_settings.password1;
-      else
-        password = current_settings.password2;
+//      else
+//        password = current_settings.password2;
       
       unsigned int index_of_information = ( password != 0) ? 0 : 1;
       for (unsigned int j = 0; j<MAX_COL_LCD; j++) working_ekran[i][j] = password_item[index_of_ekran][index_language][index_of_information][j];
