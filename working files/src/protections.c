@@ -6251,45 +6251,39 @@ inline void main_protection(void)
   //Сигнал "Несправность Общая"
   /**************************/
   unsigned int diagnostyka_tmp[N_DIAGN];
-  diagnostyka_tmp[0] = diagnostyka[0];
-  diagnostyka_tmp[1] = diagnostyka[1];
-  diagnostyka_tmp[2] = diagnostyka[2];
-  diagnostyka_tmp[3] = diagnostyka[3];
+  for (size_t i = 0; i < N_DIAGN; i ++)
+  {
+    diagnostyka_tmp[i] = diagnostyka[i];
 
-  diagnostyka_tmp[0] &= (unsigned int)(~clear_diagnostyka[0]); 
-  diagnostyka_tmp[0] |= set_diagnostyka[0]; 
-
-  diagnostyka_tmp[1] &= (unsigned int)(~clear_diagnostyka[1]); 
-  diagnostyka_tmp[1] |= set_diagnostyka[1]; 
-
-  diagnostyka_tmp[2] &= (unsigned int)(~clear_diagnostyka[2]); 
-  diagnostyka_tmp[2] |= set_diagnostyka[2]; 
-
-  diagnostyka_tmp[3] &= (unsigned int)(~clear_diagnostyka[3]); 
-  diagnostyka_tmp[3] |= set_diagnostyka[3]; 
-  
-  diagnostyka_tmp[3] &= USED_BITS_IN_LAST_INDEX; 
+    diagnostyka_tmp[i] &= (unsigned int)(~clear_diagnostyka[i]); 
+    diagnostyka_tmp[i] |= set_diagnostyka[i]; 
+  }
 
   _CLEAR_BIT(diagnostyka_tmp, EVENT_START_SYSTEM_BIT);
   _CLEAR_BIT(diagnostyka_tmp, EVENT_SOFT_RESTART_SYSTEM_BIT);
   _CLEAR_BIT(diagnostyka_tmp, EVENT_DROP_POWER_BIT);
-  if (
-      (diagnostyka_tmp[0] != 0) ||
-      (diagnostyka_tmp[1] != 0) ||
-      (diagnostyka_tmp[2] != 0) ||
-      (diagnostyka_tmp[3] != 0)
-     )   
+  unsigned int not_null = false;
+  for (size_t i = 0; i < N_DIAGN; i++) 
+  {
+    not_null |= (diagnostyka_tmp[i] != 0);
+    if (not_null) break;
+  }
+              
+  if (not_null)
   {
     _SET_BIT(active_functions, RANG_DEFECT);
     /**************************/
     //Сигнал "Несправность Аварийная"
     /**************************/
-    if (
-        ((diagnostyka_tmp[0] & MASKA_AVAR_ERROR_0) != 0) ||
-        ((diagnostyka_tmp[1] & MASKA_AVAR_ERROR_1) != 0) ||
-        ((diagnostyka_tmp[2] & MASKA_AVAR_ERROR_2) != 0) ||
-        ((diagnostyka_tmp[3] & MASKA_AVAR_ERROR_3) != 0)
-       )   
+    const unsigned int maska_avar_error[N_DIAGN] = {MASKA_AVAR_ERROR_0, MASKA_AVAR_ERROR_1, MASKA_AVAR_ERROR_2};
+
+    not_null = false;
+    for (size_t i = 0; i < N_DIAGN; i++) 
+    {
+      not_null |= ((diagnostyka_tmp[i] & maska_avar_error[i])  != 0);
+      if (not_null) break;
+    }
+    if (not_null)
     {
       _SET_BIT(active_functions, RANG_AVAR_DEFECT);
 //        #warning No Avar diagnostics

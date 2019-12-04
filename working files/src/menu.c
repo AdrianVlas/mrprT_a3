@@ -2071,26 +2071,32 @@ void main_manu_function(void)
             {
               if(current_ekran.index_position >= ((int)MAX_ROW_FOR_DIAGNOSTYKA)) current_ekran.index_position = 0;
               
-              if (
-                  (diagnostyka[0] == 0) &&
-                  (diagnostyka[1] == 0) &&
-                  (diagnostyka[2] == 0) &&
-                  ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
-                 )
+              unsigned int diagnostyka_tmp[N_DIAGN];
+              for (size_t i = 0; i < N_DIAGN; i++) diagnostyka_tmp[i] = diagnostyka[i];
+              
+              unsigned int not_null = false;
+              for (size_t i = 0; i < N_DIAGN; i++) 
               {
-                current_ekran.index_position = 0;
+                not_null |= (diagnostyka_tmp[i] != 0);
+                if (not_null) break;
               }
-              else
+              
+              if (not_null)
               {
-                while (_CHECK_SET_BIT(diagnostyka, current_ekran.index_position) ==0)
+                while (_CHECK_SET_BIT(diagnostyka_tmp, current_ekran.index_position) ==0)
                 {
                   current_ekran.index_position++;
                   if(current_ekran.index_position >= ((int)MAX_ROW_FOR_DIAGNOSTYKA)) current_ekran.index_position = 0;
                 }
               }
+              else
+              {
+                current_ekran.index_position = 0;
+              }
+              
               position_in_current_level_menu[EKRAN_DIAGNOSTYKA] = current_ekran.index_position;
               //Формуємо екран діагностики
-              make_ekran_diagnostyka(diagnostyka);
+              make_ekran_diagnostyka(diagnostyka_tmp);
             }
             else if (current_ekran.current_level == EKRAN_LIST_INPUTS_OUTPUTS)
             {
@@ -4291,27 +4297,33 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_DIAGNOSTYKA)
               {
-                if (
-                    (diagnostyka[0] == 0) &&
-                    (diagnostyka[1] == 0) &&
-                    (diagnostyka[2] == 0) &&
-                    ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
-                   )
+                unsigned int diagnostyka_tmp[N_DIAGN];
+                for (size_t i = 0; i < N_DIAGN; i++) diagnostyka_tmp[i] = diagnostyka[i];
+              
+                unsigned int not_null = false;
+                for (size_t i = 0; i < N_DIAGN; i++) 
                 {
-                  current_ekran.index_position = 0;
+                  not_null |= (diagnostyka_tmp[i] != 0);
+                  if (not_null) break;
                 }
-                else
+              
+                if (not_null)
                 {
                   if(--current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_DIAGNOSTYKA - 1;
-                  while (_CHECK_SET_BIT(diagnostyka, current_ekran.index_position) ==0)
+                  while (_CHECK_SET_BIT(diagnostyka_tmp, current_ekran.index_position) ==0)
                   {
                     current_ekran.index_position--;
                     if(current_ekran.index_position < 0) current_ekran.index_position = MAX_ROW_FOR_DIAGNOSTYKA - 1;
                   }
                 }
+                else
+                {
+                  current_ekran.index_position = 0;
+                }
+
                 position_in_current_level_menu[EKRAN_DIAGNOSTYKA] = current_ekran.index_position;
                 //Формуємо екран діагностики
-                make_ekran_diagnostyka(diagnostyka);
+                make_ekran_diagnostyka(diagnostyka_tmp);
               }
               else if(current_ekran.current_level == EKRAN_LIST_INPUTS_OUTPUTS)
               {
@@ -5002,27 +5014,33 @@ void main_manu_function(void)
               }
               else if(current_ekran.current_level == EKRAN_DIAGNOSTYKA)
               {
-                if (
-                    (diagnostyka[0] == 0) &&
-                    (diagnostyka[1] == 0) &&
-                    (diagnostyka[2] == 0) &&
-                    ((diagnostyka[3] & USED_BITS_IN_LAST_INDEX) == 0)
-                   )
+                unsigned int diagnostyka_tmp[N_DIAGN];
+                for (size_t i = 0; i < N_DIAGN; i++) diagnostyka_tmp[i] = diagnostyka[i];
+              
+                unsigned int not_null = false;
+                for (size_t i = 0; i < N_DIAGN; i++) 
                 {
-                  current_ekran.index_position = 0;
+                  not_null |= (diagnostyka_tmp[i] != 0);
+                  if (not_null) break;
                 }
-                else
+              
+                if (not_null)
                 {
                   if(++current_ekran.index_position >= ((int)MAX_ROW_FOR_DIAGNOSTYKA)) current_ekran.index_position = 0;
-                  while (_CHECK_SET_BIT(diagnostyka, current_ekran.index_position) ==0)
+                  while (_CHECK_SET_BIT(diagnostyka_tmp, current_ekran.index_position) ==0)
                   {
                     current_ekran.index_position++;
                     if(current_ekran.index_position >= ((int)MAX_ROW_FOR_DIAGNOSTYKA)) current_ekran.index_position = 0;
                   }
                 }
+                else
+                {
+                  current_ekran.index_position = 0;
+                }
+
                 position_in_current_level_menu[EKRAN_DIAGNOSTYKA] = current_ekran.index_position;
                 //Формуємо екран діагностики
-                make_ekran_diagnostyka(diagnostyka);
+                make_ekran_diagnostyka(diagnostyka_tmp);
               }
               else if(current_ekran.current_level == EKRAN_LIST_INPUTS_OUTPUTS)
               {
