@@ -190,7 +190,7 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
 //        (*dvMaska) =
     break;
   case 67:
-    (*outMaska) = RANG_PO_MTZPN1;
+    (*outMaska) = RANG_PO_MTZPN4;
 //        (*dvMaska) =
     break;
   case 68:
@@ -615,7 +615,7 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
   case 481:
     (*outMaska) = RANG_IN_GP1;
-//        (*dvMaska) =
+    (*dvMaska)  = RANG_SMALL_IN_GP1;
     break;
   case 482:
     (*outMaska) = RANG_PO_GP1;
@@ -627,7 +627,7 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
   case 484:
     (*outMaska) = RANG_IN_GP2;
-//        (*dvMaska) =
+    (*dvMaska)  = RANG_SMALL_IN_GP2;
     break;
   case 485:
     (*outMaska) = RANG_PO_GP2;
@@ -639,7 +639,7 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
   case 487:
     (*outMaska) = RANG_IN_GP_RPN;
-//        (*dvMaska) =
+    (*dvMaska)  = RANG_SMALL_IN_GP_RPN;
     break;
   case 488:
     (*outMaska) = RANG_PO_GP_RPN;
@@ -659,7 +659,7 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     break;
   case 497:
     (*outMaska) = RANG_IN_TP;
-//        (*dvMaska) =
+    (*dvMaska)  = RANG_SMALL_IN_TP;
     break;
   case 498:
     (*outMaska) = RANG_PO_TP;
