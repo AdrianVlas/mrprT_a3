@@ -15,5 +15,5 @@ settings/
 Flash-Debug/
 # Ігнорувати файли з папки Flash-Debug/
 ses/
-/nppBackup
+nppBackup/
 

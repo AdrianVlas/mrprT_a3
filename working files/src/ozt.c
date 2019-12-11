@@ -39,7 +39,7 @@ void dp1(unsigned int *p_active_functions, unsigned int number_group_stp){
 register long lV; 
 struct{
 long lSP_a,lSP_2g,lSP_5g, lgdI;
-long lgdI_hysteresis;
+long lgdI_hysteresis,lIdObm;
 long conter_and;
 __SETTINGS *p_current_settings_prt;
 }sLV; 
@@ -70,17 +70,17 @@ __SETTINGS *p_current_settings_prt;
         //............................. 
         //Select diapason
         //--
-		
+        
         if((unsigned long)lV <= sLV.p_current_settings_prt->pickup_ozt_Ig0[number_group_stp]){
             //Check Stp
             if(ozt1_po_Id){
                 lV = sLV.lgdI_hysteresis = sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
-				+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
-				lV *= (sLV.p_current_settings_prt->pickup_ozt_kp[number_group_stp]);
-				lV /=100;
+                + sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
+                lV *= (sLV.p_current_settings_prt->pickup_ozt_kp[number_group_stp]);
+                lV /=100;
             }else{
                 lV = sLV.lgdI_hysteresis = sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp];
-				lV += sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
+                lV += sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
             }
             if(     (measurement[IM_dIA] >= (unsigned long) lV)
                 ||  (measurement[IM_dIB] >= (unsigned long) lV)
@@ -93,10 +93,10 @@ __SETTINGS *p_current_settings_prt;
         if((unsigned long)lV <= sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp]){
             //Ід спр = Ідо+kг 2×(Ігальм – Іго );
             sLV.lgdI_hysteresis =  sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
-			+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
-			
+            + sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
+            
             lV = (sLV.lgdI - sLV.p_current_settings_prt->pickup_ozt_Ig0[number_group_stp])
-			*sLV.p_current_settings_prt->pickup_ozt_Kg1[number_group_stp];
+            *sLV.p_current_settings_prt->pickup_ozt_Kg1[number_group_stp];
             lV /= 1000;
             sLV.lgdI_hysteresis += lV;
             ;//Check Stp
@@ -112,11 +112,15 @@ __SETTINGS *p_current_settings_prt;
             else
                 ozt1_po_Id = 0;
         }else{
-            ;////Ід спр = Ідо+kг 2×(Ігальм – Іго обм);
-            sLV.lgdI_hysteresis =  sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
-			+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
+            ;////Ідоbm = Ідо+kг 1×(Ігальм – Іго обм);
+			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+			lV /= 1000;
+			sLV.lIdObm = current_settings_prt.pickup_ozt_delta_Id[number_group_stp]+current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
+            ;////Ід спр = Ідоbm+kг 2×(Ігальм – Іго обм);
+            sLV.lgdI_hysteresis =  sLV.lIdObm;//sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
+            //+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
             lV = (sLV.lgdI - sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp])
-			*sLV.p_current_settings_prt->pickup_ozt_Kg2[number_group_stp];
+            *sLV.p_current_settings_prt->pickup_ozt_Kg2[number_group_stp];
             lV /= 1000;
             sLV.lgdI_hysteresis += lV;
             ;//Check Stp
@@ -135,7 +139,7 @@ __SETTINGS *p_current_settings_prt;
     }else{
         //Check Clipping Stp
         sLV.lgdI_hysteresis =  sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
-		+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
+        + sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
         if(ozt1_po_Id){
         //Ід спр = Ідо
             lV = current_settings_prt.pickup_ozt_kp[number_group_stp]*sLV.lgdI_hysteresis;
@@ -253,7 +257,7 @@ register    long lV;
 //register void* pv;
 struct{
 long lSP_a,lSP_2g,lSP_5g, lgdI;
-long lgdI_hysteresis;
+long lgdI_hysteresis,lIdObm;
 long conter_and;
 __SETTINGS *p_current_settings_prt;
 }sLV; 
@@ -424,8 +428,12 @@ __SETTINGS *p_current_settings_prt;
             else
                 ozt_stp_state.bool_val.po_Id = 0;
         }else{
-            ;////Ід спр = Ідо+kг 2×(Ігальм – Іго обм);
-            sLV.lgdI_hysteresis =  current_settings_prt.pickup_ozt_Id0[number_group_stp];
+            ;//// Ідоbm = Ідо +kг 1×(Ігальм – Іго обм);
+			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+			lV /= 1000;
+			sLV.lIdObm = current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
+            ;////Ід спр = Ідоbm +kг 2×(Ігальм – Іго обм);
+            sLV.lgdI_hysteresis = sLV.lIdObm; //current_settings_prt.pickup_ozt_Id0[number_group_stp];
             lV = (sLV.lgdI - sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp])*current_settings_prt.pickup_ozt_Kg2[number_group_stp];
             lV /= 1000;
             sLV.lgdI_hysteresis += lV;
@@ -1540,7 +1548,7 @@ void Bvls_handler(unsigned int *p_active_functions){
   /*********************/
   
 
-	
+    
 }
 //
 //--------------------------------------------------------------------------------------------------------
@@ -1571,55 +1579,55 @@ register union {
 }wrp;
 unsigned long u32_bit_holder = 0;
 wrp.lVl = 0;
-		
-	lV = (current_settings_prt.control_switch[0] & CTR_PRYVOD_VV);
-	 if(lV != 0){
+        
+    lV = (current_settings_prt.control_switch[0] & CTR_PRYVOD_VV);
+     if(lV != 0){
         //wrp.bool_vars.m_ctrl_vv_hs = 1;
-		lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_VKL_H );
-		if(lV != 0){
-			wrp.bool_vars.vv_vkl = 1;
-			//u32_bit_holder = 1;
-		}	
-		lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_H );
-		if(lV != 0)
-			wrp.bool_vars.vv_otkl = 1;
-		lV = (wrp.lVl&2)^(wrp.lVl&1);
-		if(lV != 0)
-		u32_bit_holder = 1;
-		_TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], u32_bit_holder, 0, u32_bit_holder, 1);
-		if (u32_bit_holder&2)//wrp.bool_vars.prvvh
-			_SET_BIT(p_active_functions, RANG_PRYVID_VV_H);
-		else
-			_CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_H);
-	}	
-	else{	
-		 _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_H);
-		 //return;
-	}
-	wrp.lVl = 0;
-	lV = (current_settings_prt.control_switch[1] & CTR_PRYVOD_VV);
-	 if(lV != 0){
-		lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_VKL_L );
-		if(lV != 0){
-			wrp.bool_vars.vv_vkl = 1;
-			//u32_bit_holder = 1;
-		}	
-		lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_L );
-		if(lV != 0)
-			wrp.bool_vars.vv_otkl = 1;
-		lV = (wrp.lVl&2)^(wrp.lVl&1);
-		if(lV != 0)
-		u32_bit_holder |= 4;
-		_TIMER_T_0(INDEX_TIMER_PRYVOD_VV_L, current_settings_prt.timeout_pryvoda_VV[1], u32_bit_holder, 2, u32_bit_holder, 3);
-		if (u32_bit_holder&8)//wrp.bool_vars.prvvh
-			_SET_BIT(p_active_functions, RANG_PRYVID_VV_L);
-		else
-			_CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_L);
-	}	
-	else{	
-		 _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_L);
-		 //return;
-	}
+        lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_VKL_H );
+        if(lV != 0){
+            wrp.bool_vars.vv_vkl = 1;
+            //u32_bit_holder = 1;
+        }   
+        lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_H );
+        if(lV != 0)
+            wrp.bool_vars.vv_otkl = 1;
+        lV = (wrp.lVl&2)^(wrp.lVl&1);
+        if(lV != 0)
+        u32_bit_holder = 1;
+        _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], u32_bit_holder, 0, u32_bit_holder, 1);
+        if (u32_bit_holder&2)//wrp.bool_vars.prvvh
+            _SET_BIT(p_active_functions, RANG_PRYVID_VV_H);
+        else
+            _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_H);
+    }   
+    else{   
+         _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_H);
+         //return;
+    }
+    wrp.lVl = 0;
+    lV = (current_settings_prt.control_switch[1] & CTR_PRYVOD_VV);
+     if(lV != 0){
+        lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_VKL_L );
+        if(lV != 0){
+            wrp.bool_vars.vv_vkl = 1;
+            //u32_bit_holder = 1;
+        }   
+        lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_L );
+        if(lV != 0)
+            wrp.bool_vars.vv_otkl = 1;
+        lV = (wrp.lVl&2)^(wrp.lVl&1);
+        if(lV != 0)
+        u32_bit_holder |= 4;
+        _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_L, current_settings_prt.timeout_pryvoda_VV[1], u32_bit_holder, 2, u32_bit_holder, 3);
+        if (u32_bit_holder&8)//wrp.bool_vars.prvvh
+            _SET_BIT(p_active_functions, RANG_PRYVID_VV_L);
+        else
+            _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_L);
+    }   
+    else{   
+         _CLEAR_BIT(p_active_functions, RANG_PRYVID_VV_L);
+         //return;
+    }
 }
 //
 //--------------------------------------------------------------------------------------------------------

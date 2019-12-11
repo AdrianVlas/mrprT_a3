@@ -39,12 +39,12 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
  //Переводимо режим роботи із дискретним реєстратором у стан "Іде процес запису реєстратора"
           state_dr_record = STATE_DR_EXECUTING_RECORD;
 
-buffer_for_save_dr_record / /!<<  типо за задумом базовий буфер для формування запису в дискретному реєстраторі		  
-		  
+buffer_for_save_dr_record / /!<<  типо за задумом базовий буфер для формування запису в дискретному реєстраторі       
+          
 
 state_current_monitoring  / /!<<  Поле, яке фіксує які блоки моніторингу використовуються 
-		  
-		  
+          
+          
 typedef struct Setpoints_tag{
 
  
@@ -55,7 +55,7 @@ unsigned int voltage = (current_settings.control_transformator >> INDEX_ML_CTR_T
 
    unsigned int type_voltage = (current_settings.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
 //  CTR_EXTRA_SETTINGS_1_CTRL_VH_VL //0-VH 1 - VL 
-	if(type_voltage != 0){
+    if(type_voltage != 0){
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //                  
@@ -65,7 +65,7 @@ void p_3U0_handler(unsigned int *p_active_functions, unsigned int number_group_s
 // ----------------    -------------------------
   UNUSED(p_active_functions);
   UNUSED(number_group_stp);
-	
+    
 }
 //
 //--------------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ register union {
 //register union { 
 //   struct {
 //      unsigned int previous_state_po_3U0_1 : 1;
-//	  unsigned int KZZV_1r_is_larger_than_3U0_1:1;
+//    unsigned int KZZV_1r_is_larger_than_3U0_1:1;
 //   } bool_vars;
 //  long lVl;
 //}wrp;wrp.lVl = 0;
@@ -127,155 +127,155 @@ __SETTINGS *p_current_settings_prt;
   if(lAnd == 3){
     sLV.conter_and++;
     }
-	lCmpVl = MIN_LIMIT_I1_I2_P;
+    lCmpVl = MIN_LIMIT_I1_I2_P;
     
-		
+        
 //    if (i1_bilshe_porogu == 0) setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
 //    else setpoint_i1 = MIN_LIMIT_FOR_I1_AND_I2;
 //    unsigned int i1_bilshe_porogu_tmp = i1_bilshe_porogu = (i1_current >= setpoint_i1);
 //    
 //    if (i2_bilshe_porogu == 0) setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2*KOEF_POVERNENNJA_ZOP_BLK/100;
 //    else setpoint_i2 = MIN_LIMIT_FOR_I1_AND_I2;
-//    unsigned int i2_bilshe_porogu_tmp = i2_bilshe_porogu = (i2_current >= setpoint_i2);	
+//    unsigned int i2_bilshe_porogu_tmp = i2_bilshe_porogu = (i2_current >= setpoint_i2);   
    sLV.meas_I1_lead_ls = measurement[IM_I1_P_L ];
    sLV.meas_I1_lead_hs = measurement[IM_I1_P_H ];
    sLV.meas_I2_lead_ls = measurement[IM_I2_P_L ];
    sLV.meas_I2_lead_hs = measurement[IM_I2_P_H ];
-	p_bl = &mcp_stp_state;
-	lV = p_bl->bool_val.po_I1_lead_low_side;
-	if(lV) 
-		sLV.I1_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
-	else 
-		sLV.I1_lead_ls = lCmpVl;
-	if(sLV.meas_I1_lead_ls >= sLV.I1_lead_ls)
-		lV = 1;	
-	else 
-		lV = 0;
-	p_bl->bool_val.po_I1_lead_low_side = lV;
-	
-	lV = p_bl->bool_val.po_I1_lead_high_side ;
-	if (lV)
-		sLV.I1_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
-	else 
-		sLV.I1_lead_hs = lCmpVl;
-	if(sLV.meas_I1_lead_hs >= sLV.I1_lead_hs)
-		lV = 1;	
-	else 
-		lV = 0;	
-	p_bl->bool_val.po_I1_lead_high_side = lV;
-	
-	lV = p_bl->bool_val.po_I2_lead_low_side;	
-	if(lV) 
-		sLV.I2_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
-	else 
-		sLV.I2_lead_ls = lCmpVl;
-	if(sLV.meas_I2_lead_ls >= sLV.I2_lead_ls)
-		lV = 1;	
-	else 
-		lV = 0;	
-	p_bl->bool_val.po_I2_lead_low_side = lV;	
-	
-	lV = p_bl->bool_val.po_I2_lead_high_side;	
-	if ( lV)
-		sLV.I2_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
-	else 
-		sLV.I2_lead_hs = lCmpVl;
-	if(sLV.meas_I2_lead_hs >= sLV.I2_lead_hs)
-		lV = 1;	
-	else 
-		lV = 0;	
-	p_bl->bool_val.po_I2_lead_high_side = lV;
-	lV = p_bl->lVl;
-	lV &= 0xf;
-	if(lV == 0xf){
-		lV =  p_bl->bool_val.po_I2_I1_ls_lead;
-		if(lV){
-			lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-			lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
-			sLV.setpoint_ls = lV;
-			
-		}
-		else{
-			sLV.setpoint_ls = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-			
-		}
-		lV =  p_bl->bool_val.po_I2_I1_hs_lead;
-		if(lV){
-			lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-			lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
-			sLV.setpoint_hs = lV;
-			
-		}
-		else{
-			sLV.setpoint_hs = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-			
-		}
-		//((i2_current*1000) >= (i1_current*setpoint)) 
-		if(	(sLV.meas_I2_lead_ls*1000) >= (sLV.meas_I1_lead_ls*sLV.setpoint_ls) ){
-			lV =  p_bl->bool_val.po_I2_I1_ls_lead;
-			if(lV == 0)
-				p_bl->bool_val.po_I2_I1_ls_lead = 1;
-		}
-		else{
-			lV =  p_bl->bool_val.po_I2_I1_ls_lead;
-			if(lV != 0)
-				p_bl->bool_val.po_I2_I1_ls_lead = 0;
-			
-		}
-		if(	(sLV.meas_I2_lead_hs*1000) >= (sLV.meas_I1_lead_hs*sLV.setpoint_hs) ){
-			lV =  p_bl->bool_val.po_I2_I1_hs_lead;
-			if(lV == 0)
-				p_bl->bool_val.po_I2_I1_hs_lead = 1;
-		}
-		else{
-			lV =  p_bl->bool_val.po_I2_I1_hs_lead;
-			if(lV != 0)
-				p_bl->bool_val.po_I2_I1_hs_lead = 0;
-			
-		}
-		//---------------------------------------------
-		//Phase sensetive element
-		//0- Not
-		//1-Internal
-		//2-External
-		//---------------------------------------------
-		lV = sLV.lgI_hysteresis;//Temporarly emulate Phase Calculation
-		if( lV == 2 ){
-			//Put Cmd  Sector In\Ext
-			lV = p_bl->lVl;
-			lV &= 0x30;
-			if(lV == 0x30)
-			sLV.conter_and += 2;
-		}else if( lV == 1 ){
-			//Put Cmd  Sector In\Ext
-			lV = p_bl->lVl;
-			lV &= 0x30;
-			if(lV == 0x30)
-			sLV.conter_and += 1;
-		}
-		else{
-			//Clear Cmd Sector In\Ext
-		}
-	}
-	else{
-		;//Clr Kz
-	}
-	if(sLV.conter_and == 5){
-	
-	}else if(sLV.conter_and == 4){
-	
-	}
-	else{//Clr State
+    p_bl = &mcp_stp_state;
+    lV = p_bl->bool_val.po_I1_lead_low_side;
+    if(lV) 
+        sLV.I1_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else 
+        sLV.I1_lead_ls = lCmpVl;
+    if(sLV.meas_I1_lead_ls >= sLV.I1_lead_ls)
+        lV = 1; 
+    else 
+        lV = 0;
+    p_bl->bool_val.po_I1_lead_low_side = lV;
+    
+    lV = p_bl->bool_val.po_I1_lead_high_side ;
+    if (lV)
+        sLV.I1_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else 
+        sLV.I1_lead_hs = lCmpVl;
+    if(sLV.meas_I1_lead_hs >= sLV.I1_lead_hs)
+        lV = 1; 
+    else 
+        lV = 0; 
+    p_bl->bool_val.po_I1_lead_high_side = lV;
+    
+    lV = p_bl->bool_val.po_I2_lead_low_side;    
+    if(lV) 
+        sLV.I2_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else 
+        sLV.I2_lead_ls = lCmpVl;
+    if(sLV.meas_I2_lead_ls >= sLV.I2_lead_ls)
+        lV = 1; 
+    else 
+        lV = 0; 
+    p_bl->bool_val.po_I2_lead_low_side = lV;    
+    
+    lV = p_bl->bool_val.po_I2_lead_high_side;   
+    if ( lV)
+        sLV.I2_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+    else 
+        sLV.I2_lead_hs = lCmpVl;
+    if(sLV.meas_I2_lead_hs >= sLV.I2_lead_hs)
+        lV = 1; 
+    else 
+        lV = 0; 
+    p_bl->bool_val.po_I2_lead_high_side = lV;
+    lV = p_bl->lVl;
+    lV &= 0xf;
+    if(lV == 0xf){
+        lV =  p_bl->bool_val.po_I2_I1_ls_lead;
+        if(lV){
+            lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
+            lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
+            sLV.setpoint_ls = lV;
+            
+        }
+        else{
+            sLV.setpoint_ls = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
+            
+        }
+        lV =  p_bl->bool_val.po_I2_I1_hs_lead;
+        if(lV){
+            lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
+            lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
+            sLV.setpoint_hs = lV;
+            
+        }
+        else{
+            sLV.setpoint_hs = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
+            
+        }
+        //((i2_current*1000) >= (i1_current*setpoint)) 
+        if( (sLV.meas_I2_lead_ls*1000) >= (sLV.meas_I1_lead_ls*sLV.setpoint_ls) ){
+            lV =  p_bl->bool_val.po_I2_I1_ls_lead;
+            if(lV == 0)
+                p_bl->bool_val.po_I2_I1_ls_lead = 1;
+        }
+        else{
+            lV =  p_bl->bool_val.po_I2_I1_ls_lead;
+            if(lV != 0)
+                p_bl->bool_val.po_I2_I1_ls_lead = 0;
+            
+        }
+        if( (sLV.meas_I2_lead_hs*1000) >= (sLV.meas_I1_lead_hs*sLV.setpoint_hs) ){
+            lV =  p_bl->bool_val.po_I2_I1_hs_lead;
+            if(lV == 0)
+                p_bl->bool_val.po_I2_I1_hs_lead = 1;
+        }
+        else{
+            lV =  p_bl->bool_val.po_I2_I1_hs_lead;
+            if(lV != 0)
+                p_bl->bool_val.po_I2_I1_hs_lead = 0;
+            
+        }
+        //---------------------------------------------
+        //Phase sensetive element
+        //0- Not
+        //1-Internal
+        //2-External
+        //---------------------------------------------
+        lV = sLV.lgI_hysteresis;//Temporarly emulate Phase Calculation
+        if( lV == 2 ){
+            //Put Cmd  Sector In\Ext
+            lV = p_bl->lVl;
+            lV &= 0x30;
+            if(lV == 0x30)
+            sLV.conter_and += 2;
+        }else if( lV == 1 ){
+            //Put Cmd  Sector In\Ext
+            lV = p_bl->lVl;
+            lV &= 0x30;
+            if(lV == 0x30)
+            sLV.conter_and += 1;
+        }
+        else{
+            //Clear Cmd Sector In\Ext
+        }
+    }
+    else{
+        ;//Clr Kz
+    }
+    if(sLV.conter_and == 5){
+    
+    }else if(sLV.conter_and == 4){
+    
+    }
+    else{//Clr State
 
-	}
+    }
 
  Аварійна несправність розкоментувати
-CYCLECOUNTER	631174246	ReadOnly	
+CYCLECOUNTER    631174246   ReadOnly    
 631174684
 438
-CYCLECOUNTER	1659503	ReadOnly	
-CYCLECOUNTER	1659861	ReadOnly
-358	
+CYCLECOUNTER    1659503 ReadOnly    
+CYCLECOUNTER    1659861 ReadOnly
+358 
 
 
 
