@@ -132,7 +132,7 @@ extern int upravlSchematic;//флаг Rang
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
       unsigned int *ranguvannja_vv = NULL;
-      switch((offset/REGISTERS_VV)==1)
+      switch(offset/REGISTERS_VV)
       {
        case 0:
          ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжування 
@@ -166,7 +166,7 @@ extern int upravlSchematic;//флаг Rang
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
       unsigned int *ranguvannja_vv = NULL;
-      switch((offset/REGISTERS_VV)==1)
+      switch(offset/REGISTERS_VV)
       {
        case 0:
         ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжування 
