@@ -66,11 +66,7 @@
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-<<<<<<< HEAD
                     <state>8.42.1.23869</state>
-=======
-                    <state>8.40.2.22864</state>
->>>>>>> 584d80ce801cd922e2a7def6b86061bd0fbe07fb
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -120,11 +116,7 @@
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
-<<<<<<< HEAD
                     <version>28</version>
-=======
-                    <version>27</version>
->>>>>>> 584d80ce801cd922e2a7def6b86061bd0fbe07fb
                     <state>38</state>
                 </option>
                 <option>
@@ -141,11 +133,8 @@
                 </option>
                 <option>
                     <name>CoreVariant</name>
-<<<<<<< HEAD
                     <version>28</version>
-=======
-                    <version>27</version>
->>>>>>> 584d80ce801cd922e2a7def6b86061bd0fbe07fb
+
                     <state>38</state>
                 </option>
                 <option>
@@ -168,11 +157,8 @@
                 </option>
                 <option>
                     <name>GFPUCoreSlave2</name>
-<<<<<<< HEAD
                     <version>28</version>
-=======
-                    <version>27</version>
->>>>>>> 584d80ce801cd922e2a7def6b86061bd0fbe07fb
+
                     <state>38</state>
                 </option>
                 <option>
