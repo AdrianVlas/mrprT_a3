@@ -42,6 +42,9 @@ void constructorAISmallComponent(COMPONENT_OBJ *aismallcomp)
 #define TRANSFORMATOR_VH if(!transVH_VL)  break;return -1;
 #define TRANSFORMATOR_VL if(transVH_VL) break;return -1;
 
+#define TRANSFORMATOR_BAZAVH if(!transVH_VL)  break;return 0;
+#define TRANSFORMATOR_BAZAVL if(transVH_VL) break;return 0;
+
 int getAISmallModbusRegister(int adrReg)
 {
   //получить содержимое регистра
@@ -60,7 +63,7 @@ int getAISmallModbusRegister(int adrReg)
     case 0://UA H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
-        adrReg += transVH_VL;
+        //adrReg += transVH_VL;
         return 350;
 #else
        TRANSFORMATOR_VH
@@ -163,6 +166,8 @@ int getAISmallModbusRegister(int adrReg)
 #else
        TRANSFORMATOR_VH
 #endif
+    case 45:
+       TRANSFORMATOR_BAZAVH
     case 46://OFFSET_ANGLE_UA_1 H
       {
 #ifdef TESTZBIRKA_VERSII_PZ
@@ -354,6 +359,8 @@ int getAISmallModbusRegister(int adrReg)
        TRANSFORMATOR_VL
 #endif
 
+    case 123:
+       TRANSFORMATOR_BAZAVL
     case 124://OFFSET_ANGLE_UA_1 L
       {
 #ifdef TESTZBIRKA_VERSII_PZ
@@ -676,7 +683,9 @@ int getAISmallModbusRegister(int adrReg)
       }
 
 //    case 44:
-//    case 45:
+    case 123:
+    case 45:
+        return (base_index_for_angle + 1) &0xFFFF;
 
     case 124://OFFSET_ANGLE_UA_1 L
     case 46://OFFSET_ANGLE_UA_1 H

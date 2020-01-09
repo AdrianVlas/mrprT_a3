@@ -88,6 +88,28 @@ int setVVBigModbusRegister(int adrReg, int dataReg)
     }//if(uprbigcomponent->isActiveActualData)
   superClearActiveActualData();
 
+  //валидация //Работа БО //Работа БB
+  if(adrReg>=(BEGIN_ADR_REGISTER+3*REGISTERS_VV))
+  {
+   //ранжир ВВ откл НН
+   if(dataReg==50676) return MARKER_ERRORPERIMETR;//Работа БО НН
+  }
+  else if(adrReg>=(BEGIN_ADR_REGISTER+2*REGISTERS_VV)) 
+  {
+   //ранжир ВВ вкл НН
+   if(dataReg==50677) return MARKER_ERRORPERIMETR;//Работа БВ НН
+  }
+  else if(adrReg>=(BEGIN_ADR_REGISTER+1*REGISTERS_VV)) 
+  {
+   //ранжир ВВ откл ВН
+   if(dataReg==50644) return MARKER_ERRORPERIMETR;//Работа БО ВН
+  }
+  else if(adrReg>=BEGIN_ADR_REGISTER) 
+  {
+   //ранжир ВВ вкл ВН
+   if(dataReg==50645) return MARKER_ERRORPERIMETR;//Работа БВ ВН
+  }
+
   superSetOperativMarker(vvbigcomponent, adrReg);
   superSetTempWriteArray(dataReg);//записать в буфер
 
@@ -132,7 +154,7 @@ extern int upravlSchematic;//флаг Rang
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
       unsigned int *ranguvannja_vv = NULL;
-      switch((offset/REGISTERS_VV)==1)
+      switch(offset/REGISTERS_VV)
       {
        case 0:
          ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжування 
@@ -166,7 +188,7 @@ extern int upravlSchematic;//флаг Rang
       int offset = beginAdr-BEGIN_ADR_REGISTER+i;
 
       unsigned int *ranguvannja_vv = NULL;
-      switch((offset/REGISTERS_VV)==1)
+      switch(offset/REGISTERS_VV)
       {
        case 0:
         ranguvannja_vv = &edition_settings.ranguvannja_on_cb[0][0]; //Ранжування 

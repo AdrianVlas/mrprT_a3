@@ -1448,7 +1448,7 @@ inline void clocking_global_timers(void)
   }
 }
 /*****************************************************/
-#include "ozt.c "
+#include "ozt.c"
 #include "G3U0.c"
 #include "umin.c"
 #include "kzzv.c"
@@ -4205,7 +4205,6 @@ inline void up_handler(unsigned int *p_active_functions, unsigned int number_gro
 inline void on_off_handler(unsigned int *p_active_functions)
 {
   static unsigned int previous_active_functions[N_BIG];
-  unsigned int maska[N_BIG] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
   /*********************/
   //Спочатку опрацьовуємо таймери
@@ -4266,21 +4265,34 @@ inline void on_off_handler(unsigned int *p_active_functions)
   /*********************/
   //Першим розглядається блок відключення, бо він може блокувати включення вимикача
   /*********************/
+  uint32_t off_cb_tmp[N_BIG] = 
+  {
+    (p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]),
+    (p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]),
+    (p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]),
+    (p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]),
+    (p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]),
+    (p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]),
+    (p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]),
+    (p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]),
+    (p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8])
+  };
+  
   /*
   Цей сигнал встановлюється тільки у певних випадках, тому по замовчуванню його треба скинута,
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
+      (off_cb_tmp[0] != 0) ||
+      (off_cb_tmp[1] != 0) ||
+      (off_cb_tmp[2] != 0) ||
+      (off_cb_tmp[3] != 0) ||
+      (off_cb_tmp[4] != 0) ||
+      (off_cb_tmp[5] != 0) ||
+      (off_cb_tmp[6] != 0) ||
+      (off_cb_tmp[7] != 0) ||
+      (off_cb_tmp[8] != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -4299,29 +4311,22 @@ inline void on_off_handler(unsigned int *p_active_functions)
     Формуємо сигнал "Відключення від захистів" (він рівний наявності умови команди
     активації команди "Робота БО" будь-якою командою за виключенняв "Вимкн. ВВ")
     */
-    //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
-    for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
-    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska, RANG_WORK_BO_H);
+    _CLEAR_BIT(off_cb_tmp, RANG_OTKL_VV_H);
     if (
-        ((p_active_functions[0] & maska[0]) != 0) ||
-        ((p_active_functions[1] & maska[1]) != 0) ||
-        ((p_active_functions[2] & maska[2]) != 0) ||
-        ((p_active_functions[3] & maska[3]) != 0) ||
-        ((p_active_functions[4] & maska[4]) != 0) ||
-        ((p_active_functions[5] & maska[5]) != 0) ||
-        ((p_active_functions[6] & maska[6]) != 0) ||
-        ((p_active_functions[7] & maska[7]) != 0) ||
-        ((p_active_functions[8] & maska[8]) != 0)
+        (off_cb_tmp[0] != 0) ||
+        (off_cb_tmp[1] != 0) ||
+        (off_cb_tmp[2] != 0) ||
+        (off_cb_tmp[3] != 0) ||
+        (off_cb_tmp[4] != 0) ||
+        (off_cb_tmp[5] != 0) ||
+        (off_cb_tmp[6] != 0) ||
+        (off_cb_tmp[7] != 0) ||
+        (off_cb_tmp[8] != 0)
        )
     {
       //Вимкнення від захистів
       _SET_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
       
-      unsigned int temp_array_of_outputs[N_BIG];
-      for (unsigned int i = 0; i < N_BIG; i++ ) temp_array_of_outputs[i] = (p_active_functions[i] & maska[i]);
-      _CLEAR_BIT(temp_array_of_outputs, RANG_VIDKL_VID_ZAKHYSTIV);
-          
       /*****************************************************
       Формуванні інформації про причину відключення для меню
       *****************************************************/
@@ -4331,343 +4336,343 @@ inline void on_off_handler(unsigned int *p_active_functions)
           
       //ОЗТ1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_OZT1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_OZT1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_OZT1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_OZT1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_OZT1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_OZT1);
+        _CLEAR_BIT(off_cb_tmp, RANG_OZT1);
       }
       
       //ОЗТ2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_OZT2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_OZT2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_OZT2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_OZT2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_OZT2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_OZT2);
+        _CLEAR_BIT(off_cb_tmp, RANG_OZT2);
       }
       
       //МТЗ1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_MTZ1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_MTZ1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ1);
+        _CLEAR_BIT(off_cb_tmp, RANG_MTZ1);
       }
       
       //МТЗ2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_MTZ2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_MTZ2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ2);
+        _CLEAR_BIT(off_cb_tmp, RANG_MTZ2);
       }
       
       //МТЗ3
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ3) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_MTZ3) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ3) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_MTZ3);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ3][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ3);
+        _CLEAR_BIT(off_cb_tmp, RANG_MTZ3);
       }
       
       //МТЗ4
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_MTZ4) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_MTZ4) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_MTZ4) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_MTZ4);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MTZ4][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_MTZ4);
+        _CLEAR_BIT(off_cb_tmp, RANG_MTZ4);
       }
           
       //3U0
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_P_3U0) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_P_3U0) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_P_3U0) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_P_3U0);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_P_3U0][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_P_3U0);
+        _CLEAR_BIT(off_cb_tmp, RANG_P_3U0);
       }
           
       //ТЗНП1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_TZNP1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_TZNP1);
         for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP1][j] = *(label_to_time_array + j);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP1);
+        _CLEAR_BIT(off_cb_tmp, RANG_TZNP1);
       }
 
       //ТЗНП2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_TZNP2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_TZNP2);
         for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP2][j] = *(label_to_time_array + j);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP2);
+        _CLEAR_BIT(off_cb_tmp, RANG_TZNP2);
       }
 
       //ТЗНП3
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP3) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_TZNP3) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP3) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_TZNP3);
         for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP3][j] = *(label_to_time_array + j);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP3);
+        _CLEAR_BIT(off_cb_tmp, RANG_TZNP3);
       }
 
       //ТЗНП4
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TZNP4) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_TZNP4) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_TZNP4) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_TZNP4);
         for(unsigned int j = 0; j < 7; j++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TZNP4][j] = *(label_to_time_array + j);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_TZNP4);
+        _CLEAR_BIT(off_cb_tmp, RANG_TZNP4);
       }
 
       //ПРВВ1_1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1_1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UROV1_1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1_1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV1_1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV1_1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1_1);
+        _CLEAR_BIT(off_cb_tmp, RANG_UROV1_1);
       }
       
       //ПРВВ1_2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV1_2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UROV1_2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UROV1_2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV1_2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV1_2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV1_2);
+        _CLEAR_BIT(off_cb_tmp, RANG_UROV1_2);
       }
 
       //ПРВВ2_1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV2_1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UROV2_1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UROV2_1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV2_1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV2_1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV2_1);
+        _CLEAR_BIT(off_cb_tmp, RANG_UROV2_1);
       }
       
       //ПРВВ1_2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UROV2_2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UROV2_2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UROV2_2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UROV2_2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UROV2_2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UROV2_2);
+        _CLEAR_BIT(off_cb_tmp, RANG_UROV2_2);
       }
 
       //ЗЗП1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_ZOP1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_ZOP1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP1);
+        _CLEAR_BIT(off_cb_tmp, RANG_ZOP1);
       }
 
       //ЗЗП2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_ZOP2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_ZOP2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_ZOP2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_ZOP2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_ZOP2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_ZOP2);
+        _CLEAR_BIT(off_cb_tmp, RANG_ZOP2);
       }
       
       //Umin1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UMIN1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UMIN1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN1);
+        _CLEAR_BIT(off_cb_tmp, RANG_UMIN1);
       }
       
       //Umin2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMIN2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UMIN2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UMIN2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UMIN2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMIN2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UMIN2);
+        _CLEAR_BIT(off_cb_tmp, RANG_UMIN2);
       }
       
       //Umax1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UMAX1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UMAX1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX1);
+        _CLEAR_BIT(off_cb_tmp, RANG_UMAX1);
       }
       
       //Umax2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_UMAX2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_UMAX2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_UMAX2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_UMAX2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UMAX2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_UMAX2);
+        _CLEAR_BIT(off_cb_tmp, RANG_UMAX2);
       }
       
       //ГЗ1
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_GP1) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_GP1) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_GP1) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_GP1);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_GP1][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_GP1);
+        _CLEAR_BIT(off_cb_tmp, RANG_GP1);
       }
       
       //ГЗ2
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_GP2) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_GP2) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_GP2) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_GP2);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_GP2][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_GP2);
+        _CLEAR_BIT(off_cb_tmp, RANG_GP2);
       }
       
       //ГЗ-РПН
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_GP_RPN) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_GP_RPN) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_GP_RPN) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_GP_RPN);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_GP_RPN][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_GP_RPN);
+        _CLEAR_BIT(off_cb_tmp, RANG_GP_RPN);
       }
       
       //ТЗ
       if(
-         (_CHECK_SET_BIT(temp_array_of_outputs, RANG_TP) != 0) &&
+         (_CHECK_SET_BIT(off_cb_tmp, RANG_TP) != 0) &&
          (_CHECK_SET_BIT(previous_active_functions, RANG_TP) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
         )   
       {
         _SET_BIT(info_vidkluchennja_vymykacha, VYMKNENNJA_VID_TP);
         for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_TP][i] = *(label_to_time_array + i);
 
-        _CLEAR_BIT(temp_array_of_outputs, RANG_TP);
+        _CLEAR_BIT(off_cb_tmp, RANG_TP);
       }
       
       //Універсальний захист
       for (size_t n_UP = 0; n_UP < NUMBER_UP; n_UP++)
       {
         if(
-           (_CHECK_SET_BIT(temp_array_of_outputs, (RANG_UP1 + 3*n_UP)) != 0) &&
+           (_CHECK_SET_BIT(off_cb_tmp, (RANG_UP1 + 3*n_UP)) != 0) &&
            (_CHECK_SET_BIT(previous_active_functions, (RANG_UP1 + 3*n_UP)) == 0) /*умова, що сигнал тільки активується (щоб зафіксувати час старту)*/
           )   
         {
           _SET_BIT(info_vidkluchennja_vymykacha, (VYMKNENNJA_VID_UP1 + n_UP));
           for(unsigned int i = 0; i < 7; i++) info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_UP1 + n_UP][i] = *(label_to_time_array + i);
 
-          _CLEAR_BIT(temp_array_of_outputs, (RANG_UP1 + 3*n_UP));
+          _CLEAR_BIT(off_cb_tmp, (RANG_UP1 + 3*n_UP));
         }
       }
       
       //Відключення від інших сигналів (крім відключення від сигналу "Вимк.ВВ")
       if(
          (
-          (temp_array_of_outputs[0] != 0) ||
-          (temp_array_of_outputs[1] != 0) ||
-          (temp_array_of_outputs[2] != 0) ||
-          (temp_array_of_outputs[3] != 0) ||
-          (temp_array_of_outputs[4] != 0) ||
-          (temp_array_of_outputs[5] != 0) ||
-          (temp_array_of_outputs[6] != 0) ||
-          (temp_array_of_outputs[7] != 0) ||
-          (temp_array_of_outputs[8] != 0)
+          (off_cb_tmp[0] != 0) ||
+          (off_cb_tmp[1] != 0) ||
+          (off_cb_tmp[2] != 0) ||
+          (off_cb_tmp[3] != 0) ||
+          (off_cb_tmp[4] != 0) ||
+          (off_cb_tmp[5] != 0) ||
+          (off_cb_tmp[6] != 0) ||
+          (off_cb_tmp[7] != 0) ||
+          (off_cb_tmp[8] != 0)
          )
          &&
          (
-          ((previous_active_functions[0] & temp_array_of_outputs[0])!= temp_array_of_outputs[0]) ||
-          ((previous_active_functions[1] & temp_array_of_outputs[1])!= temp_array_of_outputs[1]) ||
-          ((previous_active_functions[2] & temp_array_of_outputs[2])!= temp_array_of_outputs[2]) ||
-          ((previous_active_functions[3] & temp_array_of_outputs[3])!= temp_array_of_outputs[3]) ||
-          ((previous_active_functions[4] & temp_array_of_outputs[4])!= temp_array_of_outputs[4]) ||
-          ((previous_active_functions[5] & temp_array_of_outputs[5])!= temp_array_of_outputs[5]) ||
-          ((previous_active_functions[6] & temp_array_of_outputs[6])!= temp_array_of_outputs[6]) ||
-          ((previous_active_functions[7] & temp_array_of_outputs[7])!= temp_array_of_outputs[7]) ||
-          ((previous_active_functions[8] & temp_array_of_outputs[8])!= temp_array_of_outputs[8])
+          ((previous_active_functions[0] & off_cb_tmp[0])!= off_cb_tmp[0]) ||
+          ((previous_active_functions[1] & off_cb_tmp[1])!= off_cb_tmp[1]) ||
+          ((previous_active_functions[2] & off_cb_tmp[2])!= off_cb_tmp[2]) ||
+          ((previous_active_functions[3] & off_cb_tmp[3])!= off_cb_tmp[3]) ||
+          ((previous_active_functions[4] & off_cb_tmp[4])!= off_cb_tmp[4]) ||
+          ((previous_active_functions[5] & off_cb_tmp[5])!= off_cb_tmp[5]) ||
+          ((previous_active_functions[6] & off_cb_tmp[6])!= off_cb_tmp[6]) ||
+          ((previous_active_functions[7] & off_cb_tmp[7])!= off_cb_tmp[7]) ||
+          ((previous_active_functions[8] & off_cb_tmp[8])!= off_cb_tmp[8])
          ) 
         )   
       {
@@ -7171,12 +7176,23 @@ inline void main_protection(void)
      ) state_leds_ctrl |=  (1 << LED_COLOR_RED_BIT) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E);
   else state_leds_ctrl &=  (uint32_t)(~((1 << LED_COLOR_RED_BIT) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E)));
   
+  static uint32_t state_leds_lock[2];
+  static uint32_t state_leds_ctrl_lock[2];
+  static uint32_t state_leds_Fx_lock[2][2];
+  static size_t bank_lock;
+  
+  size_t bank_lock_tmp1 = bank_lock;
+  size_t bank_lock_tmp2 = (bank_lock_tmp1 + 1) & 0x1;
+  
+  state_leds_lock[bank_lock_tmp2] |= state_leds;
+  state_leds_ctrl_lock[bank_lock_tmp2] |= state_leds_ctrl;
+  state_leds_Fx_lock[bank_lock_tmp2][0] |= state_leds_Fx[0];
+  state_leds_Fx_lock[bank_lock_tmp2][1] |= state_leds_Fx[1];
+
   static uint32_t current_LED_N_COL;
   
   //Очищаємо попередню інформацію
   _DEVICE_REGISTER_V2(Bank1_SRAM2_ADDR, OFFSET_DD32_DD38) = ((1 << current_LED_N_COL) << LED_N_ROW) | ((uint32_t)(~0) & ((1 << LED_N_ROW) - 1));
-  //Переходимо на наступний стовбець
-  if (++current_LED_N_COL >= LED_N_COL) current_LED_N_COL = 0;
   
   uint32_t state_leds_tmp;
   
@@ -7184,126 +7200,105 @@ inline void main_protection(void)
   {
   case 0:
     {
-      state_leds_tmp = (((state_leds >>  0) & 0x1) << 0) |
-                       (((state_leds >>  2) & 0x1) << 1) |
-                       (((state_leds >>  4) & 0x1) << 2) |
-                       (((state_leds >>  6) & 0x1) << 3) |
-                       (((state_leds >>  8) & 0x1) << 4) |
-                       (((state_leds >> 10) & 0x1) << 5) |
-                       (((state_leds >> 12) & 0x1) << 6) |
-                       (((state_leds >> 14) & 0x1) << 7);
-
-//      state_leds_tmp = (((state_leds >> (2*0)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E)) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(6 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      uint32_t state_leds_auto = state_leds_lock[bank_lock_tmp1];
+      
+      state_leds_tmp = (((state_leds_auto >>  0) & 0x1) << 0) |
+                       (((state_leds_auto >>  2) & 0x1) << 1) |
+                       (((state_leds_auto >>  4) & 0x1) << 2) |
+                       (((state_leds_auto >>  6) & 0x1) << 3) |
+                       (((state_leds_auto >>  8) & 0x1) << 4) |
+                       (((state_leds_auto >> 10) & 0x1) << 5) |
+                       (((state_leds_auto >> 12) & 0x1) << 6) |
+                       (((state_leds_auto >> 14) & 0x1) << 7);
       break;
     }
   case 1:
     {
-      uint32_t temp_state = state_leds;
-      state_leds_tmp = (((temp_state >>  1) & 0x1) << 0) |
-                       (((temp_state >>  3) & 0x1) << 1) |
-                       (((temp_state >>  5) & 0x1) << 2) |
-                       (((temp_state >>  7) & 0x1) << 3) |
-                       (((temp_state >>  9) & 0x1) << 4) |
-                       (((temp_state >> 11) & 0x1) << 5) |
-                       (((temp_state >> 13) & 0x1) << 6) |
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
-
-//      state_leds_tmp = (((state_leds >> (2*1)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_START)) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(1 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      uint32_t state_leds_auto = state_leds_lock[bank_lock_tmp1];
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
+      
+      state_leds_tmp = (((state_leds_auto >>  1) & 0x1) << 0) |
+                       (((state_leds_auto >>  3) & 0x1) << 1) |
+                       (((state_leds_auto >>  5) & 0x1) << 2) |
+                       (((state_leds_auto >>  7) & 0x1) << 3) |
+                       (((state_leds_auto >>  9) & 0x1) << 4) |
+                       (((state_leds_auto >> 11) & 0x1) << 5) |
+                       (((state_leds_auto >> 13) & 0x1) << 6) |
+                       ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
       break;
     }
   case 2:
     {
-      state_leds_tmp = ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E  )) & (1 << LED_COLOR_RED_BIT)) != 0) << 0) |
-                      /*
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_START)) & (1 << LED_COLOR_RED_BIT)) != 0) << 1) |
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_TRIP )) & (1 << LED_COLOR_RED_BIT)) != 0) << 2) |
-                      */
-                       (((state_leds >> 15) & 0x1) << 1) |
-                       (((state_leds >> 16) & 0x1) << 2) |
+      uint32_t state_leds_auto = state_leds_lock[bank_lock_tmp1];
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
+      uint32_t state_leds_Fx0_auto = state_leds_Fx_lock[bank_lock_tmp1][0];
+
+      state_leds_tmp = ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E  )) & (1 << LED_COLOR_RED_BIT)) != 0) << 0) |
+
+                       (((state_leds_auto >> 15) & 0x1) << 1) |
+                       (((state_leds_auto >> 16) & 0x1) << 2) |
       
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 3) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 4) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 5) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 6) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
-      
-//      state_leds_tmp = (((state_leds >> (2*2)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_TRIP)) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(2 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 3) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 4) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 5) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 6) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
       break;
     }
   case 3:
     {
-      state_leds_tmp = ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E  )) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 0) |
-                      /*
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_START)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 1) |
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_TRIP )) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 2) |
-                      */
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 3) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 4) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 5) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 6) | 
-                       ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
-      
-//      state_leds_tmp = (((state_leds >> (2*3)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(1 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(3 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
+      uint32_t state_leds_Fx0_auto = state_leds_Fx_lock[bank_lock_tmp1][0];
+
+      state_leds_tmp = ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_R_E  )) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 0) |
+
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 3) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 4) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 5) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 6) | 
+                       ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
+
       break;
     }
   case 4:
     {
-      state_leds_tmp = ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 0) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 1) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 2) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 3) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 4) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 5) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 6) |
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I)) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
+      uint32_t state_leds_Fx0_auto = state_leds_Fx_lock[bank_lock_tmp1][0];
+      uint32_t state_leds_Fx1_auto = state_leds_Fx_lock[bank_lock_tmp1][1];
 
-//      state_leds_tmp = (((state_leds >> (2*4)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(2 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(4 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      state_leds_tmp = ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 0) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 1) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 2) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 3) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 4) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 5) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_RED_BIT)) != 0) << 6) |
+                       ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I)) & (1 << LED_COLOR_RED_BIT)) != 0) << 7);
       break;
     }
   case 5:
     {
-      state_leds_tmp = ((((state_leds_Fx[0] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 0) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 1) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 2) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 3) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 4) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 5) |
-                       ((((state_leds_Fx[1] >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 6) |
-                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
+      uint32_t state_leds_Fx0_auto = state_leds_Fx_lock[bank_lock_tmp1][0];
+      uint32_t state_leds_Fx1_auto = state_leds_Fx_lock[bank_lock_tmp1][1];
 
-//      state_leds_tmp = (((state_leds >> (2*5)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(3 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(5 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      state_leds_tmp = ((((state_leds_Fx0_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 0) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(1 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 1) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(2 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 2) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(3 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 3) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(4 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 4) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(5 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 5) |
+                       ((((state_leds_Fx1_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)(6 - 1))) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 6) |
+                       ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
       break;
     }
   case 6:
     {
-      state_leds_tmp = ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
+      uint32_t state_leds_ctrl_auto = state_leds_ctrl_lock[bank_lock_tmp1];
 
-//      state_leds_tmp = (((state_leds >> (2*6)) & ((1 << 2) - 1)) << 0) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(4 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_Fx[1] >> (NUMBER_LED_COLOR*(6 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 4);
+      state_leds_tmp = ((((state_leds_ctrl_auto >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 7);
       break;
     }
-//  case 7:
-//    {
-//      state_leds_tmp = (((state_leds >> (2*7)) & ((1 << 1) - 1)) << 0) |
-//                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_RED_BIT)) != 0) << 1) |
-//                       (((state_leds_Fx[0] >> (NUMBER_LED_COLOR*(5 - 1))) & ((1 << NUMBER_LED_COLOR) - 1)) << 2) |
-//                       (((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I)) & ((1 << NUMBER_LED_COLOR) - 1)) << 4) |
-//                       ((((state_leds_ctrl >> ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)) & (1 << LED_COLOR_GREEN_BIT)) != 0) << 6);
-//      break;
-//    }
   default:
     {
       //Теоретично цього ніколи не мало б бути
@@ -7313,6 +7308,18 @@ inline void main_protection(void)
 
   //Виводимо інформацію по світлоіндикаторах на світлодіоди
   _DEVICE_REGISTER_V2(Bank1_SRAM2_ADDR, OFFSET_DD32_DD38) = ((1 << current_LED_N_COL) << LED_N_ROW) | ((uint32_t)(~state_leds_tmp) & ((1 << LED_N_ROW) - 1));
+
+  //Переходимо на наступний стовбець
+  if (++current_LED_N_COL >= LED_N_COL) 
+  {
+    current_LED_N_COL = 0;
+    bank_lock = bank_lock_tmp2;
+
+    state_leds_lock[bank_lock_tmp1] = 0;
+    state_leds_ctrl_lock[bank_lock_tmp1] = 0;
+    state_leds_Fx_lock[bank_lock_tmp1][0] = 0;
+    state_leds_Fx_lock[bank_lock_tmp1][1] = 0;
+  }
   /**************************/
 
   /**************************/
