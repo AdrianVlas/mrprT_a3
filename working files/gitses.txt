@@ -210,3 +210,15 @@ git add -v .
  git commit -m " commit 25-10-2018"
 AdnVsforGIT17093
 vid25prtvcs@gmail.com
+
+$ git checkout 1d08c686aca59fa2f87705c00843ab71b6cd8d04
+Note: checking out '1d08c686aca59fa2f87705c00843ab71b6cd8d04'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+$ git checkout Synchro
+Previous HEAD position was 1d08c68...  Cut DREG ver 18-12-2018
+Switched to branch 'Synchro'
+
