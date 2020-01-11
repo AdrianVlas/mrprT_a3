@@ -113,7 +113,7 @@ __SETTINGS *p_current_settings_prt;
                 ozt1_po_Id = 0;
         }else{
             ;////Ідоbm = Ідо+kг 1×(Ігальм – Іго обм);
-			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Ig0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
 			lV /= 1000;
 			sLV.lIdObm = current_settings_prt.pickup_ozt_delta_Id[number_group_stp]+current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
             ;////Ід спр = Ідоbm+kг 2×(Ігальм – Іго обм);
@@ -263,21 +263,22 @@ __SETTINGS *p_current_settings_prt;
 }sLV; 
   unsigned long u32_bit_holder = 0;
    sLV.conter_and = 0;//wrp.lVl = 0;
-//   pv = (void*)&current_settings_prt;
+//   
     sLV.p_current_settings_prt = &current_settings_prt;
   //Check pickUP Id_a
     //lV = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_OZT2) );
-    // wrp.bool_vars.po_Id_a = lV;
+    // 
     //if((lV == 0 ){
+	sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_a == 0 ){
-      lV = sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp];
+      lV = 100;
     }else{
-      lV = sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = KOEF_POVERNENNJA_GENERAL_UP;//
     }
     ozt_stp_state.bool_val.po_Id_a = 
-       (measurement[IM_adIA] >= (unsigned long)lV)
-    || (measurement[IM_adIB] >= (unsigned long)lV)
-    || (measurement[IM_adIC] >= (unsigned long)lV);
+       ( (measurement[IM_adIA]*lV) >=  (measurement[IM_dIA]*sLV.lSP_a) )
+    || ( (measurement[IM_adIB]*lV) >=  (measurement[IM_dIB]*sLV.lSP_a) )
+    || ( (measurement[IM_adIC]*lV) >=  (measurement[IM_dIC]*sLV.lSP_a) );
     lV = ozt_stp_state.bool_val.po_Id_a;
     u32_bit_holder |= lV << OZT2__TIMER_0_T_IN;
     //_index_timer,_max_count,_input, _input_bit,  _output, _output_bit
@@ -306,16 +307,16 @@ __SETTINGS *p_current_settings_prt;
   //Check pickUP Id_2g
     //lV =   previous_state_po_ = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_2G_OZT2);
     // wrp.bool_vars.lSP_2g = lV;
-    //  if(lV == 0 ){
+    sLV.lSP_2g = sLV.p_current_settings_prt->pickup_ozt_K_2I[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_2g == 0 ){
-       sLV.lSP_2g = current_settings_prt.pickup_ozt_K_2I[number_group_stp];
+       lV = 1000;
     }else{
-      sLV.lSP_2g  = current_settings_prt.pickup_ozt_K_2I[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = 10*KOEF_POVERNENNJA_GENERAL_UP;
     }
     ozt_stp_state.bool_val.po_Id_2g = 
-       (measurement[IM_2dIA] >= (unsigned long)lV)
-    || (measurement[IM_2dIB] >= (unsigned long)lV)
-    || (measurement[IM_2dIC] >= (unsigned long)lV);
+       (measurement[IM_2dIA]*lV >= (measurement[IM_dIA]*sLV.lSP_2g) )
+    || (measurement[IM_2dIB]*lV >= (measurement[IM_dIB]*sLV.lSP_2g) )
+    || (measurement[IM_2dIC]*lV >= (measurement[IM_dIC]*sLV.lSP_2g) );
     lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_2G_OZT2);
     lAnd = 0;
     if(lV != 0)
@@ -339,16 +340,16 @@ __SETTINGS *p_current_settings_prt;
   //Check pickUP Id_5g
     //lV = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_5G_OZT2) ;
     // wrp.bool_vars.po_Id_5g = lV; 
-    //if(lV == 0 ){
+    sLV.lSP_5g = sLV.p_current_settings_prt->pickup_ozt_K_5I[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_5g == 0 ){
-      sLV.lSP_5g = current_settings_prt.pickup_ozt_K_5I[number_group_stp];
+      lV = 1000;
     }else{
-      sLV.lSP_5g = current_settings_prt.pickup_ozt_K_5I[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = 10*KOEF_POVERNENNJA_GENERAL_UP;
     }
     ozt_stp_state.bool_val.po_Id_5g = 
-       (measurement[IM_5dIA] >= (unsigned long)lV)
-    || (measurement[IM_5dIB] >= (unsigned long)lV)
-    || (measurement[IM_5dIC] >= (unsigned long)lV);
+       (measurement[IM_5dIA]*lV >=  (measurement[IM_dIA]*sLV.lSP_5g))
+    || (measurement[IM_5dIB]*lV >=  (measurement[IM_dIB]*sLV.lSP_5g))
+    || (measurement[IM_5dIC]*lV >=  (measurement[IM_dIC]*sLV.lSP_5g));
     
     lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_5G_OZT2);
     lAnd = 0;
@@ -429,7 +430,7 @@ __SETTINGS *p_current_settings_prt;
                 ozt_stp_state.bool_val.po_Id = 0;
         }else{
             ;//// Ідоbm = Ідо +kг 1×(Ігальм – Іго обм);
-			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Ig0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
 			lV /= 1000;
 			sLV.lIdObm = current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
             ;////Ід спр = Ідоbm +kг 2×(Ігальм – Іго обм);
