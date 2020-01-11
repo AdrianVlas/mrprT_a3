@@ -222,3 +222,25 @@ $ git checkout Synchro
 Previous HEAD position was 1d08c68...  Cut DREG ver 18-12-2018
 Switched to branch 'Synchro'
 
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (union1)
+$ git branch
+  Synchro
+  master
+* union1
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (union1)
+$ git checkout Synchro
+Switched to branch 'Synchro'
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+$ git merge union1
+Updating 58eb87d..52b3d0d
+Fast-forward
+ project files/v.17.00/device_2_v_17_0_0_0.ewp | 18 +--------
+ working files/src/ozt.c                       | 43 ++++++++++-----------
+ working files/src/tmp.c                       | 54 +++++++++++++++++++++++++++
+ 3 files changed, 78 insertions(+), 37 deletions(-)
+
+user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T/mrprT_a (Synchro)
+
