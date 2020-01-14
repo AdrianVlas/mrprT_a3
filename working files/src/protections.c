@@ -1253,10 +1253,21 @@ inline void calc_measurement(unsigned int number_group_stp)
   /***/
   for(size_t i = 0; i < (NUMBER_ANALOG_CANALES_WITH_CALC - NUMBER_ANALOG_CANALES); i++)
   {
-    measurement[IM_adIA + i] = ( MNOGNYK_I_DIJUCHE* ((uint64_t)abs(aperiodic_local[i]))) >> (VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3); // (VAGA_DILENNJA_I_DIJUCHE + 4 + VAGA_NUMBER_POINT - 1) = VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 3
+    measurement[IM_adIA + i] = ( MNOGNYK_I_DIJUCHE* ((uint64_t)abs(aperiodic_local[i]))) >> (VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 4); // (VAGA_DILENNJA_I_DIJUCHE + 4 + VAGA_NUMBER_POINT - 1 + 1) = VAGA_NUMBER_POINT + VAGA_DILENNJA_I_DIJUCHE + 4
     
     measurement[IM_gdIA + i] = measurement[IM_IA_P_H + i] + ((int)pickup_ozt_k_meas[number_group_stp])*((int)measurement[IM_IA_P_L + i] - (int)measurement[IM_IA_P_H + i])/1000;
   }
+  
+//  static uint32_t max_adI[3];
+//  static uint32_t clear_max_adI;
+//  if (clear_max_adI)
+//  {
+//    max_adI[0] = max_adI[1] = max_adI[2] = 0;
+//    clear_max_adI = 0;
+//  }
+//  if (measurement[IM_adIA] > max_adI[0]) max_adI[0] = measurement[IM_adIA];
+//  if (measurement[IM_adIB] > max_adI[1]) max_adI[1] = measurement[IM_adIB];
+//  if (measurement[IM_adIC] > max_adI[2]) max_adI[2] = measurement[IM_adIC];
   /***/
   
   unsigned int voltage = (current_settings_prt.control_transformator >> INDEX_ML_CTR_TRANSFORMATOR_VH_VL) & 0x1;
