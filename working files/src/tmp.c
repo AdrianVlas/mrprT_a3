@@ -20,9 +20,9 @@
 0.5 до 10. Ступінь регулювання - не більше 0,01.
 Тобто І д ап / І д > 0.5 до 10;
  І д ап / І д > pickup_ozt_K_aI
- (KOEF_POVERNENNJA_GENERAL_UP/100)*100*І д ап > І д*pickup_ozt_K_aI
- KOEF_POVERNENNJA_GENERAL_UP*І д ап > І д*pickup_ozt_K_aI
- 100*                        І д ап > І д*pickup_ozt_K_aI
+ (KOEF_POVERNENNJA_GENERAL_UP/100)*1000*І д ап > І д*pickup_ozt_K_aI
+ KOEF_POVERNENNJA_GENERAL_UP*10*І д ап > І д*pickup_ozt_K_aI
+ 100*10                        І д ап > І д*pickup_ozt_K_aI
  
 Відлаштування другого ступеня від кидків струму намагнічування
 диференційних струмів повинне бути реалізоване блокуванням ступеня за
