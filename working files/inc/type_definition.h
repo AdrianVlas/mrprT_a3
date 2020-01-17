@@ -127,11 +127,14 @@ typedef struct
   uint32_t pickup_ozt_Ig_obm[NUMBER_GROUP_USTAVOK];             //Уставка Iг.обм (струм переходу з ділянки 1 у ділянку 2 гальмування) #5.3.35
   /*Аперіодична складова*/
   uint32_t pickup_ozt_K_aI[NUMBER_GROUP_USTAVOK];                //Уставка відносної величини для аперіодичної складової (з точністю до дисячних, тобто x1000) #5.3.13
+  uint32_t pickup_ozt_aI_kp[NUMBER_GROUP_USTAVOK];               //Уставка Коефіцієнт повернення для аперіодичної складової #5.3.18
   /*Намагнічування*/
   uint32_t pickup_ozt_K_2I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для другої гармоніки (з точністю до дисячних, тобто x1000) #5.3.17
+  uint32_t pickup_ozt_2I_kp[NUMBER_GROUP_USTAVOK];               //Уставка Коефіцієнт повернення для другої гармоніки #5.3.22
   uint32_t pickup_ozt_K_5I[NUMBER_GROUP_USTAVOK];                //Уставка відносної виличини для п'ятої гармоніки (з точністю до дисячних, тобто x1000) #5.3.18
+  uint32_t pickup_ozt_5I_kp[NUMBER_GROUP_USTAVOK];               //Уставка Коефіцієнт повернення для п'ятої гармоніки #5.3.22
   /*Коефіцієнт повернення*/
-  uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ #5.3.39
+  uint32_t pickup_ozt_kp[NUMBER_GROUP_USTAVOK];                 //Уставка Коефіцієнт повернення для ОЗТ #5.3.44
 
   /*Вимтримки*/
   int32_t timeout_ozt1[NUMBER_GROUP_USTAVOK];                   //Витримка "Час дії першого ступеня" #5.3.36

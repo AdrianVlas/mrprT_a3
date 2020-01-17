@@ -9,8 +9,6 @@ void make_ekran_setpoint_ozt(unsigned int group)
   const unsigned char name_string[MAX_NAMBER_LANGUAGE][MAX_ROW_FOR_SETPOINT_OZT][MAX_COL_LCD] = 
   {
     {
-//      " ВыравниваниеВ  ",
-//      " ВыравниваниеH  ",
       "  Нач.дифф.ток  ",
       " Прир.дифф.тока ",
       "  Торможение 1  ",
@@ -19,13 +17,14 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " Нач.торможение ",
       " Огранич.торм.  ",
       " Разбаланс апер.",
+      " Коэф возв.апер.",
       "Разбаланс 2гарм.",
+      "Коэф возв.2гарм.",
       "Разбаланс 5гарм.",
+      "Коэф возв.5гарм.",
       " Коэф возв.ОЗТ  "
     },
     {
-//      " ВирiвнюванняВ  ",
-//      " ВирiвнюванняH  ",
       " Поч.диф.струм  ",
       " Прир.диф.струму",
       "  Гальмування 1 ",
@@ -34,13 +33,14 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " Поч.гальмування",
       "  Обмеж.гальм.  ",
       " Розбаланс апер.",
+      "Коеф повер.апер.",
       "Розбаланс 2гарм.",
+      "Коеф повер.2гарм",
       "Розбаланс 5гарм.",
-      " Коэф повер.ОЗТ "
+      "Коеф повер.5гарм",
+      " Коеф повер.ОЗТ "
     },
     {
-//      " ViravниваниеВ  ",
-//      " ViravниваниеH  ",
       "  Нач.дифф.ток  ",
       " Прир.дифф.тока ",
       "  Торможение 1  ",
@@ -49,13 +49,14 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " Нач.торможение ",
       " Огранич.торм.  ",
       " Разбаланс апер.",
+      " Коэф возв.апер.",
       "Разбаланс 2гарм.",
+      "Коэф возв.2гарм.",
       "Разбаланс 5гарм.",
+      "Коэф возв.5гарм.",
       " Коэф возв.ОЗТ  "
     },
     {
-//      " ВыравниваниеВ  ",
-//      " ВыравниваниеH  ",
       "  Нач.дифф.ток  ",
       " Прир.дифф.тока ",
       "  Торможение 1  ",
@@ -64,8 +65,11 @@ void make_ekran_setpoint_ozt(unsigned int group)
       " Нач.торможение ",
       " Огранич.торм.  ",
       " Разбаланс апер.",
+      " Коэф возв.апер.",
       "Разбаланс 2гарм.",
+      "Коэф возв.2гарм.",
       "Разбаланс 5гарм.",
+      "Коэф возв.5гарм.",
       " Коэф возв.ОЗТ  "
     }
   };
@@ -150,17 +154,35 @@ void make_ekran_setpoint_ozt(unsigned int group)
           if (view == true) value = current_settings.pickup_ozt_K_aI[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.pickup_ozt_K_aI[group];
         }
+        else if (index_of_ekran_tmp == INDEX_ML_K_OZT_A_KP)
+        {
+          vaga = 100; //максимальний ваговий коефіцієнт для вилілення старшого розряду
+          if (view == true) value = current_settings.pickup_ozt_aI_kp[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_ozt_aI_kp[group];
+        }
         else if (index_of_ekran_tmp == INDEX_ML_N_OZT_N2G)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
           if (view == true) value = current_settings.pickup_ozt_K_2I[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.pickup_ozt_K_2I[group];
         }
+        else if (index_of_ekran_tmp == INDEX_ML_K_OZT_2G_KP)
+        {
+          vaga = 100; //максимальний ваговий коефіцієнт для вилілення старшого розряду
+          if (view == true) value = current_settings.pickup_ozt_2I_kp[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_ozt_2I_kp[group];
+        }
         else if (index_of_ekran_tmp == INDEX_ML_N_OZT_N5G)
         {
           vaga = 1000; //максимальний ваговий коефіцієнт для вилілення старшого розряду
           if (view == true) value = current_settings.pickup_ozt_K_5I[group]; //у змінну value поміщаємо значення уставки
           else value = edition_settings.pickup_ozt_K_5I[group];
+        }
+        else if (index_of_ekran_tmp == INDEX_ML_K_OZT_5G_KP)
+        {
+          vaga = 100; //максимальний ваговий коефіцієнт для вилілення старшого розряду
+          if (view == true) value = current_settings.pickup_ozt_5I_kp[group]; //у змінну value поміщаємо значення уставки
+          else value = edition_settings.pickup_ozt_5I_kp[group];
         }
         else if (index_of_ekran_tmp == INDEX_ML_K_OZT_KP)
         {
@@ -176,30 +198,6 @@ void make_ekran_setpoint_ozt(unsigned int group)
         //У парному номері рядку виводимо значення уставки
         for (unsigned int j = 0; j<MAX_COL_LCD; j++)
         {
-/*
-          if (index_of_ekran_tmp == INDEX_ML_D_OZT_BB)
-          {
-            if (
-                ((j < COL_SETPOINT_D_OZT_BB_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BB_END ))  &&
-                (j != (COL_SETPOINT_D_OZT_BB_END + 2))  
-               )working_ekran[i][j] = ' ';
-            else if (j == COL_SETPOINT_D_OZT_BB_COMMA )working_ekran[i][j] = ',';
-            else if (j == (COL_SETPOINT_D_OZT_BB_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
-            else
-              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BB_COMMA, view, 0);
-          }
-          else if (index_of_ekran_tmp == INDEX_ML_D_OZT_BH)
-          {
-            if (
-                ((j < COL_SETPOINT_D_OZT_BH_BEGIN) ||  (j > COL_SETPOINT_D_OZT_BH_END ))  &&
-                (j != (COL_SETPOINT_D_OZT_BH_END + 2))  
-               )working_ekran[i][j] = ' ';
-            else if (j == COL_SETPOINT_D_OZT_BH_COMMA )working_ekran[i][j] = ',';
-            else if (j == (COL_SETPOINT_D_OZT_BH_END + 2)) working_ekran[i][j] = odynyci_vymirjuvannja[index_language][INDEX_A];
-            else
-              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_D_OZT_BH_COMMA, view, 0);
-          }
-*/
           if (index_of_ekran_tmp == INDEX_ML_D_OZT_ID0)
           {
             if (
@@ -288,6 +286,17 @@ void make_ekran_setpoint_ozt(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_A_OZT_AK_COMMA, view, 0);
           }
+          else if (index_of_ekran_tmp == INDEX_ML_K_OZT_A_KP)
+          {
+            if (
+                ((j < COL_SETPOINT_K_OZT_A_KP_BEGIN) ||  (j > COL_SETPOINT_K_OZT_A_KP_END ))  &&
+                (j != (COL_SETPOINT_K_OZT_A_KP_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_K_OZT_A_KP_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_K_OZT_A_KP_END + 2)) working_ekran[i][j] = ' ';//odynyci_vymirjuvannja[index_language][INDEX_A];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_K_OZT_A_KP_COMMA, view, 0);
+          }
           else if (index_of_ekran_tmp == INDEX_ML_N_OZT_N2G)
           {
             if (
@@ -299,6 +308,17 @@ void make_ekran_setpoint_ozt(unsigned int group)
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_N_OZT_N2G_COMMA, view, 0);
           }
+          else if (index_of_ekran_tmp == INDEX_ML_K_OZT_2G_KP)
+          {
+            if (
+                ((j < COL_SETPOINT_K_OZT_2I_KP_BEGIN) ||  (j > COL_SETPOINT_K_OZT_2I_KP_END ))  &&
+                (j != (COL_SETPOINT_K_OZT_2I_KP_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_K_OZT_2I_KP_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_K_OZT_2I_KP_END + 2)) working_ekran[i][j] = ' ';//odynyci_vymirjuvannja[index_language][INDEX_A];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_K_OZT_2I_KP_COMMA, view, 0);
+          }
           else if (index_of_ekran_tmp == INDEX_ML_N_OZT_N5G)
           {
             if (
@@ -309,6 +329,17 @@ void make_ekran_setpoint_ozt(unsigned int group)
             else if (j == (COL_SETPOINT_N_OZT_N5G_END + 2)) working_ekran[i][j] = ' ';//odynyci_vymirjuvannja[index_language][INDEX_A];
             else
               calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_N_OZT_N5G_COMMA, view, 0);
+          }
+          else if (index_of_ekran_tmp == INDEX_ML_K_OZT_5G_KP)
+          {
+            if (
+                ((j < COL_SETPOINT_K_OZT_5I_KP_BEGIN) ||  (j > COL_SETPOINT_K_OZT_5I_KP_END ))  &&
+                (j != (COL_SETPOINT_K_OZT_5I_KP_END + 2))  
+               )working_ekran[i][j] = ' ';
+            else if (j == COL_SETPOINT_K_OZT_5I_KP_COMMA )working_ekran[i][j] = ',';
+            else if (j == (COL_SETPOINT_K_OZT_5I_KP_END + 2)) working_ekran[i][j] = ' ';//odynyci_vymirjuvannja[index_language][INDEX_A];
+            else
+              calc_symbol_and_put_into_working_ekran((working_ekran[i] + j), &value, &vaga, &first_symbol, j, COL_SETPOINT_K_OZT_5I_KP_COMMA, view, 0);
           }
           else if (index_of_ekran_tmp == INDEX_ML_K_OZT_KP)
           {
@@ -390,15 +421,30 @@ void make_ekran_setpoint_ozt(unsigned int group)
       current_ekran.position_cursor_x = COL_SETPOINT_A_OZT_AK_BEGIN;
       last_position_cursor_x = COL_SETPOINT_A_OZT_AK_END;
     }
+    else if (current_ekran.index_position == INDEX_ML_K_OZT_A_KP)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_K_OZT_A_KP_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_K_OZT_A_KP_END;
+    }
     else if (current_ekran.index_position == INDEX_ML_N_OZT_N2G)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_N_OZT_N2G_BEGIN;
       last_position_cursor_x = COL_SETPOINT_N_OZT_N2G_END;
     }
+    else if (current_ekran.index_position == INDEX_ML_K_OZT_2G_KP)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_K_OZT_2I_KP_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_K_OZT_2I_KP_END;
+    }
     else if (current_ekran.index_position == INDEX_ML_N_OZT_N5G)
     {
       current_ekran.position_cursor_x = COL_SETPOINT_N_OZT_N5G_BEGIN;
       last_position_cursor_x = COL_SETPOINT_N_OZT_N5G_END;
+    }
+    else if (current_ekran.index_position == INDEX_ML_K_OZT_5G_KP)
+    {
+      current_ekran.position_cursor_x = COL_SETPOINT_K_OZT_5I_KP_BEGIN;
+      last_position_cursor_x = COL_SETPOINT_K_OZT_2I_KP_END;
     }
     else if (current_ekran.index_position == INDEX_ML_K_OZT_KP)
     {

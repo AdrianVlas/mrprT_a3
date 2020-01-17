@@ -53,11 +53,23 @@ enum _type_con_ozt
 #define PICKUP_OZT_K_AI_MIN             500
 #define PICKUP_OZT_K_AI_MAX             10000
 
+#define PICKUP_OZT_A_KP_MIN             50
+#define PICKUP_OZT_A_KP_DEFAULT         90
+#define PICKUP_OZT_A_KP_MAX             95
+
 #define PICKUP_OZT_K_2I_MIN             0
 #define PICKUP_OZT_K_2I_MAX             500
 
+#define PICKUP_OZT_2I_KP_MIN            50
+#define PICKUP_OZT_2I_KP_DEFAULT        90
+#define PICKUP_OZT_2I_KP_MAX            95
+
 #define PICKUP_OZT_K_5I_MIN             0
 #define PICKUP_OZT_K_5I_MAX             500
+
+#define PICKUP_OZT_5I_KP_MIN            50
+#define PICKUP_OZT_5I_KP_DEFAULT        90
+#define PICKUP_OZT_5I_KP_MAX            95
 
 #define PICKUP_OZT_KP_MIN               50
 #define PICKUP_OZT_KP_DEFAULT           95
