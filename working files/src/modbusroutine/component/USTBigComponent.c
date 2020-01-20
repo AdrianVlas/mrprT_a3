@@ -64,7 +64,7 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
   case 15:
     (*editValue) = (uint32_t*)&edition_settings.type_con_ozt;
     (*multer) = 1;
-    if(regUst<0 || regUst>2) diapazon=0;
+    if(!(regUst==0 || regUst==1 || regUst==11)) diapazon=0;
     break;
 
   case 16:
@@ -1043,6 +1043,11 @@ int getUSTBigModbusRegister(int adrReg)
       return ((*editValue)>>16)  & (uint32_t)0xffff;
     }//else
   }//if(editValue == (uint32_t*)&edition_settings.type_of_led)
+  if(editValue == (uint32_t*)&edition_settings.type_con_ozt)
+  {
+   if((*editValue)==2) return 11;
+   return (*editValue);
+  }
 
   return ((*editValue)/multer)&0xFFFF;
 }//getDOUTBigModbusRegister(int adrReg)
@@ -1289,7 +1294,12 @@ int postUSTBigWriteAction(void)
         goto m1;
       }//else
     }//if(editValue == (uint32_t*)&edition_settings.type_of_led)
-
+    if(editValue == (uint32_t*)&edition_settings.type_con_ozt)
+    {
+      (*editValue) = value;
+      if(value==11) (*editValue) = 2;
+      goto m1;
+    }
     if(editValue == (uint32_t*)&edition_settings.buttons_mode)
     {
       for(int key=0; key<NUMBER_DEFINED_BUTTONS; key++)
