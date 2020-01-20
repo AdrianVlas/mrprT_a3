@@ -269,23 +269,23 @@ __SETTINGS *p_current_settings_prt;
     //lV = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_OZT2) );
     // 
     //if((lV == 0 ){
-    sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp];
+    sLV.lSP_a = (sLV.p_current_settings_prt)->pickup_ozt_K_aI[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_a == 0 ){
       lV = 100*10;
     }else{
-      lV = KOEF_POVERNENNJA_GENERAL_UP*10;//
+      lV = (sLV.p_current_settings_prt->pickup_ozt_aI_kp[number_group_stp])*10;//
     }
     ozt_stp_state.bool_val.po_Id_a = 0;sLV.lCtrStp = 0;
-    if((measurement[IM_adIA]!= 0) && (measurement[IM_dIA] > 0.01*I_NOM)){
-        if((measurement[IM_adIA]*lV) >=  (measurement[IM_dIA]*sLV.lSP_a))
+    if((measurement[IM_adIA]!= 0) && (measurement[IM_dIA] > 0.05*I_NOM)){
+        if( ((measurement[IM_adIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_a))
             sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
     }
-    if((measurement[IM_adIB]!= 0) && (measurement[IM_dIB] > 0.01*I_NOM)){
-        if((measurement[IM_adIB]*lV) >=  (measurement[IM_dIB]*sLV.lSP_a) )
+    if((measurement[IM_adIB]!= 0) && (measurement[IM_dIB] > 0.05*I_NOM)){
+        if( ((measurement[IM_adIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_a) )
             sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
     }
-    if((measurement[IM_adIC]!= 0) && (measurement[IM_dIC] > 0.01*I_NOM)){
-        if((measurement[IM_adIC]*lV) >=  (measurement[IM_dIC]*sLV.lSP_a))
+    if((measurement[IM_adIC]!= 0) && (measurement[IM_dIC] > 0.05*I_NOM)){
+        if( ((measurement[IM_adIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_a))
             sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
     }   
     if(sLV.lCtrStp != 0)
@@ -326,22 +326,22 @@ __SETTINGS *p_current_settings_prt;
     if(ozt_stp_state.bool_val.po_Id_2g == 0 ){
        lV = 1000;
     }else{
-      lV = 10*KOEF_POVERNENNJA_GENERAL_UP;
+      lV = 10*(sLV.p_current_settings_prt->pickup_ozt_2I_kp[number_group_stp]);//
     }
     ozt_stp_state.bool_val.po_Id_2g = 0;sLV.lCtrStp = 0;
 //       (measurement[IM_2dIA]*lV >= (measurement[IM_dIA]*sLV.lSP_2g) )
 //    || (measurement[IM_2dIB]*lV >= (measurement[IM_dIB]*sLV.lSP_2g) )
 //    || (measurement[IM_2dIC]*lV >= (measurement[IM_dIC]*sLV.lSP_2g) );
-    if((measurement[IM_2dIA]!= 0) && (measurement[IM_dIA] > 0.01*I_NOM)){
-        if((measurement[IM_2dIA]*lV) >=  (measurement[IM_dIA]*sLV.lSP_2g))
+    if((measurement[IM_2dIA]!= 0) && (measurement[IM_dIA] > 0.05*I_NOM)){
+        if( ((measurement[IM_2dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }
-    if((measurement[IM_2dIB]!= 0) && (measurement[IM_dIB] > 0.01*I_NOM)){
-        if((measurement[IM_2dIB]*lV) >=  (measurement[IM_dIB]*sLV.lSP_2g) )
+    if((measurement[IM_2dIB]!= 0) && (measurement[IM_dIB] > 0.05*I_NOM)){
+        if( ((measurement[IM_2dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }
-    if((measurement[IM_2dIC]!= 0) && (measurement[IM_dIC] > 0.01*I_NOM)){
-        if((measurement[IM_2dIC]*lV) >=  (measurement[IM_dIC]*sLV.lSP_2g))
+    if((measurement[IM_2dIC]!= 0) && (measurement[IM_dIC] > 0.05*I_NOM)){
+        if( ((measurement[IM_2dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }   
     if(sLV.lCtrStp != 0)
@@ -374,22 +374,22 @@ __SETTINGS *p_current_settings_prt;
     if(ozt_stp_state.bool_val.po_Id_5g == 0 ){
       lV = 1000;
     }else{
-      lV = 10*KOEF_POVERNENNJA_GENERAL_UP;
+      lV = 10*(sLV.p_current_settings_prt->pickup_ozt_5I_kp[number_group_stp]);//
     }
     ozt_stp_state.bool_val.po_Id_5g = 0;sLV.lCtrStp = 0;
 //       (measurement[IM_5dIA]*lV >=  (measurement[IM_dIA]*sLV.lSP_5g))
 //    || (measurement[IM_5dIB]*lV >=  (measurement[IM_dIB]*sLV.lSP_5g))
 //    || (measurement[IM_5dIC]*lV >=  (measurement[IM_dIC]*sLV.lSP_5g));
-    if((measurement[IM_5dIA]!= 0) && (measurement[IM_dIA] > 0.01*I_NOM)){
-        if((measurement[IM_5dIA]*lV) >=  (measurement[IM_dIA]*sLV.lSP_5g))
+    if((measurement[IM_5dIA]!= 0) && (measurement[IM_dIA] > 0.05*I_NOM)){
+        if( ((measurement[IM_5dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     }
-    if((measurement[IM_5dIB]!= 0) && (measurement[IM_dIB] > 0.01*I_NOM)){
-        if((measurement[IM_5dIB]*lV) >=  (measurement[IM_dIB]*sLV.lSP_5g) )
+    if((measurement[IM_5dIB]!= 0) && (measurement[IM_dIB] > 0.05*I_NOM)){
+        if( ((measurement[IM_5dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     }
-    if((measurement[IM_5dIC]!= 0) && (measurement[IM_dIC] > 0.01*I_NOM)){
-        if((measurement[IM_5dIC]*lV) >=  (measurement[IM_dIC]*sLV.lSP_5g))
+    if((measurement[IM_5dIC]!= 0) && (measurement[IM_dIC] > 0.05*I_NOM)){
+        if( ((measurement[IM_5dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     }   
     if(sLV.lCtrStp != 0)
