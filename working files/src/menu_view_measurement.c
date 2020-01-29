@@ -805,13 +805,13 @@ void make_ekran_current_sklad(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_SKLAD][MAX_COL_LCD] = 
   {
-    " I0_Â =         ",
+    " 3I0_Â=         ",
     " Y0_Â =         ",
     " I2_Â =         ",
     " Y2_Â =         ",
     " I1_Â =         ",
     " Y1_Â =         ",
-    " I0_H =         ",
+    " 3I0_H=         ",
     " Y0_H =         ",
     " I2_H =         ",
     " Y2_H =         ",
