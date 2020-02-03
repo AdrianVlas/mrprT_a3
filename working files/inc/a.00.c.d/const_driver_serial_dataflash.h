@@ -39,6 +39,8 @@
 #define FIRST_INDEX_NUMBER_CHANGES_DR         41
 #define FIRST_INDEX_FIRST_DATA_DR             43
 
+#define SD_DR                                 40
+
 #define VAGA_SIZE_ONE_RECORD_PR_ERR           6
 #define SIZE_ONE_RECORD_PR_ERR                (1<<VAGA_SIZE_ONE_RECORD_PR_ERR)
 #define NUMBER_RECORDS_PR_ERR_INTO_PAGE       (SIZE_PAGE_DATAFLASH_1>>VAGA_SIZE_ONE_RECORD_PR_ERR) //кількість записів програмних подій у одній строрінці мікросхеми послідовної DataFlash
