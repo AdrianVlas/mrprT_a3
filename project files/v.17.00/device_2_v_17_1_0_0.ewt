@@ -1493,7 +1493,7 @@
             <group>
                 <name>general</name>
                 <group>
-                    <name>a.00.c.d</name>
+                    <name>a.01.c.d</name>
                     <file>
                         <name>$PROJ_DIR$\..\..\working files\inc\a.00.c.d\const_global.h</name>
                     </file>

@@ -247,7 +247,7 @@ RANG_BLOCK_2G_OZT2,
 RANG_PO_BLOCK_2G_OZT2,
 RANG_BLOCK_5G_OZT2,
 RANG_PO_BLOCK_5G_OZT2,
-RANG_PO_BLOCK_A_2G_5G_OZT2,
+RANG_PO_BLOCK_A_2G_5G_OZT2_A,
 RANG_PO_OZT2,
 RANG_OZT2,
 
@@ -1843,7 +1843,7 @@ NUMBER_ODYNYCI_VYMIRJUVANNJA
 //Версія програмного забезпечення
 /*****************************************/
 #define VERSIA_PZ                                             17
-#define MODYFIKACIA_VERSII_PZ                                 0
+#define MODYFIKACIA_VERSII_PZ                                 1
 #define ZBIRKA_VERSII_PZ                                      0
 #define ZBIRKA_PIDVERSII_PZ                                   0
 /*****************************************/
