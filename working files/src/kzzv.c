@@ -183,6 +183,7 @@ __SETTINGS *p_current_settings_prt;
             lV &= 0x30;
             if(lV == 0x30){
                 sLV.conter_and += 2;
+				if(sLV.conter_and>2)
                 _SET_BIT(p_active_functions, RANG_KZ_V);
             }
         }else 
@@ -192,6 +193,7 @@ __SETTINGS *p_current_settings_prt;
             lV &= 0x30;
             if(lV == 0x30){
                 sLV.conter_and += 1;
+				if(sLV.conter_and>1 )
                 _SET_BIT(p_active_functions, RANG_KZ_Z);
             }
         }else{
