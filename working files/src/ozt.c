@@ -261,6 +261,7 @@ struct{
 long lSP_a,lSP_2g,lSP_5g, lgdI;
 long lgdI_hysteresis,lIdObm;
 long conter_and, lCtrStp,lCtrBlock;
+char chBlkPhaseA,chBlkPhaseB,chBlkPhaseC;
 __SETTINGS *p_current_settings_prt;
 }sLV; 
   unsigned long u32_bit_holder = 0;
@@ -281,43 +282,69 @@ __SETTINGS *p_current_settings_prt;
       sLV.lSP_a /= 100;
     }
     sLV.lCtrStp = 0;sLV.lCtrBlock = 1;//Special case forrr 
-    if(   (measurement[IM_dIA] < 0.05*I_NOM) && (measurement[IM_dIB] < 0.05*I_NOM)
-     && (measurement[IM_dIC] < 0.05*I_NOM) ){
-     
-//        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2);
-        
+    sLV.chBlkPhaseA = sLV.chBlkPhaseB = sLV.chBlkPhaseC = 0;
+
+    if(   measurement[IM_dIA] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);sLV.chBlkPhaseA = 1;
     }
     else{
-        if(1/* _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2)*/ != 0){
-            if((measurement[IM_dIA] < 0.0525*I_NOM) && (measurement[IM_dIB] < 0.0525*I_NOM)
-            && (measurement[IM_dIC] < 0.0525*I_NOM)){
-//            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2);
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A) != 0){
+            if((measurement[IM_dIA] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);sLV.chBlkPhaseA = 1;
             }else{
-//                sLV.lCtrBlock = 0;_CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2);
-//        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2); 
-    }
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);//sLV.lCtrBlock = 0;
+            }
         }else{
-//            sLV.lCtrBlock = 0;_CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2);
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);//sLV.lCtrBlock = 0;
             }   
-         
     }
-    if(sLV.lCtrBlock == 0){
-    //if((measurement[IM_adIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)){
+
+    if(   measurement[IM_dIB] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);sLV.chBlkPhaseB = 1;
+    }
+    else{
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B) != 0){
+            if((measurement[IM_dIB] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);sLV.chBlkPhaseB = 1;
+            }else{
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);//sLV.lCtrBlock = 0;
+            }
+        }else{
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);//sLV.lCtrBlock = 0;
+            }   
+    }
+
+    if(   measurement[IM_dIC] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);sLV.chBlkPhaseC = 1;
+    }
+    else{
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C) != 0){
+            if((measurement[IM_dIC] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);sLV.chBlkPhaseC = 1;
+            }else{
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);//sLV.lCtrBlock = 0;
+            }
+        }else{
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);//sLV.lCtrBlock = 0;
+            }   
+    }
+
+    if( sLV.chBlkPhaseA == 1){//(measurement[IM_dIA] >= 0.05*I_NOM)
         if( ((measurement[IM_adIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_a))
-            sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
-    //}
-    
-    //if((measurement[IM_adIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)){
-        if( ((measurement[IM_adIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_a) )
-            sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
-    //}
-    //if((measurement[IM_adIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)){
-        if( ((measurement[IM_adIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_a))
-            sLV.lCtrStp++;//ozt_stp_state.bool_val.po_Id_a = 1;
-    //}
+            sLV.lCtrStp++;//
     }
+    
+    if( sLV.chBlkPhaseB == 1){//(measurement[IM_dIB] >= 0.05*I_NOM)
+        if( ((measurement[IM_adIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_a) )
+            sLV.lCtrStp++;//
+    }
+    if( sLV.chBlkPhaseC == 1){//(measurement[IM_dIC] >= 0.05*I_NOM)
+        if( ((measurement[IM_adIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_a))
+            sLV.lCtrStp++;//
+    }
+    //}
     if(sLV.lCtrStp > 0){//<-OR if(sLV.lCtrStp >= 3){<-AND
-    ozt_stp_state.bool_val.po_Id_a = 1;
+        ozt_stp_state.bool_val.po_Id_a = 1;
     }
     else{
         if(ozt_stp_state.bool_val.po_Id_a == 1){//dbg Code for find error
@@ -374,20 +401,20 @@ __SETTINGS *p_current_settings_prt;
 //       (measurement[IM_2dIA]*lV >= (measurement[IM_dIA]*sLV.lSP_2g) )ozt_stp_state.bool_val.po_Id_2g = 0;
 //    || (measurement[IM_2dIB]*lV >= (measurement[IM_dIB]*sLV.lSP_2g) )
 //    || (measurement[IM_2dIC]*lV >= (measurement[IM_dIC]*sLV.lSP_2g) );
-    if(sLV.lCtrBlock == 0){
-    //if((measurement[IM_2dIA]>= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)){
+//    if(sLV.lCtrBlock == 0){
+    if(sLV.chBlkPhaseA){//(measurement[IM_2dIA]>= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
         if( ((measurement[IM_2dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
-    //}
-    //if((measurement[IM_2dIB]>= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)){
+    }
+    if(sLV.chBlkPhaseB == 1){//(measurement[IM_2dIB]>= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
         if( ((measurement[IM_2dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
-    //}
-    //if((measurement[IM_2dIC]>= (0.05*I_NOM) ) && (measurement[IM_dIC] > 0.05*I_NOM)){
+    }
+    if(sLV.chBlkPhaseC == 1){//(measurement[IM_2dIC]>= (0.05*I_NOM) ) && (measurement[IM_dIC] > 0.05*I_NOM)
         if( ((measurement[IM_2dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
-    //}   
-    }
+    }   
+//    }
     if(sLV.lCtrStp > 0 ){//<-OR    if(sLV.lCtrStp >=3 ){<-And
         ozt_stp_state.bool_val.po_Id_2g = 1; 
     }
@@ -436,30 +463,30 @@ __SETTINGS *p_current_settings_prt;
 //       (measurement[IM_5dIA]*lV >=  (measurement[IM_dIA]*sLV.lSP_5g))ozt_stp_state.bool_val.po_Id_5g = 0;
 //    || (measurement[IM_5dIB]*lV >=  (measurement[IM_dIB]*sLV.lSP_5g))
 //    || (measurement[IM_5dIC]*lV >=  (measurement[IM_dIC]*sLV.lSP_5g));
-    if(sLV.lCtrBlock == 0){
- //if((measurement[IM_5dIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)){
+    //if(sLV.lCtrBlock == 0){
+    if(sLV.chBlkPhaseA == 1){//(measurement[IM_5dIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
         if( ((measurement[IM_5dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
-    //}
-    //if((measurement[IM_5dIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)){
+    }
+    if(sLV.chBlkPhaseB == 1){//(measurement[IM_5dIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
         if( ((measurement[IM_5dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
-    //}
-    //if((measurement[IM_5dIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)){
+    }
+    if(sLV.chBlkPhaseC == 1){//(measurement[IM_5dIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)
         if( ((measurement[IM_5dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
-    //} 
-    }   
+    } 
+    //}   
     if(sLV.lCtrStp > 0){//<- OR if(sLV.lCtrStp >= 3){<-And
     ozt_stp_state.bool_val.po_Id_5g = 1; 
     }else{
         if(ozt_stp_state.bool_val.po_Id_5g == 1){//dbg Code for find error
-			chGlbDbgCtr5g++;                     //dbg Code for find error
+            chGlbDbgCtr5g++;                     //dbg Code for find error
             if(chGlbDbgCtr5g>chGlbDbgCmpV5g){//  //dbg Code for find error
                 chGlbDbgCtr5g = 0;               //dbg Code for find error
             }                                    //dbg Code for find error
-		}                                        //dbg Code for find error
-		ozt_stp_state.bool_val.po_Id_5g = 0;
+        }                                        //dbg Code for find error
+        ozt_stp_state.bool_val.po_Id_5g = 0;
     }
 
 
