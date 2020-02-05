@@ -769,6 +769,8 @@ inline void directional_kz_zv(int ortogonal_local_calc[], unsigned int number_gr
           
       sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
       sector_kz_zv = (sin_fi1_minus_fi2 <= 0) ?  SECTOR_KZ_V : SECTOR_KZ_NEVYZN;
+//      if (sin_fi1_minus_fi2 <= 0) sector_kz_zv = SECTOR_KZ_V;
+//      else sector_kz_zv = SECTOR_KZ_NEVYZN;
     }
     else if (
              (cos_fi <= 0) && 
@@ -792,10 +794,12 @@ inline void directional_kz_zv(int ortogonal_local_calc[], unsigned int number_gr
           
       sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
       sector_kz_zv = (sin_fi1_minus_fi2 >= 0) ?  SECTOR_KZ_Z : SECTOR_KZ_NEVYZN;
+//      if (sin_fi1_minus_fi2 >= 0) sector_kz_zv = SECTOR_KZ_Z;
+//      else sector_kz_zv = SECTOR_KZ_NEVYZN;
     }
     else if (
              (cos_fi <  0) && 
-             (sin_fi >= 0)  
+             (sin_fi <= 0)  
             )
     {
       //3-ий квадрант
@@ -815,6 +819,8 @@ inline void directional_kz_zv(int ortogonal_local_calc[], unsigned int number_gr
           
       sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
       sector_kz_zv = (sin_fi1_minus_fi2 <= 0) ?  SECTOR_KZ_Z : SECTOR_KZ_NEVYZN;
+//      if (sin_fi1_minus_fi2 <= 0) sector_kz_zv = SECTOR_KZ_Z;
+//      else sector_kz_zv = SECTOR_KZ_NEVYZN;
     }
     else
     {
@@ -835,6 +841,8 @@ inline void directional_kz_zv(int ortogonal_local_calc[], unsigned int number_gr
           
       sin_fi1_minus_fi2 = sin_fi*cos_s - cos_fi*sin_s;
       sector_kz_zv = (sin_fi1_minus_fi2 >= 0) ?  SECTOR_KZ_V : SECTOR_KZ_NEVYZN;
+//      if (sin_fi1_minus_fi2 >= 0) sector_kz_zv = SECTOR_KZ_V;
+//      else sector_kz_zv = SECTOR_KZ_NEVYZN;
     }
   }
   else
