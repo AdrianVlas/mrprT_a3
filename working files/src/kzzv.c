@@ -133,7 +133,7 @@ __SETTINGS *p_current_settings_prt;
         lV =  p_bl->bool_val.po_I2_I1_ls_lead;
         if(lV){
             lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-            lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
+            lV *= (KOEF_POVERNENNJA_GENERAL_UP-20); lV /= 100;
             sLV.setpoint_ls = lV;
             
         }
@@ -144,7 +144,7 @@ __SETTINGS *p_current_settings_prt;
         lV =  p_bl->bool_val.po_I2_I1_hs_lead;
         if(lV){
             lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-            lV *= KOEF_POVERNENNJA_GENERAL_UP/100;
+            lV *= (KOEF_POVERNENNJA_GENERAL_UP-20);lV /= 100;
             sLV.setpoint_hs = lV;
             
         }
@@ -154,24 +154,24 @@ __SETTINGS *p_current_settings_prt;
         }
         //((i2_current*1000) >= (i1_current*setpoint)) 
         if( (sLV.meas_I2_lead_ls*1000) >= (sLV.meas_I1_lead_ls*sLV.setpoint_ls) ){
-            lV =  p_bl->bool_val.po_I2_I1_ls_lead;
-            if(lV == 0)
+            //lV =  p_bl->bool_val.po_I2_I1_ls_lead;
+            //if(lV == 0)
                 p_bl->bool_val.po_I2_I1_ls_lead = 1;
         }
         else{
-            lV =  p_bl->bool_val.po_I2_I1_ls_lead;
-            if(lV != 0)
+            //lV =  p_bl->bool_val.po_I2_I1_ls_lead;
+            //if(lV != 0)
                 p_bl->bool_val.po_I2_I1_ls_lead = 0;
             
         }
         if( (sLV.meas_I2_lead_hs*1000) >= (sLV.meas_I1_lead_hs*sLV.setpoint_hs) ){
-            lV =  p_bl->bool_val.po_I2_I1_hs_lead;
-            if(lV == 0)
+            //lV =  p_bl->bool_val.po_I2_I1_hs_lead;
+            //if(lV == 0)
                 p_bl->bool_val.po_I2_I1_hs_lead = 1;
         }
         else{
-            lV =  p_bl->bool_val.po_I2_I1_hs_lead;
-            if(lV != 0)
+            //lV =  p_bl->bool_val.po_I2_I1_hs_lead;
+            //if(lV != 0)
                 p_bl->bool_val.po_I2_I1_hs_lead = 0;
             
         }

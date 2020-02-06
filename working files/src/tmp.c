@@ -370,7 +370,7 @@ https://dou.ua/lenta/digests/plus-digest-7/
 
 https://www.youtube.com/watch?v=Y4utTBcSjdM&list=PLB22HyVdO1GkLFrvRi5vIo5XcWS0EflxD
 
- 
+ 7.18a.4 The FX_FULL_PRECISION pragma
  
 
 //    if(   (measurement[IM_dIA] < 0.05*I_NOM) || (measurement[IM_dIB] < 0.05*I_NOM)
@@ -396,4 +396,4 @@ https://www.youtube.com/watch?v=Y4utTBcSjdM&list=PLB22HyVdO1GkLFrvRi5vIo5XcWS0Ef
 x = 64*5/10
 Де 64 основа дробу, 0.5 -- Інший дріб
 32 еквівалент 0.5
-
+1 l L
