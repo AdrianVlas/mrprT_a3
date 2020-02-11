@@ -133,7 +133,7 @@ __SETTINGS *p_current_settings_prt;
         lV =  p_bl->bool_val.po_I2_I1_ls_lead;
         if(lV){
             lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-            lV *= (KOEF_POVERNENNJA_GENERAL_UP-20); lV /= 100;
+            lV *= (KOEF_POVERNENNJA_GENERAL_UP-1); lV /= 100;
             sLV.setpoint_ls = lV;
             
         }
@@ -144,7 +144,7 @@ __SETTINGS *p_current_settings_prt;
         lV =  p_bl->bool_val.po_I2_I1_hs_lead;
         if(lV){
             lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
-            lV *= (KOEF_POVERNENNJA_GENERAL_UP-20);lV /= 100;
+            lV *= (KOEF_POVERNENNJA_GENERAL_UP-1);lV /= 100;
             sLV.setpoint_hs = lV;
             
         }
@@ -183,7 +183,7 @@ __SETTINGS *p_current_settings_prt;
             lV &= 0x30;
             if(lV == 0x30){
                 sLV.conter_and += 2;
-				if(sLV.conter_and>2)
+                if(sLV.conter_and>2)
                 _SET_BIT(p_active_functions, RANG_KZ_V);
             }
         }else 
@@ -193,7 +193,7 @@ __SETTINGS *p_current_settings_prt;
             lV &= 0x30;
             if(lV == 0x30){
                 sLV.conter_and += 1;
-				if(sLV.conter_and>1 )
+                if(sLV.conter_and>1 )
                 _SET_BIT(p_active_functions, RANG_KZ_Z);
             }
         }else{

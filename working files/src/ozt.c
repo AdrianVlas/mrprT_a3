@@ -329,16 +329,16 @@ __SETTINGS *p_current_settings_prt;
             }   
     }
 
-    if( sLV.chBlkPhaseA == 1){//(measurement[IM_dIA] >= 0.05*I_NOM)
+    if( sLV.chBlkPhaseA == 0){//(measurement[IM_dIA] >= 0.05*I_NOM)
         if( ((measurement[IM_adIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_a))
             sLV.lCtrStp++;//
     }
     
-    if( sLV.chBlkPhaseB == 1){//(measurement[IM_dIB] >= 0.05*I_NOM)
+    if( sLV.chBlkPhaseB == 0){//(measurement[IM_dIB] >= 0.05*I_NOM)
         if( ((measurement[IM_adIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_a) )
             sLV.lCtrStp++;//
     }
-    if( sLV.chBlkPhaseC == 1){//(measurement[IM_dIC] >= 0.05*I_NOM)
+    if( sLV.chBlkPhaseC == 0){//(measurement[IM_dIC] >= 0.05*I_NOM)
         if( ((measurement[IM_adIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_a))
             sLV.lCtrStp++;//
     }
@@ -402,15 +402,15 @@ __SETTINGS *p_current_settings_prt;
 //    || (measurement[IM_2dIB]*lV >= (measurement[IM_dIB]*sLV.lSP_2g) )
 //    || (measurement[IM_2dIC]*lV >= (measurement[IM_dIC]*sLV.lSP_2g) );
 //    if(sLV.lCtrBlock == 0){
-    if(sLV.chBlkPhaseA){//(measurement[IM_2dIA]>= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseA == 0){//(measurement[IM_2dIA]>= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
         if( ((measurement[IM_2dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }
-    if(sLV.chBlkPhaseB == 1){//(measurement[IM_2dIB]>= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseB == 0){//(measurement[IM_2dIB]>= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
         if( ((measurement[IM_2dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }
-    if(sLV.chBlkPhaseC == 1){//(measurement[IM_2dIC]>= (0.05*I_NOM) ) && (measurement[IM_dIC] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseC == 0){//(measurement[IM_2dIC]>= (0.05*I_NOM) ) && (measurement[IM_dIC] > 0.05*I_NOM)
         if( ((measurement[IM_2dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_2g) )
             sLV.lCtrStp++;//
     }   
@@ -464,15 +464,15 @@ __SETTINGS *p_current_settings_prt;
 //    || (measurement[IM_5dIB]*lV >=  (measurement[IM_dIB]*sLV.lSP_5g))
 //    || (measurement[IM_5dIC]*lV >=  (measurement[IM_dIC]*sLV.lSP_5g));
     //if(sLV.lCtrBlock == 0){
-    if(sLV.chBlkPhaseA == 1){//(measurement[IM_5dIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseA == 0){//(measurement[IM_5dIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
         if( ((measurement[IM_5dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     }
-    if(sLV.chBlkPhaseB == 1){//(measurement[IM_5dIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseB == 0){//(measurement[IM_5dIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
         if( ((measurement[IM_5dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     }
-    if(sLV.chBlkPhaseC == 1){//(measurement[IM_5dIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)
+    if(sLV.chBlkPhaseC == 0){//(measurement[IM_5dIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)
         if( ((measurement[IM_5dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_5g) )
             sLV.lCtrStp++;//
     } 
