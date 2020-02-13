@@ -487,7 +487,7 @@ unsigned long u32_bit_holder = 0;
     else
     _CLEAR_BIT(p_active_functions, RANG_GP1); 
     
-    lV = wrp.lVl&0xb;//0B1011   
+    lV = wrp.lVl&0xB;//0B1011   
     if(lV == 9){//0B1001
         u32_bit_holder |= 0x10;
         _TIMER_0_T(INDEX_TIMER_GZ2_TMP_04, 400, u32_bit_holder,4 , u32_bit_holder,5 );
@@ -521,8 +521,8 @@ unsigned long u32_bit_holder = 0;
     _SET_BIT(p_active_functions, RANG_PO_GP_RPN);
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_GP_RPN); 
-    _TIMER_T_0(INDEX_TIMER_GZ_RPN, current_settings_prt.timeout_GP_RPN[number_group_stp], u32_bit_holder, 9, u32_bit_holder, 10);
-    if (_GET_OUTPUT_STATE(u32_bit_holder, 10))
+    _TIMER_T_0(INDEX_TIMER_GZ_RPN, current_settings_prt.timeout_GP_RPN[number_group_stp], u32_bit_holder, 8, u32_bit_holder, 9);
+    if (_GET_OUTPUT_STATE(u32_bit_holder, 9))
     _SET_BIT(p_active_functions, RANG_GP_RPN);
     else
     _CLEAR_BIT(p_active_functions, RANG_GP_RPN); 

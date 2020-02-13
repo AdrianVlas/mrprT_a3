@@ -1,5 +1,20 @@
 void dp1(unsigned int *p_active_functions, unsigned int number_group_stp);
 void dp2(unsigned int *p_active_functions, unsigned int number_group_stp);
+#ifdef DBGMODE 
+#include <stdio.h> 
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
 
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -606,7 +621,10 @@ __SETTINGS *p_current_settings_prt;
             else
                 ozt_stp_state.bool_val.po_Id = 0;
     }   
- 
+#ifdef DBGMODE 
+	//printf("Dbg Message %ld /n",sLV.conter_and);
+//	puts("yuiyipuypip");
+#endif 
   //
   lV = ozt_stp_state.bool_val.po_Id;
   lV += sLV.conter_and;
