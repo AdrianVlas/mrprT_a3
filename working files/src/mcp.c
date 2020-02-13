@@ -585,7 +585,7 @@ unsigned long u32_bit_holder = 0;
     else
     _CLEAR_BIT(p_active_functions, RANG_PO_TP); 
     
-    _TIMER_T_0(INDEX_TIMER_GZ1, current_settings_prt.timeout_TP[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
+    _TIMER_T_0(INDEX_TIMER_TZ, current_settings_prt.timeout_TP[number_group_stp], u32_bit_holder, 2, u32_bit_holder, 3);
     if (_GET_OUTPUT_STATE(u32_bit_holder, 3))
     _SET_BIT(p_active_functions, RANG_TP);
     else
