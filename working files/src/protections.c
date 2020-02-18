@@ -6309,8 +6309,8 @@ inline void main_protection(void)
     }
     if (not_null)
     {
-      _SET_BIT(active_functions, RANG_AVAR_DEFECT);
-//        #warning No Avar diagnostics
+//      _SET_BIT(active_functions, RANG_AVAR_DEFECT);
+        #warning No Avar diagnostics
     }
     else
     {
@@ -6329,7 +6329,7 @@ inline void main_protection(void)
   static unsigned int previous_active_functions[N_BIG];
   
   //Логічні схеми мають працювати тільки у тому випадку, якщо немє сигналу "Аварийная неисправность"
-  if (_CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) == 0 || _CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) != 0 )
+  if (_CHECK_SET_BIT(active_functions, RANG_AVAR_DEFECT) == 0)
   {
     //Аварійна ситуація не зафіксована
     
