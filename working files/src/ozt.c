@@ -622,8 +622,8 @@ __SETTINGS *p_current_settings_prt;
                 ozt_stp_state.bool_val.po_Id = 0;
     }   
 #ifdef DBGMODE 
-	//printf("Dbg Message %ld /n",sLV.conter_and);
-//	puts("yuiyipuypip");
+    //printf("Dbg Message %ld /n",sLV.conter_and);
+//  puts("yuiyipuypip");
 #endif 
   //
   lV = ozt_stp_state.bool_val.po_Id;
@@ -725,16 +725,28 @@ void Bvhs_handler(unsigned int *p_active_functions){
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
+  for (unsigned int i = 0; i < N_BIG; i++ )
+    maska[i] = p_active_functions[i];
+    _CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_L);
+    _CLEAR_BIT(maska, RANG_STATE_VV_L);
+    _CLEAR_BIT(maska, RANG_VKL_VV_L);
+    _CLEAR_BIT(maska, RANG_CTRL_VKL_L);
+    _CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    _CLEAR_BIT(maska, RANG_CTRL_OTKL_L);
+    _CLEAR_BIT(maska, RANG_PRYVID_VV_L);
+    _CLEAR_BIT(maska, RANG_WORK_BO_L);
+    _CLEAR_BIT(maska, RANG_WORK_BV_L);
+  
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
+      ((maska[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
+      ((maska[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
+      ((maska[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
+      ((maska[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
+      ((maska[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
+      ((maska[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
+      ((maska[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
+      ((maska[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
+      ((maska[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -754,9 +766,19 @@ void Bvhs_handler(unsigned int *p_active_functions){
     активації команди "Робота БО" будь-якою командою за виключенняв "Вимкн. ВВ")
     */
     //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
-    for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
+    for (unsigned int i = 0; i < N_BIG; i++ )
+        maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_H);
     _CLEAR_BIT(maska, RANG_WORK_BO_H);
+    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    _CLEAR_BIT(maska,RANG_STATE_VV_L);
+    _CLEAR_BIT(maska,RANG_VKL_VV_L);
+    _CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    _CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    _CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    _CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    _CLEAR_BIT(maska,RANG_WORK_BO_L);
+    _CLEAR_BIT(maska,RANG_WORK_BV_L);
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -1143,20 +1165,34 @@ void Bvhs_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
-	if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
-		long k = previous_active_functions_bv[0];
-	}
-
+    if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
+        long k = previous_active_functions_bv[0];
+    }
+    for (unsigned int i = 0; i < N_BIG; i++ )
+        maska[i] = p_active_functions[i];
+        
+    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    _CLEAR_BIT(maska, RANG_WORK_BO_H);
+    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    _CLEAR_BIT(maska,RANG_STATE_VV_L);
+    _CLEAR_BIT(maska,RANG_VKL_VV_L);
+    _CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    _CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    _CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    _CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    _CLEAR_BIT(maska,RANG_WORK_BO_L);
+    _CLEAR_BIT(maska,RANG_WORK_BV_L);
+    
     if (
-        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
-        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
-        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
-        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
-        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
-        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
-        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
+        ((maska[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
+        ((maska[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
+        ((maska[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
+        ((maska[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
+        ((maska[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
+        ((maska[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
+        ((maska[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
+        ((maska[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
+        ((maska[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
@@ -1256,16 +1292,27 @@ void Bvls_handler(unsigned int *p_active_functions){
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
+  for (unsigned int i = 0; i < N_BIG; i++ )
+    maska[i] = p_active_functions[i];
+    _CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_H);
+    _CLEAR_BIT(maska, RANG_STATE_VV_H);
+    _CLEAR_BIT(maska, RANG_VKL_VV_H);
+    _CLEAR_BIT(maska, RANG_CTRL_VKL_H);
+    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    _CLEAR_BIT(maska, RANG_CTRL_OTKL_H);
+    _CLEAR_BIT(maska, RANG_PRYVID_VV_H);
+    _CLEAR_BIT(maska, RANG_WORK_BO_H);
+    _CLEAR_BIT(maska, RANG_WORK_BV_H);
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
+      ((maska[0] & current_settings_prt.ranguvannja_off_cb[1][0]) != 0) ||
+      ((maska[1] & current_settings_prt.ranguvannja_off_cb[1][1]) != 0) ||
+      ((maska[2] & current_settings_prt.ranguvannja_off_cb[1][2]) != 0) ||
+      ((maska[3] & current_settings_prt.ranguvannja_off_cb[1][3]) != 0) ||
+      ((maska[4] & current_settings_prt.ranguvannja_off_cb[1][4]) != 0) ||
+      ((maska[5] & current_settings_prt.ranguvannja_off_cb[1][5]) != 0) ||
+      ((maska[6] & current_settings_prt.ranguvannja_off_cb[1][6]) != 0) ||
+      ((maska[7] & current_settings_prt.ranguvannja_off_cb[1][7]) != 0) ||
+      ((maska[8] & current_settings_prt.ranguvannja_off_cb[1][8]) != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -1288,6 +1335,16 @@ void Bvls_handler(unsigned int *p_active_functions){
     for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_L);
     _CLEAR_BIT(maska, RANG_WORK_BO_L);
+    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    _CLEAR_BIT(maska,RANG_STATE_VV_H);
+    _CLEAR_BIT(maska,RANG_VKL_VV_H);
+    _CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    _CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    _CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    _CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    _CLEAR_BIT(maska,RANG_WORK_BO_H);
+    _CLEAR_BIT(maska,RANG_WORK_BV_H);
+    
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -1674,17 +1731,33 @@ void Bvls_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
+        if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_L) != 0){
+        long k = previous_active_functions_bv[0];
+        }
+        for (unsigned int i = 0; i < N_BIG; i++ )
+            maska[i] = p_active_functions[i];
+    _CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    _CLEAR_BIT(maska, RANG_WORK_BO_L);
+    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    _CLEAR_BIT(maska,RANG_STATE_VV_H);
+    _CLEAR_BIT(maska,RANG_VKL_VV_H);
+    _CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    _CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    _CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    _CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    _CLEAR_BIT(maska,RANG_WORK_BO_H);
+    _CLEAR_BIT(maska,RANG_WORK_BV_H);
 
     if (
-        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
-        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
-        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
-        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
-        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
-        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
-        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
+        ((maska[0] & current_settings_prt.ranguvannja_on_cb[1][0]) != 0) ||
+        ((maska[1] & current_settings_prt.ranguvannja_on_cb[1][1]) != 0) ||
+        ((maska[2] & current_settings_prt.ranguvannja_on_cb[1][2]) != 0) ||
+        ((maska[3] & current_settings_prt.ranguvannja_on_cb[1][3]) != 0) ||
+        ((maska[4] & current_settings_prt.ranguvannja_on_cb[1][4]) != 0) ||
+        ((maska[5] & current_settings_prt.ranguvannja_on_cb[1][5]) != 0) ||
+        ((maska[6] & current_settings_prt.ranguvannja_on_cb[1][6]) != 0) ||
+        ((maska[7] & current_settings_prt.ranguvannja_on_cb[1][7]) != 0) ||
+        ((maska[8] & current_settings_prt.ranguvannja_on_cb[1][8]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
@@ -1705,7 +1778,8 @@ void Bvls_handler(unsigned int *p_active_functions){
   /*********************/
   //Формуємо попереденій стан сигналів для функції ввімкнення/вимкнення
   /*********************/
-  for (unsigned int i = 0; i < N_BIG; i++) previous_active_functions_bv[i] = p_active_functions[i];
+  for (unsigned int i = 0; i < N_BIG; i++)
+    previous_active_functions_bv[i] = p_active_functions[i];
   /*********************/
   
 
