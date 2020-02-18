@@ -431,7 +431,7 @@ const uint8_t OFF_ON_value[MAX_NAMBER_LANGUAGE][NUMBER_OFF_ON] =
 {
   {'Â', 'Í'},
   {'Â', 'Í'},
-  {'H', 'V'},
+  {'H', 'L'},
   {'Â', 'Í'}
 };
 
