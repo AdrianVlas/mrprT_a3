@@ -398,3 +398,9 @@ x = 64*5/10
 32 еквівалент 0.5
 1 l L
 РПН ГЗ
+G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Бьерн Страуструп с++\Cpp-bs.txt
+2.6.2. Объединения
+G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS4
+G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS5
+G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\PG3N
+

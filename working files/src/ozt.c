@@ -1143,6 +1143,9 @@ void Bvhs_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
+	if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
+		long k = previous_active_functions_bv[0];
+	}
 
     if (
         ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
