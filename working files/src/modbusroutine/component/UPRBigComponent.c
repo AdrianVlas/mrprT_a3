@@ -549,14 +549,14 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
          if(action_after_changing_of_configuration(edition_settings.configuration, &edition_settings)) isValid = 0;
         }//if(actControl)
       break;
-    case 481://Блокировка Вкл. ВВ от ДВ
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      break;
-    case 482://Блокировка Откл. ВВ от ДВ
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      break;
+//    case 481://Блокировка Вкл. ВВ от ДВ
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      break;
+//    case 482://Блокировка Откл. ВВ от ДВ
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      break;
     case 483://Контроль ФК
       (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION;
       (*editControl) = &edition_settings.control_extra_settings_1;
