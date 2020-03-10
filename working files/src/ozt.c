@@ -727,15 +727,15 @@ void Bvhs_handler(unsigned int *p_active_functions){
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
   for (unsigned int i = 0; i < N_BIG; i++ )
     maska[i] = p_active_functions[i];
-    _CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_L);
-    _CLEAR_BIT(maska, RANG_STATE_VV_L);
-    _CLEAR_BIT(maska, RANG_VKL_VV_L);
-    _CLEAR_BIT(maska, RANG_CTRL_VKL_L);
-    _CLEAR_BIT(maska, RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska, RANG_CTRL_OTKL_L);
-    _CLEAR_BIT(maska, RANG_PRYVID_VV_L);
-    _CLEAR_BIT(maska, RANG_WORK_BO_L);
-    _CLEAR_BIT(maska, RANG_WORK_BV_L);
+    //_CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska, RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska, RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BV_L);
   
   if (
       ((maska[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
@@ -769,16 +769,16 @@ void Bvhs_handler(unsigned int *p_active_functions){
     for (unsigned int i = 0; i < N_BIG; i++ )
         maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska, RANG_WORK_BO_H);
-    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
-    _CLEAR_BIT(maska,RANG_STATE_VV_L);
-    _CLEAR_BIT(maska,RANG_VKL_VV_L);
-    _CLEAR_BIT(maska,RANG_CTRL_VKL_L);
-    _CLEAR_BIT(maska,RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
-    _CLEAR_BIT(maska,RANG_PRYVID_VV_L);
-    _CLEAR_BIT(maska,RANG_WORK_BO_L);
-    _CLEAR_BIT(maska,RANG_WORK_BV_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_L);
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -1165,23 +1165,23 @@ void Bvhs_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
-    if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
-        long k = previous_active_functions_bv[0];
-    }
+//    if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
+//        long k = previous_active_functions_bv[0];
+//    }
     for (unsigned int i = 0; i < N_BIG; i++ )
         maska[i] = p_active_functions[i];
         
     _CLEAR_BIT(maska, RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska, RANG_WORK_BO_H);
-    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
-    _CLEAR_BIT(maska,RANG_STATE_VV_L);
-    _CLEAR_BIT(maska,RANG_VKL_VV_L);
-    _CLEAR_BIT(maska,RANG_CTRL_VKL_L);
-    _CLEAR_BIT(maska,RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
-    _CLEAR_BIT(maska,RANG_PRYVID_VV_L);
-    _CLEAR_BIT(maska,RANG_WORK_BO_L);
-    _CLEAR_BIT(maska,RANG_WORK_BV_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_L);
     
     if (
         ((maska[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
@@ -1294,15 +1294,15 @@ void Bvls_handler(unsigned int *p_active_functions){
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
   for (unsigned int i = 0; i < N_BIG; i++ )
     maska[i] = p_active_functions[i];
-    _CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_H);
-    _CLEAR_BIT(maska, RANG_STATE_VV_H);
-    _CLEAR_BIT(maska, RANG_VKL_VV_H);
-    _CLEAR_BIT(maska, RANG_CTRL_VKL_H);
-    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska, RANG_CTRL_OTKL_H);
-    _CLEAR_BIT(maska, RANG_PRYVID_VV_H);
-    _CLEAR_BIT(maska, RANG_WORK_BO_H);
-    _CLEAR_BIT(maska, RANG_WORK_BV_H);
+    //_CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska, RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska, RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BV_H);
   if (
       ((maska[0] & current_settings_prt.ranguvannja_off_cb[1][0]) != 0) ||
       ((maska[1] & current_settings_prt.ranguvannja_off_cb[1][1]) != 0) ||
@@ -1334,16 +1334,16 @@ void Bvls_handler(unsigned int *p_active_functions){
     //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
     for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska, RANG_WORK_BO_L);
-    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
-    _CLEAR_BIT(maska,RANG_STATE_VV_H);
-    _CLEAR_BIT(maska,RANG_VKL_VV_H);
-    _CLEAR_BIT(maska,RANG_CTRL_VKL_H);
-    _CLEAR_BIT(maska,RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
-    _CLEAR_BIT(maska,RANG_PRYVID_VV_H);
-    _CLEAR_BIT(maska,RANG_WORK_BO_H);
-    _CLEAR_BIT(maska,RANG_WORK_BV_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_H);
     
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
@@ -1731,22 +1731,22 @@ void Bvls_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
-        if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_L) != 0){
-        long k = previous_active_functions_bv[0];
-        }
+//        if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_L) != 0){
+//        long k = previous_active_functions_bv[0];
+//        }
         for (unsigned int i = 0; i < N_BIG; i++ )
             maska[i] = p_active_functions[i];
     _CLEAR_BIT(maska, RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska, RANG_WORK_BO_L);
-    _CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
-    _CLEAR_BIT(maska,RANG_STATE_VV_H);
-    _CLEAR_BIT(maska,RANG_VKL_VV_H);
-    _CLEAR_BIT(maska,RANG_CTRL_VKL_H);
-    _CLEAR_BIT(maska,RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
-    _CLEAR_BIT(maska,RANG_PRYVID_VV_H);
-    _CLEAR_BIT(maska,RANG_WORK_BO_H);
-    _CLEAR_BIT(maska,RANG_WORK_BV_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_H);
 
     if (
         ((maska[0] & current_settings_prt.ranguvannja_on_cb[1][0]) != 0) ||
@@ -1797,7 +1797,7 @@ void control_2VV(unsigned int *p_active_functions);
 void control_2VV(unsigned int *p_active_functions){
 // ----------------    -------------------------
 
-register long lV; 
+register long lV,rI; 
 register union { 
    struct {
       unsigned int vv_vkl         :1;//0
@@ -1826,8 +1826,11 @@ wrp.lVl = 0;
         lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_H );
         if(lV != 0)
             wrp.bool_vars.vv_otkl = 1;
-        lV = (wrp.lVl&2)^(wrp.lVl&1);
-        if(lV != 0)
+        //lV = (wrp.lVl&2)^(wrp.lVl&1);
+		rI = wrp.bool_vars.vv_vkl;
+		lV = wrp.bool_vars.vv_otkl;
+		lV ^= rI;
+        if(lV == 0)
         u32_bit_holder = 1;
         _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], u32_bit_holder, 0, u32_bit_holder, 1);
         if (u32_bit_holder&2)//wrp.bool_vars.prvvh
@@ -1850,8 +1853,11 @@ wrp.lVl = 0;
         lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_L );
         if(lV != 0)
             wrp.bool_vars.vv_otkl = 1;
-        lV = (wrp.lVl&2)^(wrp.lVl&1);
-        if(lV != 0)
+		//lV = (wrp.lVl&2)^(wrp.lVl&1);	
+        rI = wrp.bool_vars.vv_vkl;
+		lV = wrp.bool_vars.vv_otkl;
+		lV ^= rI;
+        if(lV == 0)
         u32_bit_holder |= 4;
         _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_L, current_settings_prt.timeout_pryvoda_VV[1], u32_bit_holder, 2, u32_bit_holder, 3);
         if (u32_bit_holder&8)//wrp.bool_vars.prvvh
