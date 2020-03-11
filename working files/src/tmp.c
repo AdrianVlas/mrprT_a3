@@ -399,29 +399,20 @@ x = 64*5/10
 1 l L
 РПН ГЗ
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Бьерн Страуструп с++\Cpp-bs.txt
-2.6.2. Объединения
+4.5 Как создать библиотеку
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS4
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS5
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\PG3N
 
-ranguvannja_on_cb
+381559166 новий ПК у Н.О. (AnbyDesk пароль той самий)
+AnyDesk:
+468149286
+пароль taras19781210
+adnvsp3@gmail.com
 
-RANG_BLOCK_VKL_VV_H,
-RANG_STATE_VV_H,
-RANG_VKL_VV_H,
-RANG_CTRL_VKL_H,
-RANG_OTKL_VV_H,
-RANG_CTRL_OTKL_H,
-RANG_PRYVID_VV_H,
-RANG_WORK_BO_H,
-RANG_WORK_BV_H,
+Username: adnvsp3@gmail.com
+Password: cz7UjLuJB
+New  Password
+paf6r603p4bYwv1
 
-RANG_BLOCK_VKL_VV_L,
-RANG_STATE_VV_L,
-RANG_VKL_VV_L,
-RANG_CTRL_VKL_L,
-RANG_OTKL_VV_L,
-RANG_CTRL_OTKL_L,
-RANG_PRYVID_VV_L,
-RANG_WORK_BO_L,
-RANG_WORK_BV_L,
+rza.promav@gmail.com
