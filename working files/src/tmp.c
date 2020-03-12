@@ -403,6 +403,10 @@ G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Бьерн Страуструп с++
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS4
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\GS5
 G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\PG3N
+6.5.3 Виртуальные базовые классы
+8.1 Введение
+
+ Одним из самых полезных видов классов является контейнерный класс
 
 381559166 новий ПК у Н.О. (AnbyDesk пароль той самий)
 AnyDesk:

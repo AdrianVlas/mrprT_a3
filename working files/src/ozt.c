@@ -1171,7 +1171,7 @@ void Bvhs_handler(unsigned int *p_active_functions){
     for (unsigned int i = 0; i < N_BIG; i++ )
         maska[i] = p_active_functions[i];
         
-    _CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_H);
     //_CLEAR_BIT(maska, RANG_WORK_BO_H);
     //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
     //_CLEAR_BIT(maska,RANG_STATE_VV_L);
@@ -1736,7 +1736,7 @@ void Bvls_handler(unsigned int *p_active_functions){
 //        }
         for (unsigned int i = 0; i < N_BIG; i++ )
             maska[i] = p_active_functions[i];
-    _CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_L);
     //_CLEAR_BIT(maska, RANG_WORK_BO_L);
     //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
     //_CLEAR_BIT(maska,RANG_STATE_VV_H);
