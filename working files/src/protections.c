@@ -5187,7 +5187,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
   case STATE_DR_EXECUTING_RECORD:
     {
       //«б≥льшуЇмо час з початку запуску запису
-      time_from_start_record_dr++;
+      time_from_start_record_dr += DELTA_TIME_FOR_TIMERS;
 
       //¬ключно до цього часу ≥де процес запису
 
@@ -5273,8 +5273,8 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         
       //ѕерев≥р€Їмо, чи стоњть умова завершенн€ запису
       if (
-          (state_dr_record == STATE_DR_MAKE_RECORD)                  ||
-          (time_from_start_record_dr >= MAX_TIME_OFFSET_FROM_START)  ||
+          (state_dr_record == STATE_DR_MAKE_RECORD) ||
+          (time_from_start_record_dr >= (MAX_TIME_OFFSET_FROM_START - DELTA_TIME_FOR_TIMERS + 1))  ||
           ((number_items_dr + 1)     >= MAX_EVENTS_IN_ONE_RECORD  )  
          )
       {
@@ -5286,7 +5286,7 @@ inline void digital_registrator(unsigned int* carrent_active_functions)
         //ѕереводимо режим роботи ≥з дискретним реЇстратором у стан "¬иконуЇтьс€ безпосередн≥й запис у DataFlash"
         if (state_dr_record != STATE_DR_MAKE_RECORD)
         {
-          if (time_from_start_record_dr >= MAX_TIME_OFFSET_FROM_START)
+          if (time_from_start_record_dr >= (MAX_TIME_OFFSET_FROM_START - DELTA_TIME_FOR_TIMERS + 1))
           {
             //якщо в≥дбулос€ перевищенн€ по часу запису, то подаЇмо команду завершити запис без продовженн€ пот≥м цього запису у наступному запис≥
             state_dr_record = STATE_DR_MAKE_RECORD;
