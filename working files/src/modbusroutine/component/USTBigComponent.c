@@ -827,7 +827,18 @@ int ustFunc000(int inOffset, int gruppa, int *multer, int regUst, uint32_t **edi
         int item = inOffset-1220;
         (*editValue) = (uint32_t*)&edition_settings.dopusk_dv[item];
         (*multer) = 1;
-        if(regUst<0 || regUst>60) diapazon=0;
+        if(regUst<KOEF_DOPUSK_DV_POST_MIN || regUst>KOEF_DOPUSK_DV_MAX) diapazon=0;
+        if(!((edition_settings.type_of_input_signal)&(1<<item)))
+        {
+         //только для постоянки
+         if((regUst%2)!=0) diapazon=0;//всегда четные
+        }//if
+        else
+        {
+         //только для переменки
+         if(regUst<KOEF_DOPUSK_DV_ZMIN_MIN) diapazon=0;//не меньше 20 мс
+         if((regUst%10)!=0) diapazon=0;//всегда четные
+        }
       }//if(inOffset>=1220 && inOffset<1236)
 
 //IF ВСТАВКА 1240-1247
