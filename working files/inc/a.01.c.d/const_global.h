@@ -4,8 +4,8 @@
 #define N_BIG   9
 #define N_SMALL 3
 
-//Величина, яка необхідна для періодичної (період 1  мс   ) генерації переривань каналом 1 таймеру 2 з прескаллером 2000 = (1999 + 1)
-#define TIM2_CCR1_VAL                   1000
+//Величина, яка необхідна для періодичної (період 2  мс   ) генерації переривань каналом 1 таймеру 2 з прескаллером 2000 = (1999 + 1)
+#define TIM2_CCR1_VAL                   2000
 #define TIM2_MIN_PERIOD_WRITE_READ      1 /*мкс*/
 //Величина, яка необхідна для періодичної (період 10 мс   ) генерації переривань каналом 1 таймеру 4 з прескаллером 600 = (599 + 1)
 #define TIM4_CCR1_VAL                   1000
@@ -18,7 +18,7 @@
 
 #define MAX_NUMBER_LINES_VMP            8
 
-#define DELTA_TIME_FOR_TIMERS           1
+#define DELTA_TIME_FOR_TIMERS           2
 #define PERIOD_SIGNAL_OUTPUT_MODE_2     1000 /*мс*/
 
 #define NUMBER_INPUTS                   16
@@ -807,13 +807,14 @@ enum _sector_kz_zv_const
   | (1 << (RANG_OZT1 - 32))                             \
   | (1 << (RANG_BLOCK_OZT2 - 32))                       \
   | (1 << (RANG_BLOCK_A_OZT2 - 32))                     \
+  | (1 << (RANG_PO_BLOCK_A_OZT2 - 32))                  \
   | (1 << (RANG_BLOCK_2G_OZT2 - 32))                    \
+  | (1 << (RANG_PO_BLOCK_2G_OZT2 - 32))                 \
   | (1 << (RANG_BLOCK_5G_OZT2 - 32))                    \
-  | (1 << (RANG_BLOCK_MTZ1 - 32))                       \
-  | (1 << (RANG_BLOCK_MTZ2 - 32))                       \
-  | (1 << (RANG_BLOCK_USK_MTZ2 - 32))                   \
-  | (1 << (RANG_BLOCK_MTZ3 - 32))                       \
-  | (1 << (RANG_BLOCK_MTZ4 - 32))                       \
+  | (1 << (RANG_PO_BLOCK_5G_OZT2 - 32))                 \
+  | (1 << (RANG_PO_BLOCK_A_2G_5G_OZT2_A - 32))          \
+  | (1 << (RANG_PO_BLOCK_A_2G_5G_OZT2_B - 32))          \
+  | (1 << (RANG_PO_BLOCK_A_2G_5G_OZT2_C - 32))          \
   | (1 << (RANG_PO_OZT2 - 32))                          \
   | (1 << (RANG_OZT2 - 32))                             \
 )

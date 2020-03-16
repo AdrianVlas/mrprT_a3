@@ -12890,8 +12890,14 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.dopusk_dv[current_ekran.index_position] = 
-                    edit_setpoint(1, edition_settings.dopusk_dv[current_ekran.index_position], 0, 0, COL_DOPUSK_DV_END, 1);
+                  unsigned int temp_setpoint = edition_settings.dopusk_dv[current_ekran.index_position];
+                  do
+                  {
+                    //Величину витримки збільшуємо почергого на 1 мс (ф-ція edit_setpoint збільшує/зменшує з кроком кратних 1, 10 і т.д.), щоб отримати крок 2 мс
+                    temp_setpoint = edit_setpoint(1, temp_setpoint, 0, 0, COL_DOPUSK_DV_END, 1);
+                  }
+                  while((temp_setpoint % 2) != 0);
+                  edition_settings.dopusk_dv[current_ekran.index_position] = temp_setpoint;
                 }
                 //Формуємо екран інфтрмації по допусках ДВ
                 make_ekran_dopusk_dv();
@@ -14285,8 +14291,14 @@ void main_manu_function(void)
                 else
                 {
                   //Редагування числа
-                  edition_settings.dopusk_dv[current_ekran.index_position] = 
-                    edit_setpoint(0, edition_settings.dopusk_dv[current_ekran.index_position], 0, 0, COL_DOPUSK_DV_END, 1);
+                  unsigned int temp_setpoint = edition_settings.dopusk_dv[current_ekran.index_position];
+                  do
+                  {
+                    //Величину витримки зменшуємо почергого на 1 мс (ф-ція edit_setpoint збільшує/зменшує з кроком кратних 1, 10 і т.д.), щоб отримати крок 2 мс
+                    temp_setpoint = edit_setpoint(0, temp_setpoint, 0, 0, COL_DOPUSK_DV_END, 1);
+                  }
+                  while((temp_setpoint % 2) != 0);
+                  edition_settings.dopusk_dv[current_ekran.index_position] = temp_setpoint;
                 }
                 //Формуємо екран інфтрмації по допусках ДВ
                 make_ekran_dopusk_dv();
