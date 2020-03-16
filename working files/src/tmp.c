@@ -407,6 +407,10 @@ G:\Arc_PC\G_Copy\OLD_DATA\BLD_DOC\DOCUMENTS\Turbo C++\PG3N
 8.1 Введение
 
  Одним из самых полезных видов классов является контейнерный класс
+Using file streams in C++
+Chapter 4
+Using Abstract Data Types
+Declaring a new Vector object
 
 381559166 новий ПК у Н.О. (AnbyDesk пароль той самий)
 AnyDesk:
