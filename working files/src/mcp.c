@@ -56,10 +56,43 @@ inline void mtz_handler(unsigned int *p_active_functions, unsigned int number_gr
   unsigned int po_u_ncn_setpoint;
   unsigned int po_u_mtzpn_x_setpoint;
   unsigned int po_mtzpn_x_setpoint;
-  
+  union { 
+   struct {
+      unsigned int res : 4;
+      unsigned int po_m_tmpv_04 : 1;// tmp_value, 4 //PO MTZ + Gist
+      unsigned int po_m_tmpv_05 : 1;// tmp_value, 5 //МТЗх Вкл.
+      unsigned int po_m_tmpv_06 : 1;// tmp_value, 6 //Блокировка МТЗх
+      unsigned int po_m_tmpv_07 : 1;// tmp_value, << 7; //МТЗНх: Вкл. прям
+      unsigned int po_m_tmpv_08 : 1;// tmp_value, << 8; //МТЗНх: Вкл. обр
+      unsigned int po_m_tmpv_09 : 1;// tmp_value, << 9; //Блокировка ускорения МТЗ 2
+      unsigned int po_m_tmpv_10 : 1;// tmp_value, << 10; //МТЗ2 Ускоренная
+      unsigned int po_m_tmpv_11 : 1;// tmp_value, << 11; //Ускорение МТЗ2 вкл.,
+      unsigned int po_m_tmpv_12 : 1;// ??tmp_value, 12//Сектор МТЗНх Вперед
+      unsigned int po_m_tmpv_13 : 1;// ??tmp_value, 13//Сектор МТЗНх Назад
+      unsigned int po_m_tmpv_14 : 1;//tmp_value  << 14;ПО U блок. МТЗНх
+      unsigned int po_m_tmpv_15 : 1;//tmp_value << 15;Неисправность цепей напряжения для ступени МТЗх
+      unsigned int po_m_tmpv_16 : 1;//tmp_value,<< 16; //ПО U МТЗПНх
+      unsigned int po_m_tmpv_17 : 1;//tmp_value,  << 17; //ПО МТЗПНх
+      unsigned int po_m_tmpv_18 : 1;//tmp_value << 18; //Положение ВВ L
+      unsigned int po_m_tmpv_19 : 1;//только для 2-ой ступени при формировании 19-го сигнала будет учитываться
+      unsigned int po_m_tmpv_20:1;//tmp_value, 20  _AND2(tmp_value, 5, tmp_value, 6, Блокировка МТЗх&/МТЗх Вкл.
+      unsigned int po_m_tmpv_21:1;//tmp_value, 21,mtz
+      unsigned int po_m_tmpv_22:1;//tmp_value, 22 mtz_n_vpered
+      unsigned int po_m_tmpv_23:1;//tmp_value, 23,mtz_n_nazad
+      unsigned int po_m_tmpv_24:1;//tmp_value, 24,mtz_po_napruzi
+      unsigned int po_m_tmpv_25:1;//_TIMER_T_0 25_mtz
+      unsigned int po_m_tmpv_26:1;//_TIMER_T_0 26_mtz_n_vpered
+      unsigned int po_m_tmpv_27:1;//_TIMER_T_0 27_mtz_n_nazad
+      unsigned int po_m_tmpv_28:1;//_TIMER_T_0 28_mtz_po_napruzi
+      unsigned int po_m_tmpv_29:1;//sector raw +
+      unsigned int po_m_tmpv_30:1;//sector raw -
+      unsigned int po_m_tmpv_31:1;//tmp_value, 31 RANG_MTZ
+    } bool_val;
+    unsigned long lVl;
+} mcp_shm__stt;
   /******Неисправность цепей напряжения для 4-х ступеней*******/
   _Bool ctr_mtz_nespr_kil_napr = (current_settings_prt.control_mtz & CTR_MTZ_NESPR_KIL_NAPR) != 0; //Неиспр. Напр. Вкл. (М)
-  
+  mcp_shm__stt.lVl = 0;
   //ПО Iнцн
   po_i_ncn_setpoint = previous_state_mtz_po_incn ?
             i_nom_const * KOEF_POVERNENNJA_MTZ_I_DOWN / 100 :
@@ -149,14 +182,18 @@ else{
           (measurement[IM_IC_H] >= po_mtz_x)) << 4; //ПО МТЗх
     }   
     /******ПО МТЗх***********************/
-    
+    mcp_shm__stt.bool_val.po_m_tmpv_04 = tmp_value &(1<<4) ;
     //М
     tmp_value |= ((current_settings_prt.control_mtz & mtz_const_menu_settings_prt[mtz_level][CTR_MTZ]) != 0) << 5; //МТЗх Вкл.
+    mcp_shm__stt.bool_val.po_m_tmpv_05 = tmp_value &(1<<5) ;
     //ДВ
     tmp_value |= (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_BLOCK_MTZ]) == 0) << 6; //Блокировка МТЗх
+    mcp_shm__stt.bool_val.po_m_tmpv_06 = tmp_value &(1<<6) ;
     //М
     tmp_value |= ((current_settings_prt.control_mtz & mtz_const_menu_settings_prt[mtz_level][CTR_MTZ_VPERED]) != 0) << 7; //МТЗНх: Вкл. прям
+    mcp_shm__stt.bool_val.po_m_tmpv_07 = tmp_value &(1<<7) ;
     tmp_value |= ((current_settings_prt.control_mtz & mtz_const_menu_settings_prt[mtz_level][CTR_MTZ_NAZAD]) != 0) << 8; //МТЗНх: Вкл. обр
+    mcp_shm__stt.bool_val.po_m_tmpv_08 = tmp_value &(1<<8) ;
     
     /******Сектор МТЗНх Вперед/Назад**********/
     //Проверка направленности фаз А,В,С
@@ -167,11 +204,14 @@ else{
     _OR3(direction_ABC_tmp, 0, direction_ABC_tmp, 1, direction_ABC_tmp, 2, direction_ABC_tmp, 3);
     
     //Сектор МТЗНх Вперед
-    if (_GET_OUTPUT_STATE(direction_ABC_tmp, 3))
-      _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_VPERED_MTZN]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_VPERED_MTZN]);
-    
+    if (_GET_OUTPUT_STATE(direction_ABC_tmp, 3)){
+        mcp_shm__stt.bool_val.po_m_tmpv_29 = 1;
+    _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_VPERED_MTZN]);
+      }
+    else{
+     mcp_shm__stt.bool_val.po_m_tmpv_29 = 0;
+     _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_VPERED_MTZN]);
+    }
     direction_ABC_tmp |= (sector_directional_mtz[mtz_level][PHASE_A_INDEX] == MTZ_NAZAD) << 4; //Проверка направленности фазы А назад
     direction_ABC_tmp |= (sector_directional_mtz[mtz_level][PHASE_B_INDEX] == MTZ_NAZAD) << 5; //Проверка направленности фазы B назад
     direction_ABC_tmp |= (sector_directional_mtz[mtz_level][PHASE_C_INDEX] == MTZ_NAZAD) << 6; //Проверка направленности фазы C назад
@@ -179,11 +219,14 @@ else{
     _OR3(direction_ABC_tmp, 4, direction_ABC_tmp, 5, direction_ABC_tmp, 6, direction_ABC_tmp, 7);
     
     //Сектор МТЗНх Назад
-    if (_GET_OUTPUT_STATE(direction_ABC_tmp, 7))
+    if (_GET_OUTPUT_STATE(direction_ABC_tmp, 7)){
+        mcp_shm__stt.bool_val.po_m_tmpv_30 = 1;
       _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_NAZAD_MTZN]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_NAZAD_MTZN]);
-    
+      }
+    else{
+     mcp_shm__stt.bool_val.po_m_tmpv_30 = 0;
+     _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_SECTOR_NAZAD_MTZN]);
+    }
     //Уставка ПО МТЗН1 прям. с учетом гистерезиса
     po_mtzn_x_vpered_setpoint = (_CHECK_SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_VPERED]) != 0) ?
             *(setpoint_mtz_n_vpered[mtz_level] + number_group_stp) * KOEF_POVERNENNJA_MTZ_I_UP / 100 :
@@ -220,6 +263,8 @@ else{
     
     _OR3(direction_ABC_tmp, 14, direction_ABC_tmp, 15, direction_ABC_tmp, 16, tmp_value, 12);
     _OR3(direction_ABC_tmp, 17, direction_ABC_tmp, 18, direction_ABC_tmp, 19, tmp_value, 13);
+    mcp_shm__stt.bool_val.po_m_tmpv_12 = tmp_value&(1<< 12);
+    mcp_shm__stt.bool_val.po_m_tmpv_13 = tmp_value&(1<< 13);
     /******Сектор МТЗНх Вперед/Назад**********/
     
 //    /******ПО U блок. МТЗНх***********************/
@@ -333,38 +378,48 @@ else{
     
     //ПО МТЗх
     _AND3(tmp_value, 19, tmp_value, 4, tmp_value, 20, tmp_value, 21);
-    if (_GET_OUTPUT_STATE(tmp_value, 21))
-      _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZ]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZ]);
-    
+    if (_GET_OUTPUT_STATE(tmp_value, 21)){
+        mcp_shm__stt.bool_val.po_m_tmpv_21 = 1 ;
+    _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZ]);
+    }else{
+        mcp_shm__stt.bool_val.po_m_tmpv_21 = 0;
+    _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZ]);
+    }
     //ПО МТЗНх вперед
     _AND5(tmp_value, 0, tmp_value, 20, tmp_value, 7, tmp_value, 12, tmp_value, 14, tmp_value, 22);
-    if (_GET_OUTPUT_STATE(tmp_value, 22))
-      _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_VPERED]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_VPERED]);
-    
+    if (_GET_OUTPUT_STATE(tmp_value, 22)){
+        mcp_shm__stt.bool_val.po_m_tmpv_22 = 1 ;
+    _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_VPERED]);
+    }else{
+        mcp_shm__stt.bool_val.po_m_tmpv_22 = 0;
+    _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_VPERED]);
+    }
     //ПО МТЗНх назад
     _AND5(tmp_value, 0, tmp_value, 20, tmp_value, 8, tmp_value, 13, tmp_value, 14, tmp_value, 23);
-    if (_GET_OUTPUT_STATE(tmp_value, 23)) 
-      _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_NAZAD]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_NAZAD]);
-    
+    if (_GET_OUTPUT_STATE(tmp_value, 23)) {
+        mcp_shm__stt.bool_val.po_m_tmpv_23 = 1 ;
+    _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_NAZAD]);
+    }else{
+        mcp_shm__stt.bool_val.po_m_tmpv_23 = 0;
+    _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZN_NAZAD]);
+    }
     //ПО МТЗПНх
     _AND4(tmp_value, 1, tmp_value, 20, tmp_value, 16, tmp_value, 17, tmp_value, 24);
-    if (_GET_OUTPUT_STATE(tmp_value, 24))
-      _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]);
-    else
-      _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]);
-    
+    if (_GET_OUTPUT_STATE(tmp_value, 24)){
+        mcp_shm__stt.bool_val.po_m_tmpv_24 = 1 ;
+    _SET_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]);
+    }else{
+        mcp_shm__stt.bool_val.po_m_tmpv_24 = 0;
+     _CLEAR_BIT(p_active_functions, mtz_settings_prt[mtz_level][RANG_PO_MTZPN]);
+      }
+    //mcp_shm__stt.lVl = tmp_value;
     if (mtz_level != 1) { //для всех ступеней кроме 2-ой
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ], *(timeout_mtz[mtz_level] + number_group_stp), tmp_value, 21, tmp_value, 25);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_VPERED], *(timeout_mtz_n_vpered[mtz_level] + number_group_stp), tmp_value, 22, tmp_value, 26);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_N_NAZAD], *(timeout_mtz_n_nazad[mtz_level] + number_group_stp), tmp_value, 23, tmp_value, 27);
       _TIMER_T_0(mtz_tmr_const[mtz_level][INDEX_TIMER_MTZ_PO_NAPRUZI], *(timeout_mtz_po_napruzi[mtz_level] + number_group_stp), tmp_value, 24, tmp_value, 28);
       _OR4(tmp_value, 25, tmp_value, 26, tmp_value, 27, tmp_value, 28, tmp_value, 31);
+      
     } else {
       unsigned int tmp = 0;
       _AND2(tmp_value, 18, tmp_value, 11, tmp, 0);
@@ -384,6 +439,22 @@ else{
       _AND2(tmp, 3, tmp_value, 24, tmp, 13);
       
       unsigned int i_max;
+      union { 
+            struct {
+            unsigned int res : 5;
+            unsigned int po_m_tmp_06 : 1;//1 MTZ2_PR          
+            unsigned int po_m_tmp_07 : 1;//2 MTZ2              
+            unsigned int po_m_tmp_08 : 1;//3 MTZ2_N_VPERED    
+            unsigned int po_m_tmp_09 : 1;//4 MTZ2_N_VPERED_PR 
+            unsigned int po_m_tmp_10 : 1;//5 MTZ2_N_NAZAD 
+            unsigned int po_m_tmp_11 : 1;//6 MTZ2_N_NAZAD_PR 
+            unsigned int po_m_tmp_12 : 1;//7 MTZ2_PO_NAPRUZI 
+            unsigned int po_m_tmp_13 : 1;//8 MTZ2_PO_NAPRUZI_PR
+            unsigned int po_m_tmp_14 : 1;//9
+        } bool_val;
+        long lVl;
+        } mcp_shm_tmp_stt;
+        mcp_shm_tmp_stt.lVl = tmp;
        if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){
             i_max = measurement[IM_IA_L];
         if (i_max < measurement[IM_IB_L])
