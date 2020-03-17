@@ -57,7 +57,7 @@ __SETTINGS *p_current_settings_prt;
   if(lAnd == 3){
     sLV.conter_and++;
     }
-    if((sLV.p_current_settings_prt->control_ozt) & (CTR_OZT_1_G) != 0){
+    if(((sLV.p_current_settings_prt->control_ozt) & (CTR_OZT_1_G)) != 0){
         //-----------Calc PickUP         --------------
         //Select Max Value
         if( measurement[IM_gdIA] > measurement[IM_gdIB] )
