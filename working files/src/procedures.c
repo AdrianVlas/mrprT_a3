@@ -1948,6 +1948,7 @@ void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_
        )   
     {
       current_label->type_mtz1 = TYPE_MTZ_SIMPLE;
+      current_label->control_mtz &= (unsigned int)(~(CTR_MTZ_1_VPERED | CTR_MTZ_1_NAZAD));
     }
     //ÌÑÇ2
     if (
@@ -1959,6 +1960,7 @@ void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_
        )   
     {
       current_label->type_mtz2 = TYPE_MTZ_SIMPLE;
+      current_label->control_mtz &= (unsigned int)(~(CTR_MTZ_2_VPERED | CTR_MTZ_2_NAZAD));
     }
     //ÌÑÇ3
     if (
@@ -1970,6 +1972,7 @@ void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_
        )   
     {
       current_label->type_mtz3 = TYPE_MTZ_SIMPLE;
+      current_label->control_mtz &= (unsigned int)(~(CTR_MTZ_3_VPERED | CTR_MTZ_3_NAZAD));
     }
     //ÌÑÇ4
     if (
@@ -1981,6 +1984,7 @@ void action_after_changing_ctrl_transformator(__SETTINGS *current_label, uint32_
        )   
     {
       current_label->type_mtz4 = TYPE_MTZ_SIMPLE;
+      current_label->control_mtz &= (unsigned int)(~(CTR_MTZ_4_VPERED | CTR_MTZ_4_NAZAD));
     }
   }
 }

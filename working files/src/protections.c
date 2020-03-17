@@ -201,7 +201,7 @@ inline void directional_mtz(int ortogonal_local_calc[], unsigned int number_grou
   const uint32_t ctr_msz_sel_I[4] = {CTR_MTZ_1_SEL_I, CTR_MTZ_2_SEL_I, CTR_MTZ_3_SEL_I, CTR_MTZ_4_SEL_I};
   for (unsigned int mtz = 0; mtz < 4; mtz++)
   {
-    unsigned int current = (current_settings_prt.control_mtz >> ctr_msz_sel_I[mtz]) & 0x1;
+    unsigned int current = ((current_settings_prt.control_mtz & ctr_msz_sel_I[mtz]) != 0);
     if (voltage != current)
     {
       //Струм і напруга не співпадають, а тому про направленість не може бути задіяна
