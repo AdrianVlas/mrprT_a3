@@ -1,5 +1,20 @@
 void dp1(unsigned int *p_active_functions, unsigned int number_group_stp);
 void dp2(unsigned int *p_active_functions, unsigned int number_group_stp);
+#ifdef DBGMODE 
+#include <stdio.h> 
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
 
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -113,9 +128,9 @@ __SETTINGS *p_current_settings_prt;
                 ozt1_po_Id = 0;
         }else{
             ;////Ідоbm = Ідо+kг 1×(Ігальм – Іго обм);
-			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
-			lV /= 1000;
-			sLV.lIdObm = current_settings_prt.pickup_ozt_delta_Id[number_group_stp]+current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
+            lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Ig0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+            lV /= 1000;
+            sLV.lIdObm = current_settings_prt.pickup_ozt_delta_Id[number_group_stp]+current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
             ;////Ід спр = Ідоbm+kг 2×(Ігальм – Іго обм);
             sLV.lgdI_hysteresis =  sLV.lIdObm;//sLV.p_current_settings_prt->pickup_ozt_Id0[number_group_stp]
             //+ sLV.p_current_settings_prt->pickup_ozt_delta_Id[number_group_stp];
@@ -229,7 +244,9 @@ union {
     long lVl;
 } ozt_stp_state;
 //ozt_stp_state.bool_vars.po_Id_aA  = ;po_Id_aA 
-
+char chGlbDbgFlg = 0;
+ char chGlbDbgCtr1a = 0;char chGlbDbgCtr2g = 0;char chGlbDbgCtr5g = 0; 
+ char chGlbDbgCmpV1a = 2;char chGlbDbgCmpV2g = 2;char chGlbDbgCmpV5g = 2; 
 //=====================================================================================================
 //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 //                  
@@ -258,35 +275,115 @@ register    long lV;
 struct{
 long lSP_a,lSP_2g,lSP_5g, lgdI;
 long lgdI_hysteresis,lIdObm;
-long conter_and;
+long conter_and, lCtrStp,lCtrBlock;
+char chBlkPhaseA,chBlkPhaseB,chBlkPhaseC;
 __SETTINGS *p_current_settings_prt;
 }sLV; 
   unsigned long u32_bit_holder = 0;
    sLV.conter_and = 0;//wrp.lVl = 0;
-//   pv = (void*)&current_settings_prt;
+//   
     sLV.p_current_settings_prt = &current_settings_prt;
   //Check pickUP Id_a
     //lV = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_OZT2) );
-    // wrp.bool_vars.po_Id_a = lV;
+    // 
     //if((lV == 0 ){
+    sLV.lSP_a = (sLV.p_current_settings_prt)->pickup_ozt_K_aI[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_a == 0 ){
-      lV = sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp];
+      lV = 100*10;
+      
     }else{
-      lV = sLV.lSP_a = sLV.p_current_settings_prt->pickup_ozt_K_aI[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = 1000;//lV = (sLV.p_current_settings_prt->pickup_ozt_aI_kp[number_group_stp])*10;//
+      sLV.lSP_a *= (sLV.p_current_settings_prt->pickup_ozt_aI_kp[number_group_stp]);
+      sLV.lSP_a /= 100;
     }
-    ozt_stp_state.bool_val.po_Id_a = 
-       (measurement[IM_adIA] >= (unsigned long)lV)
-    || (measurement[IM_adIB] >= (unsigned long)lV)
-    || (measurement[IM_adIC] >= (unsigned long)lV);
-    lV = ozt_stp_state.bool_val.po_Id_a;
+    sLV.lCtrStp = 0;sLV.lCtrBlock = 1;//Special case forrr 
+    sLV.chBlkPhaseA = sLV.chBlkPhaseB = sLV.chBlkPhaseC = 0;
+
+    if(   measurement[IM_dIA] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);sLV.chBlkPhaseA = 1;
+    }
+    else{
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A) != 0){
+            if((measurement[IM_dIA] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);sLV.chBlkPhaseA = 1;
+            }else{
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);//sLV.lCtrBlock = 0;
+            }
+        }else{
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_A);//sLV.lCtrBlock = 0;
+            }   
+    }
+
+    if(   measurement[IM_dIB] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);sLV.chBlkPhaseB = 1;
+    }
+    else{
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B) != 0){
+            if((measurement[IM_dIB] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);sLV.chBlkPhaseB = 1;
+            }else{
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);//sLV.lCtrBlock = 0;
+            }
+        }else{
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_B);//sLV.lCtrBlock = 0;
+            }   
+    }
+
+    if(   measurement[IM_dIC] < 0.05*I_NOM){
+        _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);sLV.chBlkPhaseC = 1;
+    }
+    else{
+        if( _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C) != 0){
+            if((measurement[IM_dIC] < 0.0525*I_NOM) ){
+            _SET_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);sLV.chBlkPhaseC = 1;
+            }else{
+                _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);//sLV.lCtrBlock = 0;
+            }
+        }else{
+            _CLEAR_BIT(p_active_functions, RANG_PO_BLOCK_A_2G_5G_OZT2_C);//sLV.lCtrBlock = 0;
+            }   
+    }
+
+    if( sLV.chBlkPhaseA == 0){//(measurement[IM_dIA] >= 0.05*I_NOM)
+        if( ((measurement[IM_adIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_a))
+            sLV.lCtrStp++;//
+    }
+    
+    if( sLV.chBlkPhaseB == 0){//(measurement[IM_dIB] >= 0.05*I_NOM)
+        if( ((measurement[IM_adIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_a) )
+            sLV.lCtrStp++;//
+    }
+    if( sLV.chBlkPhaseC == 0){//(measurement[IM_dIC] >= 0.05*I_NOM)
+        if( ((measurement[IM_adIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_a))
+            sLV.lCtrStp++;//
+    }
+    //}
+    if(sLV.lCtrStp > 0){//<-OR if(sLV.lCtrStp >= 3){<-AND
+        ozt_stp_state.bool_val.po_Id_a = 1;
+    }
+    else{
+        if(ozt_stp_state.bool_val.po_Id_a == 1){//dbg Code for find error
+            chGlbDbgCtr1a++;                    //dbg Code for find error
+            if(chGlbDbgCtr1a>chGlbDbgCmpV1a){   //dbg Code for find error
+                chGlbDbgCtr1a = 0;              //dbg Code for find error
+            }                                   //dbg Code for find error
+        }                                       //dbg Code for find error
+        ozt_stp_state.bool_val.po_Id_a = 0;
+    }
+    //else  ozt_stp_state.bool_val.po_Id_a = 0;
+//    ozt_stp_state.bool_val.po_Id_a = 
+//       ( (measurement[IM_adIA]*lV) >=  (measurement[IM_dIA]*sLV.lSP_a) )
+//    || ( (measurement[IM_adIB]*lV) >=  (measurement[IM_dIB]*sLV.lSP_a) )
+//    || ( (measurement[IM_adIC]*lV) >=  (measurement[IM_dIC]*sLV.lSP_a) );
+    lV = ozt_stp_state.bool_val.po_Id_a; chGlbDbgFlg |= lV<<0;
     u32_bit_holder |= lV << OZT2__TIMER_0_T_IN;
     //_index_timer,_max_count,_input, _input_bit,  _output, _output_bit
     _TIMER_0_T( INDEX_TIMER_OZT_AB, current_settings_prt.timeout_ozt2_a_blk[number_group_stp],
     u32_bit_holder,OZT2__TIMER_0_T_IN,u32_bit_holder,OZT2__TIMER_0_T_OUT);
-    
+    //chGlbDbgFlg |= lV<<1;
     lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_A_OZT2);
     long lAnd = 0;
-    if(lV != 0)
+    if(lV == 0)
         lAnd |= 1;
     lV = current_settings_prt.control_ozt&CTR_OZT_2_BLK_A;
     if(lV != 0)
@@ -306,19 +403,49 @@ __SETTINGS *p_current_settings_prt;
   //Check pickUP Id_2g
     //lV =   previous_state_po_ = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_2G_OZT2);
     // wrp.bool_vars.lSP_2g = lV;
-    //  if(lV == 0 ){
+    
+    sLV.lSP_2g = sLV.p_current_settings_prt->pickup_ozt_K_2I[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_2g == 0 ){
-       sLV.lSP_2g = current_settings_prt.pickup_ozt_K_2I[number_group_stp];
+       lV = 1000;
     }else{
-      sLV.lSP_2g  = current_settings_prt.pickup_ozt_K_2I[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = 1000;//lV = 10*(sLV.p_current_settings_prt->pickup_ozt_2I_kp[number_group_stp]);//
+      sLV.lSP_2g *= (sLV.p_current_settings_prt->pickup_ozt_2I_kp[number_group_stp]);
+      sLV.lSP_2g /= 100;
     }
-    ozt_stp_state.bool_val.po_Id_2g = 
-       (measurement[IM_2dIA] >= (unsigned long)lV)
-    || (measurement[IM_2dIB] >= (unsigned long)lV)
-    || (measurement[IM_2dIC] >= (unsigned long)lV);
+    sLV.lCtrStp = 0;
+//       (measurement[IM_2dIA]*lV >= (measurement[IM_dIA]*sLV.lSP_2g) )ozt_stp_state.bool_val.po_Id_2g = 0;
+//    || (measurement[IM_2dIB]*lV >= (measurement[IM_dIB]*sLV.lSP_2g) )
+//    || (measurement[IM_2dIC]*lV >= (measurement[IM_dIC]*sLV.lSP_2g) );
+//    if(sLV.lCtrBlock == 0){
+    if(sLV.chBlkPhaseA == 0){//(measurement[IM_2dIA]>= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
+        if( ((measurement[IM_2dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_2g) )
+            sLV.lCtrStp++;//
+    }
+    if(sLV.chBlkPhaseB == 0){//(measurement[IM_2dIB]>= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
+        if( ((measurement[IM_2dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_2g) )
+            sLV.lCtrStp++;//
+    }
+    if(sLV.chBlkPhaseC == 0){//(measurement[IM_2dIC]>= (0.05*I_NOM) ) && (measurement[IM_dIC] > 0.05*I_NOM)
+        if( ((measurement[IM_2dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_2g) )
+            sLV.lCtrStp++;//
+    }   
+//    }
+    if(sLV.lCtrStp > 0 ){//<-OR    if(sLV.lCtrStp >=3 ){<-And
+        ozt_stp_state.bool_val.po_Id_2g = 1; 
+    }
+    else{
+        if(ozt_stp_state.bool_val.po_Id_2g == 1){//dbg Code for find error
+            chGlbDbgCtr2g++;                     //dbg Code for find error
+            if(chGlbDbgCtr2g > chGlbDbgCmpV2g){  //dbg Code for find error
+                chGlbDbgCtr2g = 0;               //dbg Code for find error
+            }                                    //dbg Code for find error
+        }                                        //dbg Code for find error
+        ozt_stp_state.bool_val.po_Id_2g = 0; 
+    }
+    
     lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_2G_OZT2);
     lAnd = 0;
-    if(lV != 0)
+    if(lV == 0)
         lAnd |= 1;
     lV = current_settings_prt.control_ozt&CTR_OZT_2_BLK_2G;
     if(lV != 0)
@@ -339,20 +466,48 @@ __SETTINGS *p_current_settings_prt;
   //Check pickUP Id_5g
     //lV = _CHECK_SET_BIT(p_active_functions, RANG_PO_BLOCK_5G_OZT2) ;
     // wrp.bool_vars.po_Id_5g = lV; 
-    //if(lV == 0 ){
+    sLV.lSP_5g = sLV.p_current_settings_prt->pickup_ozt_K_5I[number_group_stp];
     if(ozt_stp_state.bool_val.po_Id_5g == 0 ){
-      sLV.lSP_5g = current_settings_prt.pickup_ozt_K_5I[number_group_stp];
+      lV = 1000;
     }else{
-      sLV.lSP_5g = current_settings_prt.pickup_ozt_K_5I[number_group_stp]*KOEF_POVERNENNJA_GENERAL_UP/100;
+      lV = 1000;//lV = 10*(sLV.p_current_settings_prt->pickup_ozt_5I_kp[number_group_stp]);//
+      sLV.lSP_5g *= (sLV.p_current_settings_prt->pickup_ozt_5I_kp[number_group_stp]);
+      sLV.lSP_5g /= 100;
     }
-    ozt_stp_state.bool_val.po_Id_5g = 
-       (measurement[IM_5dIA] >= (unsigned long)lV)
-    || (measurement[IM_5dIB] >= (unsigned long)lV)
-    || (measurement[IM_5dIC] >= (unsigned long)lV);
-    
+    sLV.lCtrStp = 0;
+//       (measurement[IM_5dIA]*lV >=  (measurement[IM_dIA]*sLV.lSP_5g))ozt_stp_state.bool_val.po_Id_5g = 0;
+//    || (measurement[IM_5dIB]*lV >=  (measurement[IM_dIB]*sLV.lSP_5g))
+//    || (measurement[IM_5dIC]*lV >=  (measurement[IM_dIC]*sLV.lSP_5g));
+    //if(sLV.lCtrBlock == 0){
+    if(sLV.chBlkPhaseA == 0){//(measurement[IM_5dIA] >= (0.05*I_NOM)) && (measurement[IM_dIA] > 0.05*I_NOM)
+        if( ((measurement[IM_5dIA]*lV)/measurement[IM_dIA]) >=  ((unsigned long)sLV.lSP_5g) )
+            sLV.lCtrStp++;//
+    }
+    if(sLV.chBlkPhaseB == 0){//(measurement[IM_5dIB] >= (0.05*I_NOM)) && (measurement[IM_dIB] > 0.05*I_NOM)
+        if( ((measurement[IM_5dIB]*lV)/measurement[IM_dIB]) >=  ((unsigned long)sLV.lSP_5g) )
+            sLV.lCtrStp++;//
+    }
+    if(sLV.chBlkPhaseC == 0){//(measurement[IM_5dIC] >= (0.05*I_NOM)) && (measurement[IM_dIC] > 0.05*I_NOM)
+        if( ((measurement[IM_5dIC]*lV)/measurement[IM_dIC]) >=  ((unsigned long)sLV.lSP_5g) )
+            sLV.lCtrStp++;//
+    } 
+    //}   
+    if(sLV.lCtrStp > 0){//<- OR if(sLV.lCtrStp >= 3){<-And
+    ozt_stp_state.bool_val.po_Id_5g = 1; 
+    }else{
+        if(ozt_stp_state.bool_val.po_Id_5g == 1){//dbg Code for find error
+            chGlbDbgCtr5g++;                     //dbg Code for find error
+            if(chGlbDbgCtr5g>chGlbDbgCmpV5g){//  //dbg Code for find error
+                chGlbDbgCtr5g = 0;               //dbg Code for find error
+            }                                    //dbg Code for find error
+        }                                        //dbg Code for find error
+        ozt_stp_state.bool_val.po_Id_5g = 0;
+    }
+
+
     lV = _CHECK_SET_BIT(p_active_functions, RANG_BLOCK_5G_OZT2);
     lAnd = 0;
-    if(lV != 0)
+    if(lV == 0)
         lAnd |= 1;
     lV = current_settings_prt.control_ozt&CTR_OZT_2_BLK_5G;
     if(lV != 0)
@@ -429,9 +584,9 @@ __SETTINGS *p_current_settings_prt;
                 ozt_stp_state.bool_val.po_Id = 0;
         }else{
             ;//// Ідоbm = Ідо +kг 1×(Ігальм – Іго обм);
-			lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Id0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
-			lV /= 1000;
-			sLV.lIdObm = current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
+            lV = (sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp] - current_settings_prt.pickup_ozt_Ig0[number_group_stp])*current_settings_prt.pickup_ozt_Kg1[number_group_stp];
+            lV /= 1000;
+            sLV.lIdObm = current_settings_prt.pickup_ozt_Id0[number_group_stp] + lV;
             ;////Ід спр = Ідоbm +kг 2×(Ігальм – Іго обм);
             sLV.lgdI_hysteresis = sLV.lIdObm; //current_settings_prt.pickup_ozt_Id0[number_group_stp];
             lV = (sLV.lgdI - sLV.p_current_settings_prt->pickup_ozt_Ig_obm[number_group_stp])*current_settings_prt.pickup_ozt_Kg2[number_group_stp];
@@ -466,7 +621,10 @@ __SETTINGS *p_current_settings_prt;
             else
                 ozt_stp_state.bool_val.po_Id = 0;
     }   
- 
+#ifdef DBGMODE 
+    //printf("Dbg Message %ld /n",sLV.conter_and);
+//  puts("yuiyipuypip");
+#endif 
   //
   lV = ozt_stp_state.bool_val.po_Id;
   lV += sLV.conter_and;
@@ -567,16 +725,28 @@ void Bvhs_handler(unsigned int *p_active_functions){
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
+  for (unsigned int i = 0; i < N_BIG; i++ )
+    maska[i] = p_active_functions[i];
+    //_CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska, RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska, RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BV_L);
+  
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
+      ((maska[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
+      ((maska[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
+      ((maska[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
+      ((maska[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
+      ((maska[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
+      ((maska[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
+      ((maska[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
+      ((maska[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
+      ((maska[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -596,9 +766,19 @@ void Bvhs_handler(unsigned int *p_active_functions){
     активації команди "Робота БО" будь-якою командою за виключенняв "Вимкн. ВВ")
     */
     //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
-    for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
+    for (unsigned int i = 0; i < N_BIG; i++ )
+        maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_H);
-    _CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_L);
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -985,17 +1165,34 @@ void Bvhs_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
-
+//    if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_H) != 0){
+//        long k = previous_active_functions_bv[0];
+//    }
+    for (unsigned int i = 0; i < N_BIG; i++ )
+        maska[i] = p_active_functions[i];
+        
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_L);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_L);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_L);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_L);
+    
     if (
-        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
-        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
-        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
-        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
-        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
-        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
-        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
+        ((maska[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
+        ((maska[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
+        ((maska[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
+        ((maska[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
+        ((maska[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
+        ((maska[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
+        ((maska[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
+        ((maska[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
+        ((maska[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
@@ -1095,16 +1292,27 @@ void Bvls_handler(unsigned int *p_active_functions){
   а коли буде потрібно - він встановиться
   */
   _CLEAR_BIT(p_active_functions, RANG_VIDKL_VID_ZAKHYSTIV);
+  for (unsigned int i = 0; i < N_BIG; i++ )
+    maska[i] = p_active_functions[i];
+    //_CLEAR_BIT(maska, RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska, RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska, RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska, RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska, RANG_WORK_BV_H);
   if (
-      ((p_active_functions[0] & current_settings_prt.ranguvannja_off_cb[0][0]) != 0) ||
-      ((p_active_functions[1] & current_settings_prt.ranguvannja_off_cb[0][1]) != 0) ||
-      ((p_active_functions[2] & current_settings_prt.ranguvannja_off_cb[0][2]) != 0) ||
-      ((p_active_functions[3] & current_settings_prt.ranguvannja_off_cb[0][3]) != 0) ||
-      ((p_active_functions[4] & current_settings_prt.ranguvannja_off_cb[0][4]) != 0) ||
-      ((p_active_functions[5] & current_settings_prt.ranguvannja_off_cb[0][5]) != 0) ||
-      ((p_active_functions[6] & current_settings_prt.ranguvannja_off_cb[0][6]) != 0) ||
-      ((p_active_functions[7] & current_settings_prt.ranguvannja_off_cb[0][7]) != 0) ||
-      ((p_active_functions[8] & current_settings_prt.ranguvannja_off_cb[0][8]) != 0)
+      ((maska[0] & current_settings_prt.ranguvannja_off_cb[1][0]) != 0) ||
+      ((maska[1] & current_settings_prt.ranguvannja_off_cb[1][1]) != 0) ||
+      ((maska[2] & current_settings_prt.ranguvannja_off_cb[1][2]) != 0) ||
+      ((maska[3] & current_settings_prt.ranguvannja_off_cb[1][3]) != 0) ||
+      ((maska[4] & current_settings_prt.ranguvannja_off_cb[1][4]) != 0) ||
+      ((maska[5] & current_settings_prt.ranguvannja_off_cb[1][5]) != 0) ||
+      ((maska[6] & current_settings_prt.ranguvannja_off_cb[1][6]) != 0) ||
+      ((maska[7] & current_settings_prt.ranguvannja_off_cb[1][7]) != 0) ||
+      ((maska[8] & current_settings_prt.ranguvannja_off_cb[1][8]) != 0)
      )
   {
     //Є умова активації блку вимкнення
@@ -1126,7 +1334,17 @@ void Bvls_handler(unsigned int *p_active_functions){
     //Формуємо інвертовану маску для виключення команди "Вимк.ВВ"
     for (unsigned int i = 0; i < N_BIG; i++ )  maska[i] = (unsigned int)(~0);
     _CLEAR_BIT(maska, RANG_OTKL_VV_L);
-    _CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_H);
+    
     if (
         ((p_active_functions[0] & maska[0]) != 0) ||
         ((p_active_functions[1] & maska[1]) != 0) ||
@@ -1513,17 +1731,33 @@ void Bvls_handler(unsigned int *p_active_functions){
   {
     //Оскільки не працюють таймери БО і блокування включення БВ, а також немає сигналу блокування включення ВВ
     //тому перевіряємо, чи немає умови запуску БВ
+//        if(_CHECK_SET_BIT(p_active_functions, RANG_VKL_VV_L) != 0){
+//        long k = previous_active_functions_bv[0];
+//        }
+        for (unsigned int i = 0; i < N_BIG; i++ )
+            maska[i] = p_active_functions[i];
+    //_CLEAR_BIT(maska, RANG_OTKL_VV_L);
+    //_CLEAR_BIT(maska, RANG_WORK_BO_L);
+    //_CLEAR_BIT(maska,RANG_BLOCK_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_STATE_VV_H);
+    //_CLEAR_BIT(maska,RANG_VKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_VKL_H);
+    //_CLEAR_BIT(maska,RANG_OTKL_VV_H);
+    //_CLEAR_BIT(maska,RANG_CTRL_OTKL_H);
+    //_CLEAR_BIT(maska,RANG_PRYVID_VV_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BO_H);
+    //_CLEAR_BIT(maska,RANG_WORK_BV_H);
 
     if (
-        ((p_active_functions[0] & current_settings_prt.ranguvannja_on_cb[0][0]) != 0) ||
-        ((p_active_functions[1] & current_settings_prt.ranguvannja_on_cb[0][1]) != 0) ||
-        ((p_active_functions[2] & current_settings_prt.ranguvannja_on_cb[0][2]) != 0) ||
-        ((p_active_functions[3] & current_settings_prt.ranguvannja_on_cb[0][3]) != 0) ||
-        ((p_active_functions[4] & current_settings_prt.ranguvannja_on_cb[0][4]) != 0) ||
-        ((p_active_functions[5] & current_settings_prt.ranguvannja_on_cb[0][5]) != 0) ||
-        ((p_active_functions[6] & current_settings_prt.ranguvannja_on_cb[0][6]) != 0) ||
-        ((p_active_functions[7] & current_settings_prt.ranguvannja_on_cb[0][7]) != 0) ||
-        ((p_active_functions[8] & current_settings_prt.ranguvannja_on_cb[0][8]) != 0)
+        ((maska[0] & current_settings_prt.ranguvannja_on_cb[1][0]) != 0) ||
+        ((maska[1] & current_settings_prt.ranguvannja_on_cb[1][1]) != 0) ||
+        ((maska[2] & current_settings_prt.ranguvannja_on_cb[1][2]) != 0) ||
+        ((maska[3] & current_settings_prt.ranguvannja_on_cb[1][3]) != 0) ||
+        ((maska[4] & current_settings_prt.ranguvannja_on_cb[1][4]) != 0) ||
+        ((maska[5] & current_settings_prt.ranguvannja_on_cb[1][5]) != 0) ||
+        ((maska[6] & current_settings_prt.ranguvannja_on_cb[1][6]) != 0) ||
+        ((maska[7] & current_settings_prt.ranguvannja_on_cb[1][7]) != 0) ||
+        ((maska[8] & current_settings_prt.ranguvannja_on_cb[1][8]) != 0)
       )
     {
       //Відмічаємо у масиві функцій, які зараз активуються, що ще треба активувати блок БВ (якщо він ще не активний)
@@ -1544,7 +1778,8 @@ void Bvls_handler(unsigned int *p_active_functions){
   /*********************/
   //Формуємо попереденій стан сигналів для функції ввімкнення/вимкнення
   /*********************/
-  for (unsigned int i = 0; i < N_BIG; i++) previous_active_functions_bv[i] = p_active_functions[i];
+  for (unsigned int i = 0; i < N_BIG; i++)
+    previous_active_functions_bv[i] = p_active_functions[i];
   /*********************/
   
 
@@ -1562,7 +1797,7 @@ void control_2VV(unsigned int *p_active_functions);
 void control_2VV(unsigned int *p_active_functions){
 // ----------------    -------------------------
 
-register long lV; 
+register long lV,rI; 
 register union { 
    struct {
       unsigned int vv_vkl         :1;//0
@@ -1591,8 +1826,11 @@ wrp.lVl = 0;
         lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_H );
         if(lV != 0)
             wrp.bool_vars.vv_otkl = 1;
-        lV = (wrp.lVl&2)^(wrp.lVl&1);
-        if(lV != 0)
+        //lV = (wrp.lVl&2)^(wrp.lVl&1);
+		rI = wrp.bool_vars.vv_vkl;
+		lV = wrp.bool_vars.vv_otkl;
+		lV ^= rI;
+        if(lV == 0)
         u32_bit_holder = 1;
         _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_H, current_settings_prt.timeout_pryvoda_VV[0], u32_bit_holder, 0, u32_bit_holder, 1);
         if (u32_bit_holder&2)//wrp.bool_vars.prvvh
@@ -1615,8 +1853,11 @@ wrp.lVl = 0;
         lV = _CHECK_SET_BIT(p_active_functions,RANG_CTRL_OTKL_L );
         if(lV != 0)
             wrp.bool_vars.vv_otkl = 1;
-        lV = (wrp.lVl&2)^(wrp.lVl&1);
-        if(lV != 0)
+		//lV = (wrp.lVl&2)^(wrp.lVl&1);	
+        rI = wrp.bool_vars.vv_vkl;
+		lV = wrp.bool_vars.vv_otkl;
+		lV ^= rI;
+        if(lV == 0)
         u32_bit_holder |= 4;
         _TIMER_T_0(INDEX_TIMER_PRYVOD_VV_L, current_settings_prt.timeout_pryvoda_VV[1], u32_bit_holder, 2, u32_bit_holder, 3);
         if (u32_bit_holder&8)//wrp.bool_vars.prvvh

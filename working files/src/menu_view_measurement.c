@@ -712,18 +712,18 @@ void make_ekran_current_diff(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_DIFF][MAX_COL_LCD] = 
   {
-    " IDa1=          ",
-    " IDb1=          ",
-    " IDc1=          ",
-    " ITa =          ",
-    " ITb =          ",
-    " ITc =          ",
-    " IDa2=          ",
-    " IDb2=          ",
-    " IDc2=          ",
-    " IDa5=          ",
-    " IDb5=          ",
-    " IDc5=          "
+    " Ida1=          ",
+    " Idb1=          ",
+    " Idc1=          ",
+    " Ita =          ",
+    " Itb =          ",
+    " Itc =          ",
+    " Ida2=          ",
+    " Idb2=          ",
+    " Idc2=          ",
+    " Ida5=          ",
+    " Idb5=          ",
+    " Idc5=          "
   };
   unsigned int row = 12;
   unsigned int position_temp = current_ekran.index_position;
@@ -805,13 +805,13 @@ void make_ekran_current_sklad(unsigned int pervynna_vtorynna)
 {
   unsigned char name_string[MAX_ROW_FOR_MEASURMENT_CURRENT_SKLAD][MAX_COL_LCD] = 
   {
-    " I0_Â =         ",
+    " 3I0_Â=         ",
     " Y0_Â =         ",
     " I2_Â =         ",
     " Y2_Â =         ",
     " I1_Â =         ",
     " Y1_Â =         ",
-    " I0_H =         ",
+    " 3I0_H=         ",
     " Y0_H =         ",
     " I2_H =         ",
     " Y2_H =         ",

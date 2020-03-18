@@ -431,7 +431,7 @@ const uint8_t OFF_ON_value[MAX_NAMBER_LANGUAGE][NUMBER_OFF_ON] =
 {
   {'Â', 'Í'},
   {'Â', 'Í'},
-  {'H', 'V'},
+  {'H', 'L'},
   {'Â', 'Í'}
 };
 
@@ -752,6 +752,7 @@ unsigned int edit_serial_number_dev;
 unsigned int info_vidkluchennja_vymykacha[2];
 unsigned char info_vidkluchennja_vymykachatime[VYMKNENNJA_VID_MAX_NUMBER][7]; 
 
+unsigned int watchdog_l2;
 unsigned int control_word_of_watchdog/* = 0*/;
 //unsigned int test_watchdogs/* = 0*/;
 

@@ -55,7 +55,7 @@ int uprFuncValid000(int inOffset, int validData)
 
 int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, uint32_t **editControl)
 {
-  UNUSED(validData);
+//  UNUSED(validData);
   int isValid = 1;
   (*uprMaska) = 0xFFFFFFFF;
   switch(inOffset)
@@ -76,11 +76,17 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 2:
       (*uprMaska)   = N_BIT_CTRMTZ_1_VPERED;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
     case 3:
       (*uprMaska)   = N_BIT_CTRMTZ_1_NAZAD;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
 
 //  count_bit = 3;
@@ -92,11 +98,17 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 8:
       (*uprMaska)   = N_BIT_CTRMTZ_2_VPERED;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
     case 9:
       (*uprMaska)   = N_BIT_CTRMTZ_2_NAZAD;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
     case 10:
       (*uprMaska)   = N_BIT_CTRMTZ_2_PRYSKORENNJA;
@@ -114,11 +126,17 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 16:
       (*uprMaska)   = N_BIT_CTRMTZ_3_VPERED;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
     case 17:
       (*uprMaska)   = N_BIT_CTRMTZ_3_NAZAD;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
 
 //  count_bit = 3;
@@ -130,11 +148,17 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 24:
       (*uprMaska)   = N_BIT_CTRMTZ_4_VPERED;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
     case 25:
       (*uprMaska)   = N_BIT_CTRMTZ_4_NAZAD;
-      if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
+      if(actControl)
+      {
+         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
+      }//if(actControl)
       break;
 
 //  count_bit = 3;
@@ -549,14 +573,14 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
          if(action_after_changing_of_configuration(edition_settings.configuration, &edition_settings)) isValid = 0;
         }//if(actControl)
       break;
-    case 481://Блокировка Вкл. ВВ от ДВ
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      break;
-    case 482://Блокировка Откл. ВВ от ДВ
-      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
-      (*editControl) = &edition_settings.control_extra_settings_1;
-      break;
+//    case 481://Блокировка Вкл. ВВ от ДВ
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_ON_CB_MISCEVE;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      break;
+//    case 482://Блокировка Откл. ВВ от ДВ
+//      (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_BLK_OFF_CB_MISCEVE;
+//      (*editControl) = &edition_settings.control_extra_settings_1;
+//      break;
     case 483://Контроль ФК
       (*uprMaska)   = INDEX_ML_CTREXTRA_SETTINGS_1_CTRL_FB_ACTIVATION;
       (*editControl) = &edition_settings.control_extra_settings_1;
@@ -930,7 +954,10 @@ int isValidEXTRACondition(unsigned int extraMaska)
 }//isValidEXTRACondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
 int isValidMTZSELCondition(unsigned int extraMaska)
 {
-  if(edition_settings.control_mtz&(1<<extraMaska)) return 1;
+  if(edition_settings.control_mtz&(1<<extraMaska)) 
+  if(edition_settings.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) return 1;
+  if(!(edition_settings.control_mtz&(1<<extraMaska)) )
+  if(!(edition_settings.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL))) return 1;
   return 0;
 }//isValidMTZSELCondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
 

@@ -1756,6 +1756,10 @@ void make_ekran_set_function_in_output_led_df_dt_reg(unsigned int number_ekran, 
           index_in_list++;
         }
       }
+
+          
+      //Робота з Watchdog
+      watchdog_routine();
     }
     /*************************************************************/
 

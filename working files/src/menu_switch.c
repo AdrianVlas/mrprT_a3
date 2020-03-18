@@ -84,7 +84,7 @@ void make_ekran_timeout_switch(uint32_t on_off)
       "  T ввімк.(x)   ",
       "   T вимк.(x)   ",
       "T п.бл.ввімк.(x)",
-      " T Привода ВВ(x)"
+      " T Приводу ВВ(x)"
     },
     {
       "    On T(x)     ",
