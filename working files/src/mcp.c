@@ -331,7 +331,11 @@ else{
       //М
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENA) != 0) << 10; //МТЗ2 Ускоренная
       //ДВ
+	  if(current_settings_prt.control_mtz &(arL_ctrl_mcp_sel[mtz_level])){
       tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_L) != 0) << 18; //Положение ВВ
+      }else{
+	  tmp_value |= (_CHECK_SET_BIT(p_active_functions, RANG_STATE_VV_H) != 0) << 18; //Положение ВВ
+	  }
       //M
       tmp_value |= ((current_settings_prt.control_mtz & CTR_MTZ_2_PRYSKORENNJA) != 0) << 11; //Ускорение МТЗ2 вкл.
     }
