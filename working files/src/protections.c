@@ -6118,19 +6118,19 @@ inline void main_protection(void)
   Світлова індикація стану вимикача
   **************************/
   {
-    uint32_t state_vv_H_dv = false;
+    uint32_t state_vv_L_dv = false;
     for (size_t i = 0; i < NUMBER_INPUTS; i++)
     {
-      if (_CHECK_SET_BIT ((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_STATE_VV_H) != 0)
+      if (_CHECK_SET_BIT ((current_settings_prt.ranguvannja_inputs + N_SMALL*i), RANG_SMALL_STATE_VV_L) != 0)
       {
-        state_vv_H_dv = true;
+        state_vv_L_dv = true;
         break;
       }
     }
     
-    if (state_vv_H_dv)
+    if (state_vv_L_dv)
     {
-      if (_CHECK_SET_BIT(active_functions, RANG_STATE_VV_H) !=0) 
+      if (_CHECK_SET_BIT(active_functions, RANG_STATE_VV_L) !=0) 
       {
         state_leds_ctrl &=  (uint32_t)(~((1 << LED_COLOR_GREEN_BIT) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_O)));
         state_leds_ctrl |=  (uint32_t)(  (1 << LED_COLOR_RED_BIT  ) << ((uint32_t)NUMBER_LED_COLOR*(uint32_t)LED_CTRL_I) );
