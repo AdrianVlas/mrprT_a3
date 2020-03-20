@@ -6,7 +6,8 @@
 #define KOEF_POVERNENNJA_3I0_OTHER      85
 #define KOEF_POVERNENNJA_ZOP_BLK        120
 
-#define KOEF_POVERNENNJA_SECTOR_BLK     110
+#define KOEF_POVERNENNJA_I_SECTOR_BLK     120
+#define KOEF_POVERNENNJA_U_SECTOR_BLK     110
 
 #define U_UP                            90
 #define U_DOWN                          110
