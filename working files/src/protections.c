@@ -525,7 +525,7 @@ inline void directional_tznp(int ortogonal_local_calc[], unsigned int number_gro
     unsigned int porig_I;
     if (TZNP_3I0_r_bilshe_porogu == 0) porig_I = PORIG_CHUTLYVOSTI_CURRENT*KOEF_POVERNENNJA_I_SECTOR_BLK/100;
     else porig_I = PORIG_CHUTLYVOSTI_CURRENT;
-    unsigned int I_bilshe_porogu_tmp = TZNP_3I0_r_bilshe_porogu  = (measurement[IM_3I0_r_H] >= porig_I);
+    unsigned int I_bilshe_porogu_tmp = TZNP_3I0_r_bilshe_porogu  = (measurement[(voltage) ? IM_3I0_r_L : IM_3I0_r_H] >= porig_I);
 
     if (
         (U_bilshe_porogu_tmp != 0) &&
