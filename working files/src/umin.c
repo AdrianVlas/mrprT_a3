@@ -241,19 +241,19 @@ UMIN_DV_BLOCK_INVERSE_CMD_BIT,
 UMIN_DV_START_UMIN1,
 UMIN_MCTR_TRANSFORMATOR_PHASE_LINE_BIT,
 UMIN_MCTR_UMIN1_BIT,
-UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT,  
+UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT, // 
 UMIN_MCTRLR_UMIN1_UBLK_BIT,  
 UMIN_MCTRLR_UMIN1_IBLK_BIT,
 
 
   
-UMIN_AND4_1_STATE_BIT,
-UMIN_OR3_2_STATE_BIT,
-UMIN_NOT_3_STATE_BIT,
+UMIN_AND4_1_STATE_BIT,//Po  And
+UMIN_OR3_2_STATE_BIT,//PO Or
+UMIN_NOT_3_STATE_BIT,//Po  And selector menu
 UMIN_AND2_4_STATE_BIT,
-UMIN_AND2_5_STATE_BIT,
+UMIN_AND2_5_STATE_BIT,//Iblk
 UMIN_NOT_6_STATE_BIT,
-UMIN_AND3_7_STATE_BIT,
+UMIN_AND3_7_STATE_BIT,//Out Ublk
 UMIN_NOT_8_STATE_BIT,
 UMIN_NOT_9_STATE_BIT,
 UMIN_OR3_10_STATE_BIT,
@@ -330,7 +330,7 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_L] <= pick_up_
   lV = (current_settings_prt.control_Umin & CTR_UMIN1) != 0 ;
   u32_bit_holder |= ( lV ) << (UMIN_MCTR_UMIN1_BIT);
   lV = (current_settings_prt.control_Umin & CTR_PO_UMIN1_OR_AND) != 0;
-  u32_bit_holder |= (lV)  << (UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT);
+  u32_bit_holder |= (lV)  << (UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT);  //Po Or
   lV = (current_settings_prt.control_Umin & CTR_UMIN1_UBLK) != 0;
   u32_bit_holder |= (lV)       << (UMIN_MCTRLR_UMIN1_UBLK_BIT);
   lV = (current_settings_prt.control_Umin & CTR_UMIN1_IBLK) != 0;
@@ -362,7 +362,7 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_L] <= pick_up_
 	u32_bit_holder |= lV << (UMIN_OR3_2_STATE_BIT);
 	//_INVERTOR(u32_val, 3, u32_val, 3);
 	lV = !(u32_bit_holder&(1<<UMIN_MCTRLR_PO_UMIN1_OR_AND_BIT)); 
-    u32_bit_holder |= lV << (UMIN_NOT_3_STATE_BIT);
+    u32_bit_holder |= lV << (UMIN_NOT_3_STATE_BIT);//Po And Menu
 	//_AND2(u32_val, 10, u32_val, 3, u32_val, 11);
     lV = ( u32_bit_holder & ((1<< (UMIN_NOT_3_STATE_BIT))|(1<<UMIN_OR3_2_STATE_BIT)) ) != 0;
 	u32_bit_holder |= lV << UMIN_AND2_4_STATE_BIT;
@@ -431,10 +431,10 @@ wrp.bool_vars.Ia_and_Ic_is_smaller_than_Iust = (measurement[IM_IA_L] <= pick_up_
 	u32_bit_holder |= (lV) << UMIN_NOT_9_STATE_BIT;
   //_OR3(u32_val, 7, u32_val, 9, u32_val, 11, u32_val, 14);
   lV = (1<<UMIN_DV_START_UMIN1)|(1<<UMIN_AND4_1_STATE_BIT)|(1<<UMIN_AND2_4_STATE_BIT);
-  lV = (u32_bit_holder|lV)!=0;
+  lV = (u32_bit_holder&lV)!=0;
   u32_bit_holder |= (lV) << UMIN_OR3_10_STATE_BIT;
   //_AND5(u32_val, 6, u32_val, 2, u32_val, 14, u32_val, 13, u32_val, 12, u32_val, 15);
-  lV = (1<<UMIN_DV_BLOCK_INVERSE_CMD_BIT)|(1<<UMIN_MCTR_UMIN1_BIT)|(1<<UMIN_OR3_2_STATE_BIT)
+  lV = (1<<UMIN_DV_BLOCK_INVERSE_CMD_BIT)|(1<<UMIN_MCTR_UMIN1_BIT)|(1<<UMIN_OR3_10_STATE_BIT)
   |(1<<UMIN_NOT_8_STATE_BIT)|(1<<UMIN_NOT_9_STATE_BIT);
   lV = (u32_bit_holder&lV)!=0;
   u32_bit_holder |= (lV) << UMIN_AND5_11_STATE_BIT;
