@@ -6520,8 +6520,8 @@ inline void main_protection(void)
       /**************************/
       //«ÕÃ»Õ1
       /**************************/
-      //umin1_handler(active_functions, number_group_stp);
-      umin1_handler2(active_functions, number_group_stp);
+      umin1_handler1(active_functions, number_group_stp);//umin1_handler(active_functions, number_group_stp);
+      //umin1_handler2(active_functions, number_group_stp);
 	  
       /**************************/
       
