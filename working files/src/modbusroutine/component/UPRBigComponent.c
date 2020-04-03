@@ -55,7 +55,7 @@ int uprFuncValid000(int inOffset, int validData)
 
 int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, uint32_t **editControl)
 {
-//  UNUSED(validData);
+  UNUSED(validData);
   int isValid = 1;
   (*uprMaska) = 0xFFFFFFFF;
   switch(inOffset)
@@ -76,17 +76,11 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 2:
       (*uprMaska)   = N_BIT_CTRMTZ_1_VPERED;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
       break;
     case 3:
       (*uprMaska)   = N_BIT_CTRMTZ_1_NAZAD;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_1_SEL_I)) isValid = 0;
       break;
 
 //  count_bit = 3;
@@ -98,17 +92,11 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 8:
       (*uprMaska)   = N_BIT_CTRMTZ_2_VPERED;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
       break;
     case 9:
       (*uprMaska)   = N_BIT_CTRMTZ_2_NAZAD;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_2_SEL_I)) isValid = 0;
       break;
     case 10:
       (*uprMaska)   = N_BIT_CTRMTZ_2_PRYSKORENNJA;
@@ -126,17 +114,11 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 16:
       (*uprMaska)   = N_BIT_CTRMTZ_3_VPERED;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
       break;
     case 17:
       (*uprMaska)   = N_BIT_CTRMTZ_3_NAZAD;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_3_SEL_I)) isValid = 0;
       break;
 
 //  count_bit = 3;
@@ -148,17 +130,11 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
       break;
     case 24:
       (*uprMaska)   = N_BIT_CTRMTZ_4_VPERED;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
       break;
     case 25:
       (*uprMaska)   = N_BIT_CTRMTZ_4_NAZAD;
-      if(actControl)
-      {
-         if(validData)if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
-      }//if(actControl)
+      if(isValidMTZSELCondition(N_BIT_CTRMTZ_4_SEL_I)) isValid = 0;
       break;
 
 //  count_bit = 3;
@@ -437,127 +413,127 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
         }//if(actControl)
       break;
 #define UROV1_CONFIGURATION_BEGIN 369
-#define UROV2_CONFIGURATION_BEGIN 417
+#define UROV2_CONFIGURATION_BEGIN 416
     case UROV1_CONFIGURATION_BEGIN:
     case UROV2_CONFIGURATION_BEGIN:
       (*uprMaska)   = INDEX_ML_CTRUROV_STATE;
       break;
     case 370:
-    case 418:
+    case 417:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_MTZ1;
       if(isValidCONFCondition(MTZ_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 371:
-    case 419:
+    case 418:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_MTZ2;
       if(isValidCONFCondition(MTZ_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 372:
-    case 420:
+    case 419:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_MTZ3;
       if(isValidCONFCondition(MTZ_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 373:
-    case 421:
+    case 420:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_MTZ4;
       if(isValidCONFCondition(MTZ_BIT_CONFIGURATION)) isValid = 0;
       break;
 
 //  count_bit = 6;
     case 376:
-    case 424:
+    case 423:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UMAX1;
       if(isValidCONFCondition(UMAX_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 377:
-    case 425:
+    case 424:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UMAX2;
       if(isValidCONFCondition(UMAX_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 378:
-    case 426:
+    case 425:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UMIN1;
       if(isValidCONFCondition(UMIN_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 379:
-    case 427:
+    case 426:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UMIN2;
       if(isValidCONFCondition(UMIN_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 380:
-    case 428:
+    case 427:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_ZOP1;
       if(isValidCONFCondition(ZOP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 381:
-    case 429:
+    case 428:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_ZOP2;
       if(isValidCONFCondition(ZOP_BIT_CONFIGURATION)) isValid = 0;
       break;
 
 //  count_bit = 6;
     case 386:
-    case 434:
+    case 433:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_P_3U0;
       if(isValidCONFCondition(P_3U0_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 387:
-    case 435:
+    case 434:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_TZNP1;
       if(isValidCONFCondition(TZNP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 388:
-    case 436:
+    case 435:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_TZNP2;
       if(isValidCONFCondition(TZNP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 389:
-    case 437:
+    case 436:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_TZNP3;
       if(isValidCONFCondition(TZNP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 390:
-    case 438:
+    case 437:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_TZNP4;
       if(isValidCONFCondition(TZNP_BIT_CONFIGURATION)) isValid = 0;
       break;
 
 //IF ÂÑÒÀÂÊÀ 395-402
-//IF ÂÑÒÀÂÊÀ 443-450
+//IF ÂÑÒÀÂÊÀ 442-449
 
     case 403:
-    case 451:
+    case 450:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_OZT1;
       if(isValidCONFCondition(OZT_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 404:
-    case 452:
+    case 451:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_OZT2;
       if(isValidCONFCondition(OZT_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 405:
-    case 453:
+    case 452:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_GP1;
       if(isValidCONFCondition(GP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 406:
-    case 454:
+    case 453:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_GP2;
       if(isValidCONFCondition(GP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 407:
-    case 455:
+    case 454:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_GP_RPN;
       if(isValidCONFCondition(GP_BIT_CONFIGURATION)) isValid = 0;
       break;
     case 408:
-    case 456:
+    case 455:
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_TP;
       if(isValidCONFCondition(TP_BIT_CONFIGURATION)) isValid = 0;
       break;
 
 #define UROV1_CONFIGURATION_END 409
-#define UROV2_CONFIGURATION_END 457
+#define UROV2_CONFIGURATION_END 456
     case UROV1_CONFIGURATION_END:
     case UROV2_CONFIGURATION_END:
       (*uprMaska)   = INDEX_ML_CTRUROV_SEL_I;
@@ -691,13 +667,13 @@ int uprFunc000(int actControl, int inOffset, uint32_t *uprMaska, int validData, 
         }//if(actControl)
     }//if
 
-  if((inOffset>=395 && inOffset<403) || (inOffset>=443 && inOffset<451))
+  if((inOffset>=395 && inOffset<403) || (inOffset>=442 && inOffset<450))
     {
       int inupOffset = inOffset-395;
       (*editControl) = &edition_settings.control_urov[0];
-      if(inOffset>=443)
+      if(inOffset>=442)
       {
-        inupOffset = inOffset-443;
+        inupOffset = inOffset-442;
         (*editControl) = &edition_settings.control_urov[1];
       }//if
       (*uprMaska)   = INDEX_ML_CTRUROV_STARTED_FROM_UP1+inupOffset;
@@ -954,10 +930,7 @@ int isValidEXTRACondition(unsigned int extraMaska)
 }//isValidEXTRACondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
 int isValidMTZSELCondition(unsigned int extraMaska)
 {
-  if(edition_settings.control_mtz&(1<<extraMaska)) 
-  if(edition_settings.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL)) return 1;
-  if(!(edition_settings.control_mtz&(1<<extraMaska)) )
-  if(!(edition_settings.control_transformator&(1<<INDEX_ML_CTR_TRANSFORMATOR_VH_VL))) return 1;
+  if(edition_settings.control_mtz&(1<<extraMaska)) return 1;
   return 0;
 }//isValidMTZSELCondition(unsigned int extraControl, unsigned int extraMaska, uint32_t uprMaska, int validData)
 
