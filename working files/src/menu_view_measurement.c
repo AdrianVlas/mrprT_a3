@@ -1390,6 +1390,7 @@ void actualMeasurement_A(int actualIndex, unsigned char *nameString, unsigned in
    //токи симметричные
    case IM_3I0_r_H: case IM_I2_H: case IM_I1_H: //case IM_3I0_r_L: case IM_I2_L: case IM_I1_L:
    case IM_I2_P_H:  case IM_I1_P_H:
+   case IM_I2_P_L:  case IM_I1_P_L:
     transform = current_settings.TCurrent_H;
     nameString[MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
    break;
@@ -1403,7 +1404,6 @@ void actualMeasurement_A(int actualIndex, unsigned char *nameString, unsigned in
 //   case IM_2dIA: case IM_2dIB: case IM_2dIC: case IM_5dIA: case IM_5dIB: case IM_5dIC:
    //токи симметричные
    /*case IM_3I0_r_H: case IM_I2_H: case IM_I1_H:*/ case IM_3I0_r_L: case IM_I2_L: case IM_I1_L:
-   case IM_I2_P_L:  case IM_I1_P_L:
     transform = current_settings.TCurrent_L;
     nameString[MAX_COL_LCD - 1] = odynyci_vymirjuvannja[index_language][INDEX_A];
    break;
