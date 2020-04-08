@@ -42,7 +42,7 @@ DEFAULT_SETTINGS_SET_BIT
 #define BUFFER_RS485          256
 #define BUFFER_USB            256
 
-#define MAX_TIMEOUT_PACKET    5000 // 50 мс, якщо врахувати, що ТІM4 тактує з періодом 10 мкс
+#define MAX_TIMEOUT_PACKET    7500 // 75 мс, якщо врахувати, що ТІM4 тактує з періодом 10 мкс
 
 #define ERROR_ILLEGAL_FUNCTION                        1
 #define ERROR_ILLEGAL_DATA_ADDRESS                    2 

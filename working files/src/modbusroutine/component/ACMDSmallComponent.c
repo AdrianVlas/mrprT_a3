@@ -31,6 +31,12 @@ int validBazaN_BIGACMD(unsigned short dataReg, int actControl);
 int writeACMDSmallActualDataBit(int offset, int dataBit);
 int passwordImunitetBitACMDSmallComponent(int adrReg);
 
+int decoderN_BIGACMDArrayLoader(int idxBit);
+int decoderN_SMALLACMDArrayLoader(int idxBit);
+
+unsigned short decoderN_BIGACMDArray[N_BIG*32];//массив декодирования битов N_BIG
+unsigned short decoderN_SMALLACMDArray[N_SMALL*32];//массив декодирования битов N_SMALL
+
 #define CLRACT_CONTROL  0
 
 COMPONENT_OBJ *acmdsmallcomponent;
@@ -1251,6 +1257,9 @@ void constructorACMDSmallComponent(COMPONENT_OBJ *acmdcomp)
   acmdsmallcomponent->postWriteAction = postACMDSmallWriteAction;//action после записи
 
   acmdsmallcomponent->isActiveActualData = 0;
+
+  for(int i=0; i<N_BIG*32; i++)   decoderN_BIGACMDArray[i] = (unsigned short)decoderN_BIGACMDArrayLoader(i);//декодировщик индекса бита в адрес modbus  для реле
+  for(int i=0; i<N_SMALL*32; i++) decoderN_SMALLACMDArray[i] = (unsigned short)decoderN_SMALLACMDArrayLoader(i);//декодировщик индекса бита в адрес modbus  для DV
 }//constructorDOUTSmallComponent(COMPONENT_OBJ *doutcomp)
 
 void loadACMDSmallActualDataBit(int cmdSwitch, int beginOffset, int endOffset)
@@ -1358,6 +1367,23 @@ unsigned int encoderValidN_SMALLACMD(int offsetCMD, int *validCMD)
 int decoderN_BIGACMD(int idxBit)
 {
 //декодировщик индекса бита в адрес modbus  для реле
+  unsigned short result = decoderN_BIGACMDArray[idxBit];
+  if(result==0xFFFF) return -1;
+  return result;
+/*
+  for(int item=0; item<(END_ADR_BIT-BEGIN_ADR_BIT+1); item++)
+  {
+    int outMaska=-1;
+    int dvMaska=-1;
+    cmdFunc000(item, &outMaska, &dvMaska, CLRACT_CONTROL);
+    if(outMaska==idxBit) return item;
+  }//for(int item=0; item<568; item++)
+  return -1;
+*/
+}//decoderN_BIGACMD(int idxBit)
+int decoderN_BIGACMDArrayLoader(int idxBit)
+{
+//декодировщик индекса бита в адрес modbus  для реле
   for(int item=0; item<(END_ADR_BIT-BEGIN_ADR_BIT+1); item++)
   {
     int outMaska=-1;
@@ -1368,6 +1394,24 @@ int decoderN_BIGACMD(int idxBit)
   return -1;
 }//decoderN_BIGACMD(int idxBit)
 int decoderN_SMALLACMD(int idxBit)
+{
+//декодировщик индекса бита в адрес modbus  для ДВ
+  unsigned short result = decoderN_SMALLACMDArray[idxBit];
+  if(result==0xFFFF) return -1;
+  return result;
+
+/*
+  for(int item=0; item<(END_ADR_BIT-BEGIN_ADR_BIT+1); item++)
+  {
+    int outMaska=-1;
+    int dvMaska=-1;
+    cmdFunc000(item, &outMaska, &dvMaska, CLRACT_CONTROL);
+    if(dvMaska==idxBit) return item;
+  }//for(int item=0; item<568; item++)
+  return -1;
+*/
+}//decoderN_SMALLACMD(int idxBit)
+int decoderN_SMALLACMDArrayLoader(int idxBit)
 {
 //декодировщик индекса бита в адрес modbus  для ДВ
   for(int item=0; item<(END_ADR_BIT-BEGIN_ADR_BIT+1); item++)
