@@ -1633,7 +1633,7 @@ inline void df_handler(unsigned int *p_active_functions)
     else
     {
       _TIMER_0_T    (INDEX_TIMER_DF_WORK_START + i, current_settings_prt.timeout_work_df[i],                     (*p_logic_df), 2, (*p_logic_df), 3);
-      static_logic_df = ~(1u << i);
+      static_logic_df &= ~(1u << i);
     }
       
     _AND2((*p_logic_df), 3, (*p_logic_df), 1, (*p_logic_df), 4);
