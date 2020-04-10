@@ -1,0 +1,56 @@
+The size of each bank is fixed and equal to 64 Mbyte. Each bank is configured through
+dedicated registers (see Section 37.5.6: NOR/PSRAM controller registers).
+
+M. P. Read about Pwr Modes extended or smthing similar
+
+2.3.11 FMC NOR/PSRAM controller write protocol violation Description When an interrupted asynchronous or synchronous CPU read access to any NOR/PSRAM FMC bank is followed by an asynchronous write access to the same bank or to any other NOR/PSRAM FMC bank, this causes a write protocol violation. There is no functional issue but the FMC NOR/PSRAM controller write protocol is violated since the FMC_NWE signal is de-asserted at the same time as the Chip select (FMC_NEx). Workaround None.
+
+2.3.12 FMC NOR/PSRAM controller bank switch with different  BUSTURN durations Description The system hangs when the FMC NOR/PSRAM memory controller switches between two banks and the following conditions are met: 1. One NOR/PSRAM bank is configured in synchronous mode and the BUSTURN bits in FMC_BTRx/FMC_BTWx register are set to a nonzero value. 2. Another NOR/PSRAM bank is configured in asynchronous multiplexed mode and BUSTURN bits are set to 0. 3. FMC clock divide ratio (CLKDIV) is higher or equal to 4 HCLK periods. 4. A single read transaction from the bank operating in synchronous mode is followed by any transaction in another bank operating in asynchronous multiplexed mode. Workaround If several NOR/PSRAM banks are used, the BUSTURN duration configured for each bank must be set to a nonzero value. 
+
+Dear sirs in STM32F42xx and STM32F43x Errata sheet i have found chapter 2.3.11 FMC NOR/PSRAM controller write protocol violation.
+I read "When an interrupted asynchronous or synchronous CPU read access to any NOR/PSRAM FMC bank is followed by an asynchronous write access to the same bank or to any other NOR/PSRAM FMC bank, this causes a write protocol violation.
+There is no functional issue but the FMC NOR/PSRAM controller write protocol is violated since the FMC_NWE signal is de-asserted at the same time as the Chip select (FMC_NEx)."
+
+In pictures below is showed that CPU can't directly acces on external memory.
+CPU has access to AHB3. And  AHB3 access to FMC.
+
+It is make several qustions.
+1)Guess AHB3 (it's may be CPU) begin asynchronous or synchronous read access to any NOR/PSRAM FMC bank. How AHB3(CPU) can interrupt asynchronous or synchronous read access to any NOR/PSRAM FMC bank?
+
+2)When AHB3 address external memory it always multiplexed read/write operation.
+So, it always read access to any bank is followed by an asynchronous write access to the same bank or to any other NOR/PSRAM FMC bank.
+So, it causes a write protocol violation frequently, isn't it?
+
+3)What does it mean " no functional issue"?
+
+4)"the FMC_NWE signal is de-asserted at the same time as the Chip select (FMC_NEx)." 
+In RM0090 in figures 4xx prestnt waveforms that showing read/write access.
+
+Can you provide actual read/write waveforms?
+ 
+ Sincerelly yors,
+ .................
+ Sign it
+
+
+
+$PROJ_DIR$\..\..\working files\inc
+$PROJ_DIR$\..\..\working files\inc\a.01.c.d
+$PROJ_DIR$\..\..\working files\usb
+$PROJ_DIR$\..\..\working files\src\modbusroutine\inc
+$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F2xx\Include
+$PROJ_DIR$\..\..\Libraries\STM32F2xx_StdPeriph_Driver\inc
+$PROJ_DIR$\..\..\Libraries\STM32_USB_OTG_Driver\inc
+$PROJ_DIR$\..\..\Libraries\STM32_USB_Device_Library\Core\inc
+$PROJ_DIR$\..\..\Libraries\STM32_USB_Device_Library\Class\cdc\inc
+$PROJ_DIR$\..\..\SystemView\Config
+$PROJ_DIR$\..\..\SystemView\OS
+$PROJ_DIR$\..\..\SystemView\SEGGER
+$PROJ_DIR$\..\
+$PROJ_DIR$\..\..\..\..\Libraries\CMSIS\Include
+$PROJ_DIR$\..\..\..\..\Libraries\CMSIS\ST\STM32F4xx\Include
+$PROJ_DIR$\..\..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc
+$PROJ_DIR$\..\..\..\..\Utilities\STM32F4-Discovery
+f(VCO clock) = f(PLL clock input) × (PLLN / PLLM)
+• f(PLL general clock output) = f(VCO clock) / PLLP
+• f(USB OTG FS, SDIO, RNG clock output) = f(VCO clock) / PLLQ
