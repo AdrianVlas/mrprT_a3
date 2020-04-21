@@ -607,9 +607,21 @@ int cmdFunc000(int inOffset, int *outMaska, int *dvMaska, int actControl)
     (*outMaska) = RANG_PO_OZT2;
 //        (*dvMaska) =
     break;
-#define OZT_CONFIGURATION_END 475
-  case OZT_CONFIGURATION_END:
+  case 475:
     (*outMaska) = RANG_OZT2;
+//        (*dvMaska) =
+    break;
+  case 476:
+    (*outMaska) = RANG_PO_BLOCK_A_2G_5G_OZT2_A;
+//        (*dvMaska) =
+    break;
+  case 477:
+    (*outMaska) = RANG_PO_BLOCK_A_2G_5G_OZT2_B;
+//        (*dvMaska) =
+    break;
+#define OZT_CONFIGURATION_END 478
+  case OZT_CONFIGURATION_END:
+    (*outMaska) = RANG_PO_BLOCK_A_2G_5G_OZT2_C;
 //        (*dvMaska) =
     break;
 

@@ -777,7 +777,7 @@
                 </option>
                 <option>
                     <name>CCJLinkTCPIP</name>
-                    <state>192.168.219.10</state>
+                    <state>192.168.219.50</state>
                 </option>
                 <option>
                     <name>CCJLinkSpeedRadioV2</name>
