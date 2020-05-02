@@ -1339,7 +1339,7 @@ unsigned int action_after_changing_of_configuration(unsigned int new_configurati
                 );
      
       for (unsigned int i = 0; i < N_BIG; i++ ) maska_1[i] = 0;
-      for (int i = 0; i < NUMBER_KZ_ZV_SIGNAL_FOR_RANG; i++)
+      for (int i = 0; i < NUMBER_GP_SIGNAL_FOR_RANG; i++)
         _SET_BIT(
                  maska_1, 
                  (
