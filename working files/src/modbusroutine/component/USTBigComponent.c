@@ -1255,10 +1255,10 @@ int postUSTBigWriteAction(void)
       case 19:
        value = UP_CTRL_U2;//U2
       break;
-      case 20:
+      case 20:return ERROR_VALID2;//ошибка валидации
+      case 21:
        value = UP_CTRL_3U0;//3U0
       break;
-      case 21:return ERROR_VALID2;//ошибка валидации
       case 22:
        value = UP_CTRL_P;//P
       break;
