@@ -86,7 +86,7 @@ __SETTINGS *p_current_settings_prt;
     p_bl = &kzzv_stp_state;
     lV = p_bl->bool_val.po_I1_lead_low_side;
     if(lV) 
-        sLV.I1_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+        sLV.I1_lead_ls = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I1_lead_ls = lCmpVl;
     if(sLV.meas_I1_lead_ls >= sLV.I1_lead_ls)
@@ -97,7 +97,7 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I1_lead_high_side ;
     if (lV)
-        sLV.I1_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+        sLV.I1_lead_hs = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I1_lead_hs = lCmpVl;
     if(sLV.meas_I1_lead_hs >= sLV.I1_lead_hs)
@@ -108,7 +108,7 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I2_lead_low_side;    
     if(lV) 
-        sLV.I2_lead_ls = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+        sLV.I2_lead_ls = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I2_lead_ls = lCmpVl;
     if(sLV.meas_I2_lead_ls >= sLV.I2_lead_ls)
@@ -119,7 +119,7 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I2_lead_high_side;   
     if ( lV)
-        sLV.I2_lead_hs = lCmpVl*KOEF_POVERNENNJA_ZOP_BLK/100;
+        sLV.I2_lead_hs = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I2_lead_hs = lCmpVl;
     if(sLV.meas_I2_lead_hs >= sLV.I2_lead_hs)

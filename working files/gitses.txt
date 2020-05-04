@@ -1,7 +1,7 @@
 cd /G/emb_pj/mrzs_T
 
 $ cd /G/emb_pj/mrzs_T
-
+D/G_Copy/emb_pj/mrzs_T/mrprT_a/working files
 user@MARKOVSKI MINGW64 /G/emb_pj/mrzs_T
 $  git clone https://github.com/Malynovsky/Device2_v.17.0.x.y.git mrprT_a
 Cloning into 'mrprT_a'...
