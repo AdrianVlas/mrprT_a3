@@ -86,10 +86,10 @@ __SETTINGS *p_current_settings_prt;
     p_bl = &kzzv_stp_state;
     lV = p_bl->bool_val.po_I1_lead_low_side;
     if(lV) 
-        sLV.I1_lead_ls = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
+        sLV.I1_lead_ls = lCmpVl*130/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I1_lead_ls = lCmpVl;
-    if(sLV.meas_I1_lead_ls >= sLV.I1_lead_ls)
+    if(sLV.meas_I1_lead_ls <= sLV.I1_lead_ls)
         lV = 1; 
     else 
         lV = 0;
@@ -97,10 +97,10 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I1_lead_high_side ;
     if (lV)
-        sLV.I1_lead_hs = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
+        sLV.I1_lead_hs = lCmpVl*130/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I1_lead_hs = lCmpVl;
-    if(sLV.meas_I1_lead_hs >= sLV.I1_lead_hs)
+    if(sLV.meas_I1_lead_hs <= sLV.I1_lead_hs)
         lV = 1; 
     else 
         lV = 0; 
@@ -108,10 +108,10 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I2_lead_low_side;    
     if(lV) 
-        sLV.I2_lead_ls = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
+        sLV.I2_lead_ls = lCmpVl*130/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I2_lead_ls = lCmpVl;
-    if(sLV.meas_I2_lead_ls >= sLV.I2_lead_ls)
+    if(sLV.meas_I2_lead_ls <= sLV.I2_lead_ls)
         lV = 1; 
     else 
         lV = 0; 
@@ -119,17 +119,17 @@ __SETTINGS *p_current_settings_prt;
     
     lV = p_bl->bool_val.po_I2_lead_high_side;   
     if ( lV)
-        sLV.I2_lead_hs = lCmpVl*80/100;//KOEF_POVERNENNJA_ZOP_BLK
+        sLV.I2_lead_hs = lCmpVl*130/100;//KOEF_POVERNENNJA_ZOP_BLK
     else 
         sLV.I2_lead_hs = lCmpVl;
-    if(sLV.meas_I2_lead_hs >= sLV.I2_lead_hs)
+    if(sLV.meas_I2_lead_hs <= sLV.I2_lead_hs)
         lV = 1; 
     else 
         lV = 0; 
     p_bl->bool_val.po_I2_lead_high_side = lV;
     lV = p_bl->lVl;
     lV &= 0xf;
-    if(lV == 0xf){
+    if(lV == 0){
         lV =  p_bl->bool_val.po_I2_I1_ls_lead;
         if(lV){
             lV = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
@@ -152,7 +152,7 @@ __SETTINGS *p_current_settings_prt;
             sLV.setpoint_hs = sLV.p_current_settings_prt->pickup_kz_zv[number_group_stp];
             
         }
-        //((i2_current*1000) >= (i1_current*setpoint)) 
+        //((i2_current*1000) >= (i1_current*setpoint))  
         if( (sLV.meas_I2_lead_ls*1000) >= (sLV.meas_I1_lead_ls*sLV.setpoint_ls) ){
             //lV =  p_bl->bool_val.po_I2_I1_ls_lead;
             //if(lV == 0)
@@ -199,6 +199,7 @@ __SETTINGS *p_current_settings_prt;
         }else{
             //_CLEAR_BIT(p_active_functions, RANG_SECTOR_KZ_V);
             //_CLEAR_BIT(p_active_functions, RANG_SECTOR_KZ_Z);
+			
         }
         //Phase sensetive element
         //0- Not
@@ -228,7 +229,10 @@ __SETTINGS *p_current_settings_prt;
     }
     else{
         ;//Clr Kz
-        
+           _CLEAR_BIT(p_active_functions, RANG_KZ_V);
+		_CLEAR_BIT(p_active_functions, RANG_KZ_Z);
+		_CLEAR_BIT(p_active_functions, RANG_SECTOR_KZ_V);
+		_CLEAR_BIT(p_active_functions, RANG_SECTOR_KZ_Z);
 
     }
 //    if(sLV.conter_and == 5){
